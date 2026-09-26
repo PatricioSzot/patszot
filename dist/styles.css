@@ -414,6 +414,46 @@ body.details-open:not(.details-closing) .timeline-year-heading {
   border: 0;
   border-radius: 50%;
   background: var(--ink);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  color: #fff;
+  transition: top .58s var(--ease), left .58s var(--ease), width .58s var(--ease), height .58s var(--ease), background-color .3s ease;
+}
+
+button.timeline-marker {
+  pointer-events: none;
+}
+
+.timeline-marker i {
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0;
+  transform: rotate(-90deg) scale(.4);
+  transition: opacity .24s ease .08s, transform .52s var(--ease) .04s;
+}
+
+.timeline-entry.is-active .project-expand-trigger {
+  top: 13.5px;
+  left: -14px;
+  width: 28px;
+  height: 28px;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.timeline-entry.is-active .project-expand-trigger i {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
+.project-expand-trigger[aria-expanded="true"] i {
+  transform: rotate(45deg) scale(1);
+}
+
+.project-expand-trigger:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
 }
 
 .timeline-meta {
@@ -430,14 +470,19 @@ body.details-open:not(.details-closing) .timeline-year-heading {
   margin: 0;
   font-size: 16px;
   font-weight: 400;
+  font-variation-settings: "wght" 400, "wdth" 100;
   line-height: 1.18;
   letter-spacing: -.32px;
-  transition: opacity .34s ease;
+  transition: opacity .34s ease, font-variation-settings .62s var(--ease), letter-spacing .62s var(--ease);
 }
 
 .timeline.has-active .timeline-entry:not(.is-active) h3 { opacity: .42; }
 .timeline-entry.is-active h3,
-.timeline-entry:focus-within h3 { opacity: 1; }
+.timeline-entry:focus-within h3 {
+  opacity: 1;
+  font-variation-settings: "wght" 540, "wdth" 104;
+  letter-spacing: -.38px;
+}
 
 .timeline-entry p {
   max-width: 470px;
@@ -521,6 +566,48 @@ body.details-open .footer-contact {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.project-focus-preview {
+  position: fixed;
+  z-index: 30;
+  bottom: 40px;
+  left: 40px;
+  width: min(36vw, 520px);
+  aspect-ratio: 1200 / 630;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #fff;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate3d(0, 10px, 0) scale(.988);
+  transform-origin: left bottom;
+  transition: opacity .32s ease, transform .62s var(--ease), visibility 0s linear .62s;
+}
+
+.project-focus-preview.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: .12s, .12s, 0s;
+}
+
+.project-focus-preview-image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.015);
+  transition: opacity .48s ease, transform .78s var(--ease);
+}
+
+.project-focus-preview-image.is-current {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .profile .preview-shell:hover .preview-card,
@@ -848,7 +935,8 @@ body.details-open .footer-contact {
   visibility: hidden;
 }
 
-.project-scatter.is-active { visibility: visible; }
+.project-scatter.is-active,
+.project-scatter.is-closing { visibility: visible; }
 
 .logo,
 .timeline-year-heading,
@@ -873,7 +961,7 @@ body.details-open .footer-contact {
   border-radius: 4px;
   background: transparent;
   opacity: 0;
-  transform: translate3d(-8px, 4px, 0) scale(.985);
+  transform: translate3d(14px, 2px, 0) scale(.985);
   transform-origin: center;
   transition: opacity .38s ease var(--delay, 0ms), transform .72s var(--ease) var(--delay, 0ms);
   will-change: opacity, transform;
@@ -886,8 +974,9 @@ body.details-open .footer-contact {
 
 .scatter-group.is-leaving .scatter-item {
   opacity: 0;
-  transform: translate3d(8px, -2px, 0) scale(.992);
-  transition-delay: 0ms;
+  transform: translate3d(-10px, -1px, 0) scale(.992);
+  transition-delay: var(--exit-delay, 0ms);
+  transition-duration: .32s, .52s;
 }
 
 .scatter-item img,
@@ -1166,6 +1255,14 @@ body.details-open .footer-contact {
     right: 20px;
     left: 40px;
     width: auto;
+  }
+
+  .project-focus-preview {
+    right: 20px;
+    bottom: 20px;
+    left: 20px;
+    width: auto;
+    max-height: 34svh;
   }
 
   .site-viewer.is-open {

@@ -181,11 +181,14 @@ const entryMarkup = (entry, index) => {
   const complexity = Math.max(20, Math.min(100, Math.round(entry.intensity / 1.76)));
 
   const linkedTitle = entry.url && entry.kind !== 'milestone'
-    ? `<a class="text-link${entry.kind === 'project' ? ' project-scatter-trigger' : ''}${entry.kind === 'writing' ? ' writing-popup-trigger' : ''}" href="${entry.url}" rel="noopener">${entry.title}</a>`
+    ? `<a class="text-link${entry.kind === 'writing' ? ' writing-popup-trigger' : ''}" href="${entry.url}" rel="noopener">${entry.title}</a>`
     : entry.title;
+  const marker = entry.kind === 'project' && entry.url
+    ? `<button class="timeline-marker project-expand-trigger" type="button" tabindex="-1" aria-label="Show ${entry.title} images" aria-expanded="false"><i class="ri-add-line" aria-hidden="true"></i></button>`
+    : '<span class="timeline-marker" aria-hidden="true"></span>';
   return `
     <article class="timeline-entry" data-kind="${entry.kind}" style="--complexity: ${complexity}; --reveal-delay: ${(index % 8) * 45}ms">
-      <span class="timeline-marker" aria-hidden="true"></span>
+      ${marker}
       <div class="timeline-meta"><time>${entry.date}</time><span>${entry.kind}</span></div>
       <h3>${linkedTitle}</h3>
       ${entry.description ? `<p>${entry.description}</p>` : ''}
@@ -200,6 +203,8 @@ timeline.innerHTML = timelineData.map((section, yearIndex) => `
   </section>`).join('');
 
 const timelineEntries = [...timeline.querySelectorAll('.timeline-entry')];
+const timelineRecords = timelineData.flatMap((section) => section.entries);
+timelineEntries.forEach((element, index) => { element.entryData = timelineRecords[index]; });
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (!entry.isIntersecting) return;
@@ -218,6 +223,8 @@ detailsTrigger.addEventListener('click', () => {
 
   if (open) {
     clearTimelineActive();
+    setProjectPreview();
+    setPreviewVisibility(true);
     document.body.classList.remove('details-closing');
     timeline.querySelectorAll('.is-exiting').forEach((element) => {
       element.classList.remove('is-exiting');
@@ -240,6 +247,7 @@ detailsTrigger.addEventListener('click', () => {
   detailsGroup.classList.remove('is-open');
   document.body.classList.remove('details-opening');
   document.body.classList.add('details-closing');
+  setPreviewVisibility(false);
   clearTimelineActive();
 
   const visibleMotionItems = [...timeline.querySelectorAll('.timeline-entry.is-visible, .timeline-year-heading')]
@@ -271,9 +279,67 @@ detailsTrigger.addEventListener('click', () => {
 
 let activeTimelineEntry;
 let activeTimelineFrame;
+const projectPreview = document.querySelector('#project-focus-preview');
+const previewImages = [...projectPreview.querySelectorAll('.project-focus-preview-image')];
+const airOpsUrl = 'https://www.airops.com/';
+const airOpsFallback = 'assets/airops-og.jpg';
+let previewLayer = 0;
+let previewRequest = 0;
+
+const youtubeThumbnail = (src) => {
+  const id = src.match(/youtube\.com\/embed\/([^?&/]+)/)?.[1];
+  return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : undefined;
+};
+
+const previewSourceFor = (entry, manifest) => {
+  if (!entry || entry.url === airOpsUrl) return airOpsFallback;
+  if (entry?.cover && !/\.mp4(?:$|\?)/i.test(entry.cover)) return entry.cover;
+  const assets = manifest.projects[entry?.url]?.assets || [];
+  const still = assets.find((asset) => asset.type === 'image') || assets.find((asset) => asset.type === 'gif');
+  if (still) return still.src;
+  const youtube = assets.find((asset) => asset.type === 'youtube');
+  if (youtube) return youtubeThumbnail(youtube.src);
+  const airOps = manifest.projects[airOpsUrl]?.assets?.find((asset) => asset.type === 'image');
+  return airOps?.src || airOpsFallback;
+};
+
+const setProjectPreview = async (entry) => {
+  const request = ++previewRequest;
+  const manifest = await projectManifest;
+  const src = previewSourceFor(entry, manifest) || airOpsFallback;
+  const alt = src === airOpsFallback ? 'AirOps project preview' : `${entry?.title || 'AirOps'} project preview`;
+  const current = previewImages[previewLayer];
+  if (current.getAttribute('src') === src) {
+    current.alt = alt;
+    return;
+  }
+  const nextLayer = previewLayer === 0 ? 1 : 0;
+  const next = previewImages[nextLayer];
+  next.src = src;
+  next.alt = alt;
+  await next.decode().catch(() => {});
+  if (!next.naturalWidth && src !== airOpsFallback) {
+    next.src = airOpsFallback;
+    next.alt = 'AirOps project preview';
+    await next.decode().catch(() => {});
+  }
+  if (!next.naturalWidth) return;
+  if (request !== previewRequest) return;
+  next.classList.add('is-current');
+  current.classList.remove('is-current');
+  current.alt = '';
+  previewLayer = nextLayer;
+};
+
+const setPreviewVisibility = (visible) => {
+  projectPreview.classList.toggle('is-visible', visible);
+  projectPreview.setAttribute('aria-hidden', String(!visible));
+};
 
 const clearTimelineActive = () => {
+  if (scatterLink) dismissScatter();
   activeTimelineEntry?.classList.remove('is-active');
+  activeTimelineEntry?.querySelector('.project-expand-trigger')?.setAttribute('tabindex', '-1');
   activeTimelineEntry = undefined;
   timeline.classList.remove('has-active');
 };
@@ -286,7 +352,7 @@ const updateTimelineActive = () => {
   let closest;
   let closestDistance = Infinity;
 
-  timelineEntries.forEach((entry) => {
+  timelineEntries.filter((entry) => entry.dataset.kind === 'project').forEach((entry) => {
     const rect = entry.getBoundingClientRect();
     const distance = Math.abs((rect.top + rect.bottom) / 2 - viewportCenter);
     if (rect.bottom >= 0 && rect.top <= window.innerHeight && distance < closestDistance) {
@@ -297,13 +363,18 @@ const updateTimelineActive = () => {
 
   if (!closest || closestDistance > window.innerHeight * .32) {
     clearTimelineActive();
+    setProjectPreview();
     return;
   }
   if (closest !== activeTimelineEntry) {
+    if (scatterLink) dismissScatter();
     activeTimelineEntry?.classList.remove('is-active');
+    activeTimelineEntry?.querySelector('.project-expand-trigger')?.setAttribute('tabindex', '-1');
     activeTimelineEntry = closest;
     timeline.classList.add('has-active');
     activeTimelineEntry.classList.add('is-active');
+    activeTimelineEntry.querySelector('.project-expand-trigger')?.setAttribute('tabindex', '0');
+    setProjectPreview(activeTimelineEntry.entryData);
   }
 };
 
@@ -317,14 +388,11 @@ window.addEventListener('resize', requestTimelineActiveUpdate);
 
 const scatter = document.querySelector('#project-scatter');
 const projectManifest = fetch('assets-visual/manifest.json').then((response) => response.json());
-const scatterTriggers = [...document.querySelectorAll('.project-scatter-trigger')];
 const coarsePointer = window.matchMedia('(hover: none), (pointer: coarse)');
 let scatterLink;
 let scatterLocked = false;
-let scatterTimer;
 let scatterCycle;
 let scatterGeneration = 0;
-let scatterOpenedAt = 0;
 
 const hashText = (value) => [...value].reduce((hash, character) => Math.imul(hash ^ character.charCodeAt(0), 16777619), 2166136261) >>> 0;
 const seeded = (seed) => () => ((seed = Math.imul(seed, 1664525) + 1013904223 >>> 0) / 4294967296);
@@ -335,18 +403,23 @@ const stopScatterMedia = () => {
 };
 
 const dismissScatter = (immediate = false) => {
-  window.clearTimeout(scatterTimer);
   window.clearInterval(scatterCycle);
   scatterCycle = undefined;
   scatterGeneration += 1;
   scatterLocked = false;
   scatterLink?.setAttribute('aria-expanded', 'false');
   scatterLink = undefined;
+  scatter.querySelectorAll('.scatter-group').forEach((group) => group.classList.add('is-leaving'));
+  scatter.classList.add('is-closing');
   scatter.classList.remove('is-active');
   scatter.setAttribute('aria-hidden', 'true');
   stopScatterMedia();
-  const delay = immediate || reducedMotion.matches ? 0 : 440;
-  window.setTimeout(() => scatter.replaceChildren(), delay);
+  const itemCount = scatter.querySelectorAll('.scatter-item').length;
+  const delay = immediate || reducedMotion.matches ? 0 : 520 + Math.max(0, itemCount - 1) * 55;
+  window.setTimeout(() => {
+    scatter.replaceChildren();
+    scatter.classList.remove('is-closing');
+  }, delay);
 };
 
 const gifCanvas = async (asset, generation) => {
@@ -424,7 +497,7 @@ const positionsFor = (url, count) => {
   const phone = [[4,9,45],[50,16,44],[8,50,52],[46,63,48]];
   const slots = (mobile ? phone : desktop).sort(() => random() - .5);
   return slots.slice(0, count)
-    .sort((a, b) => a[0] - b[0])
+    .sort((a, b) => b[0] - a[0])
     .map(([x,y,w], index) => ({ x, y, w, delay: index * 125 }));
 };
 
@@ -435,7 +508,7 @@ const renderScatterGroup = async (assets, project, generation) => {
   const group = document.createElement('div');
   group.className = 'scatter-group';
   scatter.querySelector('.scatter-group')?.classList.add('is-leaving');
-  window.setTimeout(() => [...scatter.querySelectorAll('.scatter-group.is-leaving')].forEach((old) => old.remove()), reducedMotion.matches ? 0 : 650);
+  window.setTimeout(() => [...scatter.querySelectorAll('.scatter-group.is-leaving')].forEach((old) => old.remove()), reducedMotion.matches ? 0 : 900);
   scatter.append(group);
   for (let index = 0; index < count; index += 1) {
     let media;
@@ -451,7 +524,7 @@ const renderScatterGroup = async (assets, project, generation) => {
     const position = positions[index];
     item.className = 'scatter-item';
     if (media instanceof HTMLIFrameElement) item.classList.add('has-embed');
-    item.style.cssText = `--x:${position.x}vw;--y:${position.y}svh;--w:${position.w}vw`;
+    item.style.cssText = `--x:${position.x}vw;--y:${position.y}svh;--w:${position.w}vw;--delay:${position.delay}ms;--exit-delay:${index * 55}ms`;
     item.append(media);
     group.append(item);
     if (media instanceof HTMLVideoElement) media.play().catch(() => {});
@@ -460,10 +533,9 @@ const renderScatterGroup = async (assets, project, generation) => {
   }
 };
 
-const showScatter = async (link, lock = false) => {
-  window.clearTimeout(scatterTimer);
+const showScatter = async (entry, trigger) => {
   const manifest = await projectManifest;
-  const project = manifest.projects[new URL(link.href).href];
+  const project = manifest.projects[entry.url];
   if (!project?.assets.length) return;
   const seenAssets = new Set();
   const projectAssets = project.assets.filter((asset) => {
@@ -473,13 +545,12 @@ const showScatter = async (link, lock = false) => {
     return true;
   });
   if (!projectAssets.length) return;
-  if (scatterLink && scatterLink !== link) dismissScatter(true);
-  scatterLink = link;
-  scatterLocked = lock || scatterLocked;
-  scatterOpenedAt = performance.now();
+  if (scatterLink && scatterLink !== trigger) dismissScatter(true);
+  scatterLink = trigger;
+  scatterLocked = true;
   scatterGeneration += 1;
   const generation = scatterGeneration;
-  link.setAttribute('aria-expanded', 'true');
+  trigger.setAttribute('aria-expanded', 'true');
   scatter.setAttribute('aria-hidden', 'false');
   scatter.classList.add('is-active');
   let offset = 0;
@@ -498,32 +569,19 @@ const showScatter = async (link, lock = false) => {
   }
 };
 
-scatterTriggers.forEach((link) => {
-  link.setAttribute('aria-expanded', 'false');
-  link.addEventListener('mouseenter', () => {
-    window.clearTimeout(scatterTimer);
-    if (!coarsePointer.matches) scatterTimer = window.setTimeout(() => showScatter(link), 90);
-  });
-  link.addEventListener('mouseleave', () => {
-    window.clearTimeout(scatterTimer);
-    if (!scatterLocked) scatterTimer = window.setTimeout(() => dismissScatter(), 180);
-  });
-  link.addEventListener('focus', () => showScatter(link));
-  link.addEventListener('blur', () => { if (!scatterLocked) dismissScatter(); });
-  link.addEventListener('click', (event) => {
-    event.preventDefault();
-    if (scatterLink === link && scatterLocked) { dismissScatter(); return; }
-    showScatter(link, true);
+timeline.querySelectorAll('.project-expand-trigger').forEach((trigger) => {
+  trigger.addEventListener('click', () => {
+    const entry = trigger.closest('.timeline-entry');
+    if (entry !== activeTimelineEntry) return;
+    if (scatterLink === trigger) { dismissScatter(); return; }
+    showScatter(entry.entryData, trigger);
   });
 });
 
 document.addEventListener('click', (event) => {
-  if (scatterLocked && !event.target.closest('.project-scatter-trigger')) dismissScatter();
+  if (scatterLocked && !event.target.closest('.project-expand-trigger') && !event.target.closest('.scatter-item')) dismissScatter();
 });
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && scatterLink) dismissScatter(); });
-window.addEventListener('scroll', () => {
-  if (scatterLocked && performance.now() - scatterOpenedAt > 350) dismissScatter();
-}, { passive: true });
 
 const writingReader = document.querySelector('#writing-reader');
 const writingTitle = writingReader.querySelector('#writing-reader-title');
