@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-26T06:52:25.482Z",
+  "generatedAt": "2026-09-26T07:06:14.135Z",
   "projects": {
     "https://glossgenius.com/": {
       "slug": "gloss-ai",
@@ -1564,60 +1564,9 @@
       "title": "Lilly Pulitzer Virtual Runway",
       "assets": [
         {
-          "src": "assets-visual/thrivent/02-fc1d3b7683.png",
-          "type": "image",
-          "alt": "Image 5",
-          "bytes": 606072,
-          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
-        },
-        {
-          "src": "assets-visual/thrivent/03-56405694c9.png",
-          "type": "image",
-          "alt": "Image 6",
-          "bytes": 559069,
-          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
-        },
-        {
-          "src": "assets-visual/thrivent/04-d4f07c4f9a.png",
-          "type": "image",
-          "alt": "Image 7",
-          "bytes": 640941,
-          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
-        },
-        {
-          "src": "assets-visual/thrivent/05-2636319855.png",
-          "type": "image",
-          "alt": "Image 8",
-          "bytes": 960997,
-          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
-        },
-        {
-          "src": "assets-visual/thrivent/06-5ff4815ea3.gif",
-          "type": "gif",
-          "alt": "Image 9",
-          "bytes": 3518100,
-          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
-        },
-        {
-          "src": "assets-visual/thrivent/07-9675c34c37.gif",
-          "type": "gif",
-          "alt": "Image 10",
-          "bytes": 1290448,
-          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
-        },
-        {
-          "src": "assets-visual/thrivent/08-01dad72912.gif",
-          "type": "gif",
-          "alt": "Image 11",
-          "bytes": 3312081,
-          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
-        },
-        {
-          "src": "assets-visual/thrivent/09-bb52d4e07f.gif",
-          "type": "gif",
-          "alt": "Image 12",
-          "bytes": 1157726,
-          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6ca1cee58c6c00111e9f_CIA-TypeStackFeature.gif"
+          "src": "https://www.youtube.com/embed/r7ZTCFzELf8?rel=0&controls=0&autoplay=0&mute=0&start=0",
+          "type": "youtube",
+          "alt": "Lilly Pulitzer Virtual Runway Pitch"
         }
       ]
     },

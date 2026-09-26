@@ -17,5 +17,12 @@
       "type": "spotify",
       "alt": "Looking Glass EP on Spotify"
     }
+  ],
+  "https://patrickszot.webflow.io/older-work/lilly": [
+    {
+      "src": "https://www.youtube.com/embed/r7ZTCFzELf8?rel=0&controls=0&autoplay=0&mute=0&start=0",
+      "type": "youtube",
+      "alt": "Lilly Pulitzer Virtual Runway Pitch"
+    }
   ]
 }

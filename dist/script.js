@@ -383,7 +383,7 @@ const gifCanvas = async (asset, generation) => {
 };
 
 const mediaNode = async (asset, generation) => {
-  if (asset.type === 'spotify') {
+  if (asset.type === 'spotify' || asset.type === 'youtube') {
     const frame = document.createElement('iframe');
     frame.src = asset.src;
     frame.title = asset.alt;
@@ -465,6 +465,14 @@ const showScatter = async (link, lock = false) => {
   const manifest = await projectManifest;
   const project = manifest.projects[new URL(link.href).href];
   if (!project?.assets.length) return;
+  const seenAssets = new Set();
+  const projectAssets = project.assets.filter((asset) => {
+    const key = asset.source || asset.src;
+    if (!key || seenAssets.has(key)) return false;
+    seenAssets.add(key);
+    return true;
+  });
+  if (!projectAssets.length) return;
   if (scatterLink && scatterLink !== link) dismissScatter(true);
   scatterLink = link;
   scatterLocked = lock || scatterLocked;
@@ -477,14 +485,15 @@ const showScatter = async (link, lock = false) => {
   let offset = 0;
   const display = () => {
     const count = coarsePointer.matches ? 4 : 7;
-    const ordered = [...project.assets.slice(offset), ...project.assets.slice(0, offset)];
-    renderScatterGroup(ordered, project, generation);
-    offset = (offset + count) % project.assets.length;
+    const nextAssets = projectAssets.slice(offset, offset + count);
+    renderScatterGroup(nextAssets, project, generation);
+    offset += nextAssets.length;
+    if (offset >= projectAssets.length) offset = 0;
   };
   display();
   window.clearInterval(scatterCycle);
-  if (project.assets.length > (coarsePointer.matches ? 4 : 7)) {
-    const cycleDuration = project.assets.some((asset) => asset.type === 'spotify') ? 10000 : 5200;
+  if (projectAssets.length > (coarsePointer.matches ? 4 : 7)) {
+    const cycleDuration = projectAssets.some((asset) => asset.type === 'spotify' || asset.type === 'youtube') ? 10000 : 5200;
     scatterCycle = window.setInterval(display, cycleDuration);
   }
 };
