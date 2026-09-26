@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6faff" />
+    <title>Patrick Szot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:wdth,wght@100,400&amp;display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="load-cover" aria-hidden="true"></div>
+
+    <main>
+      <img class="logo" src="assets/ps-logo.png" width="908" height="200" alt="Patrick Szot" />
+
+      <section class="profile" aria-label="Profile">
+        <p class="bio">Brand Engineer<br />Fulbright and Gilman Scholar</p>
+
+        <div class="groups">
+          <div class="group is-open">
+            <button class="group-trigger" type="button" aria-expanded="true" aria-controls="current-panel">
+              <span>Currently: airops</span>
+              <i class="ri-add-line" aria-hidden="true"></i>
+            </button>
+            <div class="group-panel" id="current-panel">
+              <div class="group-panel-inner">
+                <p>Led 4-week brand transformation from this to<br />airops.com</p>
+                <p>Industry-specific image production</p>
+                <p>Brand strategy and web transformation</p>
+
+                <div class="nested-group is-open">
+                  <button class="nested-trigger" type="button" aria-expanded="true" aria-controls="tooling-panel">
+                    <span>Tooling and marketing org transformation</span>
+                    <i class="ri-add-line" aria-hidden="true"></i>
+                  </button>
+                  <div class="nested-panel" id="tooling-panel">
+                    <div class="nested-panel-inner">
+                      <p>Brand Portal<br />Web Prototyping<br />Old brand ,arketing asset maker</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="group previous">
+            <button class="group-trigger" type="button" aria-expanded="false" aria-controls="previous-panel">
+              <span>Previously: <span class="muted">GlossAI 2024, Webflow 2020, Lovab...</span></span>
+              <i class="ri-add-line" aria-hidden="true"></i>
+            </button>
+            <div class="group-panel" id="previous-panel" inert>
+              <div class="group-panel-inner"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
