@@ -325,8 +325,8 @@ const runPreviewTransition = ({ src, alt, direction, velocity }) => {
   next.alt = alt;
   next.dataset.previewSrc = src;
   const duration = reducedMotion.matches ? 0 : Math.max(500, 780 - velocity * 80);
-  projectPreview.style.setProperty('--preview-out-y', `${direction * 100}%`);
-  projectPreview.style.setProperty('--preview-in-y', `${-direction * 100}%`);
+  projectPreview.style.setProperty('--preview-out-y', `${-direction * 100}%`);
+  projectPreview.style.setProperty('--preview-in-y', `${direction * 100}%`);
   projectPreview.style.setProperty('--preview-duration', `${duration}ms`);
   next.style.transition = 'none';
   next.classList.remove('is-current', 'is-departing');
@@ -478,7 +478,7 @@ const dismissScatter = (immediate = false) => {
   scatterLocked = false;
   scatterLink?.setAttribute('aria-expanded', 'false');
   scatterLink = undefined;
-  scatter.style.setProperty('--scatter-out-y', `${(timelineScrollDirection || 1) * 18}px`);
+  scatter.style.setProperty('--scatter-out-y', `${-(timelineScrollDirection || 1) * 18}px`);
   scatter.querySelectorAll('.scatter-group').forEach((group) => group.classList.add('is-leaving'));
   scatter.classList.add('is-closing');
   scatter.classList.remove('is-active');
@@ -618,7 +618,7 @@ const showScatter = async (entry, trigger) => {
   if (scatterLink && scatterLink !== trigger) dismissScatter(true);
   scatterLink = trigger;
   scatterLocked = true;
-  scatter.style.setProperty('--scatter-in-y', `${-(timelineScrollDirection || 1) * 16}px`);
+  scatter.style.setProperty('--scatter-in-y', `${(timelineScrollDirection || 1) * 16}px`);
   scatterGeneration += 1;
   const generation = scatterGeneration;
   trigger.setAttribute('aria-expanded', 'true');
