@@ -839,6 +839,69 @@ body.details-open .footer-contact {
   100% { transform: translateX(390%); }
 }
 
+.project-scatter {
+  position: fixed;
+  z-index: 45;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.project-scatter.is-active { visibility: visible; }
+
+.logo,
+.timeline-year-heading,
+.timeline-marker { z-index: 48; }
+
+.project-scatter-trigger { position: relative; z-index: 48; }
+
+.scatter-group {
+  position: absolute;
+  inset: 0;
+}
+
+.scatter-item {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: var(--w);
+  max-height: 42svh;
+  margin: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  opacity: 0;
+  transform: translate3d(0, 7px, 0) rotate(var(--r)) scale(.985);
+  transform-origin: center;
+  transition: opacity .38s ease var(--delay), transform .72s var(--ease) var(--delay);
+  will-change: opacity, transform;
+}
+
+.scatter-group.is-visible .scatter-item {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotate(var(--r)) scale(1);
+}
+
+.scatter-group.is-leaving .scatter-item {
+  opacity: 0;
+  transform: translate3d(0, -4px, 0) rotate(var(--r)) scale(.992);
+  transition-delay: 0ms;
+}
+
+.scatter-item img,
+.scatter-item video,
+.scatter-item canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 42svh;
+  border: 0;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
 .load-line {
   opacity: 0;
   transform: translateY(4px);
@@ -934,6 +997,14 @@ body.details-open .footer-contact {
     left: 40px;
     bottom: 24px;
   }
+
+  .scatter-item {
+    max-height: 31svh;
+  }
+
+  .scatter-item img,
+  .scatter-item video,
+  .scatter-item canvas { max-height: 31svh; }
 
   .preview-card {
     top: auto;

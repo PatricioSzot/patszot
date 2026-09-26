@@ -1,0 +1,1937 @@
+{
+  "generatedAt": "2026-09-26T06:09:59.776Z",
+  "projects": {
+    "https://glossgenius.com/": {
+      "slug": "gloss-ai",
+      "title": "Scheduling, payments, and admin. Handled.",
+      "assets": [
+        {
+          "src": "assets/projects/gloss-ai/01-eb16f17718.png",
+          "type": "image",
+          "alt": "Image 12",
+          "bytes": 9130,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a18827583360e95b2a6cebc_Frame%202147231645.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/02-27d22a2672.jpg",
+          "type": "image",
+          "alt": "Image 13",
+          "bytes": 64414,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a173955827b550299274cc4_Frame%202147231643.jpg"
+        },
+        {
+          "src": "assets/projects/gloss-ai/03-d7603749e2.png",
+          "type": "image",
+          "alt": "Image 14: A floral patterned GlossGenius Tap & Go credit card reader next to a mobile screen reading a transaction total of $173.88, next to another mobile screen featuring a Tap-to-Pay symbol",
+          "bytes": 67835,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a29c8fd60b37eb031373281_Frame%202147236459.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/04-02ddb8eee4.png",
+          "type": "image",
+          "alt": "Image 15",
+          "bytes": 16345,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a2158893e6fe008e8bfcfda_Frame%202147236449.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/05-0665de151a.png",
+          "type": "image",
+          "alt": "Image 16: A floral patterned GlossGenius Tap & Go credit card reader next to a mobile screen reading a transaction total of $173.88, next to another mobile screen featuring a Tap-to-Pay symbol",
+          "bytes": 235649,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a206fc2453adb9d0f2499ba_Frame%202147236436.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/06-9328ded06c.png",
+          "type": "image",
+          "alt": "Image 17",
+          "bytes": 67925,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a215a9c5d02ae4e6e6d5ff0_Frame%202147236450.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/07-7daa036bb3.png",
+          "type": "image",
+          "alt": "Image 18: A floral patterned GlossGenius Tap & Go credit card reader next to a mobile screen reading a transaction total of $173.88, next to another mobile screen featuring a Tap-to-Pay symbol",
+          "bytes": 76122,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a29c53c287bd35a8e0130b2_Frame%202147236462.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/08-a26e551ae2.png",
+          "type": "image",
+          "alt": "Image 19",
+          "bytes": 22576,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a29c9c112926811b4042f4b_Frame%202147236452.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/09-990a0385c0.png",
+          "type": "image",
+          "alt": "Image 20: Screenshot of a staff calendar with grayed-out time slots",
+          "bytes": 605569,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a2133e8550080786ac6adf5_Frame%202147236443.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/10-15944187a5.png",
+          "type": "image",
+          "alt": "Image 21",
+          "bytes": 115214,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a215c6bda272c39ee86165a_Frame%202147236453.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/11-1f074be6d3.png",
+          "type": "image",
+          "alt": "Image 22",
+          "bytes": 682692,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a2126aeda86be131f1d10b2_Frame%202147236440.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/12-147b1bb4c4.png",
+          "type": "image",
+          "alt": "Image 23: Screenshot of two side-by-side mobile screens, one featuring the Marketing Assistant feature and the other featuring a Marketing Agent chatbot conversation",
+          "bytes": 106990,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a215dab08f6375c0b5fa3f3_Frame%202147236454.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/13-27b3877e46.png",
+          "type": "image",
+          "alt": "Image 24",
+          "bytes": 62797,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a212806edb1283abb736421_Frame%202147236441.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/14-6d12e276c3.png",
+          "type": "image",
+          "alt": "Image 25: Mobile screen featuring a timeclock next to a screenshot of a timecard",
+          "bytes": 30150,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a215ea5a0f8661b7f548908_Frame%202147236455.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/15-a1cabb8c1d.png",
+          "type": "image",
+          "alt": "Image 26",
+          "bytes": 87260,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a29c6058cb2adb7a132f6bf_Frame%202147236465.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/16-af8e4ef255.png",
+          "type": "image",
+          "alt": "Image 27: Screenshot of the GlossGenius Analytics feature screen displaying earnings and projections",
+          "bytes": 20013,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a2161c80451ae1b2fc21920_Frame%202147236456.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/17-ef7dcf3574.webp",
+          "type": "image",
+          "alt": "Image 28",
+          "bytes": 158584,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/69d3b7d949d3c202b5443c35_ImageBlock.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/18-7de3ee89fd.webp",
+          "type": "image",
+          "alt": "Image 29",
+          "bytes": 79768,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/69d3e298f86ec31ebb20be59_ImageBlock.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/19-8387872f2b.webp",
+          "type": "image",
+          "alt": "Image 30: Image of a female hairstylist cutting a female client’s short blonde bob",
+          "bytes": 35674,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6925fa7f0bcb6b13bc6f0e5c_Portrait.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/20-9f0773fb6a.webp",
+          "type": "image",
+          "alt": "Image 31: Image of open haircutting scissor blades",
+          "bytes": 3310,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6925fabfa82b0e129fe0d01e_Texture.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/21-655b824312.webp",
+          "type": "image",
+          "alt": "Image 32: Closeup of patterned cornrows style",
+          "bytes": 56752,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6925fb13ed5cdde672843b5d_Tool.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/22-4513672514.webp",
+          "type": "image",
+          "alt": "Image 33: A masseuse giving her client a shoulder massage",
+          "bytes": 73938,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6926007c019257e7cb65d66f_Portrait.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/23-09cab3e2da.webp",
+          "type": "image",
+          "alt": "Image 34: A closeup of three stacked hot stones",
+          "bytes": 24272,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6918c368179cab8358e0dd49_Texture.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/24-68ce7bfcb6.webp",
+          "type": "image",
+          "alt": "Image 35: Image of the top of a hand sanitizer bottle",
+          "bytes": 11344,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6926009e72b05304ec778e94_Tool.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/25-27ab48ff25.jpg",
+          "type": "image",
+          "alt": "Image 36",
+          "bytes": 119428,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/69d3e1301e203e5af0ebc7a5_Portrait.jpg"
+        },
+        {
+          "src": "assets/projects/gloss-ai/26-43b0650e58.webp",
+          "type": "image",
+          "alt": "Image 37: A medspa professional in a white coat leading her client down a hallway",
+          "bytes": 14454,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6925fe12b671311913c5c530_Texture.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/27-932588f11a.webp",
+          "type": "image",
+          "alt": "Image 38: Photo of the top of a syringe",
+          "bytes": 46020,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6918ad3144bb884aa73709d6_Gloss_Tools_Medspa_Syringe_Smoke_1_4x5%201.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/28-c8cd2e3557.webp",
+          "type": "image",
+          "alt": "Image 39: Closeup of a woman’s smiling face",
+          "bytes": 125832,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6926025875d988572b577bd2_Portrait.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/29-2a3df69793.webp",
+          "type": "image",
+          "alt": "Image 40: Closeup of a dark green pattern",
+          "bytes": 18736,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6926026b684a365e573d66f9_Texture.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/30-b9594b977b.webp",
+          "type": "image",
+          "alt": "Image 41: Closeup of a gray medicine ball",
+          "bytes": 45782,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6918c6c2aad09a9305cfcdc6_Tool.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/31-5a4912da5e.webp",
+          "type": "image",
+          "alt": "Image 42: Hands holding a tablet displaying a color-coded calendar",
+          "bytes": 27858,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6926020d0c0c6a2d49047061_Portrait.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/32-42f57119bf.webp",
+          "type": "image",
+          "alt": "Image 43: Image of running track lines",
+          "bytes": 21990,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6918c5b3ddd880ccc5cd6702_Texture.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/33-66bc4364c0.webp",
+          "type": "image",
+          "alt": "Image 44: Image of half of a vertical hand weight",
+          "bytes": 77112,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6918c5e2c079ee11bf849551_Gloss_Tools_Fitness_Dumbbell_Sunset_4x5%201.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/34-f6f7d06a39.webp",
+          "type": "image",
+          "alt": "Image 45",
+          "bytes": 35132,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/69d7c56280a558c4f1a6dbd6_Portrait.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/35-6d5a5a97da.webp",
+          "type": "image",
+          "alt": "Image 46: Closeup of slightly lathered blocks of blue and beige soap",
+          "bytes": 12620,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6918c0f5dd7deae62bec1821_Texture.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/36-816c8e3824.webp",
+          "type": "image",
+          "alt": "Image 47: A woman getting her face brushed with two fan brushes",
+          "bytes": 68506,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6918c0f56b91791f135d6af9_Portrait.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/37-74bd943022.jpg",
+          "type": "image",
+          "alt": "Image 48",
+          "bytes": 189026,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/69d6a0d047bb181961b0ae07_Portrait.jpg"
+        },
+        {
+          "src": "assets/projects/gloss-ai/38-e5883a2b62.jpg",
+          "type": "image",
+          "alt": "Image 49",
+          "bytes": 43666,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/69d6a128f3e07e062798e898_Texture.jpg"
+        },
+        {
+          "src": "assets/projects/gloss-ai/39-376edbaf34.jpg",
+          "type": "image",
+          "alt": "Image 50",
+          "bytes": 153891,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/69d6a13ce62627078b391052_Tool.jpg"
+        },
+        {
+          "src": "assets/projects/gloss-ai/40-4469f0ba3e.webp",
+          "type": "image",
+          "alt": "Image 51: A hand holding a black credit card over a mobile phone held by two other hands",
+          "bytes": 191520,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/69d3b9cf4eb44ab46da8f9b7_Frame%202147230467.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/41-64048648f8.webp",
+          "type": "image",
+          "alt": "Image 52: A hand holding a black credit card over a mobile phone held by two other hands",
+          "bytes": 41936,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a06d87697c8465b6a0b7927_Group%202147231329.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/42-7bbf99a79b.webp",
+          "type": "image",
+          "alt": "Image 53: A hand holding a black credit card over a mobile phone held by two other hands",
+          "bytes": 458724,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/69305e3d2b438e43c81c8cc2_PaymentsInSitu.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/43-490d902b40.webp",
+          "type": "image",
+          "alt": "Image 54: A woman’s hands holding a phone displaying a color-coded calendar",
+          "bytes": 56702,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/69d3bae0655dea4508894ee5_Frame%202147232057.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/44-aad6ccdea3.png",
+          "type": "image",
+          "alt": "Image 55: A woman’s hands holding a phone displaying a color-coded calendar",
+          "bytes": 11320,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a06d8c7304ac808b09f71e6_Frame%202147236055.png"
+        },
+        {
+          "src": "assets/projects/gloss-ai/45-4ecfeb5ac0.webp",
+          "type": "image",
+          "alt": "Image 56: A woman’s hands holding a phone displaying a color-coded calendar",
+          "bytes": 120194,
+          "source": "https://cdn.prod.website-files.com/6292053974c40677f3ec8971/6a06d922352bd2d7a470c25c_Frame%202147236056.webp"
+        },
+        {
+          "src": "assets/projects/gloss-ai/46-ecb5788d5c.mp4",
+          "type": "video",
+          "alt": "Project motion",
+          "bytes": 3573443,
+          "source": "https://s3.amazonaws.com/webflow-prod-assets/6292053974c40677f3ec8971/6a341eff4d728b889d068d5b_GG_Hero-Mobile_0608--new.mp4"
+        },
+        {
+          "src": "assets/projects/gloss-ai/47-79182c2219.mp4",
+          "type": "video",
+          "alt": "Project motion",
+          "bytes": 2280934,
+          "source": "https://s3.amazonaws.com/webflow-prod-assets/6292053974c40677f3ec8971/6a270bd2252497cfed2c4c25_GG_Hero-Desktop_0608.mp4"
+        },
+        {
+          "src": "assets/projects/gloss-ai/48-937364c92c.mp4",
+          "type": "video",
+          "alt": "Project motion",
+          "bytes": 11008183,
+          "source": "https://s3.amazonaws.com/webflow-prod-assets/6292053974c40677f3ec8971/6a05b7739522d6f2c9749daf_Wayne%20final%20cut.mp4"
+        },
+        {
+          "src": "assets/projects/gloss-ai/49-c3a8ee0b1b.mp4",
+          "type": "video",
+          "alt": "Project motion",
+          "bytes": 12780262,
+          "source": "https://s3.amazonaws.com/webflow-prod-assets/6292053974c40677f3ec8971/6a05bb040d50722841f3c09f_EMMETT%20FINAL%20TEAMS%20VIDEO.mp4"
+        },
+        {
+          "src": "assets/projects/gloss-ai/50-9b7c6abf83.mp4",
+          "type": "video",
+          "alt": "Project motion",
+          "bytes": 4741898,
+          "source": "https://s3.amazonaws.com/webflow-prod-assets/6292053974c40677f3ec8971/69f8b5701c87c75f8dca93d4_copy_8D5DEFD5-CDE3-491D-8C06-D34F8C18AC82.mp4"
+        },
+        {
+          "src": "assets/projects/gloss-ai/51-b974c324ba.mp4",
+          "type": "video",
+          "alt": "Project motion",
+          "bytes": 7275480,
+          "source": "https://s3.amazonaws.com/webflow-prod-assets/6292053974c40677f3ec8971/6a05c0c7e7cf1be286cf6420_Main%20video%20first%20edit%20.mp4"
+        },
+        {
+          "src": "assets/projects/gloss-ai/52-a8509da948.mp4",
+          "type": "video",
+          "alt": "Project motion",
+          "bytes": 9197968,
+          "source": "https://s3.amazonaws.com/webflow-prod-assets/6292053974c40677f3ec8971/6a05c216155665b5d1f669c7_lexie%20with%20text.mp4"
+        }
+      ]
+    },
+    "https://dribbble.com/shots/24328431-Album-Art-Presage-2022": {
+      "slug": "24328431-album-art-presage-2022",
+      "title": "Album Art: Presage 2022",
+      "assets": [
+        {
+          "src": "assets/projects/24328431-album-art-presage-2022/01-6d6cc9cdd4.jpg",
+          "type": "image",
+          "alt": "Image 4",
+          "bytes": 240666,
+          "source": "https://cdn.dribbble.com/userupload/15032822/file/original-60f4e552a4a00f752c24a79ac6d90ca3.jpg?resize=752x&vertical=center"
+        },
+        {
+          "src": "assets/projects/24328431-album-art-presage-2022/02-4e715c2c9b.png",
+          "type": "image",
+          "alt": "Image 5",
+          "bytes": 1387264,
+          "source": "https://cdn.dribbble.com/userupload/15032823/file/original-bb39a0acd0780c46933892336579d678.png?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/24328431-album-art-presage-2022/03-60c6f16dca.jpg",
+          "type": "image",
+          "alt": "Image 11",
+          "bytes": 140077,
+          "source": "https://cdn.dribbble.com/userupload/15032824/file/original-fa2037042d8a147a0f63e75b21423530.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/24328431-album-art-presage-2022/04-a6372e0fc2.jpg",
+          "type": "image",
+          "alt": "Image 12",
+          "bytes": 136904,
+          "source": "https://cdn.dribbble.com/userupload/15032825/file/original-3cc0a7ca1fed93bfb9c1619b1d5c8dc5.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/24328431-album-art-presage-2022/05-c55d9cc3f4.jpg",
+          "type": "image",
+          "alt": "Image 13",
+          "bytes": 138601,
+          "source": "https://cdn.dribbble.com/userupload/15032826/file/original-c1764d258be598bd5ae2f56b06decc3b.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/24328431-album-art-presage-2022/06-c7edd67044.jpg",
+          "type": "image",
+          "alt": "Image 14",
+          "bytes": 137199,
+          "source": "https://cdn.dribbble.com/userupload/15032827/file/original-d647801f05c26bb647547b4d5a4f954c.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/24328431-album-art-presage-2022/07-364362b37e.mp4",
+          "type": "video",
+          "alt": "Project motion",
+          "bytes": 6496517,
+          "source": "https://cdn.dribbble.com/userupload/15032828/file/large-e82be9b239f0fda6f0411ad7f06c50a2.mp4"
+        }
+      ]
+    },
+    "https://patrickszot.webflow.io/recent-work/webflow-rebrand": {
+      "slug": "webflow-rebrand",
+      "title": "webflow rebrand",
+      "assets": [
+        {
+          "src": "assets/projects/webflow-rebrand/01-310a065d28.jpg",
+          "type": "image",
+          "alt": "Image 1",
+          "bytes": 186132,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/66a5e13d1e3b92efa16a02eb_Thumbnail%20-%201920x1080-4.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/02-733239dd34.gif",
+          "type": "gif",
+          "alt": "Image 2",
+          "bytes": 389984,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5cdbc0dae8aa5efdab9f0_Origins%20Logo%20Loop.gif"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/03-11e19ea583.jpg",
+          "type": "image",
+          "alt": "Image 3",
+          "bytes": 93314,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5cfee29350a5027720a1c_VisualFoundations-Example1.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/04-f3183d6465.jpg",
+          "type": "image",
+          "alt": "Image 4",
+          "bytes": 264232,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a40e7a24b1db455cb8b3ae_MotionTenets%20-%201920x1080.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/05-3bd4efabc0.jpg",
+          "type": "image",
+          "alt": "Image 5",
+          "bytes": 88911,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e0c816f8eec08266ad18_LatticeExample1.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/06-c02b96823e.jpg",
+          "type": "image",
+          "alt": "Image 6",
+          "bytes": 85545,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e0d390f886bf6485519c_latticeExample3.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/07-5db5f17aed.jpg",
+          "type": "image",
+          "alt": "Image 7",
+          "bytes": 139229,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e0e3f50cf12e95c58bf4_latticeExample4.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/08-facf1d14ac.jpg",
+          "type": "image",
+          "alt": "Image 8",
+          "bytes": 165982,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5d23955fa0c52141db1cc_VisualFoundations-Example5.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/09-88efa12d04.jpg",
+          "type": "image",
+          "alt": "Image 9",
+          "bytes": 516016,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5d22f71a7cb236a6dcfd5_VisualFoundations-Example4.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/10-b946cc2869.jpg",
+          "type": "image",
+          "alt": "Image 10",
+          "bytes": 601191,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5d23955fa0c52141db1de_VisualFoundations-Example6.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/11-932e228921.jpg",
+          "type": "image",
+          "alt": "Image 11",
+          "bytes": 397178,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5c9cb6e5e9f5b926c30d8_Customer%20Hero%20-%201.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/12-0bf921d3a9.jpg",
+          "type": "image",
+          "alt": "Image 12",
+          "bytes": 216333,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e3a2ac633bfd0f798b0f_WFR-Example1.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/13-ea01011108.jpg",
+          "type": "image",
+          "alt": "Image 13",
+          "bytes": 85913,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e3a1ae847f7b1f2a8f96_WFR-Example2.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/14-e2477835c4.jpg",
+          "type": "image",
+          "alt": "Image 14",
+          "bytes": 210334,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e3a11e3b92efa16b7916_WFR-Example3.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/15-ff851c4591.gif",
+          "type": "gif",
+          "alt": "Image 15",
+          "bytes": 1468396,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b086961e34a75f51b59069_ConfLogoAnimation.gif"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/16-15aefaea33.jpg",
+          "type": "image",
+          "alt": "Image 16",
+          "bytes": 413628,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b082f06c21e6f61dfc885b_LogoFeature%20A.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/17-dc3ec8da3b.jpg",
+          "type": "image",
+          "alt": "Image 17",
+          "bytes": 411581,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b08309dd90448f59daf57e_LogoFeature%20B.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/18-64e125a22e.jpg",
+          "type": "image",
+          "alt": "Image 18",
+          "bytes": 416025,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b0830f34a33d17888e2e14_LogoFeature%20C.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/19-fc742c3a61.jpg",
+          "type": "image",
+          "alt": "Image 19",
+          "bytes": 110127,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b0aaa7b337a6db4a149875_Type%20Feature%204.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/20-a05fa87eb1.jpg",
+          "type": "image",
+          "alt": "Image 20",
+          "bytes": 164909,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b0aaa235937307c646daef_Type%20Feature%203.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/21-7c4a9a0ce7.jpg",
+          "type": "image",
+          "alt": "Image 21",
+          "bytes": 109492,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b34d364c48cf56c3fa225e_ConfImageGallery%204.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/22-65d7bde82c.jpg",
+          "type": "image",
+          "alt": "Image 22",
+          "bytes": 158926,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b34d1334a57c10d43c55ab_ConfImageGallery%202.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/23-c5083d6410.jpg",
+          "type": "image",
+          "alt": "Image 23",
+          "bytes": 177865,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b34d1a4dc75ca32e2428fb_ConfImageGallery%203.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/24-ca69654ea2.jpg",
+          "type": "image",
+          "alt": "Image 24",
+          "bytes": 252784,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b34cffda7c01639786962c_ConfImageGallery%201.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/25-a9ae79088a.jpg",
+          "type": "image",
+          "alt": "Image 25",
+          "bytes": 220424,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b34d5a28b47f1ac5362a69_ConfImageGallery%205.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/26-0140679326.jpg",
+          "type": "image",
+          "alt": "Image 26",
+          "bytes": 256727,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b08573ac8d33688dbc1406_Backstage.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/27-5eaa05d7fe.jpg",
+          "type": "image",
+          "alt": "Image 27",
+          "bytes": 221884,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b0857eb337a6cda5127bb2_Hallway.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-rebrand/28-acbcf94fef.gif",
+          "type": "gif",
+          "alt": "Image 28",
+          "bytes": 1314536,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5c44b9f204626befdd426_WebflowConf2022-ProductionGuidelines_2.gif"
+        }
+      ]
+    },
+    "https://dribbble.com/shots/20635546-Webflow-User-Guide": {
+      "slug": "20635546-webflow-user-guide",
+      "title": "Webflow \"User Guide\"",
+      "assets": [
+        {
+          "src": "assets/projects/20635546-webflow-user-guide/01-7b5ec9bb01.jpg",
+          "type": "image",
+          "alt": "Image 4",
+          "bytes": 213954,
+          "source": "https://cdn.dribbble.com/userupload/4614365/file/original-2f48f493d7901a0dd3eff5bc4b76405e.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20635546-webflow-user-guide/02-803fefd4fe.jpg",
+          "type": "image",
+          "alt": "Image 5",
+          "bytes": 291416,
+          "source": "https://cdn.dribbble.com/userupload/4614367/file/original-bddc5b2c638483717101a6ccecedca7c.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20635546-webflow-user-guide/03-f57ecde0dc.jpg",
+          "type": "image",
+          "alt": "Image 6",
+          "bytes": 152604,
+          "source": "https://cdn.dribbble.com/userupload/4614362/file/original-854161c673a29d107fb2b51ae0bb7ec6.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20635546-webflow-user-guide/04-25f5e8637b.jpg",
+          "type": "image",
+          "alt": "Image 7",
+          "bytes": 200952,
+          "source": "https://cdn.dribbble.com/userupload/4614364/file/original-f15512d5941286dcc3b38ebb2ae5cab3.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20635546-webflow-user-guide/05-9f068bd787.jpg",
+          "type": "image",
+          "alt": "Image 8",
+          "bytes": 250861,
+          "source": "https://cdn.dribbble.com/userupload/4614363/file/original-199fb9cffabafb6331a709a58a66190f.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20635546-webflow-user-guide/06-2e1a2c4f31.jpg",
+          "type": "image",
+          "alt": "Image 9",
+          "bytes": 327076,
+          "source": "https://cdn.dribbble.com/userupload/4614366/file/original-74eb7b46b98ea57d8388af2483d3f07f.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20635546-webflow-user-guide/07-267bb5a57f.jpg",
+          "type": "image",
+          "alt": "Image 10",
+          "bytes": 81778,
+          "source": "https://cdn.dribbble.com/userupload/4614361/file/original-5e57d4a6639e526a7c716e73b5db7960.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20635546-webflow-user-guide/08-3b0c66ad77.mp4",
+          "type": "video",
+          "alt": "Project motion",
+          "bytes": 1912621,
+          "source": "https://cdn.dribbble.com/userupload/4614368/file/large-ad8c264a4be42164ac9f21a265a63155.mp4"
+        }
+      ]
+    },
+    "https://dribbble.com/shots/20567364-Webflow-Conf-2022-Process-and-Guidelines": {
+      "slug": "20567364-webflow-conf-2022-process-and-guidelines",
+      "title": "Webflow Conf 2022 – Process and Guidelines",
+      "assets": [
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/01-b788755e72.jpg",
+          "type": "image",
+          "alt": "Image 4",
+          "bytes": 114045,
+          "source": "https://cdn.dribbble.com/userupload/4483552/file/original-d8f26e67a226f3ee3aaf9aebe986d8d9.jpg?resize=752x&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/02-f5acfacc0f.jpg",
+          "type": "image",
+          "alt": "Image 5",
+          "bytes": 189059,
+          "source": "https://cdn.dribbble.com/userupload/4483553/file/original-de6f2fcbb4f6f66b84cf8c58185dba28.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/03-b4c44f7d2d.jpg",
+          "type": "image",
+          "alt": "Image 6",
+          "bytes": 134230,
+          "source": "https://cdn.dribbble.com/userupload/4483558/file/original-35821567ae8ae39293c875d9492a0210.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/04-4e8928e992.jpg",
+          "type": "image",
+          "alt": "Image 7",
+          "bytes": 233785,
+          "source": "https://cdn.dribbble.com/userupload/4483556/file/original-6d02df833e9317b34139ca7a7e0c3456.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/05-6300e25fbb.jpg",
+          "type": "image",
+          "alt": "Image 8",
+          "bytes": 201000,
+          "source": "https://cdn.dribbble.com/userupload/4483554/file/original-ebf0da88078bfc13fbbd0b4b105557e3.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/06-6bad9e78cc.jpg",
+          "type": "image",
+          "alt": "Image 9",
+          "bytes": 200311,
+          "source": "https://cdn.dribbble.com/userupload/4483555/file/original-d89ceed5bf966f4cb5f6d89d154d5118.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/07-69efd6f529.jpg",
+          "type": "image",
+          "alt": "Image 15",
+          "bytes": 180403,
+          "source": "https://cdn.dribbble.com/userupload/4483583/file/original-b696e96ac1e16013015c89a9cd2e2190.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/08-891382fb24.jpg",
+          "type": "image",
+          "alt": "Image 16",
+          "bytes": 173948,
+          "source": "https://cdn.dribbble.com/userupload/4483584/file/original-6dd2f2a88d05a9c1f50b044fd23d2ba3.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/09-18523f0da6.jpg",
+          "type": "image",
+          "alt": "Image 17",
+          "bytes": 234729,
+          "source": "https://cdn.dribbble.com/userupload/4483586/file/original-440720853ef64684ecd10bfaed717b15.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/10-f06c269207.jpg",
+          "type": "image",
+          "alt": "Image 18",
+          "bytes": 35786,
+          "source": "https://cdn.dribbble.com/userupload/4483585/file/original-b39eef5ae1e69f2f96f3834a6f95b321.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/11-3e39260ef4.jpg",
+          "type": "image",
+          "alt": "Image 19",
+          "bytes": 196997,
+          "source": "https://cdn.dribbble.com/userupload/4483557/file/original-656a23132e95ae723c06dd3466773c6c.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/12-c9d15a5bcb.jpg",
+          "type": "image",
+          "alt": "Image 20",
+          "bytes": 97588,
+          "source": "https://cdn.dribbble.com/userupload/4483569/file/original-9b3afb6a0ff914290e632b320c2b41d1.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/13-9296008353.jpg",
+          "type": "image",
+          "alt": "Image 21",
+          "bytes": 76942,
+          "source": "https://cdn.dribbble.com/userupload/4483559/file/original-eddb60c55c2fe1c02cfe810243b78f57.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/14-83eeaf06b4.jpg",
+          "type": "image",
+          "alt": "Image 22",
+          "bytes": 97858,
+          "source": "https://cdn.dribbble.com/userupload/4483560/file/original-500e0f0aa9cff58133b29193a0c3b95f.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/15-fbf7767edc.jpg",
+          "type": "image",
+          "alt": "Image 23",
+          "bytes": 242644,
+          "source": "https://cdn.dribbble.com/userupload/4483561/file/original-a79a6c47b22bccdb8b7dcdd2e03e8bfc.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/16-892cd105a2.jpg",
+          "type": "image",
+          "alt": "Image 24",
+          "bytes": 280052,
+          "source": "https://cdn.dribbble.com/userupload/4483562/file/original-dcaaba89b9532d462e974e64c8bb4025.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/17-c40b289a71.jpg",
+          "type": "image",
+          "alt": "Image 25",
+          "bytes": 287554,
+          "source": "https://cdn.dribbble.com/userupload/4483567/file/original-d8fd3931f4ec35f459e5354fa7ade506.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/18-0c3ee3c91d.jpg",
+          "type": "image",
+          "alt": "Image 26",
+          "bytes": 187758,
+          "source": "https://cdn.dribbble.com/userupload/4483566/file/original-b8d44c6e57bf0ccedb7f83fe4bc6446f.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/19-78843b8224.jpg",
+          "type": "image",
+          "alt": "Image 27",
+          "bytes": 258832,
+          "source": "https://cdn.dribbble.com/userupload/4483564/file/original-ece73cb658d13f44f0ff6ff53ba6136f.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/20-4ce7760301.jpg",
+          "type": "image",
+          "alt": "Image 28",
+          "bytes": 235999,
+          "source": "https://cdn.dribbble.com/userupload/4483565/file/original-0afe189599610bb358d0acc9ebcbdc74.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/21-247d2498e2.jpg",
+          "type": "image",
+          "alt": "Image 29",
+          "bytes": 275798,
+          "source": "https://cdn.dribbble.com/userupload/4483568/file/original-d1852f0db66f67b42fffbd847fc754c0.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/22-e56163ed7d.jpg",
+          "type": "image",
+          "alt": "Image 30",
+          "bytes": 243839,
+          "source": "https://cdn.dribbble.com/userupload/4483570/file/original-69466630482acb90dd92c20e0657c998.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20567364-webflow-conf-2022-process-and-guidelines/23-c3b59848fe.jpg",
+          "type": "image",
+          "alt": "Image 31",
+          "bytes": 150866,
+          "source": "https://cdn.dribbble.com/userupload/4483563/file/original-09d00d9ed388134f840704ec72e49eb5.jpg?resize=1600x1200&vertical=center"
+        }
+      ]
+    },
+    "https://dribbble.com/shots/20509333-3D-Scene": {
+      "slug": "20509333-3d-scene",
+      "title": "D Scene",
+      "assets": [
+        {
+          "src": "assets/projects/20509333-3d-scene/01-007e5f0ef4.png",
+          "type": "image",
+          "alt": "Image 4",
+          "bytes": 497138,
+          "source": "https://cdn.dribbble.com/userupload/4444326/file/original-50e33bfaab1a4bf931dd2ee88c5483fa.png?resize=752x&vertical=center"
+        },
+        {
+          "src": "assets/projects/20509333-3d-scene/02-cad9a7099c.jpg",
+          "type": "image",
+          "alt": "Image 5",
+          "bytes": 60057,
+          "source": "https://cdn.dribbble.com/userupload/4444325/file/original-b61cec200dd2bd1f019999ffbf25bc5d.jpg?resize=320x400&vertical=center%20320w"
+        }
+      ]
+    },
+    "https://dribbble.com/shots/20509321-Studio-Project-Trophy-Decks": {
+      "slug": "20509321-studio-project-trophy-decks",
+      "title": "Studio Project Trophy Decks",
+      "assets": [
+        {
+          "src": "assets/projects/20509321-studio-project-trophy-decks/01-3b08cc0842.gif",
+          "type": "gif",
+          "alt": "Image 4",
+          "bytes": 648800,
+          "source": "https://cdn.dribbble.com/userupload/4444310/file/original-58da80dbcbf0c1f2eecd1dc558bfb42a.gif"
+        }
+      ]
+    },
+    "https://dribbble.com/shots/20509299-UI-Design-Deloitte-Digital-Internal-Directory": {
+      "slug": "20509299-ui-design-deloitte-digital-internal-directory",
+      "title": "UI Design - Deloitte Digital Internal Directory",
+      "assets": [
+        {
+          "src": "assets/projects/20509299-ui-design-deloitte-digital-internal-directory/01-c2b0485fb4.gif",
+          "type": "gif",
+          "alt": "Image 4",
+          "bytes": 1951829,
+          "source": "https://cdn.dribbble.com/userupload/4444286/file/original-898095b18a78d0888955fae8f19095d3.gif"
+        },
+        {
+          "src": "assets/projects/20509299-ui-design-deloitte-digital-internal-directory/02-c963ac19ae.gif",
+          "type": "gif",
+          "alt": "Image 5",
+          "bytes": 3595750,
+          "source": "https://cdn.dribbble.com/userupload/4444287/file/original-293c2702ab5c511a37601eb831b2bbad.gif"
+        }
+      ]
+    },
+    "https://dribbble.com/shots/20509285-Brand-Package-Atelier-Saady": {
+      "slug": "20509285-brand-package-atelier-saady",
+      "title": "Brand Package – Atelier Saady",
+      "assets": [
+        {
+          "src": "assets/projects/20509285-brand-package-atelier-saady/01-7a487e3d2e.gif",
+          "type": "gif",
+          "alt": "Image 4",
+          "bytes": 9468681,
+          "source": "https://cdn.dribbble.com/userupload/4444273/file/original-73adc9b549637c6430f06eb5caa2aa93.gif"
+        }
+      ]
+    },
+    "https://dribbble.com/shots/20509280-Stylized-Logo": {
+      "slug": "20509280-stylized-logo",
+      "title": "Stylized Logo",
+      "assets": [
+        {
+          "src": "assets/projects/20509280-stylized-logo/01-1c7f4b21ad.gif",
+          "type": "gif",
+          "alt": "Image 4",
+          "bytes": 2924120,
+          "source": "https://cdn.dribbble.com/userupload/4444267/file/original-51847f5422049e5ef0c9cbe45676a09d.gif"
+        }
+      ]
+    },
+    "https://dribbble.com/shots/20410030-Webflow-Conf-2022-Grow-with-the-Flow-room": {
+      "slug": "20410030-webflow-conf-2022-grow-with-the-flow-room",
+      "title": "20410030 webflow conf 2022 grow with the flow room",
+      "assets": [
+        {
+          "src": "assets/projects/20410030-webflow-conf-2022-grow-with-the-flow-room/01-4bc42b03db.webp",
+          "type": "image",
+          "alt": "Webflow Conf Grow with the Flow room",
+          "bytes": 220874,
+          "source": "https://cdn.dribbble.com/userupload/4293440/file/original-d1e576e3b7230d2cc45147ed55ac5495.jpg?crop=0x0-1920x1440&format=webp&resize=1600x1200&vertical=center"
+        }
+      ]
+    },
+    "https://dribbble.com/shots/20356384-Webflow-Conf-2022-Themes": {
+      "slug": "20356384-webflow-conf-2022-themes",
+      "title": "Webflow Conf 2022 – Themes",
+      "assets": [
+        {
+          "src": "assets/projects/20356384-webflow-conf-2022-themes/01-2350bb0bbe.jpg",
+          "type": "image",
+          "alt": "Image 4",
+          "bytes": 117519,
+          "source": "https://cdn.dribbble.com/userupload/4272647/file/original-d18afad7b9322b51aebea1332a91ce30.jpg?resize=752x&vertical=center"
+        },
+        {
+          "src": "assets/projects/20356384-webflow-conf-2022-themes/02-750f5aa25e.jpg",
+          "type": "image",
+          "alt": "Image 5",
+          "bytes": 310893,
+          "source": "https://cdn.dribbble.com/userupload/4483487/file/original-94c93645084d1eb0d518525036d9026f.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20356384-webflow-conf-2022-themes/03-72c21dd366.jpg",
+          "type": "image",
+          "alt": "Image 6",
+          "bytes": 463766,
+          "source": "https://cdn.dribbble.com/userupload/4272645/file/original-7bfd1c23838b3445a1516e2a8e7b9d1e.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20356384-webflow-conf-2022-themes/04-36beda0988.jpg",
+          "type": "image",
+          "alt": "Image 7",
+          "bytes": 328590,
+          "source": "https://cdn.dribbble.com/userupload/4272646/file/original-b36f0e9d7272e216e33f67d681e9c5df.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20356384-webflow-conf-2022-themes/05-79394743ce.jpg",
+          "type": "image",
+          "alt": "Image 8",
+          "bytes": 564895,
+          "source": "https://cdn.dribbble.com/userupload/4272648/file/original-f82c832cb1c77a1dbebd831a2c889f97.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20356384-webflow-conf-2022-themes/06-6e078b59a1.jpg",
+          "type": "image",
+          "alt": "Image 9",
+          "bytes": 440809,
+          "source": "https://cdn.dribbble.com/userupload/4272650/file/original-2849102af7a27f96184a86323c719a8d.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20356384-webflow-conf-2022-themes/07-10f1ab96c5.jpg",
+          "type": "image",
+          "alt": "Image 10",
+          "bytes": 588920,
+          "source": "https://cdn.dribbble.com/userupload/4272649/file/original-5a4cfe0f047eb9a9d20ec46acf06d978.jpg?resize=1600x1200&vertical=center"
+        },
+        {
+          "src": "assets/projects/20356384-webflow-conf-2022-themes/08-401c23b998.jpg",
+          "type": "image",
+          "alt": "Image 11",
+          "bytes": 188508,
+          "source": "https://cdn.dribbble.com/userupload/4489328/file/original-b3a89463051d225155feffc47438f4bf.jpg?resize=1600x1200&vertical=center"
+        }
+      ]
+    },
+    "https://patrickszot.webflow.io/recent-work/webflow-conf": {
+      "slug": "webflow-conf",
+      "title": "webflow conf",
+      "assets": [
+        {
+          "src": "assets/projects/webflow-conf/01-cab6fa3076.jpg",
+          "type": "image",
+          "alt": "Image 1",
+          "bytes": 170256,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ac9d077a881d7f7894bd0c_Overview%20Image%201.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/02-733239dd34.gif",
+          "type": "gif",
+          "alt": "Image 2",
+          "bytes": 389984,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5cdbc0dae8aa5efdab9f0_Origins%20Logo%20Loop.gif"
+        },
+        {
+          "src": "assets/projects/webflow-conf/03-11e19ea583.jpg",
+          "type": "image",
+          "alt": "Image 3",
+          "bytes": 93314,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5cfee29350a5027720a1c_VisualFoundations-Example1.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/04-f3183d6465.jpg",
+          "type": "image",
+          "alt": "Image 4",
+          "bytes": 264232,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a40e7a24b1db455cb8b3ae_MotionTenets%20-%201920x1080.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/05-3bd4efabc0.jpg",
+          "type": "image",
+          "alt": "Image 5",
+          "bytes": 88911,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e0c816f8eec08266ad18_LatticeExample1.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/06-c02b96823e.jpg",
+          "type": "image",
+          "alt": "Image 6",
+          "bytes": 85545,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e0d390f886bf6485519c_latticeExample3.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/07-5db5f17aed.jpg",
+          "type": "image",
+          "alt": "Image 7",
+          "bytes": 139229,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e0e3f50cf12e95c58bf4_latticeExample4.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/08-facf1d14ac.jpg",
+          "type": "image",
+          "alt": "Image 8",
+          "bytes": 165982,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5d23955fa0c52141db1cc_VisualFoundations-Example5.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/09-88efa12d04.jpg",
+          "type": "image",
+          "alt": "Image 9",
+          "bytes": 516016,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5d22f71a7cb236a6dcfd5_VisualFoundations-Example4.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/10-b946cc2869.jpg",
+          "type": "image",
+          "alt": "Image 10",
+          "bytes": 601191,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5d23955fa0c52141db1de_VisualFoundations-Example6.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/11-932e228921.jpg",
+          "type": "image",
+          "alt": "Image 11",
+          "bytes": 397178,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5c9cb6e5e9f5b926c30d8_Customer%20Hero%20-%201.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/12-5d78e996a9.jpg",
+          "type": "image",
+          "alt": "Image 12",
+          "bytes": 692431,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5c9d7e2a0a5ecf15193d1_Customer%20Hero%20-%203.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/13-b1c99862be.jpg",
+          "type": "image",
+          "alt": "Image 13",
+          "bytes": 744554,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5c9dbc030b58246d4ef04_Customer%20Hero%20-%202.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/14-0bf921d3a9.jpg",
+          "type": "image",
+          "alt": "Image 14",
+          "bytes": 216333,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e3a2ac633bfd0f798b0f_WFR-Example1.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/15-ea01011108.jpg",
+          "type": "image",
+          "alt": "Image 15",
+          "bytes": 85913,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e3a1ae847f7b1f2a8f96_WFR-Example2.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/16-e2477835c4.jpg",
+          "type": "image",
+          "alt": "Image 16",
+          "bytes": 210334,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e3a11e3b92efa16b7916_WFR-Example3.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/17-ff851c4591.gif",
+          "type": "gif",
+          "alt": "Image 17",
+          "bytes": 1468396,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b086961e34a75f51b59069_ConfLogoAnimation.gif"
+        },
+        {
+          "src": "assets/projects/webflow-conf/18-15aefaea33.jpg",
+          "type": "image",
+          "alt": "Image 18",
+          "bytes": 413628,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b082f06c21e6f61dfc885b_LogoFeature%20A.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/19-dc3ec8da3b.jpg",
+          "type": "image",
+          "alt": "Image 19",
+          "bytes": 411581,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b08309dd90448f59daf57e_LogoFeature%20B.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/20-64e125a22e.jpg",
+          "type": "image",
+          "alt": "Image 20",
+          "bytes": 416025,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b0830f34a33d17888e2e14_LogoFeature%20C.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/21-fc742c3a61.jpg",
+          "type": "image",
+          "alt": "Image 21",
+          "bytes": 110127,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b0aaa7b337a6db4a149875_Type%20Feature%204.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/22-a05fa87eb1.jpg",
+          "type": "image",
+          "alt": "Image 22",
+          "bytes": 164909,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b0aaa235937307c646daef_Type%20Feature%203.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/23-7c4a9a0ce7.jpg",
+          "type": "image",
+          "alt": "Image 23",
+          "bytes": 109492,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b34d364c48cf56c3fa225e_ConfImageGallery%204.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/24-65d7bde82c.jpg",
+          "type": "image",
+          "alt": "Image 24",
+          "bytes": 158926,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b34d1334a57c10d43c55ab_ConfImageGallery%202.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/25-c5083d6410.jpg",
+          "type": "image",
+          "alt": "Image 25",
+          "bytes": 177865,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b34d1a4dc75ca32e2428fb_ConfImageGallery%203.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/26-ca69654ea2.jpg",
+          "type": "image",
+          "alt": "Image 26",
+          "bytes": 252784,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b34cffda7c01639786962c_ConfImageGallery%201.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/27-a9ae79088a.jpg",
+          "type": "image",
+          "alt": "Image 27",
+          "bytes": 220424,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b34d5a28b47f1ac5362a69_ConfImageGallery%205.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/28-0140679326.jpg",
+          "type": "image",
+          "alt": "Image 28",
+          "bytes": 256727,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b08573ac8d33688dbc1406_Backstage.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/29-5eaa05d7fe.jpg",
+          "type": "image",
+          "alt": "Image 29",
+          "bytes": 221884,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b0857eb337a6cda5127bb2_Hallway.jpg"
+        },
+        {
+          "src": "assets/projects/webflow-conf/30-acbcf94fef.gif",
+          "type": "gif",
+          "alt": "Image 30",
+          "bytes": 1314536,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5c44b9f204626befdd426_WebflowConf2022-ProductionGuidelines_2.gif"
+        }
+      ]
+    },
+    "https://patrickszot.webflow.io/older-work/thrivent": {
+      "slug": "thrivent",
+      "title": "Thrivent Financial",
+      "assets": [
+        {
+          "src": "assets/projects/thrivent/01-20b16a1177.gif",
+          "type": "gif",
+          "alt": "Image 5",
+          "bytes": 3782113,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63b385a13b9dbb9e04ee8354_Thrivent-Guidelines.gif"
+        },
+        {
+          "src": "assets/projects/thrivent/02-fc1d3b7683.png",
+          "type": "image",
+          "alt": "Image 6",
+          "bytes": 606072,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
+        },
+        {
+          "src": "assets/projects/thrivent/03-56405694c9.png",
+          "type": "image",
+          "alt": "Image 7",
+          "bytes": 559069,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
+        },
+        {
+          "src": "assets/projects/thrivent/04-d4f07c4f9a.png",
+          "type": "image",
+          "alt": "Image 8",
+          "bytes": 640941,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
+        },
+        {
+          "src": "assets/projects/thrivent/05-2636319855.png",
+          "type": "image",
+          "alt": "Image 9",
+          "bytes": 960997,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
+        },
+        {
+          "src": "assets/projects/thrivent/06-5ff4815ea3.gif",
+          "type": "gif",
+          "alt": "Image 10",
+          "bytes": 3518100,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
+        },
+        {
+          "src": "assets/projects/thrivent/07-9675c34c37.gif",
+          "type": "gif",
+          "alt": "Image 11",
+          "bytes": 1290448,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
+        },
+        {
+          "src": "assets/projects/thrivent/08-01dad72912.gif",
+          "type": "gif",
+          "alt": "Image 12",
+          "bytes": 3312081,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
+        },
+        {
+          "src": "assets/projects/thrivent/09-bb52d4e07f.gif",
+          "type": "gif",
+          "alt": "Image 13",
+          "bytes": 1157726,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6ca1cee58c6c00111e9f_CIA-TypeStackFeature.gif"
+        }
+      ]
+    },
+    "https://patrickszot.webflow.io/older-work/the-smart-factory": {
+      "slug": "the-smart-factory",
+      "title": "The Smart Factory",
+      "assets": [
+        {
+          "src": "assets/projects/the-smart-factory/01-a09c98d992.gif",
+          "type": "gif",
+          "alt": "Image 5",
+          "bytes": 3585324,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae3c7d9738008fbbe02405_tSF-Concept.gif"
+        },
+        {
+          "src": "assets/projects/the-smart-factory/02-bff0612e47.png",
+          "type": "image",
+          "alt": "Image 6",
+          "bytes": 1877247,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae3c7ccee58c28050e4761_tSF-Lobby.png"
+        },
+        {
+          "src": "assets/projects/the-smart-factory/03-e2d7ff81e7.gif",
+          "type": "gif",
+          "alt": "Image 7",
+          "bytes": 2053648,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae3c7d910c7028f2c426b5_tSF-LogoIterationsIsolated.gif"
+        },
+        {
+          "src": "assets/projects/the-smart-factory/04-2c563a9c50.png",
+          "type": "image",
+          "alt": "Image 8",
+          "bytes": 2708923,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae3c7c3ca6980ff9f3f5e8_tSF-PrintFeature.png"
+        },
+        {
+          "src": "assets/projects/the-smart-factory/05-f7e4b03a87.gif",
+          "type": "gif",
+          "alt": "Image 9",
+          "bytes": 3203343,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae3c7c892ff678a0915c2e_tSF-TypeFeature.gif"
+        },
+        {
+          "src": "assets/projects/the-smart-factory/06-efd0772a0b.gif",
+          "type": "gif",
+          "alt": "Image 10",
+          "bytes": 3991294,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63b3a21e8a9d05abc0b8aad1_SF_1_Concept_PF_Optimized.gif"
+        },
+        {
+          "src": "assets/projects/the-smart-factory/07-581bff92f5.gif",
+          "type": "gif",
+          "alt": "Image 11",
+          "bytes": 3931876,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63b3a22343a073da3e4c39ae_SF_2_SocialMedia_PF_Optimized.gif"
+        },
+        {
+          "src": "assets/projects/the-smart-factory/08-c76db321b8.gif",
+          "type": "gif",
+          "alt": "Image 12",
+          "bytes": 3903421,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63b3a2273b9dbb7bf8f09a85_SF_3_Wayfinding_PF_Optimized.gif"
+        },
+        {
+          "src": "assets/projects/the-smart-factory/09-fc1d3b7683.png",
+          "type": "image",
+          "alt": "Image 13",
+          "bytes": 606072,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
+        },
+        {
+          "src": "assets/projects/the-smart-factory/10-56405694c9.png",
+          "type": "image",
+          "alt": "Image 14",
+          "bytes": 559069,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
+        },
+        {
+          "src": "assets/projects/the-smart-factory/11-d4f07c4f9a.png",
+          "type": "image",
+          "alt": "Image 15",
+          "bytes": 640941,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
+        },
+        {
+          "src": "assets/projects/the-smart-factory/12-2636319855.png",
+          "type": "image",
+          "alt": "Image 16",
+          "bytes": 960997,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
+        },
+        {
+          "src": "assets/projects/the-smart-factory/13-5ff4815ea3.gif",
+          "type": "gif",
+          "alt": "Image 17",
+          "bytes": 3518100,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
+        },
+        {
+          "src": "assets/projects/the-smart-factory/14-9675c34c37.gif",
+          "type": "gif",
+          "alt": "Image 18",
+          "bytes": 1290448,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
+        },
+        {
+          "src": "assets/projects/the-smart-factory/15-01dad72912.gif",
+          "type": "gif",
+          "alt": "Image 19",
+          "bytes": 3312081,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
+        },
+        {
+          "src": "assets/projects/the-smart-factory/16-bb52d4e07f.gif",
+          "type": "gif",
+          "alt": "Image 20",
+          "bytes": 1157726,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6ca1cee58c6c00111e9f_CIA-TypeStackFeature.gif"
+        }
+      ]
+    },
+    "https://patrickszot.webflow.io/older-work/dolores-debitis-omnis-qui": {
+      "slug": "dolores-debitis-omnis-qui",
+      "title": "Global Marketing Trends 2021",
+      "assets": [
+        {
+          "src": "assets/projects/dolores-debitis-omnis-qui/01-c676ad19ad.gif",
+          "type": "gif",
+          "alt": "Image 5",
+          "bytes": 1207009,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63adbfcf6c21e66acfcf1523_GMT_SplashCover.gif"
+        },
+        {
+          "src": "assets/projects/dolores-debitis-omnis-qui/02-a04dc1d862.gif",
+          "type": "gif",
+          "alt": "Image 6",
+          "bytes": 1377239,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63adbfe4111f585adf4de472_GMT_GlyphsInverted.gif"
+        },
+        {
+          "src": "assets/projects/dolores-debitis-omnis-qui/03-1e61918c5c.gif",
+          "type": "gif",
+          "alt": "Image 7",
+          "bytes": 225487,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63adbfe33d71f80f3bc1af8f_GMT_DataVis1.gif"
+        },
+        {
+          "src": "assets/projects/dolores-debitis-omnis-qui/04-2c1f63f73a.gif",
+          "type": "gif",
+          "alt": "Image 8",
+          "bytes": 265334,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63adbfe3111f583b1f4de471_GMT_DataVis2.gif"
+        },
+        {
+          "src": "assets/projects/dolores-debitis-omnis-qui/05-ac7344fa5b.gif",
+          "type": "gif",
+          "alt": "Image 9",
+          "bytes": 3268629,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63adbfe4a2e57b0015d46ed3_GMT_DataVisualization.gif"
+        },
+        {
+          "src": "assets/projects/dolores-debitis-omnis-qui/06-fc1d3b7683.png",
+          "type": "image",
+          "alt": "Image 10",
+          "bytes": 606072,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
+        },
+        {
+          "src": "assets/projects/dolores-debitis-omnis-qui/07-56405694c9.png",
+          "type": "image",
+          "alt": "Image 11",
+          "bytes": 559069,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
+        },
+        {
+          "src": "assets/projects/dolores-debitis-omnis-qui/08-d4f07c4f9a.png",
+          "type": "image",
+          "alt": "Image 12",
+          "bytes": 640941,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
+        },
+        {
+          "src": "assets/projects/dolores-debitis-omnis-qui/09-2636319855.png",
+          "type": "image",
+          "alt": "Image 13",
+          "bytes": 960997,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
+        },
+        {
+          "src": "assets/projects/dolores-debitis-omnis-qui/10-5ff4815ea3.gif",
+          "type": "gif",
+          "alt": "Image 14",
+          "bytes": 3518100,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
+        },
+        {
+          "src": "assets/projects/dolores-debitis-omnis-qui/11-9675c34c37.gif",
+          "type": "gif",
+          "alt": "Image 15",
+          "bytes": 1290448,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
+        },
+        {
+          "src": "assets/projects/dolores-debitis-omnis-qui/12-01dad72912.gif",
+          "type": "gif",
+          "alt": "Image 16",
+          "bytes": 3312081,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
+        },
+        {
+          "src": "assets/projects/dolores-debitis-omnis-qui/13-bb52d4e07f.gif",
+          "type": "gif",
+          "alt": "Image 17",
+          "bytes": 1157726,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6ca1cee58c6c00111e9f_CIA-TypeStackFeature.gif"
+        }
+      ]
+    },
+    "https://patrickszot.webflow.io/older-work/cia": {
+      "slug": "cia",
+      "title": "CIA.gov",
+      "assets": [
+        {
+          "src": "assets/projects/cia/01-2df8be9eb7.gif",
+          "type": "gif",
+          "alt": "Image 5",
+          "bytes": 1817319,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae69f9917c0c24a03b2802_CIA-Guidelines.gif"
+        },
+        {
+          "src": "assets/projects/cia/02-00380b0130.png",
+          "type": "image",
+          "alt": "Image 6",
+          "bytes": 3370360,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae69f9b337a6f64ef15ddd_CIA-Flag.png"
+        },
+        {
+          "src": "assets/projects/cia/03-4c133fcbd9.gif",
+          "type": "gif",
+          "alt": "Image 7",
+          "bytes": 311045,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63b358abf2262d9f12267b1e_CIA-SplashPages.gif"
+        },
+        {
+          "src": "assets/projects/cia/04-7d3e1ebdfb.jpg",
+          "type": "image",
+          "alt": "Image 8",
+          "bytes": 346996,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae69f97013f8ce6d84b879_CIA-Archive.jpeg"
+        },
+        {
+          "src": "assets/projects/cia/05-3116e83662.gif",
+          "type": "gif",
+          "alt": "Image 9",
+          "bytes": 1450313,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae69f93ca6988b12f6e3dd_CIA-TypeAnatomyReference.gif"
+        },
+        {
+          "src": "assets/projects/cia/06-1d05eadb9e.png",
+          "type": "image",
+          "alt": "Image 10",
+          "bytes": 1282181,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae69f91aecb5e28b350c6f_CIA%20-%20SocialMediaPhonesAsset.png"
+        },
+        {
+          "src": "assets/projects/cia/07-fc1d3b7683.png",
+          "type": "image",
+          "alt": "Image 11",
+          "bytes": 606072,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
+        },
+        {
+          "src": "assets/projects/cia/08-56405694c9.png",
+          "type": "image",
+          "alt": "Image 12",
+          "bytes": 559069,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
+        },
+        {
+          "src": "assets/projects/cia/09-d4f07c4f9a.png",
+          "type": "image",
+          "alt": "Image 13",
+          "bytes": 640941,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
+        },
+        {
+          "src": "assets/projects/cia/10-2636319855.png",
+          "type": "image",
+          "alt": "Image 14",
+          "bytes": 960997,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
+        },
+        {
+          "src": "assets/projects/cia/11-5ff4815ea3.gif",
+          "type": "gif",
+          "alt": "Image 15",
+          "bytes": 3518100,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
+        },
+        {
+          "src": "assets/projects/cia/12-9675c34c37.gif",
+          "type": "gif",
+          "alt": "Image 16",
+          "bytes": 1290448,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
+        },
+        {
+          "src": "assets/projects/cia/13-01dad72912.gif",
+          "type": "gif",
+          "alt": "Image 17",
+          "bytes": 3312081,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
+        },
+        {
+          "src": "assets/projects/cia/14-bb52d4e07f.gif",
+          "type": "gif",
+          "alt": "Image 18",
+          "bytes": 1157726,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6ca1cee58c6c00111e9f_CIA-TypeStackFeature.gif"
+        }
+      ]
+    },
+    "https://patrickszot.webflow.io/older-work/lilly": {
+      "slug": "lilly",
+      "title": "Lilly Pulitzer Virtual Runway",
+      "assets": [
+        {
+          "src": "assets/projects/lilly/01-fc1d3b7683.png",
+          "type": "image",
+          "alt": "Image 5",
+          "bytes": 606072,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
+        },
+        {
+          "src": "assets/projects/lilly/02-56405694c9.png",
+          "type": "image",
+          "alt": "Image 6",
+          "bytes": 559069,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
+        },
+        {
+          "src": "assets/projects/lilly/03-d4f07c4f9a.png",
+          "type": "image",
+          "alt": "Image 7",
+          "bytes": 640941,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
+        },
+        {
+          "src": "assets/projects/lilly/04-2636319855.png",
+          "type": "image",
+          "alt": "Image 8",
+          "bytes": 960997,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
+        },
+        {
+          "src": "assets/projects/lilly/05-5ff4815ea3.gif",
+          "type": "gif",
+          "alt": "Image 9",
+          "bytes": 3518100,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
+        },
+        {
+          "src": "assets/projects/lilly/06-9675c34c37.gif",
+          "type": "gif",
+          "alt": "Image 10",
+          "bytes": 1290448,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
+        },
+        {
+          "src": "assets/projects/lilly/07-01dad72912.gif",
+          "type": "gif",
+          "alt": "Image 11",
+          "bytes": 3312081,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
+        },
+        {
+          "src": "assets/projects/lilly/08-bb52d4e07f.gif",
+          "type": "gif",
+          "alt": "Image 12",
+          "bytes": 1157726,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6ca1cee58c6c00111e9f_CIA-TypeStackFeature.gif"
+        }
+      ]
+    },
+    "https://patrickszot.webflow.io/older-work/rite-of-spring": {
+      "slug": "rite-of-spring",
+      "title": "Rite of Spring",
+      "assets": [
+        {
+          "src": "assets/projects/rite-of-spring/01-c467fa59a9.gif",
+          "type": "gif",
+          "alt": "Image 5",
+          "bytes": 2811519,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae46b9892ff6551991e929_RoS-LandingPage.gif"
+        },
+        {
+          "src": "assets/projects/rite-of-spring/02-a240af8f97.gif",
+          "type": "gif",
+          "alt": "Image 6",
+          "bytes": 1253639,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae46b833698b32b7e601ff_RoS-ColorStory.gif"
+        },
+        {
+          "src": "assets/projects/rite-of-spring/03-5134682fdf.png",
+          "type": "image",
+          "alt": "Image 7",
+          "bytes": 3718634,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae46b93ba6d1812600f2c3_RoS-InSitu.png"
+        },
+        {
+          "src": "assets/projects/rite-of-spring/04-4ee658bb54.gif",
+          "type": "gif",
+          "alt": "Image 8",
+          "bytes": 1385210,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae46b8da54a2663621db05_RoS-Components.gif"
+        },
+        {
+          "src": "assets/projects/rite-of-spring/05-b9bb7a41c1.gif",
+          "type": "gif",
+          "alt": "Image 9",
+          "bytes": 3779723,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae46b9917c0c4d9c390456_RoS-ChapterScroll.gif"
+        },
+        {
+          "src": "assets/projects/rite-of-spring/06-fc1d3b7683.png",
+          "type": "image",
+          "alt": "Image 10",
+          "bytes": 606072,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
+        },
+        {
+          "src": "assets/projects/rite-of-spring/07-56405694c9.png",
+          "type": "image",
+          "alt": "Image 11",
+          "bytes": 559069,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
+        },
+        {
+          "src": "assets/projects/rite-of-spring/08-d4f07c4f9a.png",
+          "type": "image",
+          "alt": "Image 12",
+          "bytes": 640941,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
+        },
+        {
+          "src": "assets/projects/rite-of-spring/09-2636319855.png",
+          "type": "image",
+          "alt": "Image 13",
+          "bytes": 960997,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
+        },
+        {
+          "src": "assets/projects/rite-of-spring/10-5ff4815ea3.gif",
+          "type": "gif",
+          "alt": "Image 14",
+          "bytes": 3518100,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
+        },
+        {
+          "src": "assets/projects/rite-of-spring/11-9675c34c37.gif",
+          "type": "gif",
+          "alt": "Image 15",
+          "bytes": 1290448,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
+        },
+        {
+          "src": "assets/projects/rite-of-spring/12-01dad72912.gif",
+          "type": "gif",
+          "alt": "Image 16",
+          "bytes": 3312081,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
+        },
+        {
+          "src": "assets/projects/rite-of-spring/13-bb52d4e07f.gif",
+          "type": "gif",
+          "alt": "Image 17",
+          "bytes": 1157726,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6ca1cee58c6c00111e9f_CIA-TypeStackFeature.gif"
+        }
+      ]
+    },
+    "https://patrickszot.webflow.io/older-work/torei": {
+      "slug": "torei",
+      "title": "TOREI (トレイ)",
+      "assets": [
+        {
+          "src": "assets/projects/torei/01-67be545afc.gif",
+          "type": "gif",
+          "alt": "Image 5",
+          "bytes": 3825251,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63b3920dd222e73c7abce717_TOREI-Concept.gif"
+        },
+        {
+          "src": "assets/projects/torei/02-fc1d3b7683.png",
+          "type": "image",
+          "alt": "Image 6",
+          "bytes": 606072,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
+        },
+        {
+          "src": "assets/projects/torei/03-56405694c9.png",
+          "type": "image",
+          "alt": "Image 7",
+          "bytes": 559069,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
+        },
+        {
+          "src": "assets/projects/torei/04-d4f07c4f9a.png",
+          "type": "image",
+          "alt": "Image 8",
+          "bytes": 640941,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
+        },
+        {
+          "src": "assets/projects/torei/05-2636319855.png",
+          "type": "image",
+          "alt": "Image 9",
+          "bytes": 960997,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
+        },
+        {
+          "src": "assets/projects/torei/06-5ff4815ea3.gif",
+          "type": "gif",
+          "alt": "Image 10",
+          "bytes": 3518100,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
+        },
+        {
+          "src": "assets/projects/torei/07-9675c34c37.gif",
+          "type": "gif",
+          "alt": "Image 11",
+          "bytes": 1290448,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
+        },
+        {
+          "src": "assets/projects/torei/08-01dad72912.gif",
+          "type": "gif",
+          "alt": "Image 12",
+          "bytes": 3312081,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
+        },
+        {
+          "src": "assets/projects/torei/09-bb52d4e07f.gif",
+          "type": "gif",
+          "alt": "Image 13",
+          "bytes": 1157726,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6ca1cee58c6c00111e9f_CIA-TypeStackFeature.gif"
+        }
+      ]
+    },
+    "https://patrickszot.webflow.io/older-work/looking-glass": {
+      "slug": "looking-glass",
+      "title": "Looking Glass EP",
+      "assets": [
+        {
+          "src": "assets/projects/looking-glass/01-3fb54b4b4a.jpg",
+          "type": "image",
+          "alt": "Image 5",
+          "bytes": 299070,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63addbfd3ba6d12dc6f82881_Thumbnail%20-%20LookingGlass.jpg"
+        },
+        {
+          "src": "assets/projects/looking-glass/02-f33a609a30.jpg",
+          "type": "image",
+          "alt": "Image 6",
+          "bytes": 1365311,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63b3969d70734306123d39dc_LookingGlass-Concept.jpeg"
+        },
+        {
+          "src": "assets/projects/looking-glass/03-1c4f8d030c.jpg",
+          "type": "image",
+          "alt": "Image 7",
+          "bytes": 743138,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63b3969de0edaf5954fbb586_LookingGlass-TypeTreatment.jpeg"
+        },
+        {
+          "src": "assets/projects/looking-glass/04-27395612df.jpg",
+          "type": "image",
+          "alt": "Image 8",
+          "bytes": 589004,
+          "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63b39b2193e49fa4f8e92f23_LookingGlass-VinylTight.jpeg"
+        },
+        {
+          "src": "assets/projects/looking-glass/05-fc1d3b7683.png",
+          "type": "image",
+          "alt": "Image 9",
+          "bytes": 606072,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
+        },
+        {
+          "src": "assets/projects/looking-glass/06-56405694c9.png",
+          "type": "image",
+          "alt": "Image 10",
+          "bytes": 559069,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
+        },
+        {
+          "src": "assets/projects/looking-glass/07-d4f07c4f9a.png",
+          "type": "image",
+          "alt": "Image 11",
+          "bytes": 640941,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
+        },
+        {
+          "src": "assets/projects/looking-glass/08-2636319855.png",
+          "type": "image",
+          "alt": "Image 12",
+          "bytes": 960997,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
+        },
+        {
+          "src": "assets/projects/looking-glass/09-5ff4815ea3.gif",
+          "type": "gif",
+          "alt": "Image 13",
+          "bytes": 3518100,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
+        },
+        {
+          "src": "assets/projects/looking-glass/10-9675c34c37.gif",
+          "type": "gif",
+          "alt": "Image 14",
+          "bytes": 1290448,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
+        },
+        {
+          "src": "assets/projects/looking-glass/11-01dad72912.gif",
+          "type": "gif",
+          "alt": "Image 15",
+          "bytes": 3312081,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
+        },
+        {
+          "src": "assets/projects/looking-glass/12-bb52d4e07f.gif",
+          "type": "gif",
+          "alt": "Image 16",
+          "bytes": 1157726,
+          "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6ca1cee58c6c00111e9f_CIA-TypeStackFeature.gif"
+        }
+      ]
+    }
+  }
+}

@@ -180,19 +180,13 @@ const entryMarkup = (entry, index) => {
   const complexity = Math.max(20, Math.min(100, Math.round(entry.intensity / 1.76)));
 
   const linkedTitle = entry.url
-    ? `<a class="${entry.cover ? 'text-link preview-trigger' : ''}" href="${entry.url}" rel="noopener"${entry.cover ? ' aria-expanded="false"' : ''}>${entry.title}</a>`
+    ? `<a class="text-link${entry.kind === 'project' ? ' project-scatter-trigger' : ''}" href="${entry.url}" rel="noopener">${entry.title}</a>`
     : entry.title;
-  const previewMedia = entry.cover?.endsWith('.mp4')
-    ? `<video src="${entry.cover}" muted loop playsinline preload="metadata" aria-label="${entry.title} preview"></video>`
-    : `<img src="${entry.cover}" alt="${entry.title} thumbnail" />`;
-  const title = entry.cover
-    ? `<span class="preview-shell">${linkedTitle}<span class="preview-card" aria-hidden="true">${previewMedia}</span></span>`
-    : linkedTitle;
   return `
     <article class="timeline-entry" data-kind="${entry.kind}" style="--complexity: ${complexity}; --reveal-delay: ${(index % 8) * 45}ms">
       <span class="timeline-marker" aria-hidden="true"></span>
       <div class="timeline-meta"><time>${entry.date}</time><span>${entry.kind}</span></div>
-      <h3>${title}</h3>
+      <h3>${linkedTitle}</h3>
       ${entry.description ? `<p>${entry.description}</p>` : ''}
     </article>`;
 };
@@ -274,19 +268,12 @@ detailsTrigger.addEventListener('click', () => {
   }, closeDuration());
 });
 
-const previewShells = [...document.querySelectorAll('.preview-shell')];
-
 let activeTimelineEntry;
-let activePreviewEntry;
 let activeTimelineFrame;
 
 const clearTimelineActive = () => {
   activeTimelineEntry?.classList.remove('is-active');
-  activePreviewEntry?.querySelector('video')?.pause();
-  activePreviewEntry?.classList.remove('is-preview-active');
-  activePreviewEntry?.querySelector('.preview-card')?.setAttribute('aria-hidden', 'true');
   activeTimelineEntry = undefined;
-  activePreviewEntry = undefined;
   timeline.classList.remove('has-active');
 };
 
@@ -297,8 +284,6 @@ const updateTimelineActive = () => {
   const viewportCenter = window.innerHeight / 2;
   let closest;
   let closestDistance = Infinity;
-  let closestPreview;
-  let closestPreviewDistance = Infinity;
 
   timelineEntries.forEach((entry) => {
     const rect = entry.getBoundingClientRect();
@@ -306,10 +291,6 @@ const updateTimelineActive = () => {
     if (rect.bottom >= 0 && rect.top <= window.innerHeight && distance < closestDistance) {
       closest = entry;
       closestDistance = distance;
-    }
-    if (entry.querySelector('.preview-card') && distance < closestPreviewDistance) {
-      closestPreview = entry;
-      closestPreviewDistance = distance;
     }
   });
 
@@ -323,15 +304,6 @@ const updateTimelineActive = () => {
     timeline.classList.add('has-active');
     activeTimelineEntry.classList.add('is-active');
   }
-
-  if (closestPreview === activePreviewEntry) return;
-  activePreviewEntry?.querySelector('video')?.pause();
-  activePreviewEntry?.classList.remove('is-preview-active');
-  activePreviewEntry?.querySelector('.preview-card')?.setAttribute('aria-hidden', 'true');
-  activePreviewEntry = closestPreview;
-  activePreviewEntry?.classList.add('is-preview-active');
-  activePreviewEntry?.querySelector('.preview-card')?.setAttribute('aria-hidden', 'false');
-  activePreviewEntry?.querySelector('video')?.play().catch(() => {});
 };
 
 const requestTimelineActiveUpdate = () => {
@@ -342,193 +314,162 @@ const requestTimelineActiveUpdate = () => {
 window.addEventListener('scroll', requestTimelineActiveUpdate, { passive: true });
 window.addEventListener('resize', requestTimelineActiveUpdate);
 
-const setPreviewPlayback = (shell, playing) => {
-  const video = shell.querySelector('video');
-  if (!video) return;
-  if (playing) video.play().catch(() => {});
-  else video.pause();
+const scatter = document.querySelector('#project-scatter');
+const projectManifest = fetch('assets/projects/manifest.json').then((response) => response.json());
+const scatterTriggers = [...document.querySelectorAll('.project-scatter-trigger')];
+const coarsePointer = window.matchMedia('(hover: none), (pointer: coarse)');
+let scatterLink;
+let scatterLocked = false;
+let scatterTimer;
+let scatterCycle;
+let scatterGeneration = 0;
+
+const hashText = (value) => [...value].reduce((hash, character) => Math.imul(hash ^ character.charCodeAt(0), 16777619), 2166136261) >>> 0;
+const seeded = (seed) => () => ((seed = Math.imul(seed, 1664525) + 1013904223 >>> 0) / 4294967296);
+
+const stopScatterMedia = () => {
+  scatter.querySelectorAll('video').forEach((video) => video.pause());
+  scatter.querySelectorAll('canvas').forEach((canvas) => canvas.dispatchEvent(new Event('scatterdestroy')));
 };
 
-const closePreviews = (except) => {
-  previewShells.forEach((shell) => {
-    if (shell === except) return;
-    shell.classList.remove('is-open');
-    shell.querySelector('.preview-trigger').setAttribute('aria-expanded', 'false');
-    shell.querySelector('.preview-card').setAttribute('aria-hidden', 'true');
-    setPreviewPlayback(shell, false);
-  });
+const dismissScatter = (immediate = false) => {
+  window.clearTimeout(scatterTimer);
+  window.clearInterval(scatterCycle);
+  scatterCycle = undefined;
+  scatterGeneration += 1;
+  scatterLocked = false;
+  scatterLink?.setAttribute('aria-expanded', 'false');
+  scatterLink = undefined;
+  scatter.classList.remove('is-active');
+  scatter.setAttribute('aria-hidden', 'true');
+  stopScatterMedia();
+  const delay = immediate || reducedMotion.matches ? 0 : 440;
+  window.setTimeout(() => scatter.replaceChildren(), delay);
 };
 
-previewShells.forEach((shell) => {
-  const trigger = shell.querySelector('.preview-trigger');
-  const card = shell.querySelector('.preview-card');
+const gifCanvas = async (asset, generation) => {
+  const canvas = document.createElement('canvas');
+  if (!('ImageDecoder' in window)) {
+    const image = new Image();
+    image.src = asset.src;
+    image.alt = asset.alt;
+    return image;
+  }
+  const response = await fetch(asset.src);
+  const decoder = new ImageDecoder({ data: await response.arrayBuffer(), type: response.headers.get('content-type') || 'image/gif' });
+  const track = decoder.tracks.selectedTrack;
+  await track.ready;
+  const context = canvas.getContext('2d');
+  let destroyed = false;
+  canvas.addEventListener('scatterdestroy', () => { destroyed = true; decoder.close(); }, { once: true });
+  for (let frameIndex = 0; frameIndex < track.frameCount && !destroyed && generation === scatterGeneration; frameIndex += 1) {
+    const { image } = await decoder.decode({ frameIndex });
+    if (!canvas.width) { canvas.width = image.displayWidth; canvas.height = image.displayHeight; }
+    context.drawImage(image, 0, 0);
+    const duration = Math.max(20, image.duration / 1000 || 80);
+    image.close();
+    if (frameIndex < track.frameCount - 1) await new Promise((resolve) => window.setTimeout(resolve, duration));
+  }
+  return canvas;
+};
 
-  shell.addEventListener('mouseenter', () => setPreviewPlayback(shell, true));
-  shell.addEventListener('mouseleave', () => {
-    if (!shell.classList.contains('is-open')) setPreviewPlayback(shell, false);
+const mediaNode = async (asset, generation) => {
+  if (asset.type === 'video') {
+    const video = document.createElement('video');
+    video.src = asset.src;
+    video.muted = true;
+    video.playsInline = true;
+    video.preload = 'metadata';
+    video.loop = false;
+    return video;
+  }
+  if (asset.type === 'gif') return gifCanvas(asset, generation);
+  const image = new Image();
+  image.alt = asset.alt;
+  image.decoding = 'async';
+  image.src = asset.src;
+  await image.decode().catch(() => {});
+  return image;
+};
+
+const positionsFor = (url, count) => {
+  const mobile = window.innerWidth <= 700;
+  const random = seeded(hashText(url));
+  const desktop = [[3,15,22],[27,5,18],[56,7,22],[73,29,23],[5,59,24],[34,65,21],[68,67,25],[43,35,18]];
+  const phone = [[4,9,45],[50,16,44],[8,50,52],[46,63,48]];
+  const slots = (mobile ? phone : desktop).sort(() => random() - .5);
+  return slots.slice(0, count).map(([x,y,w], index) => ({ x, y, w, rotate: (random() - .5) * (mobile ? 2 : 3), delay: index * 55 }));
+};
+
+const renderScatterGroup = async (assets, project, generation) => {
+  if (generation !== scatterGeneration) return;
+  const count = Math.min(coarsePointer.matches ? 4 : 7, assets.length);
+  const positions = positionsFor(project.slug + assets[0]?.src, count);
+  const group = document.createElement('div');
+  group.className = 'scatter-group';
+  const nodes = await Promise.all(assets.slice(0, count).map((asset) => mediaNode(asset, generation)));
+  if (generation !== scatterGeneration) return;
+  nodes.forEach((media, index) => {
+    const item = document.createElement('figure');
+    const position = positions[index];
+    item.className = 'scatter-item';
+    item.style.cssText = `--x:${position.x}vw;--y:${position.y}svh;--w:${position.w}vw;--r:${position.rotate}deg;--delay:${position.delay}ms`;
+    item.append(media);
+    group.append(item);
+    if (media instanceof HTMLVideoElement) media.play().catch(() => {});
   });
-  shell.addEventListener('focusin', () => setPreviewPlayback(shell, true));
-  shell.addEventListener('focusout', () => {
-    requestAnimationFrame(() => {
-      if (!shell.contains(document.activeElement) && !shell.classList.contains('is-open')) {
-        setPreviewPlayback(shell, false);
-      }
-    });
+  scatter.querySelector('.scatter-group')?.classList.add('is-leaving');
+  scatter.append(group);
+  requestAnimationFrame(() => group.classList.add('is-visible'));
+  window.setTimeout(() => [...scatter.querySelectorAll('.scatter-group.is-leaving')].forEach((old) => old.remove()), reducedMotion.matches ? 0 : 650);
+};
+
+const showScatter = async (link, lock = false) => {
+  window.clearTimeout(scatterTimer);
+  const manifest = await projectManifest;
+  const project = manifest.projects[new URL(link.href).href];
+  if (!project?.assets.length) return;
+  if (scatterLink && scatterLink !== link) dismissScatter(true);
+  scatterLink = link;
+  scatterLocked = lock || scatterLocked;
+  scatterGeneration += 1;
+  const generation = scatterGeneration;
+  link.setAttribute('aria-expanded', 'true');
+  scatter.setAttribute('aria-hidden', 'false');
+  scatter.classList.add('is-active');
+  let offset = 0;
+  const display = () => {
+    const count = coarsePointer.matches ? 4 : 7;
+    const ordered = [...project.assets.slice(offset), ...project.assets.slice(0, offset)];
+    renderScatterGroup(ordered, project, generation);
+    offset = (offset + count) % project.assets.length;
+  };
+  display();
+  window.clearInterval(scatterCycle);
+  if (project.assets.length > (coarsePointer.matches ? 4 : 7)) scatterCycle = window.setInterval(display, 5200);
+};
+
+scatterTriggers.forEach((link) => {
+  link.setAttribute('aria-expanded', 'false');
+  link.addEventListener('mouseenter', () => {
+    window.clearTimeout(scatterTimer);
+    if (!coarsePointer.matches) scatterTimer = window.setTimeout(() => showScatter(link), 90);
   });
-
-  trigger.addEventListener('click', (event) => {
-    const coarsePointer = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-    const isOpen = shell.classList.contains('is-open');
-
-    if (trigger.tagName === 'BUTTON' || (coarsePointer && !isOpen)) event.preventDefault();
-    if (trigger.tagName === 'A' && (!coarsePointer || isOpen)) return;
-
-    closePreviews(shell);
-    shell.classList.toggle('is-open', !isOpen);
-    trigger.setAttribute('aria-expanded', String(!isOpen));
-    card.setAttribute('aria-hidden', String(isOpen));
-    setPreviewPlayback(shell, !isOpen);
+  link.addEventListener('mouseleave', () => {
+    window.clearTimeout(scatterTimer);
+    if (!scatterLocked) scatterTimer = window.setTimeout(() => dismissScatter(), 180);
+  });
+  link.addEventListener('focus', () => showScatter(link));
+  link.addEventListener('blur', () => { if (!scatterLocked) dismissScatter(); });
+  link.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (scatterLink === link && scatterLocked) { dismissScatter(); return; }
+    showScatter(link, true);
   });
 });
 
 document.addEventListener('click', (event) => {
-  if (!event.target.closest('.preview-shell')) closePreviews();
+  if (scatterLocked && !event.target.closest('.project-scatter-trigger')) dismissScatter();
 });
-
-const siteViewer = document.querySelector('#site-viewer');
-const siteViewerContent = siteViewer.querySelector('.site-viewer-content');
-const siteViewerPoster = siteViewer.querySelector('.site-viewer-poster');
-const siteViewerTitle = siteViewer.querySelector('.site-viewer-title');
-const siteViewerClose = siteViewer.querySelector('.site-viewer-close');
-let siteViewerLink;
-let siteViewerTimer;
-let siteViewerController;
-let siteViewerRequest = 0;
-let siteViewerOpenedAt = 0;
-
-const viewerIsOpen = () => siteViewer.classList.contains('is-open') || siteViewer.classList.contains('is-preparing');
-
-document.querySelectorAll('.profile a[href^="http"], .timeline a[href^="http"]').forEach((link) => {
-  link.setAttribute('aria-haspopup', 'dialog');
-  link.setAttribute('aria-controls', 'site-viewer');
-});
-
-const resetSiteViewer = () => {
-  siteViewer.hidden = true;
-  siteViewer.setAttribute('aria-hidden', 'true');
-  siteViewer.className = 'site-viewer';
-  siteViewerController?.destroy();
-  siteViewerController = undefined;
-  siteViewerContent.replaceChildren();
-  siteViewerPoster.replaceChildren();
-  siteViewerTitle.textContent = '';
-  siteViewerLink = undefined;
-};
-
-const closeSiteViewer = ({ fromScroll = false } = {}) => {
-  if (siteViewer.classList.contains('is-closing')) return;
-  if (!viewerIsOpen()) return;
-  window.clearTimeout(siteViewerTimer);
-  siteViewerRequest += 1;
-  siteViewerController?.destroy({ keepContent: true });
-  siteViewer.classList.remove('is-open', 'is-preparing', 'is-loaded');
-  siteViewer.classList.add('is-closing');
-  if (fromScroll) siteViewer.classList.add('is-scroll-closing');
-  siteViewer.setAttribute('aria-hidden', 'true');
-  siteViewerContent.inert = true;
-  siteViewerTimer = window.setTimeout(resetSiteViewer, reducedMotion.matches ? 0 : (fromScroll ? 340 : 680));
-};
-
-const openSiteViewer = (link) => {
-  window.clearTimeout(siteViewerTimer);
-  const url = new URL(link.href, window.location.href);
-  const shell = link.closest('.preview-shell');
-  const previewCard = shell?.querySelector('.preview-card') || activePreviewEntry?.querySelector('.preview-card');
-  const previewRect = previewCard?.getBoundingClientRect();
-  const sourceMedia = previewCard?.querySelector('img, video');
-  const viewerKind = link.closest('.timeline-entry')?.dataset.kind || 'project';
-  const requestId = ++siteViewerRequest;
-
-  siteViewerLink = link;
-  siteViewerOpenedAt = performance.now();
-  siteViewer.hidden = false;
-  siteViewer.setAttribute('aria-hidden', 'false');
-  siteViewerContent.inert = false;
-  siteViewerContent.replaceChildren();
-  siteViewerController?.destroy();
-  siteViewerController = undefined;
-  siteViewer.className = 'site-viewer is-preparing';
-  siteViewer.style.setProperty('--viewer-start-left', `${previewRect?.left ?? 40}px`);
-  siteViewer.style.setProperty('--viewer-start-bottom', `${previewRect ? window.innerHeight - previewRect.bottom : 40}px`);
-  siteViewer.style.setProperty('--viewer-start-width', `${previewRect?.width ?? 360}px`);
-  siteViewer.style.setProperty('--viewer-start-height', `${previewRect?.height ?? 189}px`);
-  siteViewerTitle.textContent = url.hostname.replace(/^www\./, '');
-  siteViewerPoster.replaceChildren();
-
-  if (sourceMedia) {
-    const posterMedia = sourceMedia.cloneNode(true);
-    posterMedia.removeAttribute('id');
-    if (posterMedia instanceof HTMLVideoElement) {
-      posterMedia.muted = true;
-      posterMedia.loop = false;
-      posterMedia.play()?.catch(() => {});
-    }
-    siteViewerPoster.append(posterMedia);
-  }
-
-  closePreviews();
-  requestAnimationFrame(() => {
-    siteViewer.classList.add('is-open');
-    siteViewer.classList.remove('is-preparing');
-    siteViewerClose.focus({ preventScroll: true });
-    window.NativeContentViewer.load({
-      container: siteViewerContent,
-      kind: viewerKind,
-      previewMedia: sourceMedia,
-      reducedMotion: reducedMotion.matches,
-      title: link.textContent.trim(),
-      url: url.href
-    }).then((controller) => {
-      if (requestId !== siteViewerRequest || !viewerIsOpen()) {
-        controller.destroy();
-        return;
-      }
-      siteViewerController = controller;
-      siteViewer.classList.add('is-loaded');
-    });
-  });
-};
-
-siteViewerClose.addEventListener('click', () => {
-  const returnTarget = siteViewerLink;
-  closeSiteViewer();
-  returnTarget?.focus({ preventScroll: true });
-});
-
-document.addEventListener('keydown', (event) => {
-  if (viewerIsOpen() && event.key === 'ArrowLeft' && siteViewerController?.previous) {
-    event.preventDefault();
-    siteViewerController.previous();
-    return;
-  }
-  if (viewerIsOpen() && event.key === 'ArrowRight' && siteViewerController?.next) {
-    event.preventDefault();
-    siteViewerController.next();
-    return;
-  }
-  if (event.key !== 'Escape' || !viewerIsOpen()) return;
-  const returnTarget = siteViewerLink;
-  closeSiteViewer();
-  returnTarget?.focus({ preventScroll: true });
-});
-
-document.addEventListener('click', (event) => {
-  const link = event.target.closest('.profile a[href^="http"], .timeline a[href^="http"]');
-  if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-  event.preventDefault();
-  openSiteViewer(link);
-});
-
-window.addEventListener('scroll', () => {
-  if (viewerIsOpen() && performance.now() - siteViewerOpenedAt > 350) closeSiteViewer({ fromScroll: true });
-}, { passive: true });
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && scatterLink) dismissScatter(); });
+window.addEventListener('scroll', () => { if (scatterLocked) dismissScatter(); }, { passive: true });
