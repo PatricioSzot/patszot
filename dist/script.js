@@ -171,12 +171,10 @@ const detailsGroup = document.querySelector('.details-group');
 const detailsTrigger = document.querySelector('#details-trigger');
 const timelinePanel = document.querySelector('#timeline-panel');
 const detailsLabel = detailsTrigger.querySelector('.details-label');
-let timelineEntryIndex = 0;
+let detailsCloseTimer;
 
-const entryMarkup = (entry) => {
-  const side = timelineEntryIndex % 2 === 0 ? 'right' : 'left';
+const entryMarkup = (entry, index) => {
   const complexity = Math.max(20, Math.min(100, Math.round(entry.intensity / 1.76)));
-  timelineEntryIndex += 1;
 
   const linkedTitle = entry.url
     ? `<a class="${entry.cover ? 'text-link preview-trigger' : ''}" href="${entry.url}" target="_blank" rel="noopener"${entry.cover ? ' aria-expanded="false"' : ''}>${entry.title}</a>`
@@ -185,7 +183,7 @@ const entryMarkup = (entry) => {
     ? `<span class="preview-shell">${linkedTitle}<span class="preview-card" aria-hidden="true"><img src="${entry.cover}" alt="${entry.title} thumbnail" /></span></span>`
     : linkedTitle;
   return `
-    <article class="timeline-entry" data-kind="${entry.kind}" data-side="${side}" style="--complexity: ${complexity}">
+    <article class="timeline-entry" data-kind="${entry.kind}" style="--complexity: ${complexity}; --reveal-delay: ${(index % 4) * 45}ms">
       <span class="timeline-marker" aria-hidden="true"></span>
       <div class="timeline-meta"><time>${entry.date}</time><span>${entry.kind}</span></div>
       <h3>${title}</h3>
@@ -193,7 +191,7 @@ const entryMarkup = (entry) => {
     </article>`;
 };
 
-timeline.innerHTML = `<div class="current-complexity" aria-hidden="true"><span class="current-complexity-circle"></span><span class="current-complexity-dot"></span></div>` + timelineData.map((section) => `
+timeline.innerHTML = timelineData.map((section) => `
   <section class="timeline-year" aria-labelledby="year-${section.year.toLowerCase()}">
     <h2 class="timeline-year-heading" id="year-${section.year.toLowerCase()}">${section.year}</h2>
     ${section.entries.map(entryMarkup).join('')}
@@ -211,26 +209,27 @@ const revealObserver = new IntersectionObserver((entries) => {
 timelineEntries.forEach((entry) => revealObserver.observe(entry));
 
 detailsTrigger.addEventListener('click', () => {
+  window.clearTimeout(detailsCloseTimer);
   const open = !detailsGroup.classList.contains('is-open');
   detailsTrigger.setAttribute('aria-expanded', String(open));
   detailsLabel.textContent = open ? 'Less detail' : 'More detail';
 
   if (open) {
     document.body.classList.add('details-open');
+    timelinePanel.hidden = false;
     timelinePanel.inert = false;
     requestAnimationFrame(() => detailsGroup.classList.add('is-open'));
-    window.setTimeout(() => detailsGroup.classList.add('is-settled'), 1100);
     return;
   }
 
-  detailsGroup.classList.remove('is-settled');
   detailsGroup.classList.remove('is-open');
   timelineEntries.forEach((entry) => entry.classList.remove('is-visible'));
-  window.setTimeout(() => {
+  detailsCloseTimer = window.setTimeout(() => {
     timelinePanel.inert = true;
+    timelinePanel.hidden = true;
     document.body.classList.remove('details-open');
     timelineEntries.forEach((entry) => revealObserver.observe(entry));
-  }, 1100);
+  }, 320);
 });
 
 const previewShells = [...document.querySelectorAll('.preview-shell')];
