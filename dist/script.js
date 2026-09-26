@@ -24,14 +24,16 @@ document.querySelectorAll('.nested-group').forEach((group) => {
 
 const timelineData = [
   {
-    year: 'Present',
+    year: '2026',
     entries: [
-      { date: '2026', kind: 'work', title: 'Brand Engineer, AirOps', url: 'https://www.airops.com/', description: 'Market repositioning, brand and web transformation, image systems, and marketing tooling.', intensity: 150 }
+      { date: 'January 22', kind: 'writing', title: 'My Inner Circle is Made Up of Bad-ass Women', url: 'https://medium.com/@patrick.m.szot/my-inner-circle-is-made-up-of-bad-ass-women-5-powers-they-gave-me-that-id-like-to-share-with-you-0e9117e3693a', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*L6Mz9ArPrUDjh_GrxX7Yrg.png', description: 'Five lessons about power, care, and reflecting the world we actually live in.', intensity: 70 }
     ]
   },
   {
     year: '2025',
     entries: [
+      { date: 'December 24', kind: 'writing', title: 'The Importance of Celebration and Rest for Creatives', url: 'https://medium.com/@patrick.m.szot/the-importance-of-celebration-and-rest-for-creatives-8cdd66602d74', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*GSVjAl3r5qXH0HcL9gFlSQ.png', description: 'On pausing to recognize the work before moving to the next thing.', intensity: 68 },
+      { date: 'May 9', kind: 'writing', title: 'Config 2025: It’s The Same, Just Different This Time', url: 'https://medium.com/@patrick.m.szot/config-2025-its-the-same-just-different-this-time-19ab9ed00a52', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*ht0MLlsIZJJpyYASbWi-dw.png', description: 'Thoughts on beauty, efficient production, and working across aisles.', intensity: 72 },
       { date: '2025', kind: 'project', title: 'GlossAI Rebrand', url: 'https://glossgenius.com/', description: 'Brand identity and launch expression for GlossGenius.', intensity: 124 },
       { date: '2025', kind: 'project', title: 'Lovable', description: 'Brand work for a fast-moving product company.', intensity: 92 }
     ]
@@ -39,6 +41,7 @@ const timelineData = [
   {
     year: '2024',
     entries: [
+      { date: 'November 20', kind: 'writing', title: 'Celebrating My 30th And A Decade in Tech', url: 'https://medium.com/@patrick.m.szot/celebrating-my-30th-and-a-decade-in-tech-2014-2024-1347b3b3ef72', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*zmDBsxxtVsG_WIYBFak_Ug.png', description: 'A decade-in-review across work, practice, and recent flowers from the garden.', intensity: 74 },
       { date: 'July 29', kind: 'writing', title: 'I Was Separated From My Position at Webflow', url: 'https://patrickszot.webflow.io/journal/i-got-seperated-from-my-position-at-webflow', description: 'A candid reflection on the end of a chapter.', intensity: 80 },
       { date: '2022–24', kind: 'project', title: 'Webflow Rebrand', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', description: 'Visual foundations, motion guidelines, campaigns, customer stories, and event systems.', intensity: 176 }
     ]
@@ -46,6 +49,11 @@ const timelineData = [
   {
     year: '2023',
     entries: [
+      { date: 'August 21', kind: 'writing', title: 'Care Less: Beneficial Reasons to Loosen Your Grip at Work', url: 'https://medium.com/@patrick.m.szot/care-less-a-case-for-designers-to-loosen-their-grip-at-work-c214fed3ffce', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*lKex14FN1xw8a5k9_Rp5eg.jpeg', description: 'A case for creating enough distance to protect judgment and momentum.', intensity: 70 },
+      { date: 'March 11', kind: 'writing', title: 'Personality and Clarity: The Changing Role of Brands in Society', url: 'https://medium.com/@patrick.m.szot/personality-and-clarity-the-changing-role-of-brands-in-society-8d2470076908', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*ChRfyyagLmVHGV__sQozPA.jpeg', description: 'How expressive systems change as brands begin to walk and talk.', intensity: 76 },
+      { date: 'February 21', kind: 'writing', title: 'Webflow Conf 2022 Brand System', url: 'https://medium.com/@patrick.m.szot/webflow-conf-2022-brand-system-c9e6c3f13b82', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*OkRIwxUFBv_nq83677bAeQ.jpeg', description: 'The visual system behind Webflow’s 2022 community gathering.', intensity: 82 },
+      { date: 'February 13', kind: 'writing', title: 'The Use of the Words “Creativity” and “Innovation”', url: 'https://medium.com/@patrick.m.szot/the-use-of-the-words-creativity-and-innovation-711b20634a15', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*EmXdGmb64afAerxTYXpeQA.png', description: 'On two related words that are often stretched until they lose meaning.', intensity: 68 },
+      { date: 'February 5', kind: 'writing', title: 'Winning Fulbright Fellowship Sample Essay', url: 'https://medium.com/@patrick.m.szot/winning-fulbright-fellowship-sample-essays-personal-statement-2018-62a9bebd6708', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*5aWNjUvEs6M-nkmPbqOdew.jpeg', description: 'The personal statement behind a 2018 Fulbright Fellowship.', intensity: 66 },
       { date: 'January 4', kind: 'writing', title: '2022 Retrospective: Leadership and Soft Skills', url: 'https://patrickszot.webflow.io/journal/2022-retrospective', description: 'Notes on leadership, collaboration, and creative practice.', intensity: 72 },
       { date: '2023', kind: 'project', title: 'Webflow visual foundations', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', description: 'Illustration, sub-branding, color, lighting, motion, and more than 1,000 custom icons.', intensity: 148 }
     ]
@@ -153,13 +161,21 @@ const detailsGroup = document.querySelector('.details-group');
 const detailsTrigger = document.querySelector('#details-trigger');
 const timelinePanel = document.querySelector('#timeline-panel');
 const detailsLabel = detailsTrigger.querySelector('.details-label');
+let timelineEntryIndex = 0;
 
 const entryMarkup = (entry) => {
-  const title = entry.url
-    ? `<a href="${entry.url}" target="_blank" rel="noopener">${entry.title}</a>`
+  const side = timelineEntryIndex % 2 === 0 ? 'right' : 'left';
+  const complexity = Math.max(20, Math.min(100, Math.round(entry.intensity / 1.76)));
+  timelineEntryIndex += 1;
+
+  const linkedTitle = entry.url
+    ? `<a class="${entry.cover ? 'text-link preview-trigger' : ''}" href="${entry.url}" target="_blank" rel="noopener"${entry.cover ? ' aria-expanded="false"' : ''}>${entry.title}</a>`
     : entry.title;
+  const title = entry.cover
+    ? `<span class="preview-shell">${linkedTitle}<span class="preview-card" aria-hidden="true"><img src="${entry.cover}" alt="${entry.title} thumbnail" /></span></span>`
+    : linkedTitle;
   return `
-    <article class="timeline-entry" data-kind="${entry.kind}" style="--disc: ${entry.intensity}px">
+    <article class="timeline-entry" data-kind="${entry.kind}" data-side="${side}" style="--complexity: ${complexity}">
       <span class="timeline-marker" aria-hidden="true"></span>
       <div class="timeline-meta"><time>${entry.date}</time><span>${entry.kind}</span></div>
       <h3>${title}</h3>
@@ -167,7 +183,7 @@ const entryMarkup = (entry) => {
     </article>`;
 };
 
-timeline.innerHTML = timelineData.map((section) => `
+timeline.innerHTML = `<div class="current-complexity" aria-hidden="true"><span class="current-complexity-circle"></span><span class="current-complexity-dot"></span></div>` + timelineData.map((section) => `
   <section class="timeline-year" aria-labelledby="year-${section.year.toLowerCase()}">
     <h2 class="timeline-year-heading" id="year-${section.year.toLowerCase()}">${section.year}</h2>
     ${section.entries.map(entryMarkup).join('')}
@@ -193,16 +209,18 @@ detailsTrigger.addEventListener('click', () => {
     document.body.classList.add('details-open');
     timelinePanel.inert = false;
     requestAnimationFrame(() => detailsGroup.classList.add('is-open'));
+    window.setTimeout(() => detailsGroup.classList.add('is-settled'), 1100);
     return;
   }
 
+  detailsGroup.classList.remove('is-settled');
   detailsGroup.classList.remove('is-open');
   timelineEntries.forEach((entry) => entry.classList.remove('is-visible'));
   window.setTimeout(() => {
     timelinePanel.inert = true;
     document.body.classList.remove('details-open');
     timelineEntries.forEach((entry) => revealObserver.observe(entry));
-  }, 900);
+  }, 1100);
 });
 
 const previewShells = [...document.querySelectorAll('.preview-shell')];
