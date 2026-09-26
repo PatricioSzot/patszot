@@ -79,14 +79,33 @@ main {
   cursor: pointer;
 }
 
-.group-trigger i,
-.nested-trigger i {
+.accordion-icon {
+  position: relative;
   flex: 0 0 16px;
   width: 16px;
   height: 16px;
+  display: block;
+}
+
+.accordion-icon i {
+  position: absolute;
+  inset: 0;
   font-size: 16px;
   line-height: 16px;
-  transition: transform .48s var(--ease);
+  transition: opacity .26s ease, transform .48s var(--ease);
+}
+
+.icon-plus { opacity: 1; transform: rotate(0) scale(1); }
+.icon-minus { opacity: 0; transform: rotate(-90deg) scale(.72); }
+
+[aria-expanded="true"] .icon-plus {
+  opacity: 0;
+  transform: rotate(90deg) scale(.72);
+}
+
+[aria-expanded="true"] .icon-minus {
+  opacity: 1;
+  transform: rotate(0) scale(1);
 }
 
 .group-panel {
@@ -233,7 +252,7 @@ main {
 .load-line {
   opacity: 0;
   transform: translateY(4px);
-  animation: text-in .72s var(--ease) calc(.58s + var(--i) * .055s) forwards;
+  animation: text-in .72s var(--ease) calc(.58s + var(--i) * .055s) both;
 }
 
 .bio > span,
