@@ -24,18 +24,39 @@ document.querySelectorAll('.nested-group').forEach((group) => {
 
 const previewShells = [...document.querySelectorAll('.preview-shell')];
 
+const setPreviewPlayback = (shell, playing) => {
+  const video = shell.querySelector('video');
+  if (!video) return;
+  if (playing) video.play().catch(() => {});
+  else video.pause();
+};
+
 const closePreviews = (except) => {
   previewShells.forEach((shell) => {
     if (shell === except) return;
     shell.classList.remove('is-open');
     shell.querySelector('.preview-trigger').setAttribute('aria-expanded', 'false');
     shell.querySelector('.preview-card').setAttribute('aria-hidden', 'true');
+    setPreviewPlayback(shell, false);
   });
 };
 
 previewShells.forEach((shell) => {
   const trigger = shell.querySelector('.preview-trigger');
   const card = shell.querySelector('.preview-card');
+
+  shell.addEventListener('mouseenter', () => setPreviewPlayback(shell, true));
+  shell.addEventListener('mouseleave', () => {
+    if (!shell.classList.contains('is-open')) setPreviewPlayback(shell, false);
+  });
+  shell.addEventListener('focusin', () => setPreviewPlayback(shell, true));
+  shell.addEventListener('focusout', () => {
+    requestAnimationFrame(() => {
+      if (!shell.contains(document.activeElement) && !shell.classList.contains('is-open')) {
+        setPreviewPlayback(shell, false);
+      }
+    });
+  });
 
   trigger.addEventListener('click', (event) => {
     const coarsePointer = window.matchMedia('(hover: none), (pointer: coarse)').matches;
@@ -48,6 +69,7 @@ previewShells.forEach((shell) => {
     shell.classList.toggle('is-open', !isOpen);
     trigger.setAttribute('aria-expanded', String(!isOpen));
     card.setAttribute('aria-hidden', String(isOpen));
+    setPreviewPlayback(shell, !isOpen);
   });
 });
 

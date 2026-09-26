@@ -234,7 +234,8 @@ main {
   transition: opacity .25s ease, transform .4s var(--ease), visibility .25s;
 }
 
-.preview-card img {
+.preview-card img,
+.preview-card video {
   display: block;
   width: 100%;
   height: 100%;
