@@ -406,11 +406,8 @@ let siteViewerTimer;
 const viewerIsOpen = () => siteViewer.classList.contains('is-open') || siteViewer.classList.contains('is-preparing');
 
 const getViewerUrl = (url) => {
-  if (!/(^|\.)medium\.com$/.test(url.hostname)) return url.href;
-  const articleId = url.pathname.match(/-([a-f0-9]{12})$/)?.[1];
-  if (!articleId) return url.href;
   const readerUrl = new URL('reader.html', window.location.href);
-  readerUrl.searchParams.set('article', articleId);
+  readerUrl.searchParams.set('source', url.href);
   readerUrl.searchParams.set('original', url.href);
   return readerUrl.href;
 };

@@ -81,7 +81,8 @@ body {
   line-height: 1.35;
 }
 
-.reader img {
+.reader img,
+.reader video {
   display: block;
   width: calc(100% + 48px);
   max-width: none;

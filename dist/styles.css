@@ -1,8 +1,8 @@
 :root {
-  --bg: #f6faff;
+  --bg: #fff;
   --ink: #1d1b19;
   --muted: rgba(29, 27, 25, .4);
-  --faint: rgba(29, 27, 25, .055);
+  --faint: rgba(29, 27, 25, .032);
   --accent: #f04438;
   --font: "Zalando Sans", Arial, sans-serif;
   --ease: cubic-bezier(.22, 1, .36, 1);
@@ -719,6 +719,9 @@ body.details-open .footer-contact {
   line-height: 1.5;
   white-space: nowrap;
 }
+
+.footer-contact > span { display: block; }
+.footer-scholar { color: var(--muted); }
 
 @keyframes enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes text-in {
