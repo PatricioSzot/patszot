@@ -601,13 +601,20 @@ body.details-open .footer-contact {
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transform: scale(1.015);
-  transition: opacity .48s ease, transform .78s var(--ease);
+  transform: translate3d(0, var(--preview-in-y, 100%), 0) scale(1.002);
+  transition: opacity var(--preview-duration, 720ms) ease, transform var(--preview-duration, 720ms) cubic-bezier(.16, .84, .28, 1);
+  will-change: opacity, transform;
 }
 
 .project-focus-preview-image.is-current {
   opacity: 1;
-  transform: scale(1);
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.project-focus-preview-image.is-departing {
+  opacity: 0;
+  transform: translate3d(0, var(--preview-out-y, -100%), 0) scale(.998);
+  transition-timing-function: ease, cubic-bezier(.18, .72, .24, 1);
 }
 
 .profile .preview-shell:hover .preview-card,

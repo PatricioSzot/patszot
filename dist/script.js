@@ -205,6 +205,7 @@ timeline.innerHTML = timelineData.map((section, yearIndex) => `
 const timelineEntries = [...timeline.querySelectorAll('.timeline-entry')];
 const timelineRecords = timelineData.flatMap((section) => section.entries);
 timelineEntries.forEach((element, index) => { element.entryData = timelineRecords[index]; });
+const previewTimelineEntries = timelineEntries.filter((entry) => entry.dataset.kind === 'project' && entry.entryData.url);
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (!entry.isIntersecting) return;
@@ -279,6 +280,10 @@ detailsTrigger.addEventListener('click', () => {
 
 let activeTimelineEntry;
 let activeTimelineFrame;
+let previousScrollY = window.scrollY;
+let previousScrollTime = performance.now();
+let timelineScrollDirection = 0;
+let timelineScrollVelocity = 0;
 const projectPreview = document.querySelector('#project-focus-preview');
 const previewImages = [...projectPreview.querySelectorAll('.project-focus-preview-image')];
 const airOpsUrl = 'https://www.airops.com/';
@@ -325,10 +330,18 @@ const setProjectPreview = async (entry) => {
   }
   if (!next.naturalWidth) return;
   if (request !== previewRequest) return;
+  const direction = timelineScrollDirection || 1;
+  const duration = Math.max(500, 780 - timelineScrollVelocity * 80);
+  projectPreview.style.setProperty('--preview-out-y', `${-direction * 100}%`);
+  projectPreview.style.setProperty('--preview-in-y', `${direction * 100}%`);
+  projectPreview.style.setProperty('--preview-duration', `${duration}ms`);
+  next.classList.remove('is-departing');
+  current.classList.add('is-departing');
   next.classList.add('is-current');
   current.classList.remove('is-current');
   current.alt = '';
   previewLayer = nextLayer;
+  window.setTimeout(() => current.classList.remove('is-departing'), reducedMotion.matches ? 0 : duration + 40);
 };
 
 const setPreviewVisibility = (visible) => {
@@ -344,24 +357,34 @@ const clearTimelineActive = () => {
   timeline.classList.remove('has-active');
 };
 
+const timelineProjectForViewport = () => {
+  if (!previewTimelineEntries.length) return undefined;
+  if (window.scrollY <= 48) return previewTimelineEntries[0];
+
+  const focusY = window.scrollY + window.innerHeight / 2;
+  const projects = previewTimelineEntries.map((entry) => {
+    const rect = entry.getBoundingClientRect();
+    return { entry, center: window.scrollY + rect.top + rect.height / 2 };
+  });
+  const upcomingIndex = projects.findIndex((project) => project.center >= focusY);
+  if (upcomingIndex === 0) return projects[0].entry;
+  if (upcomingIndex === -1) return projects.at(-1).entry;
+
+  const previous = projects[upcomingIndex - 1];
+  const upcoming = projects[upcomingIndex];
+  const gap = upcoming.center - previous.center;
+  const velocityBias = Math.min(.08, timelineScrollVelocity * .025);
+  const directionalBias = timelineScrollDirection * gap * (.035 + velocityBias);
+  const handoffPoint = previous.center + gap / 2 - directionalBias;
+  return focusY < handoffPoint ? previous.entry : upcoming.entry;
+};
+
 const updateTimelineActive = () => {
   activeTimelineFrame = undefined;
   if (!document.body.classList.contains('details-open') || document.body.classList.contains('details-opening') || document.body.classList.contains('details-closing') || timelinePanel.hidden) return;
 
-  const viewportCenter = window.innerHeight / 2;
-  let closest;
-  let closestDistance = Infinity;
-
-  timelineEntries.filter((entry) => entry.dataset.kind === 'project').forEach((entry) => {
-    const rect = entry.getBoundingClientRect();
-    const distance = Math.abs((rect.top + rect.bottom) / 2 - viewportCenter);
-    if (rect.bottom >= 0 && rect.top <= window.innerHeight && distance < closestDistance) {
-      closest = entry;
-      closestDistance = distance;
-    }
-  });
-
-  if (!closest || closestDistance > window.innerHeight * .32) {
+  const closest = timelineProjectForViewport();
+  if (!closest) {
     clearTimelineActive();
     setProjectPreview();
     return;
@@ -383,7 +406,18 @@ const requestTimelineActiveUpdate = () => {
   activeTimelineFrame = requestAnimationFrame(updateTimelineActive);
 };
 
-window.addEventListener('scroll', requestTimelineActiveUpdate, { passive: true });
+window.addEventListener('scroll', () => {
+  const now = performance.now();
+  const delta = window.scrollY - previousScrollY;
+  const elapsed = Math.max(16, now - previousScrollTime);
+  if (Math.abs(delta) > .5) {
+    timelineScrollDirection = Math.sign(delta);
+    timelineScrollVelocity = Math.min(3, Math.abs(delta) / Math.max(1, window.innerHeight) * 1000 / elapsed);
+  }
+  previousScrollY = window.scrollY;
+  previousScrollTime = now;
+  requestTimelineActiveUpdate();
+}, { passive: true });
 window.addEventListener('resize', requestTimelineActiveUpdate);
 
 const scatter = document.querySelector('#project-scatter');
