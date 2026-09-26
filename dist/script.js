@@ -405,6 +405,16 @@ let siteViewerTimer;
 
 const viewerIsOpen = () => siteViewer.classList.contains('is-open') || siteViewer.classList.contains('is-preparing');
 
+const getViewerUrl = (url) => {
+  if (!/(^|\.)medium\.com$/.test(url.hostname)) return url.href;
+  const articleId = url.pathname.match(/-([a-f0-9]{12})$/)?.[1];
+  if (!articleId) return url.href;
+  const readerUrl = new URL('reader.html', window.location.href);
+  readerUrl.searchParams.set('article', articleId);
+  readerUrl.searchParams.set('original', url.href);
+  return readerUrl.href;
+};
+
 document.querySelectorAll('.profile a[href^="http"], .timeline a[href^="http"]').forEach((link) => {
   link.setAttribute('aria-haspopup', 'dialog');
   link.setAttribute('aria-controls', 'site-viewer');
@@ -468,7 +478,7 @@ const openSiteViewer = (link) => {
   requestAnimationFrame(() => {
     siteViewer.classList.add('is-open');
     siteViewer.classList.remove('is-preparing');
-    siteViewerFrame.src = url.href;
+    siteViewerFrame.src = getViewerUrl(url);
     siteViewerClose.focus({ preventScroll: true });
   });
 };
