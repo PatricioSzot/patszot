@@ -220,6 +220,8 @@ main {
   object-fit: cover;
 }
 
+.preview-card--borderless { border: 0; }
+
 .preview-shell:hover .preview-card,
 .preview-shell:focus-within .preview-card,
 .preview-shell.is-open .preview-card {
