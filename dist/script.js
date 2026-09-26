@@ -396,21 +396,17 @@ document.addEventListener('click', (event) => {
 });
 
 const siteViewer = document.querySelector('#site-viewer');
-const siteViewerFrame = siteViewer.querySelector('.site-viewer-frame');
+const siteViewerContent = siteViewer.querySelector('.site-viewer-content');
 const siteViewerPoster = siteViewer.querySelector('.site-viewer-poster');
 const siteViewerTitle = siteViewer.querySelector('.site-viewer-title');
 const siteViewerClose = siteViewer.querySelector('.site-viewer-close');
 let siteViewerLink;
 let siteViewerTimer;
+let siteViewerController;
+let siteViewerRequest = 0;
+let siteViewerOpenedAt = 0;
 
 const viewerIsOpen = () => siteViewer.classList.contains('is-open') || siteViewer.classList.contains('is-preparing');
-
-const getViewerUrl = (url) => {
-  const readerUrl = new URL('reader.html', window.location.href);
-  readerUrl.searchParams.set('source', url.href);
-  readerUrl.searchParams.set('original', url.href);
-  return readerUrl.href;
-};
 
 document.querySelectorAll('.profile a[href^="http"], .timeline a[href^="http"]').forEach((link) => {
   link.setAttribute('aria-haspopup', 'dialog');
@@ -421,7 +417,9 @@ const resetSiteViewer = () => {
   siteViewer.hidden = true;
   siteViewer.setAttribute('aria-hidden', 'true');
   siteViewer.className = 'site-viewer';
-  siteViewerFrame.removeAttribute('src');
+  siteViewerController?.destroy();
+  siteViewerController = undefined;
+  siteViewerContent.replaceChildren();
   siteViewerPoster.replaceChildren();
   siteViewerTitle.textContent = '';
   siteViewerLink = undefined;
@@ -431,11 +429,13 @@ const closeSiteViewer = ({ fromScroll = false } = {}) => {
   if (siteViewer.classList.contains('is-closing')) return;
   if (!viewerIsOpen()) return;
   window.clearTimeout(siteViewerTimer);
+  siteViewerRequest += 1;
+  siteViewerController?.destroy({ keepContent: true });
   siteViewer.classList.remove('is-open', 'is-preparing', 'is-loaded');
   siteViewer.classList.add('is-closing');
   if (fromScroll) siteViewer.classList.add('is-scroll-closing');
   siteViewer.setAttribute('aria-hidden', 'true');
-  siteViewerFrame.inert = true;
+  siteViewerContent.inert = true;
   siteViewerTimer = window.setTimeout(resetSiteViewer, reducedMotion.matches ? 0 : (fromScroll ? 340 : 680));
 };
 
@@ -446,18 +446,23 @@ const openSiteViewer = (link) => {
   const previewCard = shell?.querySelector('.preview-card') || activePreviewEntry?.querySelector('.preview-card');
   const previewRect = previewCard?.getBoundingClientRect();
   const sourceMedia = previewCard?.querySelector('img, video');
+  const viewerKind = link.closest('.timeline-entry')?.dataset.kind || 'project';
+  const requestId = ++siteViewerRequest;
 
   siteViewerLink = link;
+  siteViewerOpenedAt = performance.now();
   siteViewer.hidden = false;
   siteViewer.setAttribute('aria-hidden', 'false');
-  siteViewerFrame.inert = false;
+  siteViewerContent.inert = false;
+  siteViewerContent.replaceChildren();
+  siteViewerController?.destroy();
+  siteViewerController = undefined;
   siteViewer.className = 'site-viewer is-preparing';
   siteViewer.style.setProperty('--viewer-start-left', `${previewRect?.left ?? 40}px`);
   siteViewer.style.setProperty('--viewer-start-bottom', `${previewRect ? window.innerHeight - previewRect.bottom : 40}px`);
   siteViewer.style.setProperty('--viewer-start-width', `${previewRect?.width ?? 360}px`);
   siteViewer.style.setProperty('--viewer-start-height', `${previewRect?.height ?? 189}px`);
   siteViewerTitle.textContent = url.hostname.replace(/^www\./, '');
-  siteViewerFrame.title = `${link.textContent.trim()} website preview`;
   siteViewerPoster.replaceChildren();
 
   if (sourceMedia) {
@@ -465,8 +470,8 @@ const openSiteViewer = (link) => {
     posterMedia.removeAttribute('id');
     if (posterMedia instanceof HTMLVideoElement) {
       posterMedia.muted = true;
-      posterMedia.loop = true;
-      posterMedia.play().catch(() => {});
+      posterMedia.loop = false;
+      posterMedia.play()?.catch(() => {});
     }
     siteViewerPoster.append(posterMedia);
   }
@@ -475,15 +480,24 @@ const openSiteViewer = (link) => {
   requestAnimationFrame(() => {
     siteViewer.classList.add('is-open');
     siteViewer.classList.remove('is-preparing');
-    siteViewerFrame.src = getViewerUrl(url);
     siteViewerClose.focus({ preventScroll: true });
+    window.NativeContentViewer.load({
+      container: siteViewerContent,
+      kind: viewerKind,
+      previewMedia: sourceMedia,
+      reducedMotion: reducedMotion.matches,
+      title: link.textContent.trim(),
+      url: url.href
+    }).then((controller) => {
+      if (requestId !== siteViewerRequest || !viewerIsOpen()) {
+        controller.destroy();
+        return;
+      }
+      siteViewerController = controller;
+      siteViewer.classList.add('is-loaded');
+    });
   });
 };
-
-siteViewerFrame.addEventListener('load', () => {
-  if (!siteViewerFrame.src) return;
-  siteViewer.classList.add('is-loaded');
-});
 
 siteViewerClose.addEventListener('click', () => {
   const returnTarget = siteViewerLink;
@@ -492,6 +506,16 @@ siteViewerClose.addEventListener('click', () => {
 });
 
 document.addEventListener('keydown', (event) => {
+  if (viewerIsOpen() && event.key === 'ArrowLeft' && siteViewerController?.previous) {
+    event.preventDefault();
+    siteViewerController.previous();
+    return;
+  }
+  if (viewerIsOpen() && event.key === 'ArrowRight' && siteViewerController?.next) {
+    event.preventDefault();
+    siteViewerController.next();
+    return;
+  }
   if (event.key !== 'Escape' || !viewerIsOpen()) return;
   const returnTarget = siteViewerLink;
   closeSiteViewer();
@@ -506,5 +530,5 @@ document.addEventListener('click', (event) => {
 });
 
 window.addEventListener('scroll', () => {
-  if (viewerIsOpen()) closeSiteViewer({ fromScroll: true });
+  if (viewerIsOpen() && performance.now() - siteViewerOpenedAt > 350) closeSiteViewer({ fromScroll: true });
 }, { passive: true });

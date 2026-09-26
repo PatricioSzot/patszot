@@ -76,11 +76,12 @@
       </header>
       <div class="site-viewer-stage">
         <div class="site-viewer-poster" aria-hidden="true"></div>
-        <iframe class="site-viewer-frame" title="Embedded website preview" loading="eager" sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <div class="site-viewer-content" tabindex="0"></div>
         <span class="site-viewer-progress" aria-hidden="true"></span>
       </div>
     </aside>
 
+    <script src="viewer-content.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
