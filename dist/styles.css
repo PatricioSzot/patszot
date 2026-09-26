@@ -292,9 +292,15 @@ body.details-open .timeline-panel-inner {
   left: 0;
   width: 50vw;
   height: 50vw;
+  border: 1.5px dotted rgba(29, 27, 25, .14);
   border-radius: 50%;
-  background: var(--faint);
+  background: transparent;
   transform: translate(-50%, -50%);
+  transition: background-color .52s ease, border-color .52s ease;
+}
+
+body:has(.timeline-year:first-child .timeline-entry:first-child.is-active) .present-complexity-circle {
+  background: var(--faint);
 }
 
 .present-complexity-dot {
@@ -398,11 +404,15 @@ body.details-open:not(.details-closing) .timeline-year-heading {
   left: 0;
   width: calc(var(--complexity) * .5vw);
   height: calc(var(--complexity) * .5vw);
+  border: 1.5px dotted rgba(29, 27, 25, .14);
   border-radius: 50%;
-  background: var(--faint);
+  background: transparent;
   transform: translate(-50%, -50%);
   pointer-events: none;
+  transition: background-color .52s ease, border-color .52s ease;
 }
+
+.timeline-entry.is-active::after { background: var(--faint); }
 
 .timeline-marker {
   position: absolute;
