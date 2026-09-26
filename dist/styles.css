@@ -202,7 +202,8 @@ main {
   width: min(360px, calc(100vw - 80px));
   aspect-ratio: 1200 / 630;
   padding: 0;
-  border: 1px solid var(--ink);
+  border: 0;
+  border-radius: 4px;
   overflow: hidden;
   isolation: isolate;
   background: #fff;
@@ -219,8 +220,6 @@ main {
   height: 100%;
   object-fit: cover;
 }
-
-.preview-card--borderless { border: 0; }
 
 .preview-shell:hover .preview-card,
 .preview-shell:focus-within .preview-card,
