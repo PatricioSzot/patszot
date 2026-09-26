@@ -54,3 +54,62 @@ previewShells.forEach((shell) => {
 document.addEventListener('click', (event) => {
   if (!event.target.closest('.preview-shell')) closePreviews();
 });
+
+document.querySelectorAll('[data-cycle-preview]').forEach((shell) => {
+  const sources = shell.dataset.sources.split('|');
+  const layers = [...shell.querySelectorAll('.cia-cycle-image')];
+  let activeLayer = 0;
+  let sourceIndex = 0;
+  let timer;
+  let runId = 0;
+  let preloaded = false;
+
+  const reset = () => {
+    clearTimeout(timer);
+    timer = undefined;
+    runId += 1;
+    sourceIndex = 0;
+    activeLayer = 0;
+    layers.forEach((layer, index) => layer.classList.toggle('is-active', index === 0));
+    layers[0].src = sources[0];
+  };
+
+  const advance = async (id) => {
+    if (id !== runId) return;
+    const nextSource = (sourceIndex + 1) % sources.length;
+    const nextLayer = activeLayer === 0 ? 1 : 0;
+    layers[nextLayer].src = sources[nextSource];
+    try { await layers[nextLayer].decode(); } catch {}
+    if (id !== runId) return;
+    layers[activeLayer].classList.remove('is-active');
+    layers[nextLayer].classList.add('is-active');
+    activeLayer = nextLayer;
+    sourceIndex = nextSource;
+    timer = setTimeout(() => advance(id), 1050);
+  };
+
+  const start = () => {
+    if (timer) return;
+    if (!preloaded) {
+      sources.slice(1).forEach((source) => { const image = new Image(); image.src = source; });
+      preloaded = true;
+    }
+    runId += 1;
+    timer = setTimeout(() => advance(runId), 850);
+  };
+
+  const stopIfInactive = () => {
+    requestAnimationFrame(() => {
+      if (!shell.matches(':hover, :focus-within') && !shell.classList.contains('is-open')) reset();
+    });
+  };
+
+  shell.addEventListener('mouseenter', start);
+  shell.addEventListener('mouseleave', stopIfInactive);
+  shell.addEventListener('focusin', start);
+  shell.addEventListener('focusout', stopIfInactive);
+  shell.querySelector('.preview-trigger').addEventListener('click', () => {
+    requestAnimationFrame(() => shell.classList.contains('is-open') ? start() : stopIfInactive());
+  });
+  document.addEventListener('click', stopIfInactive);
+});

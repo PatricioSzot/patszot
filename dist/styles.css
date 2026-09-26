@@ -51,6 +51,7 @@ main {
 }
 
 .bio,
+.scholar,
 .group-panel p {
   margin: 0;
   font-size: 16px;
@@ -239,6 +240,15 @@ main {
   height: 100%;
   object-fit: cover;
 }
+
+.cia-preview .cia-cycle-image {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .42s ease;
+}
+
+.cia-preview .cia-cycle-image.is-active { opacity: 1; }
 
 .preview-shell:hover .preview-card,
 .preview-shell:focus-within .preview-card,
