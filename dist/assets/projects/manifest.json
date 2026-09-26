@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-26T06:09:59.776Z",
+  "generatedAt": "2026-09-26T06:15:58.628Z",
   "projects": {
     "https://glossgenius.com/": {
       "slug": "gloss-ai",
@@ -1023,70 +1023,70 @@
           "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ac9d077a881d7f7894bd0c_Overview%20Image%201.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/02-733239dd34.gif",
+          "src": "assets/projects/webflow-rebrand/02-733239dd34.gif",
           "type": "gif",
           "alt": "Image 2",
           "bytes": 389984,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5cdbc0dae8aa5efdab9f0_Origins%20Logo%20Loop.gif"
         },
         {
-          "src": "assets/projects/webflow-conf/03-11e19ea583.jpg",
+          "src": "assets/projects/webflow-rebrand/03-11e19ea583.jpg",
           "type": "image",
           "alt": "Image 3",
           "bytes": 93314,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5cfee29350a5027720a1c_VisualFoundations-Example1.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/04-f3183d6465.jpg",
+          "src": "assets/projects/webflow-rebrand/04-f3183d6465.jpg",
           "type": "image",
           "alt": "Image 4",
           "bytes": 264232,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a40e7a24b1db455cb8b3ae_MotionTenets%20-%201920x1080.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/05-3bd4efabc0.jpg",
+          "src": "assets/projects/webflow-rebrand/05-3bd4efabc0.jpg",
           "type": "image",
           "alt": "Image 5",
           "bytes": 88911,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e0c816f8eec08266ad18_LatticeExample1.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/06-c02b96823e.jpg",
+          "src": "assets/projects/webflow-rebrand/06-c02b96823e.jpg",
           "type": "image",
           "alt": "Image 6",
           "bytes": 85545,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e0d390f886bf6485519c_latticeExample3.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/07-5db5f17aed.jpg",
+          "src": "assets/projects/webflow-rebrand/07-5db5f17aed.jpg",
           "type": "image",
           "alt": "Image 7",
           "bytes": 139229,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e0e3f50cf12e95c58bf4_latticeExample4.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/08-facf1d14ac.jpg",
+          "src": "assets/projects/webflow-rebrand/08-facf1d14ac.jpg",
           "type": "image",
           "alt": "Image 8",
           "bytes": 165982,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5d23955fa0c52141db1cc_VisualFoundations-Example5.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/09-88efa12d04.jpg",
+          "src": "assets/projects/webflow-rebrand/09-88efa12d04.jpg",
           "type": "image",
           "alt": "Image 9",
           "bytes": 516016,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5d22f71a7cb236a6dcfd5_VisualFoundations-Example4.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/10-b946cc2869.jpg",
+          "src": "assets/projects/webflow-rebrand/10-b946cc2869.jpg",
           "type": "image",
           "alt": "Image 10",
           "bytes": 601191,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5d23955fa0c52141db1de_VisualFoundations-Example6.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/11-932e228921.jpg",
+          "src": "assets/projects/webflow-rebrand/11-932e228921.jpg",
           "type": "image",
           "alt": "Image 11",
           "bytes": 397178,
@@ -1107,119 +1107,119 @@
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5c9dbc030b58246d4ef04_Customer%20Hero%20-%202.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/14-0bf921d3a9.jpg",
+          "src": "assets/projects/webflow-rebrand/12-0bf921d3a9.jpg",
           "type": "image",
           "alt": "Image 14",
           "bytes": 216333,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e3a2ac633bfd0f798b0f_WFR-Example1.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/15-ea01011108.jpg",
+          "src": "assets/projects/webflow-rebrand/13-ea01011108.jpg",
           "type": "image",
           "alt": "Image 15",
           "bytes": 85913,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e3a1ae847f7b1f2a8f96_WFR-Example2.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/16-e2477835c4.jpg",
+          "src": "assets/projects/webflow-rebrand/14-e2477835c4.jpg",
           "type": "image",
           "alt": "Image 16",
           "bytes": 210334,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/66a5e3a11e3b92efa16b7916_WFR-Example3.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/17-ff851c4591.gif",
+          "src": "assets/projects/webflow-rebrand/15-ff851c4591.gif",
           "type": "gif",
           "alt": "Image 17",
           "bytes": 1468396,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b086961e34a75f51b59069_ConfLogoAnimation.gif"
         },
         {
-          "src": "assets/projects/webflow-conf/18-15aefaea33.jpg",
+          "src": "assets/projects/webflow-rebrand/16-15aefaea33.jpg",
           "type": "image",
           "alt": "Image 18",
           "bytes": 413628,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b082f06c21e6f61dfc885b_LogoFeature%20A.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/19-dc3ec8da3b.jpg",
+          "src": "assets/projects/webflow-rebrand/17-dc3ec8da3b.jpg",
           "type": "image",
           "alt": "Image 19",
           "bytes": 411581,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b08309dd90448f59daf57e_LogoFeature%20B.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/20-64e125a22e.jpg",
+          "src": "assets/projects/webflow-rebrand/18-64e125a22e.jpg",
           "type": "image",
           "alt": "Image 20",
           "bytes": 416025,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b0830f34a33d17888e2e14_LogoFeature%20C.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/21-fc742c3a61.jpg",
+          "src": "assets/projects/webflow-rebrand/19-fc742c3a61.jpg",
           "type": "image",
           "alt": "Image 21",
           "bytes": 110127,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b0aaa7b337a6db4a149875_Type%20Feature%204.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/22-a05fa87eb1.jpg",
+          "src": "assets/projects/webflow-rebrand/20-a05fa87eb1.jpg",
           "type": "image",
           "alt": "Image 22",
           "bytes": 164909,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b0aaa235937307c646daef_Type%20Feature%203.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/23-7c4a9a0ce7.jpg",
+          "src": "assets/projects/webflow-rebrand/21-7c4a9a0ce7.jpg",
           "type": "image",
           "alt": "Image 23",
           "bytes": 109492,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b34d364c48cf56c3fa225e_ConfImageGallery%204.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/24-65d7bde82c.jpg",
+          "src": "assets/projects/webflow-rebrand/22-65d7bde82c.jpg",
           "type": "image",
           "alt": "Image 24",
           "bytes": 158926,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b34d1334a57c10d43c55ab_ConfImageGallery%202.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/25-c5083d6410.jpg",
+          "src": "assets/projects/webflow-rebrand/23-c5083d6410.jpg",
           "type": "image",
           "alt": "Image 25",
           "bytes": 177865,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b34d1a4dc75ca32e2428fb_ConfImageGallery%203.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/26-ca69654ea2.jpg",
+          "src": "assets/projects/webflow-rebrand/24-ca69654ea2.jpg",
           "type": "image",
           "alt": "Image 26",
           "bytes": 252784,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b34cffda7c01639786962c_ConfImageGallery%201.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/27-a9ae79088a.jpg",
+          "src": "assets/projects/webflow-rebrand/25-a9ae79088a.jpg",
           "type": "image",
           "alt": "Image 27",
           "bytes": 220424,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b34d5a28b47f1ac5362a69_ConfImageGallery%205.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/28-0140679326.jpg",
+          "src": "assets/projects/webflow-rebrand/26-0140679326.jpg",
           "type": "image",
           "alt": "Image 28",
           "bytes": 256727,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b08573ac8d33688dbc1406_Backstage.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/29-5eaa05d7fe.jpg",
+          "src": "assets/projects/webflow-rebrand/27-5eaa05d7fe.jpg",
           "type": "image",
           "alt": "Image 29",
           "bytes": 221884,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b0857eb337a6cda5127bb2_Hallway.jpg"
         },
         {
-          "src": "assets/projects/webflow-conf/30-acbcf94fef.gif",
+          "src": "assets/projects/webflow-rebrand/28-acbcf94fef.gif",
           "type": "gif",
           "alt": "Image 30",
           "bytes": 1314536,
@@ -1357,56 +1357,56 @@
           "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63b3a2273b9dbb7bf8f09a85_SF_3_Wayfinding_PF_Optimized.gif"
         },
         {
-          "src": "assets/projects/the-smart-factory/09-fc1d3b7683.png",
+          "src": "assets/projects/thrivent/02-fc1d3b7683.png",
           "type": "image",
           "alt": "Image 13",
           "bytes": 606072,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
         },
         {
-          "src": "assets/projects/the-smart-factory/10-56405694c9.png",
+          "src": "assets/projects/thrivent/03-56405694c9.png",
           "type": "image",
           "alt": "Image 14",
           "bytes": 559069,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
         },
         {
-          "src": "assets/projects/the-smart-factory/11-d4f07c4f9a.png",
+          "src": "assets/projects/thrivent/04-d4f07c4f9a.png",
           "type": "image",
           "alt": "Image 15",
           "bytes": 640941,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
         },
         {
-          "src": "assets/projects/the-smart-factory/12-2636319855.png",
+          "src": "assets/projects/thrivent/05-2636319855.png",
           "type": "image",
           "alt": "Image 16",
           "bytes": 960997,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
         },
         {
-          "src": "assets/projects/the-smart-factory/13-5ff4815ea3.gif",
+          "src": "assets/projects/thrivent/06-5ff4815ea3.gif",
           "type": "gif",
           "alt": "Image 17",
           "bytes": 3518100,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
         },
         {
-          "src": "assets/projects/the-smart-factory/14-9675c34c37.gif",
+          "src": "assets/projects/thrivent/07-9675c34c37.gif",
           "type": "gif",
           "alt": "Image 18",
           "bytes": 1290448,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
         },
         {
-          "src": "assets/projects/the-smart-factory/15-01dad72912.gif",
+          "src": "assets/projects/thrivent/08-01dad72912.gif",
           "type": "gif",
           "alt": "Image 19",
           "bytes": 3312081,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
         },
         {
-          "src": "assets/projects/the-smart-factory/16-bb52d4e07f.gif",
+          "src": "assets/projects/thrivent/09-bb52d4e07f.gif",
           "type": "gif",
           "alt": "Image 20",
           "bytes": 1157726,
@@ -1454,56 +1454,56 @@
           "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63adbfe4a2e57b0015d46ed3_GMT_DataVisualization.gif"
         },
         {
-          "src": "assets/projects/dolores-debitis-omnis-qui/06-fc1d3b7683.png",
+          "src": "assets/projects/thrivent/02-fc1d3b7683.png",
           "type": "image",
           "alt": "Image 10",
           "bytes": 606072,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
         },
         {
-          "src": "assets/projects/dolores-debitis-omnis-qui/07-56405694c9.png",
+          "src": "assets/projects/thrivent/03-56405694c9.png",
           "type": "image",
           "alt": "Image 11",
           "bytes": 559069,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
         },
         {
-          "src": "assets/projects/dolores-debitis-omnis-qui/08-d4f07c4f9a.png",
+          "src": "assets/projects/thrivent/04-d4f07c4f9a.png",
           "type": "image",
           "alt": "Image 12",
           "bytes": 640941,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
         },
         {
-          "src": "assets/projects/dolores-debitis-omnis-qui/09-2636319855.png",
+          "src": "assets/projects/thrivent/05-2636319855.png",
           "type": "image",
           "alt": "Image 13",
           "bytes": 960997,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
         },
         {
-          "src": "assets/projects/dolores-debitis-omnis-qui/10-5ff4815ea3.gif",
+          "src": "assets/projects/thrivent/06-5ff4815ea3.gif",
           "type": "gif",
           "alt": "Image 14",
           "bytes": 3518100,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
         },
         {
-          "src": "assets/projects/dolores-debitis-omnis-qui/11-9675c34c37.gif",
+          "src": "assets/projects/thrivent/07-9675c34c37.gif",
           "type": "gif",
           "alt": "Image 15",
           "bytes": 1290448,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
         },
         {
-          "src": "assets/projects/dolores-debitis-omnis-qui/12-01dad72912.gif",
+          "src": "assets/projects/thrivent/08-01dad72912.gif",
           "type": "gif",
           "alt": "Image 16",
           "bytes": 3312081,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
         },
         {
-          "src": "assets/projects/dolores-debitis-omnis-qui/13-bb52d4e07f.gif",
+          "src": "assets/projects/thrivent/09-bb52d4e07f.gif",
           "type": "gif",
           "alt": "Image 17",
           "bytes": 1157726,
@@ -1558,56 +1558,56 @@
           "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae69f91aecb5e28b350c6f_CIA%20-%20SocialMediaPhonesAsset.png"
         },
         {
-          "src": "assets/projects/cia/07-fc1d3b7683.png",
+          "src": "assets/projects/thrivent/02-fc1d3b7683.png",
           "type": "image",
           "alt": "Image 11",
           "bytes": 606072,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
         },
         {
-          "src": "assets/projects/cia/08-56405694c9.png",
+          "src": "assets/projects/thrivent/03-56405694c9.png",
           "type": "image",
           "alt": "Image 12",
           "bytes": 559069,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
         },
         {
-          "src": "assets/projects/cia/09-d4f07c4f9a.png",
+          "src": "assets/projects/thrivent/04-d4f07c4f9a.png",
           "type": "image",
           "alt": "Image 13",
           "bytes": 640941,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
         },
         {
-          "src": "assets/projects/cia/10-2636319855.png",
+          "src": "assets/projects/thrivent/05-2636319855.png",
           "type": "image",
           "alt": "Image 14",
           "bytes": 960997,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
         },
         {
-          "src": "assets/projects/cia/11-5ff4815ea3.gif",
+          "src": "assets/projects/thrivent/06-5ff4815ea3.gif",
           "type": "gif",
           "alt": "Image 15",
           "bytes": 3518100,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
         },
         {
-          "src": "assets/projects/cia/12-9675c34c37.gif",
+          "src": "assets/projects/thrivent/07-9675c34c37.gif",
           "type": "gif",
           "alt": "Image 16",
           "bytes": 1290448,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
         },
         {
-          "src": "assets/projects/cia/13-01dad72912.gif",
+          "src": "assets/projects/thrivent/08-01dad72912.gif",
           "type": "gif",
           "alt": "Image 17",
           "bytes": 3312081,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
         },
         {
-          "src": "assets/projects/cia/14-bb52d4e07f.gif",
+          "src": "assets/projects/thrivent/09-bb52d4e07f.gif",
           "type": "gif",
           "alt": "Image 18",
           "bytes": 1157726,
@@ -1620,56 +1620,56 @@
       "title": "Lilly Pulitzer Virtual Runway",
       "assets": [
         {
-          "src": "assets/projects/lilly/01-fc1d3b7683.png",
+          "src": "assets/projects/thrivent/02-fc1d3b7683.png",
           "type": "image",
           "alt": "Image 5",
           "bytes": 606072,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
         },
         {
-          "src": "assets/projects/lilly/02-56405694c9.png",
+          "src": "assets/projects/thrivent/03-56405694c9.png",
           "type": "image",
           "alt": "Image 6",
           "bytes": 559069,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
         },
         {
-          "src": "assets/projects/lilly/03-d4f07c4f9a.png",
+          "src": "assets/projects/thrivent/04-d4f07c4f9a.png",
           "type": "image",
           "alt": "Image 7",
           "bytes": 640941,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
         },
         {
-          "src": "assets/projects/lilly/04-2636319855.png",
+          "src": "assets/projects/thrivent/05-2636319855.png",
           "type": "image",
           "alt": "Image 8",
           "bytes": 960997,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
         },
         {
-          "src": "assets/projects/lilly/05-5ff4815ea3.gif",
+          "src": "assets/projects/thrivent/06-5ff4815ea3.gif",
           "type": "gif",
           "alt": "Image 9",
           "bytes": 3518100,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
         },
         {
-          "src": "assets/projects/lilly/06-9675c34c37.gif",
+          "src": "assets/projects/thrivent/07-9675c34c37.gif",
           "type": "gif",
           "alt": "Image 10",
           "bytes": 1290448,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
         },
         {
-          "src": "assets/projects/lilly/07-01dad72912.gif",
+          "src": "assets/projects/thrivent/08-01dad72912.gif",
           "type": "gif",
           "alt": "Image 11",
           "bytes": 3312081,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
         },
         {
-          "src": "assets/projects/lilly/08-bb52d4e07f.gif",
+          "src": "assets/projects/thrivent/09-bb52d4e07f.gif",
           "type": "gif",
           "alt": "Image 12",
           "bytes": 1157726,
@@ -1717,56 +1717,56 @@
           "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63ae46b9917c0c4d9c390456_RoS-ChapterScroll.gif"
         },
         {
-          "src": "assets/projects/rite-of-spring/06-fc1d3b7683.png",
+          "src": "assets/projects/thrivent/02-fc1d3b7683.png",
           "type": "image",
           "alt": "Image 10",
           "bytes": 606072,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
         },
         {
-          "src": "assets/projects/rite-of-spring/07-56405694c9.png",
+          "src": "assets/projects/thrivent/03-56405694c9.png",
           "type": "image",
           "alt": "Image 11",
           "bytes": 559069,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
         },
         {
-          "src": "assets/projects/rite-of-spring/08-d4f07c4f9a.png",
+          "src": "assets/projects/thrivent/04-d4f07c4f9a.png",
           "type": "image",
           "alt": "Image 12",
           "bytes": 640941,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
         },
         {
-          "src": "assets/projects/rite-of-spring/09-2636319855.png",
+          "src": "assets/projects/thrivent/05-2636319855.png",
           "type": "image",
           "alt": "Image 13",
           "bytes": 960997,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
         },
         {
-          "src": "assets/projects/rite-of-spring/10-5ff4815ea3.gif",
+          "src": "assets/projects/thrivent/06-5ff4815ea3.gif",
           "type": "gif",
           "alt": "Image 14",
           "bytes": 3518100,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
         },
         {
-          "src": "assets/projects/rite-of-spring/11-9675c34c37.gif",
+          "src": "assets/projects/thrivent/07-9675c34c37.gif",
           "type": "gif",
           "alt": "Image 15",
           "bytes": 1290448,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
         },
         {
-          "src": "assets/projects/rite-of-spring/12-01dad72912.gif",
+          "src": "assets/projects/thrivent/08-01dad72912.gif",
           "type": "gif",
           "alt": "Image 16",
           "bytes": 3312081,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
         },
         {
-          "src": "assets/projects/rite-of-spring/13-bb52d4e07f.gif",
+          "src": "assets/projects/thrivent/09-bb52d4e07f.gif",
           "type": "gif",
           "alt": "Image 17",
           "bytes": 1157726,
@@ -1786,56 +1786,56 @@
           "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63b3920dd222e73c7abce717_TOREI-Concept.gif"
         },
         {
-          "src": "assets/projects/torei/02-fc1d3b7683.png",
+          "src": "assets/projects/thrivent/02-fc1d3b7683.png",
           "type": "image",
           "alt": "Image 6",
           "bytes": 606072,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
         },
         {
-          "src": "assets/projects/torei/03-56405694c9.png",
+          "src": "assets/projects/thrivent/03-56405694c9.png",
           "type": "image",
           "alt": "Image 7",
           "bytes": 559069,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
         },
         {
-          "src": "assets/projects/torei/04-d4f07c4f9a.png",
+          "src": "assets/projects/thrivent/04-d4f07c4f9a.png",
           "type": "image",
           "alt": "Image 8",
           "bytes": 640941,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
         },
         {
-          "src": "assets/projects/torei/05-2636319855.png",
+          "src": "assets/projects/thrivent/05-2636319855.png",
           "type": "image",
           "alt": "Image 9",
           "bytes": 960997,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
         },
         {
-          "src": "assets/projects/torei/06-5ff4815ea3.gif",
+          "src": "assets/projects/thrivent/06-5ff4815ea3.gif",
           "type": "gif",
           "alt": "Image 10",
           "bytes": 3518100,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
         },
         {
-          "src": "assets/projects/torei/07-9675c34c37.gif",
+          "src": "assets/projects/thrivent/07-9675c34c37.gif",
           "type": "gif",
           "alt": "Image 11",
           "bytes": 1290448,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
         },
         {
-          "src": "assets/projects/torei/08-01dad72912.gif",
+          "src": "assets/projects/thrivent/08-01dad72912.gif",
           "type": "gif",
           "alt": "Image 12",
           "bytes": 3312081,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
         },
         {
-          "src": "assets/projects/torei/09-bb52d4e07f.gif",
+          "src": "assets/projects/thrivent/09-bb52d4e07f.gif",
           "type": "gif",
           "alt": "Image 13",
           "bytes": 1157726,
@@ -1876,56 +1876,56 @@
           "source": "https://cdn.prod.website-files.com/63ac704cd31a0e9bb22400e7/63b39b2193e49fa4f8e92f23_LookingGlass-VinylTight.jpeg"
         },
         {
-          "src": "assets/projects/looking-glass/05-fc1d3b7683.png",
+          "src": "assets/projects/thrivent/02-fc1d3b7683.png",
           "type": "image",
           "alt": "Image 9",
           "bytes": 606072,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b390ae0b8014ddfea5893b_TOREI-StreamingAssets.png"
         },
         {
-          "src": "assets/projects/looking-glass/06-56405694c9.png",
+          "src": "assets/projects/thrivent/03-56405694c9.png",
           "type": "image",
           "alt": "Image 10",
           "bytes": 559069,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b38aaa3c439667fc0fce0c_Thrivent-StyleTile.png"
         },
         {
-          "src": "assets/projects/looking-glass/07-d4f07c4f9a.png",
+          "src": "assets/projects/thrivent/04-d4f07c4f9a.png",
           "type": "image",
           "alt": "Image 11",
           "bytes": 640941,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387f4e2d5f114effe931d_Thrivent-StyleTile2.png"
         },
         {
-          "src": "assets/projects/looking-glass/08-2636319855.png",
+          "src": "assets/projects/thrivent/05-2636319855.png",
           "type": "image",
           "alt": "Image 12",
           "bytes": 960997,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b387fd3c439635120f8dc6_Thrivent-StyleTile3.png"
         },
         {
-          "src": "assets/projects/looking-glass/09-5ff4815ea3.gif",
+          "src": "assets/projects/thrivent/06-5ff4815ea3.gif",
           "type": "gif",
           "alt": "Image 13",
           "bytes": 3518100,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63b388e93c4396eaa60fb08c_Thrivent-ResponsiveWeb.gif"
         },
         {
-          "src": "assets/projects/looking-glass/10-9675c34c37.gif",
+          "src": "assets/projects/thrivent/07-9675c34c37.gif",
           "type": "gif",
           "alt": "Image 14",
           "bytes": 1290448,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6c86b966f56b36b14aa8_CIA-GlyphFeature.gif"
         },
         {
-          "src": "assets/projects/looking-glass/11-01dad72912.gif",
+          "src": "assets/projects/thrivent/08-01dad72912.gif",
           "type": "gif",
           "alt": "Image 15",
           "bytes": 3312081,
           "source": "https://cdn.prod.website-files.com/63ac704bd31a0e8eee2400dc/63ae6b39917c0c54e83b3711_CIA-LogoFeature.gif"
         },
         {
-          "src": "assets/projects/looking-glass/12-bb52d4e07f.gif",
+          "src": "assets/projects/thrivent/09-bb52d4e07f.gif",
           "type": "gif",
           "alt": "Image 16",
           "bytes": 1157726,

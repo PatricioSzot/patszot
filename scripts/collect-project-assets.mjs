@@ -72,6 +72,7 @@ const contentExtension = (url, type, contentType) => {
 await mkdir(outRoot, { recursive: true });
 const manifest = { generatedAt: new Date().toISOString(), projects: {} };
 let downloaded = 0;
+const sharedAssets = new Map();
 
 for (const pageUrl of projectUrls) {
   const id = index[pageUrl];
@@ -85,6 +86,10 @@ for (const pageUrl of projectUrls) {
 
   for (let i = 0; i < candidates.length; i += 1) {
     const item = candidates[i];
+    if (sharedAssets.has(item.url)) {
+      assets.push({ ...sharedAssets.get(item.url), alt: item.alt || sharedAssets.get(item.url).alt });
+      continue;
+    }
     try {
       const response = await fetch(item.url, { headers: { 'User-Agent': 'Mozilla/5.0' }, redirect: 'follow' });
       if (!response.ok) throw new Error(`${response.status}`);
@@ -96,13 +101,15 @@ for (const pageUrl of projectUrls) {
       const hash = createHash('sha1').update(bytes).digest('hex').slice(0, 10);
       const filename = `${String(assets.length + 1).padStart(2, '0')}-${hash}${extension}`;
       await writeFile(join(dir, filename), bytes);
-      assets.push({
+      const asset = {
         src: `assets/projects/${slug}/${filename}`,
         type: item.type === 'video' ? 'video' : extension === '.gif' ? 'gif' : 'image',
         alt: item.alt || `${titleFor(source, pageUrl)} project image`,
         bytes: bytes.length,
         source: item.url
-      });
+      };
+      assets.push(asset);
+      sharedAssets.set(item.url, asset);
       downloaded += 1;
     } catch (error) {
       process.stderr.write(`skip ${item.url}: ${error.message}\n`);
