@@ -6,6 +6,10 @@ const setGroup = (group, open) => {
   panel.inert = !open;
 };
 
+document.querySelectorAll('.load-line').forEach((line) => {
+  line.addEventListener('animationend', () => line.classList.remove('load-line'), { once: true });
+});
+
 document.querySelectorAll('.group').forEach((group) => {
   group.querySelector(':scope > .group-trigger, :scope > .previous-row > .group-trigger').addEventListener('click', () => {
     setGroup(group, !group.classList.contains('is-open'));

@@ -93,19 +93,27 @@ main {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height .55s var(--ease), opacity .3s ease;
+  transition: max-height .58s var(--ease) .18s, opacity .28s ease .14s;
 }
 
-.group.is-open > .group-panel { max-height: 500px; opacity: 1; }
+.group.is-open > .group-panel {
+  max-height: 500px;
+  opacity: 1;
+  transition-delay: 0s;
+}
 
 .nested-panel {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height .55s var(--ease), opacity .3s ease;
+  transition: max-height .52s var(--ease) .18s, opacity .26s ease .12s;
 }
 
-.nested-group.is-open > .nested-panel { max-height: 100px; opacity: 1; }
+.nested-group.is-open > .nested-panel {
+  max-height: 100px;
+  opacity: 1;
+  transition-delay: 0s;
+}
 
 .group-panel-inner,
 .nested-panel-inner { min-height: 0; overflow: hidden; }
@@ -122,6 +130,27 @@ main {
 }
 
 .nested-panel-inner p > span { display: block; }
+
+.accordion-line {
+  position: relative;
+  top: 3px;
+  opacity: 0;
+  transition: opacity .3s ease, top .42s var(--ease);
+  transition-delay: calc((4 - var(--line)) * .035s);
+}
+
+.group.is-open > .group-panel > .group-panel-inner > p.accordion-line,
+.group.is-open > .group-panel > .group-panel-inner > .nested-group > .nested-trigger.accordion-line {
+  top: 0;
+  opacity: 1;
+  transition-delay: calc(var(--line) * .045s);
+}
+
+.nested-group.is-open > .nested-panel .accordion-line {
+  top: 0;
+  opacity: 1;
+  transition-delay: calc(var(--line) * .05s);
+}
 
 .previous-row {
   display: flex;
@@ -171,9 +200,12 @@ main {
   top: 50%;
   left: 50%;
   width: min(360px, calc(100vw - 80px));
+  aspect-ratio: 1200 / 630;
   padding: 0;
   border: 1px solid var(--ink);
-  background: var(--bg);
+  overflow: hidden;
+  isolation: isolate;
+  background: #fff;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -184,7 +216,8 @@ main {
 .preview-card img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }
 
 .preview-shell:hover .preview-card,
@@ -202,7 +235,7 @@ main {
   animation: text-in .72s var(--ease) calc(.58s + var(--i) * .055s) forwards;
 }
 
-.bio .load-line,
+.bio > span,
 .group-panel-inner > p > .load-line,
 .nested-panel-inner .load-line { display: block; }
 
