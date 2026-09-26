@@ -4,7 +4,7 @@ import { extname, join } from 'node:path';
 
 const root = new URL('../', import.meta.url).pathname;
 const index = JSON.parse(await readFile(join(root, 'dist/articles/index.json'), 'utf8'));
-const outRoot = join(root, 'dist/assets/projects');
+const outRoot = join(root, 'dist/assets-visual');
 
 const projectUrls = Object.keys(index).filter((url) =>
   url === 'https://glossgenius.com/' ||
@@ -102,7 +102,7 @@ for (const pageUrl of projectUrls) {
       const filename = `${String(assets.length + 1).padStart(2, '0')}-${hash}${extension}`;
       await writeFile(join(dir, filename), bytes);
       const asset = {
-        src: `assets/projects/${slug}/${filename}`,
+        src: `assets-visual/${slug}/${filename}`,
         type: item.type === 'video' ? 'video' : extension === '.gif' ? 'gif' : 'image',
         alt: item.alt || `${titleFor(source, pageUrl)} project image`,
         bytes: bytes.length,

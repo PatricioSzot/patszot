@@ -180,7 +180,7 @@ const entryMarkup = (entry, index) => {
   const complexity = Math.max(20, Math.min(100, Math.round(entry.intensity / 1.76)));
 
   const linkedTitle = entry.url
-    ? `<a class="text-link${entry.kind === 'project' ? ' project-scatter-trigger' : ''}" href="${entry.url}" rel="noopener">${entry.title}</a>`
+    ? `<a class="text-link${entry.kind === 'project' ? ' project-scatter-trigger' : ''}${entry.kind === 'writing' ? ' writing-popup-trigger' : ''}" href="${entry.url}" rel="noopener">${entry.title}</a>`
     : entry.title;
   return `
     <article class="timeline-entry" data-kind="${entry.kind}" style="--complexity: ${complexity}; --reveal-delay: ${(index % 8) * 45}ms">
@@ -315,7 +315,7 @@ window.addEventListener('scroll', requestTimelineActiveUpdate, { passive: true }
 window.addEventListener('resize', requestTimelineActiveUpdate);
 
 const scatter = document.querySelector('#project-scatter');
-const projectManifest = fetch('assets/projects/manifest.json').then((response) => response.json());
+const projectManifest = fetch('assets-visual/manifest.json').then((response) => response.json());
 const scatterTriggers = [...document.querySelectorAll('.project-scatter-trigger')];
 const coarsePointer = window.matchMedia('(hover: none), (pointer: coarse)');
 let scatterLink;
@@ -473,3 +473,77 @@ document.addEventListener('click', (event) => {
 });
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && scatterLink) dismissScatter(); });
 window.addEventListener('scroll', () => { if (scatterLocked) dismissScatter(); }, { passive: true });
+
+const writingReader = document.querySelector('#writing-reader');
+const writingBackdrop = document.querySelector('.writing-reader-backdrop');
+const writingTitle = writingReader.querySelector('#writing-reader-title');
+const writingMeta = writingReader.querySelector('.writing-reader-meta');
+const writingContent = writingReader.querySelector('.writing-reader-content');
+const writingScroll = writingReader.querySelector('.writing-reader-scroll');
+const writingClose = writingReader.querySelector('.writing-reader-close');
+const writingManifest = fetch('assets-writing/manifest.json').then((response) => response.json());
+let writingReturnTarget;
+let writingCloseTimer;
+
+const closeWriting = () => {
+  if (writingReader.hidden || writingReader.classList.contains('is-closing')) return;
+  window.clearTimeout(writingCloseTimer);
+  writingReader.classList.remove('is-open');
+  writingReader.classList.add('is-closing');
+  writingReader.setAttribute('aria-hidden', 'true');
+  writingBackdrop.classList.remove('is-open');
+  document.body.classList.remove('writing-open');
+  writingCloseTimer = window.setTimeout(() => {
+    writingReader.hidden = true;
+    writingBackdrop.hidden = true;
+    writingReader.classList.remove('is-closing');
+    writingTitle.textContent = '';
+    writingMeta.textContent = '';
+    writingContent.replaceChildren();
+  }, reducedMotion.matches ? 0 : 480);
+};
+
+const openWriting = async (link) => {
+  dismissScatter(true);
+  const manifest = await writingManifest;
+  const item = manifest.writings[new URL(link.href).href];
+  if (!item) return;
+  const response = await fetch(item.file);
+  const article = await response.json();
+  writingReturnTarget = link;
+  window.clearTimeout(writingCloseTimer);
+  writingTitle.textContent = article.title;
+  writingMeta.textContent = [article.meta.published, article.meta.author].filter(Boolean).join(' · ');
+  writingContent.innerHTML = article.content;
+  writingScroll.scrollTop = 0;
+  writingReader.hidden = false;
+  writingBackdrop.hidden = false;
+  writingReader.classList.remove('is-closing');
+  writingReader.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('writing-open');
+  requestAnimationFrame(() => {
+    writingReader.classList.add('is-open');
+    writingBackdrop.classList.add('is-open');
+    writingClose.focus({ preventScroll: true });
+  });
+};
+
+document.querySelectorAll('.writing-popup-trigger').forEach((link) => {
+  link.setAttribute('aria-haspopup', 'dialog');
+  link.setAttribute('aria-controls', 'writing-reader');
+  link.addEventListener('click', (event) => {
+    event.preventDefault();
+    openWriting(link);
+  });
+});
+
+writingClose.addEventListener('click', () => {
+  closeWriting();
+  writingReturnTarget?.focus({ preventScroll: true });
+});
+writingBackdrop.addEventListener('click', closeWriting);
+document.addEventListener('keydown', (event) => {
+  if (event.key !== 'Escape' || writingReader.hidden) return;
+  closeWriting();
+  writingReturnTarget?.focus({ preventScroll: true });
+});
