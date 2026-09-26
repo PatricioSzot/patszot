@@ -34,7 +34,7 @@ const timelineData = [
     entries: [
       { date: 'December 24', kind: 'writing', title: 'The Importance of Celebration and Rest for Creatives', url: 'https://medium.com/@patrick.m.szot/the-importance-of-celebration-and-rest-for-creatives-8cdd66602d74', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*GSVjAl3r5qXH0HcL9gFlSQ.png', description: 'On pausing to recognize the work before moving to the next thing.', intensity: 68 },
       { date: 'May 9', kind: 'writing', title: 'Config 2025: It’s The Same, Just Different This Time', url: 'https://medium.com/@patrick.m.szot/config-2025-its-the-same-just-different-this-time-19ab9ed00a52', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*ht0MLlsIZJJpyYASbWi-dw.png', description: 'Thoughts on beauty, efficient production, and working across aisles.', intensity: 72 },
-      { date: '2025', kind: 'project', title: 'GlossAI Rebrand', url: 'https://glossgenius.com/', description: 'Brand identity and launch expression for GlossGenius.', intensity: 124 },
+      { date: '2025', kind: 'project', title: 'GlossAI Rebrand', url: 'https://glossgenius.com/', cover: 'assets/glossgenius-og.webp', description: 'Brand identity and launch expression for GlossGenius.', intensity: 124 },
       { date: '2025', kind: 'project', title: 'Lovable', description: 'Brand work for a fast-moving product company.', intensity: 92 }
     ]
   },
@@ -44,7 +44,7 @@ const timelineData = [
       { date: 'November 20', kind: 'writing', title: 'Celebrating My 30th And A Decade in Tech', url: 'https://medium.com/@patrick.m.szot/celebrating-my-30th-and-a-decade-in-tech-2014-2024-1347b3b3ef72', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*zmDBsxxtVsG_WIYBFak_Ug.png', description: 'A decade-in-review across work, practice, and recent flowers from the garden.', intensity: 74 },
       { date: 'July 29', kind: 'writing', title: 'I Was Separated From My Position at Webflow', url: 'https://patrickszot.webflow.io/journal/i-got-seperated-from-my-position-at-webflow', description: 'A candid reflection on the end of a chapter.', intensity: 80 },
       { date: 'June 10', kind: 'project', title: 'Album Art: Presage 2022', url: 'https://dribbble.com/shots/24328431-Album-Art-Presage-2022', cover: 'https://cdn.dribbble.com/userupload/15032821/file/original-fe6a0e24019319be3d899139d9a02b50.png?crop=237x133-2804x2059&format=webp&resize=800x600&vertical=center', intensity: 82 },
-      { date: '2022–24', kind: 'project', title: 'Webflow Rebrand', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', description: 'Visual foundations, motion guidelines, campaigns, customer stories, and event systems.', intensity: 176 }
+      { date: '2022–24', kind: 'project', title: 'Webflow Rebrand', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', cover: 'assets/webflow-motion-guidelines.mp4', description: 'Visual foundations, motion guidelines, campaigns, customer stories, and event systems.', intensity: 176 }
     ]
   },
   {
@@ -65,7 +65,7 @@ const timelineData = [
       { date: 'January 17', kind: 'project', title: 'Webflow Conf 2022 – Grow with the ’Flow Room', url: 'https://dribbble.com/shots/20410030-Webflow-Conf-2022-Grow-with-the-Flow-room', cover: 'https://cdn.dribbble.com/userupload/4293440/file/original-d1e576e3b7230d2cc45147ed55ac5495.jpg?crop=0x0-1920x1440&format=webp&resize=800x600&vertical=center', intensity: 84 },
       { date: 'January 11', kind: 'project', title: 'Webflow Conf 2022 – Themes', url: 'https://dribbble.com/shots/20356384-Webflow-Conf-2022-Themes', cover: 'https://cdn.dribbble.com/userupload/4272644/file/original-848a983cbfe134a519a90f6802a8dff4.jpg?crop=3x0-1503x1125&format=webp&resize=800x600&vertical=center', intensity: 82 },
       { date: 'January 4', kind: 'writing', title: '2022 Retrospective: Leadership and Soft Skills', url: 'https://patrickszot.webflow.io/journal/2022-retrospective', description: 'Notes on leadership, collaboration, and creative practice.', intensity: 72 },
-      { date: '2023', kind: 'project', title: 'Webflow visual foundations', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', description: 'Illustration, sub-branding, color, lighting, motion, and more than 1,000 custom icons.', intensity: 148 }
+      { date: '2023', kind: 'project', title: 'Webflow visual foundations', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', cover: 'assets/webflow-motion-guidelines.mp4', description: 'Illustration, sub-branding, color, lighting, motion, and more than 1,000 custom icons.', intensity: 148 }
     ]
   },
   {
@@ -105,7 +105,7 @@ const timelineData = [
       { date: 'April', kind: 'project', title: 'Takeda social campaign and COVID-19 microsite', description: 'Visual concepting, asset development, and UI design.', intensity: 96 },
       { date: 'April', kind: 'project', title: 'New Balance', description: 'UI production assets for a flagship web property.', intensity: 76 },
       { date: 'March', kind: 'milestone', title: 'Shifted to fully remote work', intensity: 82 },
-      { date: 'March', kind: 'project', title: 'CIA.gov site implementation', url: 'https://patrickszot.webflow.io/older-work/cia', description: 'Co-led brand application, product development, and library design for a recruiting and marketing site.', intensity: 164 },
+      { date: 'March', kind: 'project', title: 'CIA.gov site implementation', url: 'https://patrickszot.webflow.io/older-work/cia', cover: 'assets/cia-preview.webp', description: 'Co-led brand application, product development, and library design for a recruiting and marketing site.', intensity: 164 },
       { date: 'February 5', kind: 'writing', title: 'When People Say, “I’m Not Creative”', url: 'https://patrickszot.webflow.io/journal/scared-to-try', description: 'On fear, experimentation, and creative identity.', intensity: 66 },
       { date: 'January 14', kind: 'writing', title: 'Recurring Evidence that Everything is a Metaphor', url: 'https://patrickszot.webflow.io/journal/everything-is-a-metaphor', description: 'Notes on analogy as a design and thinking tool.', intensity: 64 }
     ]
@@ -152,7 +152,7 @@ const timelineData = [
     year: '2017',
     entries: [
       { date: 'October 21', kind: 'writing', title: 'Winning Gilman Scholarship Essay', url: 'https://patrickszot.webflow.io/journal/the-ticking-bomb-of-usability', description: 'The essay behind a Gilman Scholarship.', intensity: 76 },
-      { date: '2017', kind: 'project', title: 'CIA.gov / Blackbriar design system', url: 'https://patrickszot.webflow.io/older-work/cia', description: 'A recruiting identity shaped by the tension between the Agency’s history and its future.', intensity: 142 }
+      { date: '2017', kind: 'project', title: 'CIA.gov / Blackbriar design system', url: 'https://patrickszot.webflow.io/older-work/cia', cover: 'assets/cia-preview.webp', description: 'A recruiting identity shaped by the tension between the Agency’s history and its future.', intensity: 142 }
     ]
   },
   {
@@ -179,8 +179,11 @@ const entryMarkup = (entry, index) => {
   const linkedTitle = entry.url
     ? `<a class="${entry.cover ? 'text-link preview-trigger' : ''}" href="${entry.url}" target="_blank" rel="noopener"${entry.cover ? ' aria-expanded="false"' : ''}>${entry.title}</a>`
     : entry.title;
+  const previewMedia = entry.cover?.endsWith('.mp4')
+    ? `<video src="${entry.cover}" muted loop playsinline preload="metadata" aria-label="${entry.title} preview"></video>`
+    : `<img src="${entry.cover}" alt="${entry.title} thumbnail" />`;
   const title = entry.cover
-    ? `<span class="preview-shell">${linkedTitle}<span class="preview-card" aria-hidden="true"><img src="${entry.cover}" alt="${entry.title} thumbnail" /></span></span>`
+    ? `<span class="preview-shell">${linkedTitle}<span class="preview-card" aria-hidden="true">${previewMedia}</span></span>`
     : linkedTitle;
   return `
     <article class="timeline-entry" data-kind="${entry.kind}" style="--complexity: ${complexity}; --reveal-delay: ${(index % 4) * 45}ms">
@@ -194,7 +197,7 @@ const entryMarkup = (entry, index) => {
 timeline.innerHTML = timelineData.map((section) => `
   <section class="timeline-year" aria-labelledby="year-${section.year.toLowerCase()}">
     <h2 class="timeline-year-heading" id="year-${section.year.toLowerCase()}">${section.year}</h2>
-    ${section.entries.map(entryMarkup).join('')}
+    <div class="timeline-year-entries">${section.entries.map(entryMarkup).join('')}</div>
   </section>`).join('');
 
 const timelineEntries = [...timeline.querySelectorAll('.timeline-entry')];
@@ -218,11 +221,15 @@ detailsTrigger.addEventListener('click', () => {
     document.body.classList.add('details-open');
     timelinePanel.hidden = false;
     timelinePanel.inert = false;
-    requestAnimationFrame(() => detailsGroup.classList.add('is-open'));
+    requestAnimationFrame(() => {
+      detailsGroup.classList.add('is-open');
+      requestTimelineActiveUpdate();
+    });
     return;
   }
 
   detailsGroup.classList.remove('is-open');
+  clearTimelineActive();
   timelineEntries.forEach((entry) => entry.classList.remove('is-visible'));
   detailsCloseTimer = window.setTimeout(() => {
     timelinePanel.inert = true;
@@ -233,6 +240,58 @@ detailsTrigger.addEventListener('click', () => {
 });
 
 const previewShells = [...document.querySelectorAll('.preview-shell')];
+
+let activeTimelineEntry;
+let activeTimelineFrame;
+
+const clearTimelineActive = () => {
+  activeTimelineEntry?.querySelector('video')?.pause();
+  activeTimelineEntry?.classList.remove('is-active');
+  activeTimelineEntry = undefined;
+  timeline.classList.remove('has-active');
+  timeline.querySelectorAll('.preview-card[aria-hidden="false"]').forEach((card) => card.setAttribute('aria-hidden', 'true'));
+};
+
+const updateTimelineActive = () => {
+  activeTimelineFrame = undefined;
+  if (!document.body.classList.contains('details-open') || timelinePanel.hidden) return;
+
+  const viewportCenter = window.innerHeight / 2;
+  let closest;
+  let closestDistance = Infinity;
+
+  timelineEntries.forEach((entry) => {
+    const rect = entry.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+    const distance = Math.abs((rect.top + rect.bottom) / 2 - viewportCenter);
+    if (distance < closestDistance) {
+      closest = entry;
+      closestDistance = distance;
+    }
+  });
+
+  if (!closest || closestDistance > window.innerHeight * .32) {
+    clearTimelineActive();
+    return;
+  }
+  if (closest === activeTimelineEntry) return;
+  activeTimelineEntry?.querySelector('video')?.pause();
+  activeTimelineEntry?.classList.remove('is-active');
+  activeTimelineEntry?.querySelector('.preview-card')?.setAttribute('aria-hidden', 'true');
+  activeTimelineEntry = closest;
+  timeline.classList.add('has-active');
+  activeTimelineEntry.classList.add('is-active');
+  activeTimelineEntry.querySelector('.preview-card')?.setAttribute('aria-hidden', 'false');
+  activeTimelineEntry.querySelector('video')?.play().catch(() => {});
+};
+
+const requestTimelineActiveUpdate = () => {
+  if (activeTimelineFrame) return;
+  activeTimelineFrame = requestAnimationFrame(updateTimelineActive);
+};
+
+window.addEventListener('scroll', requestTimelineActiveUpdate, { passive: true });
+window.addEventListener('resize', requestTimelineActiveUpdate);
 
 const setPreviewPlayback = (shell, playing) => {
   const video = shell.querySelector('video');
