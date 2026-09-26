@@ -48,8 +48,6 @@ main {
   display: flex;
   flex-direction: column;
   gap: 40px;
-  opacity: 0;
-  animation: enter .85s var(--ease) .62s forwards;
 }
 
 .bio,
@@ -118,6 +116,26 @@ main {
 
 .muted { color: var(--muted); }
 
+.load-line {
+  opacity: 0;
+  transform: translateY(4px);
+  animation: text-in .72s var(--ease) calc(.58s + var(--i) * .055s) forwards;
+}
+
+.bio .load-line,
+.nested-panel-inner .load-line { display: block; }
+
+.footer-contact {
+  position: absolute;
+  left: 50%;
+  bottom: 40px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
 .load-cover {
   position: fixed;
   inset: 0;
@@ -125,11 +143,12 @@ main {
   background: var(--ink);
   pointer-events: none;
   transform-origin: top;
-  animation: cover .95s var(--ease) .05s both;
+  animation: cover .82s var(--ease) .05s both;
 }
 
 @keyframes cover { to { transform: scaleY(0); } }
 @keyframes enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes text-in { to { opacity: 1; transform: translateY(0); } }
 
 @media (max-width: 700px) {
   main { overflow: visible; }
@@ -157,6 +176,11 @@ main {
 
   .groups { gap: 40px; }
   .nested-panel-inner p { width: calc(100% - 16px); }
+
+  .footer-contact {
+    left: 40px;
+    bottom: 24px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
