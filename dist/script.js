@@ -324,6 +324,7 @@ let scatterLocked = false;
 let scatterTimer;
 let scatterCycle;
 let scatterGeneration = 0;
+let scatterOpenedAt = 0;
 
 const hashText = (value) => [...value].reduce((hash, character) => Math.imul(hash ^ character.charCodeAt(0), 16777619), 2166136261) >>> 0;
 const seeded = (seed) => () => ((seed = Math.imul(seed, 1664525) + 1013904223 >>> 0) / 4294967296);
@@ -358,8 +359,8 @@ const gifCanvas = async (asset, generation) => {
   }
   const response = await fetch(asset.src);
   const decoder = new ImageDecoder({ data: await response.arrayBuffer(), type: response.headers.get('content-type') || 'image/gif' });
+  await decoder.tracks.ready;
   const track = decoder.tracks.selectedTrack;
-  await track.ready;
   const context = canvas.getContext('2d');
   let destroyed = false;
   let markReady;
@@ -382,6 +383,15 @@ const gifCanvas = async (asset, generation) => {
 };
 
 const mediaNode = async (asset, generation) => {
+  if (asset.type === 'spotify') {
+    const frame = document.createElement('iframe');
+    frame.src = asset.src;
+    frame.title = asset.alt;
+    frame.loading = 'lazy';
+    frame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+    frame.setAttribute('allowfullscreen', '');
+    return frame;
+  }
   if (asset.type === 'video') {
     const video = document.createElement('video');
     video.src = asset.src;
@@ -391,7 +401,14 @@ const mediaNode = async (asset, generation) => {
     video.loop = false;
     return video;
   }
-  if (asset.type === 'gif') return gifCanvas(asset, generation);
+  if (asset.type === 'gif') {
+    const image = new Image();
+    image.alt = asset.alt;
+    image.decoding = 'async';
+    image.src = asset.src;
+    await image.decode().catch(() => {});
+    return image;
+  }
   const image = new Image();
   image.alt = asset.alt;
   image.decoding = 'async';
@@ -421,11 +438,19 @@ const renderScatterGroup = async (assets, project, generation) => {
   window.setTimeout(() => [...scatter.querySelectorAll('.scatter-group.is-leaving')].forEach((old) => old.remove()), reducedMotion.matches ? 0 : 650);
   scatter.append(group);
   for (let index = 0; index < count; index += 1) {
-    const media = await mediaNode(assets[index], generation);
+    let media;
+    try {
+      media = await mediaNode(assets[index], generation);
+    } catch {
+      media = new Image();
+      media.alt = assets[index].alt || project.title;
+      media.src = assets[index].src;
+    }
     if (generation !== scatterGeneration) return;
     const item = document.createElement('figure');
     const position = positions[index];
     item.className = 'scatter-item';
+    if (media instanceof HTMLIFrameElement) item.classList.add('has-embed');
     item.style.cssText = `--x:${position.x}vw;--y:${position.y}svh;--w:${position.w}vw`;
     item.append(media);
     group.append(item);
@@ -443,6 +468,7 @@ const showScatter = async (link, lock = false) => {
   if (scatterLink && scatterLink !== link) dismissScatter(true);
   scatterLink = link;
   scatterLocked = lock || scatterLocked;
+  scatterOpenedAt = performance.now();
   scatterGeneration += 1;
   const generation = scatterGeneration;
   link.setAttribute('aria-expanded', 'true');
@@ -457,7 +483,10 @@ const showScatter = async (link, lock = false) => {
   };
   display();
   window.clearInterval(scatterCycle);
-  if (project.assets.length > (coarsePointer.matches ? 4 : 7)) scatterCycle = window.setInterval(display, 5200);
+  if (project.assets.length > (coarsePointer.matches ? 4 : 7)) {
+    const cycleDuration = project.assets.some((asset) => asset.type === 'spotify') ? 10000 : 5200;
+    scatterCycle = window.setInterval(display, cycleDuration);
+  }
 };
 
 scatterTriggers.forEach((link) => {
@@ -483,7 +512,9 @@ document.addEventListener('click', (event) => {
   if (scatterLocked && !event.target.closest('.project-scatter-trigger')) dismissScatter();
 });
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && scatterLink) dismissScatter(); });
-window.addEventListener('scroll', () => { if (scatterLocked) dismissScatter(); }, { passive: true });
+window.addEventListener('scroll', () => {
+  if (scatterLocked && performance.now() - scatterOpenedAt > 350) dismissScatter();
+}, { passive: true });
 
 const writingReader = document.querySelector('#writing-reader');
 const writingTitle = writingReader.querySelector('#writing-reader-title');

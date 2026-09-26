@@ -80,7 +80,10 @@ for (const pageUrl of projectUrls) {
   const slug = slugFor(pageUrl);
   const dir = join(outRoot, slug);
   await mkdir(dir, { recursive: true });
-  const candidates = mediaFrom(scopedSource(source, pageUrl));
+  let candidates = mediaFrom(scopedSource(source, pageUrl));
+  if (slug === 'the-smart-factory') {
+    candidates = candidates.filter((item) => /(?:tSF-|SF_)/i.test(item.url));
+  }
   if (!candidates.length && fallbackMedia[pageUrl]) candidates.push(...fallbackMedia[pageUrl]);
   const assets = [];
 
@@ -119,6 +122,13 @@ for (const pageUrl of projectUrls) {
   manifest.projects[pageUrl] = { slug, title: titleFor(source, pageUrl), assets };
   process.stdout.write(`${slug}: ${assets.length}\n`);
 }
+
+try {
+  const spotify = JSON.parse(await readFile(join(outRoot, 'spotify-embeds.json'), 'utf8'));
+  for (const [url, assets] of Object.entries(spotify)) {
+    if (manifest.projects[url]) manifest.projects[url].assets.unshift(...assets);
+  }
+} catch {}
 
 await writeFile(join(outRoot, 'manifest.json'), JSON.stringify(manifest, null, 2));
 process.stdout.write(`downloaded ${downloaded} assets across ${projectUrls.length} projects\n`);

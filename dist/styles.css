@@ -892,7 +892,8 @@ body.details-open .footer-contact {
 
 .scatter-item img,
 .scatter-item video,
-.scatter-item canvas {
+.scatter-item canvas,
+.scatter-item iframe {
   display: block;
   width: 100%;
   height: auto;
@@ -900,6 +901,15 @@ body.details-open .footer-contact {
   border: 0;
   border-radius: 4px;
   object-fit: contain;
+}
+
+.scatter-item.has-embed { pointer-events: auto; }
+
+.scatter-item iframe {
+  height: min(352px, 42svh);
+  border: 0;
+  background: transparent;
+  pointer-events: auto;
 }
 
 .writing-reader {
@@ -1118,7 +1128,10 @@ body.details-open .footer-contact {
 
   .scatter-item img,
   .scatter-item video,
-  .scatter-item canvas { max-height: 31svh; }
+  .scatter-item canvas,
+  .scatter-item iframe { max-height: 31svh; }
+
+  .scatter-item iframe { height: min(352px, 31svh); }
 
   .writing-reader {
     top: auto;
