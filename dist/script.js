@@ -172,6 +172,9 @@ const detailsTrigger = document.querySelector('#details-trigger');
 const timelinePanel = document.querySelector('#timeline-panel');
 const detailsLabel = detailsTrigger.querySelector('.details-label');
 let detailsCloseTimer;
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const openDuration = () => reducedMotion.matches ? 0 : 900;
+const closeDuration = () => reducedMotion.matches ? 0 : 650;
 
 const entryMarkup = (entry, index) => {
   const complexity = Math.max(20, Math.min(100, Math.round(entry.intensity / 1.76)));
@@ -186,7 +189,7 @@ const entryMarkup = (entry, index) => {
     ? `<span class="preview-shell">${linkedTitle}<span class="preview-card" aria-hidden="true">${previewMedia}</span></span>`
     : linkedTitle;
   return `
-    <article class="timeline-entry" data-kind="${entry.kind}" style="--complexity: ${complexity}; --reveal-delay: ${(index % 4) * 45}ms">
+    <article class="timeline-entry" data-kind="${entry.kind}" style="--complexity: ${complexity}; --reveal-delay: ${(index % 8) * 45}ms">
       <span class="timeline-marker" aria-hidden="true"></span>
       <div class="timeline-meta"><time>${entry.date}</time><span>${entry.kind}</span></div>
       <h3>${title}</h3>
@@ -194,10 +197,11 @@ const entryMarkup = (entry, index) => {
     </article>`;
 };
 
-timeline.innerHTML = timelineData.map((section) => `
+let timelineSequence = 0;
+timeline.innerHTML = timelineData.map((section, yearIndex) => `
   <section class="timeline-year" aria-labelledby="year-${section.year.toLowerCase()}">
-    <h2 class="timeline-year-heading" id="year-${section.year.toLowerCase()}">${section.year}</h2>
-    <div class="timeline-year-entries">${section.entries.map(entryMarkup).join('')}</div>
+    <h2 class="timeline-year-heading" id="year-${section.year.toLowerCase()}" style="--year-delay: ${yearIndex * 55}ms">${section.year}</h2>
+    <div class="timeline-year-entries">${section.entries.map((entry) => entryMarkup(entry, timelineSequence++)).join('')}</div>
   </section>`).join('');
 
 const timelineEntries = [...timeline.querySelectorAll('.timeline-entry')];
@@ -218,25 +222,56 @@ detailsTrigger.addEventListener('click', () => {
   detailsLabel.textContent = open ? 'Less detail' : 'More detail';
 
   if (open) {
+    clearTimelineActive();
+    document.body.classList.remove('details-closing');
+    timeline.querySelectorAll('.is-exiting').forEach((element) => {
+      element.classList.remove('is-exiting');
+      element.style.removeProperty('--close-delay');
+    });
     document.body.classList.add('details-open');
+    document.body.classList.add('details-opening');
     timelinePanel.hidden = false;
     timelinePanel.inert = false;
     requestAnimationFrame(() => {
       detailsGroup.classList.add('is-open');
-      requestTimelineActiveUpdate();
     });
+    detailsCloseTimer = window.setTimeout(() => {
+      document.body.classList.remove('details-opening');
+      requestTimelineActiveUpdate();
+    }, openDuration());
     return;
   }
 
   detailsGroup.classList.remove('is-open');
+  document.body.classList.remove('details-opening');
+  document.body.classList.add('details-closing');
   clearTimelineActive();
-  timelineEntries.forEach((entry) => entry.classList.remove('is-visible'));
+
+  const visibleMotionItems = [...timeline.querySelectorAll('.timeline-entry.is-visible, .timeline-year-heading')]
+    .filter((element) => {
+      const rect = element.getBoundingClientRect();
+      return rect.bottom > 0 && rect.top < window.innerHeight;
+    })
+    .sort((a, b) => b.getBoundingClientRect().top - a.getBoundingClientRect().top);
+
+  visibleMotionItems.forEach((element, index) => {
+    element.style.setProperty('--close-delay', `${index * 45}ms`);
+    element.classList.add('is-exiting');
+  });
+
   detailsCloseTimer = window.setTimeout(() => {
     timelinePanel.inert = true;
     timelinePanel.hidden = true;
-    document.body.classList.remove('details-open');
-    timelineEntries.forEach((entry) => revealObserver.observe(entry));
-  }, 320);
+    document.body.classList.remove('details-open', 'details-closing');
+    timeline.querySelectorAll('.is-exiting').forEach((element) => {
+      element.classList.remove('is-exiting');
+      element.style.removeProperty('--close-delay');
+    });
+    timelineEntries.forEach((entry) => {
+      entry.classList.remove('is-visible');
+      revealObserver.observe(entry);
+    });
+  }, closeDuration());
 });
 
 const previewShells = [...document.querySelectorAll('.preview-shell')];
@@ -257,7 +292,7 @@ const clearTimelineActive = () => {
 
 const updateTimelineActive = () => {
   activeTimelineFrame = undefined;
-  if (!document.body.classList.contains('details-open') || timelinePanel.hidden) return;
+  if (!document.body.classList.contains('details-open') || document.body.classList.contains('details-opening') || document.body.classList.contains('details-closing') || timelinePanel.hidden) return;
 
   const viewportCenter = window.innerHeight / 2;
   let closest;

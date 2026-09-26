@@ -44,10 +44,15 @@ main::before {
   background: rgba(29, 27, 25, .16);
   transform: scaleY(0);
   transform-origin: top;
-  transition: transform 1.8s var(--ease) .08s;
+  transition: transform .9s var(--ease) .04s;
 }
 
 body.details-open main::before { transform: scaleY(1); }
+body.details-closing main::before {
+  transform: scaleY(0);
+  transition-duration: .55s;
+  transition-delay: .14s;
+}
 
 .logo {
   position: sticky;
@@ -254,7 +259,7 @@ body.details-open main::before { transform: scaleY(1); }
   min-height: 0;
   overflow: visible;
   opacity: 0;
-  transition: opacity .32s ease;
+  transition: opacity .28s ease;
 }
 
 body.details-open .timeline-panel-inner {
@@ -332,6 +337,21 @@ body.details-open .present-complexity { opacity: 1; }
   font-weight: 100;
   line-height: .94;
   letter-spacing: -2.4px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .42s ease calc(80ms + var(--year-delay, 0ms)), transform .62s var(--ease) calc(80ms + var(--year-delay, 0ms));
+}
+
+body.details-open:not(.details-closing) .timeline-year-heading {
+  opacity: 1;
+  transform: none;
+}
+
+.timeline-year-heading.is-exiting {
+  opacity: 0;
+  transform: translateY(-4px);
+  transition-duration: .28s, .42s;
+  transition-delay: var(--close-delay, 0ms);
 }
 
 .timeline-year-entries {
@@ -346,19 +366,28 @@ body.details-open .present-complexity { opacity: 1; }
   --complexity: 50;
   position: relative;
   z-index: 2;
+  top: 6px;
   width: 100%;
   min-height: 92px;
   margin: 0 0 54px;
   padding: 0 6vw 0 40px;
   overflow: visible;
   opacity: 0;
-  transition: opacity .48s ease var(--reveal-delay, 0ms);
+  transition: opacity .46s ease var(--reveal-delay, 0ms), top .64s var(--ease) var(--reveal-delay, 0ms);
 }
 
 .timeline-entry:last-child { margin-bottom: 0; }
 
 .timeline-entry.is-visible {
+  top: 0;
   opacity: 1;
+}
+
+.timeline-entry.is-visible.is-exiting {
+  top: -6px;
+  opacity: 0;
+  transition-duration: .3s, .44s;
+  transition-delay: var(--close-delay, 0ms);
 }
 
 .timeline-entry::after {
@@ -624,5 +653,5 @@ body.details-open .footer-contact {
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; transition-duration: .01ms !important; }
-  .timeline-entry { opacity: 1; transform: none; }
+  .timeline-entry { top: 0; opacity: 1; transform: none; }
 }
