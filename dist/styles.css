@@ -136,17 +136,6 @@ main {
   white-space: nowrap;
 }
 
-.load-cover {
-  position: fixed;
-  inset: 0;
-  z-index: 5;
-  background: var(--ink);
-  pointer-events: none;
-  transform-origin: top;
-  animation: cover .82s var(--ease) .05s both;
-}
-
-@keyframes cover { to { transform: scaleY(0); } }
 @keyframes enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes text-in { to { opacity: 1; transform: translateY(0); } }
 
