@@ -186,9 +186,13 @@ const entryMarkup = (entry, index) => {
   const marker = entry.kind === 'project' && entry.url
     ? `<button class="timeline-marker project-expand-trigger" type="button" tabindex="-1" aria-label="Show ${entry.title} images" aria-expanded="false"><i class="ri-add-line" aria-hidden="true"></i></button>`
     : '<span class="timeline-marker" aria-hidden="true"></span>';
+  const complexityLabel = entry.kind === 'project'
+    ? `<span class="complexity-label" aria-hidden="true">Complexity <span>${complexity}%</span></span>`
+    : '';
   return `
     <article class="timeline-entry" data-kind="${entry.kind}" style="--complexity: ${complexity}; --reveal-delay: ${(index % 8) * 45}ms">
       ${marker}
+      ${complexityLabel}
       <div class="timeline-meta"><time>${entry.date}</time><span>${entry.kind}</span></div>
       <h3>${linkedTitle}</h3>
       ${entry.description ? `<p>${entry.description}</p>` : ''}
