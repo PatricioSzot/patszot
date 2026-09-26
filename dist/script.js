@@ -180,7 +180,7 @@ const entryMarkup = (entry, index) => {
   const complexity = Math.max(20, Math.min(100, Math.round(entry.intensity / 1.76)));
 
   const linkedTitle = entry.url
-    ? `<a class="${entry.cover ? 'text-link preview-trigger' : ''}" href="${entry.url}" target="_blank" rel="noopener"${entry.cover ? ' aria-expanded="false"' : ''}>${entry.title}</a>`
+    ? `<a class="${entry.cover ? 'text-link preview-trigger' : ''}" href="${entry.url}" rel="noopener"${entry.cover ? ' aria-expanded="false"' : ''}>${entry.title}</a>`
     : entry.title;
   const previewMedia = entry.cover?.endsWith('.mp4')
     ? `<video src="${entry.cover}" muted loop playsinline preload="metadata" aria-label="${entry.title} preview"></video>`
@@ -394,3 +394,110 @@ previewShells.forEach((shell) => {
 document.addEventListener('click', (event) => {
   if (!event.target.closest('.preview-shell')) closePreviews();
 });
+
+const siteViewer = document.querySelector('#site-viewer');
+const siteViewerFrame = siteViewer.querySelector('.site-viewer-frame');
+const siteViewerPoster = siteViewer.querySelector('.site-viewer-poster');
+const siteViewerTitle = siteViewer.querySelector('.site-viewer-title');
+const siteViewerClose = siteViewer.querySelector('.site-viewer-close');
+let siteViewerLink;
+let siteViewerTimer;
+
+const viewerIsOpen = () => siteViewer.classList.contains('is-open') || siteViewer.classList.contains('is-preparing');
+
+document.querySelectorAll('.profile a[href^="http"], .timeline a[href^="http"]').forEach((link) => {
+  link.setAttribute('aria-haspopup', 'dialog');
+  link.setAttribute('aria-controls', 'site-viewer');
+});
+
+const resetSiteViewer = () => {
+  siteViewer.hidden = true;
+  siteViewer.setAttribute('aria-hidden', 'true');
+  siteViewer.className = 'site-viewer';
+  siteViewerFrame.removeAttribute('src');
+  siteViewerPoster.replaceChildren();
+  siteViewerTitle.textContent = '';
+  siteViewerLink = undefined;
+};
+
+const closeSiteViewer = ({ fromScroll = false } = {}) => {
+  if (siteViewer.classList.contains('is-closing')) return;
+  if (!viewerIsOpen()) return;
+  window.clearTimeout(siteViewerTimer);
+  siteViewer.classList.remove('is-open', 'is-preparing', 'is-loaded');
+  siteViewer.classList.add('is-closing');
+  if (fromScroll) siteViewer.classList.add('is-scroll-closing');
+  siteViewer.setAttribute('aria-hidden', 'true');
+  siteViewerFrame.inert = true;
+  siteViewerTimer = window.setTimeout(resetSiteViewer, reducedMotion.matches ? 0 : (fromScroll ? 340 : 680));
+};
+
+const openSiteViewer = (link) => {
+  window.clearTimeout(siteViewerTimer);
+  const url = new URL(link.href, window.location.href);
+  const shell = link.closest('.preview-shell');
+  const previewCard = shell?.querySelector('.preview-card') || activePreviewEntry?.querySelector('.preview-card');
+  const previewRect = previewCard?.getBoundingClientRect();
+  const sourceMedia = previewCard?.querySelector('img, video');
+
+  siteViewerLink = link;
+  siteViewer.hidden = false;
+  siteViewer.setAttribute('aria-hidden', 'false');
+  siteViewerFrame.inert = false;
+  siteViewer.className = 'site-viewer is-preparing';
+  siteViewer.style.setProperty('--viewer-start-left', `${previewRect?.left ?? 40}px`);
+  siteViewer.style.setProperty('--viewer-start-bottom', `${previewRect ? window.innerHeight - previewRect.bottom : 40}px`);
+  siteViewer.style.setProperty('--viewer-start-width', `${previewRect?.width ?? 360}px`);
+  siteViewer.style.setProperty('--viewer-start-height', `${previewRect?.height ?? 189}px`);
+  siteViewerTitle.textContent = url.hostname.replace(/^www\./, '');
+  siteViewerFrame.title = `${link.textContent.trim()} website preview`;
+  siteViewerPoster.replaceChildren();
+
+  if (sourceMedia) {
+    const posterMedia = sourceMedia.cloneNode(true);
+    posterMedia.removeAttribute('id');
+    if (posterMedia instanceof HTMLVideoElement) {
+      posterMedia.muted = true;
+      posterMedia.loop = true;
+      posterMedia.play().catch(() => {});
+    }
+    siteViewerPoster.append(posterMedia);
+  }
+
+  closePreviews();
+  requestAnimationFrame(() => {
+    siteViewer.classList.add('is-open');
+    siteViewer.classList.remove('is-preparing');
+    siteViewerFrame.src = url.href;
+    siteViewerClose.focus({ preventScroll: true });
+  });
+};
+
+siteViewerFrame.addEventListener('load', () => {
+  if (!siteViewerFrame.src) return;
+  siteViewer.classList.add('is-loaded');
+});
+
+siteViewerClose.addEventListener('click', () => {
+  const returnTarget = siteViewerLink;
+  closeSiteViewer();
+  returnTarget?.focus({ preventScroll: true });
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key !== 'Escape' || !viewerIsOpen()) return;
+  const returnTarget = siteViewerLink;
+  closeSiteViewer();
+  returnTarget?.focus({ preventScroll: true });
+});
+
+document.addEventListener('click', (event) => {
+  const link = event.target.closest('.profile a[href^="http"], .timeline a[href^="http"]');
+  if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  openSiteViewer(link);
+});
+
+window.addEventListener('scroll', () => {
+  if (viewerIsOpen()) closeSiteViewer({ fromScroll: true });
+}, { passive: true });
