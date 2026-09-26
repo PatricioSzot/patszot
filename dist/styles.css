@@ -368,8 +368,8 @@ body.details-open:not(.details-closing) .timeline-year-heading {
   z-index: 2;
   top: 6px;
   width: 100%;
-  min-height: 92px;
-  margin: 0 0 54px;
+  min-height: 112px;
+  margin: 0 0 72px;
   padding: 0 6vw 0 40px;
   overflow: visible;
   opacity: 0;
@@ -873,20 +873,20 @@ body.details-open .footer-contact {
   border-radius: 4px;
   background: transparent;
   opacity: 0;
-  transform: translate3d(0, 7px, 0) rotate(var(--r)) scale(.985);
+  transform: translate3d(-8px, 4px, 0) scale(.985);
   transform-origin: center;
-  transition: opacity .38s ease var(--delay), transform .72s var(--ease) var(--delay);
+  transition: opacity .38s ease var(--delay, 0ms), transform .72s var(--ease) var(--delay, 0ms);
   will-change: opacity, transform;
 }
 
-.scatter-group.is-visible .scatter-item {
+.scatter-item.is-visible {
   opacity: 1;
-  transform: translate3d(0, 0, 0) rotate(var(--r)) scale(1);
+  transform: translate3d(0, 0, 0) scale(1);
 }
 
 .scatter-group.is-leaving .scatter-item {
   opacity: 0;
-  transform: translate3d(0, -4px, 0) rotate(var(--r)) scale(.992);
+  transform: translate3d(8px, -2px, 0) scale(.992);
   transition-delay: 0ms;
 }
 
@@ -902,46 +902,32 @@ body.details-open .footer-contact {
   object-fit: contain;
 }
 
-body.writing-open { overflow: hidden; }
-
-.writing-reader-backdrop {
-  position: fixed;
-  z-index: 58;
-  inset: 0;
-  padding: 0;
-  border: 0;
-  background: rgba(255, 255, 255, .72);
-  opacity: 0;
-  cursor: default;
-  transition: opacity .32s ease;
-}
-
-.writing-reader-backdrop.is-open { opacity: 1; }
-
 .writing-reader {
   position: fixed;
   z-index: 60;
-  top: 40px;
-  bottom: 40px;
-  left: 50%;
-  width: min(680px, calc(100vw - 80px));
+  top: auto;
+  bottom: var(--reader-bottom, 40px);
+  left: var(--reader-left, 40px);
+  width: min(var(--reader-width, 560px), calc(50vw - 64px));
+  height: min(72svh, 760px);
   overflow: hidden;
   border: 1px solid rgba(29, 27, 25, .14);
   border-radius: 4px;
   background: #fff;
   opacity: 0;
-  transform: translate3d(-50%, 10px, 0) scale(.992);
+  transform: translate3d(-10px, 8px, 0) scale(.992);
+  transform-origin: left bottom;
   transition: opacity .3s ease, transform .58s var(--ease);
 }
 
 .writing-reader.is-open {
   opacity: 1;
-  transform: translate3d(-50%, 0, 0) scale(1);
+  transform: translate3d(0, 0, 0) scale(1);
 }
 
 .writing-reader.is-closing {
   opacity: 0;
-  transform: translate3d(-50%, -5px, 0) scale(.996);
+  transform: translate3d(-6px, 3px, 0) scale(.996);
 }
 
 .writing-reader-close {
@@ -1105,8 +1091,8 @@ body.writing-open { overflow: hidden; }
 
   .timeline-entry {
     width: 100%;
-    min-height: 100px;
-    margin-left: 0;
+    min-height: 116px;
+    margin: 0 0 64px;
     padding: 0 18px 0 20px;
     text-align: left;
   }
@@ -1135,11 +1121,12 @@ body.writing-open { overflow: hidden; }
   .scatter-item canvas { max-height: 31svh; }
 
   .writing-reader {
-    top: 20px;
+    top: auto;
     right: 20px;
     bottom: 20px;
     left: 20px;
     width: auto;
+    height: min(68svh, 620px);
     transform: translate3d(0, 8px, 0) scale(.994);
   }
 

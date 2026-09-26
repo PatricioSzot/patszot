@@ -26,6 +26,7 @@ const timelineData = [
   {
     year: '2026',
     entries: [
+      { date: 'Present', kind: 'project', title: 'Brand Engineer at AirOps', url: 'https://www.airops.com/', description: 'Brand strategy, market repositioning, web transformation, image systems, and marketing tooling.', intensity: 176 },
       { date: 'January 22', kind: 'writing', title: 'My Inner Circle is Made Up of Bad-ass Women', url: 'https://medium.com/@patrick.m.szot/my-inner-circle-is-made-up-of-bad-ass-women-5-powers-they-gave-me-that-id-like-to-share-with-you-0e9117e3693a', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*L6Mz9ArPrUDjh_GrxX7Yrg.png', description: 'Five lessons about power, care, and reflecting the world we actually live in.', intensity: 70 }
     ]
   },
@@ -179,7 +180,7 @@ const closeDuration = () => reducedMotion.matches ? 0 : 650;
 const entryMarkup = (entry, index) => {
   const complexity = Math.max(20, Math.min(100, Math.round(entry.intensity / 1.76)));
 
-  const linkedTitle = entry.url
+  const linkedTitle = entry.url && entry.kind !== 'milestone'
     ? `<a class="text-link${entry.kind === 'project' ? ' project-scatter-trigger' : ''}${entry.kind === 'writing' ? ' writing-popup-trigger' : ''}" href="${entry.url}" rel="noopener">${entry.title}</a>`
     : entry.title;
   return `
@@ -361,15 +362,22 @@ const gifCanvas = async (asset, generation) => {
   await track.ready;
   const context = canvas.getContext('2d');
   let destroyed = false;
+  let markReady;
+  const ready = new Promise((resolve) => { markReady = resolve; });
   canvas.addEventListener('scatterdestroy', () => { destroyed = true; decoder.close(); }, { once: true });
-  for (let frameIndex = 0; frameIndex < track.frameCount && !destroyed && generation === scatterGeneration; frameIndex += 1) {
-    const { image } = await decoder.decode({ frameIndex });
-    if (!canvas.width) { canvas.width = image.displayWidth; canvas.height = image.displayHeight; }
-    context.drawImage(image, 0, 0);
-    const duration = Math.max(20, image.duration / 1000 || 80);
-    image.close();
-    if (frameIndex < track.frameCount - 1) await new Promise((resolve) => window.setTimeout(resolve, duration));
-  }
+  (async () => {
+    for (let frameIndex = 0; frameIndex < track.frameCount && !destroyed && generation === scatterGeneration; frameIndex += 1) {
+      const { image } = await decoder.decode({ frameIndex });
+      if (!canvas.width) { canvas.width = image.displayWidth; canvas.height = image.displayHeight; }
+      context.drawImage(image, 0, 0);
+      if (frameIndex === 0) markReady();
+      const duration = Math.max(20, image.duration / 1000 || 80);
+      image.close();
+      if (frameIndex < track.frameCount - 1) await new Promise((resolve) => window.setTimeout(resolve, duration));
+    }
+    markReady();
+  })().catch(markReady);
+  await ready;
   return canvas;
 };
 
@@ -398,7 +406,9 @@ const positionsFor = (url, count) => {
   const desktop = [[3,15,22],[27,5,18],[56,7,22],[73,29,23],[5,59,24],[34,65,21],[68,67,25],[43,35,18]];
   const phone = [[4,9,45],[50,16,44],[8,50,52],[46,63,48]];
   const slots = (mobile ? phone : desktop).sort(() => random() - .5);
-  return slots.slice(0, count).map(([x,y,w], index) => ({ x, y, w, rotate: (random() - .5) * (mobile ? 2 : 3), delay: index * 55 }));
+  return slots.slice(0, count)
+    .sort((a, b) => a[0] - b[0])
+    .map(([x,y,w], index) => ({ x, y, w, delay: index * 125 }));
 };
 
 const renderScatterGroup = async (assets, project, generation) => {
@@ -407,21 +417,22 @@ const renderScatterGroup = async (assets, project, generation) => {
   const positions = positionsFor(project.slug + assets[0]?.src, count);
   const group = document.createElement('div');
   group.className = 'scatter-group';
-  const nodes = await Promise.all(assets.slice(0, count).map((asset) => mediaNode(asset, generation)));
-  if (generation !== scatterGeneration) return;
-  nodes.forEach((media, index) => {
+  scatter.querySelector('.scatter-group')?.classList.add('is-leaving');
+  window.setTimeout(() => [...scatter.querySelectorAll('.scatter-group.is-leaving')].forEach((old) => old.remove()), reducedMotion.matches ? 0 : 650);
+  scatter.append(group);
+  for (let index = 0; index < count; index += 1) {
+    const media = await mediaNode(assets[index], generation);
+    if (generation !== scatterGeneration) return;
     const item = document.createElement('figure');
     const position = positions[index];
     item.className = 'scatter-item';
-    item.style.cssText = `--x:${position.x}vw;--y:${position.y}svh;--w:${position.w}vw;--r:${position.rotate}deg;--delay:${position.delay}ms`;
+    item.style.cssText = `--x:${position.x}vw;--y:${position.y}svh;--w:${position.w}vw`;
     item.append(media);
     group.append(item);
     if (media instanceof HTMLVideoElement) media.play().catch(() => {});
-  });
-  scatter.querySelector('.scatter-group')?.classList.add('is-leaving');
-  scatter.append(group);
-  requestAnimationFrame(() => group.classList.add('is-visible'));
-  window.setTimeout(() => [...scatter.querySelectorAll('.scatter-group.is-leaving')].forEach((old) => old.remove()), reducedMotion.matches ? 0 : 650);
+    requestAnimationFrame(() => item.classList.add('is-visible'));
+    if (!reducedMotion.matches) await new Promise((resolve) => window.setTimeout(resolve, 110));
+  }
 };
 
 const showScatter = async (link, lock = false) => {
@@ -475,7 +486,6 @@ document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && 
 window.addEventListener('scroll', () => { if (scatterLocked) dismissScatter(); }, { passive: true });
 
 const writingReader = document.querySelector('#writing-reader');
-const writingBackdrop = document.querySelector('.writing-reader-backdrop');
 const writingTitle = writingReader.querySelector('#writing-reader-title');
 const writingMeta = writingReader.querySelector('.writing-reader-meta');
 const writingContent = writingReader.querySelector('.writing-reader-content');
@@ -491,11 +501,8 @@ const closeWriting = () => {
   writingReader.classList.remove('is-open');
   writingReader.classList.add('is-closing');
   writingReader.setAttribute('aria-hidden', 'true');
-  writingBackdrop.classList.remove('is-open');
-  document.body.classList.remove('writing-open');
   writingCloseTimer = window.setTimeout(() => {
     writingReader.hidden = true;
-    writingBackdrop.hidden = true;
     writingReader.classList.remove('is-closing');
     writingTitle.textContent = '';
     writingMeta.textContent = '';
@@ -511,25 +518,25 @@ const openWriting = async (link) => {
   const response = await fetch(item.file);
   const article = await response.json();
   writingReturnTarget = link;
+  const readerSeed = hashText(article.meta.source || link.href);
+  writingReader.style.setProperty('--reader-left', `${32 + (readerSeed % 34)}px`);
+  writingReader.style.setProperty('--reader-bottom', `${28 + ((readerSeed >>> 5) % 28)}px`);
+  writingReader.style.setProperty('--reader-width', `${510 + ((readerSeed >>> 10) % 90)}px`);
   window.clearTimeout(writingCloseTimer);
   writingTitle.textContent = article.title;
   writingMeta.textContent = [article.meta.published, article.meta.author].filter(Boolean).join(' · ');
   writingContent.innerHTML = article.content;
   writingScroll.scrollTop = 0;
   writingReader.hidden = false;
-  writingBackdrop.hidden = false;
   writingReader.classList.remove('is-closing');
   writingReader.setAttribute('aria-hidden', 'false');
-  document.body.classList.add('writing-open');
   requestAnimationFrame(() => {
     writingReader.classList.add('is-open');
-    writingBackdrop.classList.add('is-open');
     writingClose.focus({ preventScroll: true });
   });
 };
 
 document.querySelectorAll('.writing-popup-trigger').forEach((link) => {
-  link.setAttribute('aria-haspopup', 'dialog');
   link.setAttribute('aria-controls', 'writing-reader');
   link.addEventListener('click', (event) => {
     event.preventDefault();
@@ -541,7 +548,6 @@ writingClose.addEventListener('click', () => {
   closeWriting();
   writingReturnTarget?.focus({ preventScroll: true });
 });
-writingBackdrop.addEventListener('click', closeWriting);
 document.addEventListener('keydown', (event) => {
   if (event.key !== 'Escape' || writingReader.hidden) return;
   closeWriting();
