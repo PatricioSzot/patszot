@@ -242,14 +242,17 @@ detailsTrigger.addEventListener('click', () => {
 const previewShells = [...document.querySelectorAll('.preview-shell')];
 
 let activeTimelineEntry;
+let activePreviewEntry;
 let activeTimelineFrame;
 
 const clearTimelineActive = () => {
-  activeTimelineEntry?.querySelector('video')?.pause();
   activeTimelineEntry?.classList.remove('is-active');
+  activePreviewEntry?.querySelector('video')?.pause();
+  activePreviewEntry?.classList.remove('is-preview-active');
+  activePreviewEntry?.querySelector('.preview-card')?.setAttribute('aria-hidden', 'true');
   activeTimelineEntry = undefined;
+  activePreviewEntry = undefined;
   timeline.classList.remove('has-active');
-  timeline.querySelectorAll('.preview-card[aria-hidden="false"]').forEach((card) => card.setAttribute('aria-hidden', 'true'));
 };
 
 const updateTimelineActive = () => {
@@ -259,14 +262,19 @@ const updateTimelineActive = () => {
   const viewportCenter = window.innerHeight / 2;
   let closest;
   let closestDistance = Infinity;
+  let closestPreview;
+  let closestPreviewDistance = Infinity;
 
   timelineEntries.forEach((entry) => {
     const rect = entry.getBoundingClientRect();
-    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
     const distance = Math.abs((rect.top + rect.bottom) / 2 - viewportCenter);
-    if (distance < closestDistance) {
+    if (rect.bottom >= 0 && rect.top <= window.innerHeight && distance < closestDistance) {
       closest = entry;
       closestDistance = distance;
+    }
+    if (entry.querySelector('.preview-card') && distance < closestPreviewDistance) {
+      closestPreview = entry;
+      closestPreviewDistance = distance;
     }
   });
 
@@ -274,15 +282,21 @@ const updateTimelineActive = () => {
     clearTimelineActive();
     return;
   }
-  if (closest === activeTimelineEntry) return;
-  activeTimelineEntry?.querySelector('video')?.pause();
-  activeTimelineEntry?.classList.remove('is-active');
-  activeTimelineEntry?.querySelector('.preview-card')?.setAttribute('aria-hidden', 'true');
-  activeTimelineEntry = closest;
-  timeline.classList.add('has-active');
-  activeTimelineEntry.classList.add('is-active');
-  activeTimelineEntry.querySelector('.preview-card')?.setAttribute('aria-hidden', 'false');
-  activeTimelineEntry.querySelector('video')?.play().catch(() => {});
+  if (closest !== activeTimelineEntry) {
+    activeTimelineEntry?.classList.remove('is-active');
+    activeTimelineEntry = closest;
+    timeline.classList.add('has-active');
+    activeTimelineEntry.classList.add('is-active');
+  }
+
+  if (closestPreview === activePreviewEntry) return;
+  activePreviewEntry?.querySelector('video')?.pause();
+  activePreviewEntry?.classList.remove('is-preview-active');
+  activePreviewEntry?.querySelector('.preview-card')?.setAttribute('aria-hidden', 'true');
+  activePreviewEntry = closestPreview;
+  activePreviewEntry?.classList.add('is-preview-active');
+  activePreviewEntry?.querySelector('.preview-card')?.setAttribute('aria-hidden', 'false');
+  activePreviewEntry?.querySelector('video')?.play().catch(() => {});
 };
 
 const requestTimelineActiveUpdate = () => {
