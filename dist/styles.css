@@ -241,15 +241,6 @@ main {
   object-fit: cover;
 }
 
-.cia-preview .cia-cycle-image {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity .42s ease;
-}
-
-.cia-preview .cia-cycle-image.is-active { opacity: 1; }
-
 .preview-shell:hover .preview-card,
 .preview-shell:focus-within .preview-card,
 .preview-shell.is-open .preview-card {
