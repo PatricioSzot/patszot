@@ -290,6 +290,9 @@ const airOpsUrl = 'https://www.airops.com/';
 const airOpsFallback = 'assets/airops-og.jpg';
 let previewLayer = 0;
 let previewRequest = 0;
+let previewTransitioning = false;
+let queuedPreview;
+previewImages[0].dataset.previewSrc = airOpsFallback;
 
 const youtubeThumbnail = (src) => {
   const id = src.match(/youtube\.com\/embed\/([^?&/]+)/)?.[1];
@@ -308,40 +311,72 @@ const previewSourceFor = (entry, manifest) => {
   return airOps?.src || airOpsFallback;
 };
 
-const setProjectPreview = async (entry) => {
-  const request = ++previewRequest;
-  const manifest = await projectManifest;
-  const src = previewSourceFor(entry, manifest) || airOpsFallback;
-  const alt = src === airOpsFallback ? 'AirOps project preview' : `${entry?.title || 'AirOps'} project preview`;
+const runPreviewTransition = ({ src, alt, direction, velocity }) => {
   const current = previewImages[previewLayer];
-  if (current.getAttribute('src') === src) {
+  if (current.dataset.previewSrc === src) {
     current.alt = alt;
     return;
   }
+
+  previewTransitioning = true;
   const nextLayer = previewLayer === 0 ? 1 : 0;
   const next = previewImages[nextLayer];
   next.src = src;
   next.alt = alt;
-  await next.decode().catch(() => {});
-  if (!next.naturalWidth && src !== airOpsFallback) {
-    next.src = airOpsFallback;
-    next.alt = 'AirOps project preview';
-    await next.decode().catch(() => {});
-  }
-  if (!next.naturalWidth) return;
-  if (request !== previewRequest) return;
-  const direction = timelineScrollDirection || 1;
-  const duration = Math.max(500, 780 - timelineScrollVelocity * 80);
-  projectPreview.style.setProperty('--preview-out-y', `${-direction * 100}%`);
-  projectPreview.style.setProperty('--preview-in-y', `${direction * 100}%`);
+  next.dataset.previewSrc = src;
+  const duration = reducedMotion.matches ? 0 : Math.max(500, 780 - velocity * 80);
+  projectPreview.style.setProperty('--preview-out-y', `${direction * 100}%`);
+  projectPreview.style.setProperty('--preview-in-y', `${-direction * 100}%`);
   projectPreview.style.setProperty('--preview-duration', `${duration}ms`);
-  next.classList.remove('is-departing');
-  current.classList.add('is-departing');
-  next.classList.add('is-current');
-  current.classList.remove('is-current');
-  current.alt = '';
-  previewLayer = nextLayer;
-  window.setTimeout(() => current.classList.remove('is-departing'), reducedMotion.matches ? 0 : duration + 40);
+  next.style.transition = 'none';
+  next.classList.remove('is-current', 'is-departing');
+  void next.offsetHeight;
+  next.style.removeProperty('transition');
+
+  requestAnimationFrame(() => {
+    current.classList.add('is-departing');
+    current.classList.remove('is-current');
+    next.classList.add('is-current');
+  });
+
+  window.setTimeout(() => {
+    current.classList.remove('is-departing');
+    current.alt = '';
+    previewLayer = nextLayer;
+    previewTransitioning = false;
+    const queued = queuedPreview;
+    queuedPreview = undefined;
+    if (queued) runPreviewTransition(queued);
+  }, duration + 40);
+};
+
+const setProjectPreview = async (entry) => {
+  const request = ++previewRequest;
+  const manifest = await projectManifest;
+  let src = previewSourceFor(entry, manifest) || airOpsFallback;
+  let alt = src === airOpsFallback ? 'AirOps project preview' : `${entry?.title || 'AirOps'} project preview`;
+  const preload = new Image();
+  preload.src = src;
+  await preload.decode().catch(() => {});
+  if (!preload.naturalWidth && src !== airOpsFallback) {
+    src = airOpsFallback;
+    alt = 'AirOps project preview';
+    preload.src = src;
+    await preload.decode().catch(() => {});
+  }
+  if (!preload.naturalWidth || request !== previewRequest) return;
+
+  const payload = {
+    src,
+    alt,
+    direction: timelineScrollDirection || 1,
+    velocity: timelineScrollVelocity
+  };
+  if (previewTransitioning) {
+    queuedPreview = payload;
+    return;
+  }
+  runPreviewTransition(payload);
 };
 
 const setPreviewVisibility = (visible) => {
@@ -443,6 +478,7 @@ const dismissScatter = (immediate = false) => {
   scatterLocked = false;
   scatterLink?.setAttribute('aria-expanded', 'false');
   scatterLink = undefined;
+  scatter.style.setProperty('--scatter-out-y', `${(timelineScrollDirection || 1) * 18}px`);
   scatter.querySelectorAll('.scatter-group').forEach((group) => group.classList.add('is-leaving'));
   scatter.classList.add('is-closing');
   scatter.classList.remove('is-active');
@@ -582,6 +618,7 @@ const showScatter = async (entry, trigger) => {
   if (scatterLink && scatterLink !== trigger) dismissScatter(true);
   scatterLink = trigger;
   scatterLocked = true;
+  scatter.style.setProperty('--scatter-in-y', `${-(timelineScrollDirection || 1) * 16}px`);
   scatterGeneration += 1;
   const generation = scatterGeneration;
   trigger.setAttribute('aria-expanded', 'true');

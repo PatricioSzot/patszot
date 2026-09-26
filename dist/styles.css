@@ -968,7 +968,7 @@ body.details-open .footer-contact {
   border-radius: 4px;
   background: transparent;
   opacity: 0;
-  transform: translate3d(14px, 2px, 0) scale(.985);
+  transform: translate3d(0, var(--scatter-in-y, -16px), 0) scale(.985);
   transform-origin: center;
   transition: opacity .38s ease var(--delay, 0ms), transform .72s var(--ease) var(--delay, 0ms);
   will-change: opacity, transform;
@@ -981,7 +981,7 @@ body.details-open .footer-contact {
 
 .scatter-group.is-leaving .scatter-item {
   opacity: 0;
-  transform: translate3d(-10px, -1px, 0) scale(.992);
+  transform: translate3d(0, var(--scatter-out-y, 18px), 0) scale(.992);
   transition-delay: var(--exit-delay, 0ms);
   transition-duration: .32s, .52s;
 }
