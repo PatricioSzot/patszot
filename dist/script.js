@@ -548,6 +548,10 @@ writingClose.addEventListener('click', () => {
   closeWriting();
   writingReturnTarget?.focus({ preventScroll: true });
 });
+document.addEventListener('click', (event) => {
+  if (writingReader.hidden || event.target.closest('#writing-reader, .writing-popup-trigger')) return;
+  closeWriting();
+});
 document.addEventListener('keydown', (event) => {
   if (event.key !== 'Escape' || writingReader.hidden) return;
   closeWriting();
