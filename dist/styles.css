@@ -901,6 +901,10 @@ body.details-open .footer-contact {
   transition: none;
 }
 
+.project-focus-preview-image[hidden] { display: none; }
+
+.project-focus-preview-video { background: #fff; }
+
 .project-preview-progress {
   position: absolute;
   z-index: 4;

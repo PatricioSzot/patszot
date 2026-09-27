@@ -167,6 +167,62 @@ const timelineData = [
   }
 ];
 
+const visualAssetKeyByTitle = new Map(Object.entries({
+  'Brand Engineer at AirOps': 'airops',
+  'GlossAI Rebrand': 'gloss-ai',
+  'Album Art: Presage 2022': 'album-art-presage',
+  'Webflow Rebrand': 'webflow-rebrand',
+  'Webflow visual foundations': 'webflow-customer-stories',
+  'Webflow “User Guide”': 'webflow-user-guide',
+  'Webflow Conf 2022 – Process and Guidelines': 'webflow-conf-process-guidelines',
+  '3D Scene': '3d-scene',
+  'Studio Project Trophy Decks': 'studio-trophy-decks',
+  'UI Design – Deloitte Digital Internal Directory': 'design-directory',
+  'Brand Package – Atelier Saady': 'atelier-saady',
+  'Stylized Logo': 'stylized-logo',
+  'Webflow Conf 2022 – Grow with the ’Flow Room': 'webflow-conf-grow-room',
+  'Webflow Conf 2022 – Themes': 'webflow-conf-themes',
+  'Webflow Conf 2022': 'webflow-conf',
+  'Thrivent Financial app and web': 'thrivent',
+  'The Smart Factory': 'smart-factory',
+  'Global Marketing Trends 2021': 'global-marketing-trends',
+  'CIA.gov site implementation': 'blackbriar',
+  'CIA.gov / Blackbriar design system': 'blackbriar',
+  'Lilly Pulitzer Virtual Runway': 'lilly-pulitzer',
+  'Rite of Spring': 'rite-of-spring',
+  'TOREI (トレイ)': 'torei',
+  'Looking Glass EP': 'looking-glass'
+}));
+
+const visualPreviewByKey = Object.freeze({
+  'airops': 'assets-visual/airops/01-3195b8cc04.avif',
+  'gloss-ai': 'assets-visual/Gloss AI/Preview 00. Thumbnail-Gloss-LogoCycle_1.mp4',
+  'album-art-presage': 'assets-visual/AlbumArtPresage/Thumbnail 01-6d6cc9cdd4.jpg',
+  'webflow-rebrand': 'assets-visual/webflow-rebrand/Preview 04-f3183d6465.jpg',
+  'webflow-customer-stories': 'assets-visual/webflow-customerStories/Preview VisualFoundations-Example6.jpg',
+  'webflow-user-guide': 'assets-visual/webflow-user-guide/08-3b0c66ad77-Preview.mp4',
+  'webflow-conf-process-guidelines': 'assets-visual/webflow-conf-2022-process-and-guidelines/Preview original-d8f26e67a226f3ee3aaf9aebe986d8d9.webp',
+  '3d-scene': 'assets-visual/3DScene/original-50e33bfaab1a4bf931dd2ee88c5483fa.webp',
+  'studio-trophy-decks': 'assets-visual/TrophyDecks/01-3b08cc0842.gif',
+  'design-directory': 'assets-visual/Design Directory/Preview 01-c2b0485fb4.gif',
+  'atelier-saady': 'assets-visual/brand-package-atelier-saady/Preview 01-7a487e3d2e.gif',
+  'stylized-logo': 'assets-visual/stylized-logo/01-1c7f4b21ad.gif',
+  'webflow-conf-grow-room': 'assets-visual/webflow-conf-2022-grow-with-the-flow-room/Preview 01-4bc42b03db.webp',
+  'webflow-conf-themes': 'assets-visual/webflow-conf-2022-themes/Preview original-2849102af7a27f96184a86323c719a8d.webp',
+  'webflow-conf': 'assets-visual/WebflowConf/Preview 01-cab6fa3076.jpg',
+  'thrivent': 'assets-visual/thrivent/Preview 01-20b16a1177.gif',
+  'smart-factory': 'assets-visual/the-smart-factory/Preview 02-bff0612e47.png',
+  'global-marketing-trends': 'assets-visual/Deloitte Marketing Trends/Preview 01-c676ad19ad.gif',
+  'blackbriar': 'assets-visual/BlackbriarDesignSystem/01-2df8be9eb7.gif',
+  'rite-of-spring': 'assets-visual/rite-of-spring/Preview 01-c467fa59a9.gif',
+  'torei': 'assets-visual/torei/Preview 02-fc1d3b7683.png',
+  'looking-glass': 'assets-visual/LookingGlassAlbumArt/Preview 01-3fb54b4b4a.jpg'
+});
+
+timelineData.forEach((section) => section.entries.forEach((entry) => {
+  entry.assetKey = visualAssetKeyByTitle.get(entry.title);
+}));
+
 const timeline = document.querySelector('#career-timeline');
 const detailsGroup = document.querySelector('.details-group');
 const detailsTrigger = document.querySelector('#details-trigger');
@@ -324,10 +380,8 @@ const timelineRecords = displayTimelineData.flatMap((section) => section.entries
 timelineEntries.forEach((element, index) => { element.entryData = timelineRecords[index]; });
 const focusTimelineEntries = timelineEntries;
 const fixedPreviewSourceFor = (entry) => {
-  if (!entry || entry.url === 'https://www.airops.com/') return 'assets/airops-og.jpg';
-  if (/webflow-rebrand/i.test(entry.url || '')) return 'assets/webflow-rebrand-og.jpg';
-  if (entry.cover && !/\.mp4(?:$|\?)/i.test(entry.cover)) return entry.cover;
-  return undefined;
+  if (!entry) return visualPreviewByKey.airops;
+  return visualPreviewByKey[entry.assetKey] || entry.cover;
 };
 const previewTimelineEntries = timelineEntries.filter((entry) =>
   fixedPreviewSourceFor(entry.entryData)
@@ -401,8 +455,9 @@ let previousScrollTime = performance.now();
 let timelineScrollDirection = 0;
 let timelineScrollVelocity = 0;
 const projectPreview = document.querySelector('#project-focus-preview');
-const previewImage = projectPreview.querySelector('.project-focus-preview-image');
-const airOpsFallback = 'assets/airops-og.jpg';
+const previewImage = projectPreview.querySelector('img.project-focus-preview-image');
+const previewVideo = projectPreview.querySelector('video.project-focus-preview-image');
+const airOpsFallback = visualPreviewByKey.airops;
 let lastResolvedPreview = airOpsFallback;
 previewImage.dataset.previewSrc = airOpsFallback;
 previewImage.addEventListener('load', () => { lastResolvedPreview = previewImage.currentSrc || previewImage.src; });
@@ -410,15 +465,37 @@ previewImage.addEventListener('error', () => {
   const fallback = lastResolvedPreview || airOpsFallback;
   if (previewImage.src !== fallback) previewImage.src = fallback;
 });
+previewVideo.addEventListener('error', () => {
+  previewVideo.hidden = true;
+  previewVideo.pause();
+  previewImage.hidden = false;
+  previewImage.src = lastResolvedPreview || airOpsFallback;
+});
+
+const isVideoPreview = (src) => /\.(?:mp4|mov|webm)(?:$|\?)/i.test(src);
 
 const setProjectPreview = (entry) => {
   const src = fixedPreviewSourceFor(entry) || airOpsFallback;
   const title = entry?.title || 'AirOps';
-  if (previewImage.dataset.previewSrc !== src) {
-    previewImage.src = src;
-    previewImage.dataset.previewSrc = src;
+  if (isVideoPreview(src)) {
+    previewImage.hidden = true;
+    previewVideo.hidden = false;
+    if (previewVideo.dataset.previewSrc !== src) {
+      previewVideo.src = src;
+      previewVideo.dataset.previewSrc = src;
+    }
+    previewVideo.setAttribute('aria-label', `${title} project preview`);
+    previewVideo.play().catch(() => {});
+  } else {
+    previewVideo.pause();
+    previewVideo.hidden = true;
+    previewImage.hidden = false;
+    if (previewImage.dataset.previewSrc !== src) {
+      previewImage.src = src;
+      previewImage.dataset.previewSrc = src;
+    }
+    previewImage.alt = `${title} project preview`;
   }
-  previewImage.alt = `${title} project preview`;
   projectPreview.setAttribute('aria-label', `Show all ${title} images`);
 };
 
@@ -984,7 +1061,7 @@ const renderScatterGroup = async (assets, project, generation) => {
 
 const showScatter = async (entry, trigger) => {
   const manifest = await projectManifest;
-  const project = manifest.projects[entry.assetsUrl || entry.url];
+  const project = manifest.projects[entry.assetKey || entry.assetsUrl || entry.url];
   if (!project?.assets.length) return;
   const seenAssets = new Set();
   const projectAssets = project.assets.filter((asset) => {
