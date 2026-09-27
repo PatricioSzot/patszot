@@ -326,6 +326,13 @@ body.details-closing main::before {
   will-change: transform;
 }
 
+.timeline-panel.is-scene-dragging .timeline-year-heading,
+.timeline-panel.is-scene-settling .timeline-year-heading,
+.timeline-panel.is-scene-dragging .timeline-entry-copy,
+.timeline-panel.is-scene-settling .timeline-entry-copy {
+  will-change: transform;
+}
+
 body.details-open .timeline-panel { cursor: grab; }
 
 body.timeline-scene-dragging,
@@ -348,78 +355,6 @@ body.details-open main::before { opacity: 0; }
   overflow: visible;
   transform-style: preserve-3d;
 }
-
-.present-complexity {
-  position: absolute;
-  z-index: 1;
-  top: 40px;
-  left: 50%;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .4s ease .08s;
-}
-
-.present-complexity-circle {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50vw;
-  height: 50vw;
-  border: 1.5px dotted rgba(29, 27, 25, .14);
-  border-radius: 50%;
-  background: transparent;
-  transform: translate(-50%, -50%);
-  transition: background-color .52s ease, border-color .52s ease;
-}
-
-body.present-focus .present-complexity-circle {
-  background: var(--faint);
-}
-
-.present-complexity-label,
-.complexity-label {
-  position: absolute;
-  z-index: 3;
-  top: 19px;
-  left: calc(var(--complexity) * .25vw + 12px);
-  display: flex;
-  gap: 7px;
-  align-items: baseline;
-  color: var(--muted);
-  font-size: 10px;
-  line-height: 1;
-  letter-spacing: .02em;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translateX(-4px);
-  pointer-events: none;
-  transition: opacity .32s ease, transform .52s var(--ease);
-}
-
-.present-complexity-label::before,
-.complexity-label::before {
-  content: "";
-  width: 9px;
-  border-top: 1px solid rgba(29, 27, 25, .28);
-}
-
-.present-complexity-label span,
-.complexity-label span { color: var(--ink); }
-
-.present-complexity-label {
-  top: -5px;
-  left: calc(25vw + 12px);
-}
-
-body.present-focus .present-complexity-label,
-.timeline-entry.is-active .complexity-label {
-  opacity: 1;
-  transform: none;
-}
-
-body.details-open .present-complexity { opacity: 1; }
 
 .timeline-year {
   position: relative;
@@ -449,24 +384,35 @@ body.details-open .present-complexity { opacity: 1; }
   line-height: .94;
   letter-spacing: -2.4px;
   opacity: 0;
-  transform: translateY(6px);
-  transition: opacity .42s ease calc(80ms + var(--year-delay, 0ms)), transform .62s var(--ease) calc(80ms + var(--year-delay, 0ms));
+  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
+  transform-origin: right center;
+  backface-visibility: hidden;
+  transition: opacity .42s ease calc(80ms + var(--year-delay, 0ms));
 }
 
 .timeline-year-heading > span {
   display: inline-block;
+  transform: translateY(6px);
+  transition: transform .62s var(--ease) calc(80ms + var(--year-delay, 0ms));
 }
 
 body.details-open:not(.details-closing) .timeline-year-heading {
   opacity: 1;
-  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
-  transform-origin: right center;
+}
+
+body.details-open:not(.details-closing) .timeline-year-heading > span {
+  transform: translateY(0);
 }
 
 .timeline-year-heading.is-exiting {
   opacity: 0;
+  transition-duration: .28s;
+  transition-delay: var(--close-delay, 0ms);
+}
+
+.timeline-year-heading.is-exiting > span {
   transform: translateY(-4px);
-  transition-duration: .28s, .42s;
+  transition-duration: .42s;
   transition-delay: var(--close-delay, 0ms);
 }
 
@@ -480,7 +426,6 @@ body.details-open:not(.details-closing) .timeline-year-heading {
 .timeline-year:first-child .timeline-year-entries { padding-top: 440px; }
 
 .timeline-entry {
-  --complexity: 50;
   --scene-blur: 0px;
   --scene-opacity: 1;
   --scene-scale: 1;
@@ -497,7 +442,7 @@ body.details-open:not(.details-closing) .timeline-year-heading {
   transform: translateZ(var(--scene-z)) scale(var(--scene-scale));
   transform-origin: left 24px;
   transform-style: preserve-3d;
-  transition: opacity .3s ease var(--reveal-delay, 0ms), top .64s var(--ease) var(--reveal-delay, 0ms), transform .4s var(--ease);
+  transition: opacity .3s ease var(--reveal-delay, 0ms), top .64s var(--ease) var(--reveal-delay, 0ms);
 }
 
 .timeline-entry.is-active {
@@ -520,29 +465,6 @@ body.details-open:not(.details-closing) .timeline-year-heading {
   transition-delay: var(--close-delay, 0ms);
 }
 
-.timeline-entry[data-kind="project"]::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: 28px;
-  left: 0;
-  width: calc(var(--complexity) * .5vw);
-  height: calc(var(--complexity) * .5vw);
-  border: 1.5px dotted rgba(29, 27, 25, .14);
-  border-radius: 50%;
-  background: transparent;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  transition: background-color .52s ease, border-color .52s ease;
-}
-
-.timeline-entry[data-kind="project"].is-active::after { background: var(--faint); }
-
-.timeline-year:first-child .timeline-entry:first-child::after,
-.timeline-year:first-child .timeline-entry:first-child .complexity-label {
-  display: none;
-}
-
 .timeline-marker {
   position: absolute;
   z-index: 2;
@@ -558,7 +480,7 @@ body.details-open:not(.details-closing) .timeline-year-heading {
   padding: 0;
   color: #fff;
   transform-style: preserve-3d;
-  transition: top .58s var(--ease), left .58s var(--ease), width .58s var(--ease), height .58s var(--ease), background-color .3s ease, transform .36s var(--ease);
+  transition: top .58s var(--ease), left .58s var(--ease), width .58s var(--ease), height .58s var(--ease), background-color .3s ease;
 }
 
 .timeline-entry.is-active .timeline-marker {
@@ -660,15 +582,11 @@ button.timeline-marker {
   transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
   transform-origin: left 24px;
   transform-style: preserve-3d;
-  transition: opacity .28s ease, transform .38s var(--ease);
+  backface-visibility: hidden;
+  transition: opacity .28s ease;
 }
 
 .timeline-entry.is-active .timeline-entry-copy { opacity: 1; }
-
-.timeline-entry.is-active .complexity-label {
-  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
-  transform-origin: left center;
-}
 
 .timeline-entry h3 {
   margin: 0;
@@ -1691,7 +1609,7 @@ body.details-open .footer-contact {
   .timeline-panel-inner { transform: none !important; }
   .timeline-entry { top: 0; opacity: 1; transform: none; }
   .timeline-entry-copy,
+  .timeline-year-heading,
   .timeline-year-heading > span,
-  .timeline-entry.is-active .timeline-marker,
-  .timeline-entry.is-active .complexity-label { transform: none !important; filter: none !important; }
+  .timeline-entry.is-active .timeline-marker { transform: none !important; filter: none !important; }
 }

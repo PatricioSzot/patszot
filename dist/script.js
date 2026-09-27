@@ -257,8 +257,6 @@ backToTop.addEventListener('click', () => driftTo(0));
 backToTop.classList.toggle('is-visible', window.scrollY > window.innerHeight * .65);
 
 const entryMarkup = (entry, index) => {
-  const complexity = Math.max(20, Math.min(100, Math.round(entry.intensity / 1.76)));
-
   const linkedTitle = entry.kind === 'project' && entry.url
     ? `<button class="text-link project-title-trigger" type="button" tabindex="-1" aria-label="Show ${entry.title} images" aria-expanded="false">${entry.title}</button>`
     : entry.url && entry.kind !== 'milestone'
@@ -272,13 +270,9 @@ const entryMarkup = (entry, index) => {
     : entry.kind === 'writing' && entry.url
       ? `<button class="timeline-marker writing-expand-trigger" type="button" tabindex="-1" aria-label="Read ${entry.title}" aria-expanded="false"><i class="ri-add-line" aria-hidden="true"></i></button>`
       : `<span class="timeline-marker${entry.kind === 'milestone' || (entry.kind === 'project' && !entry.url) ? ' is-muted' : ''}" aria-hidden="true"></span>`;
-  const complexityLabel = entry.kind === 'project'
-    ? `<span class="complexity-label" aria-hidden="true">Complexity <span>${complexity}%</span></span>`
-    : '';
   return `
-    <article class="timeline-entry" data-kind="${entry.kind}" style="--complexity: ${complexity}; --reveal-delay: ${(index % 8) * 45}ms">
+    <article class="timeline-entry" data-kind="${entry.kind}" style="--reveal-delay: ${(index % 8) * 45}ms">
       ${marker}
-      ${complexityLabel}
       <div class="timeline-entry-copy">
         <div class="timeline-meta"><time>${entry.date}</time><span>${entry.kind}</span></div>
         <h3>${linkedTitle}</h3>
