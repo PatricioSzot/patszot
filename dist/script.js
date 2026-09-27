@@ -707,6 +707,7 @@ const sceneCoarsePointer = window.matchMedia('(hover: none), (pointer: coarse)')
 const sceneInteractiveSelector = 'a, button, input, textarea, select, iframe, video, [contenteditable="true"]';
 const sceneLimits = { pitch: 82, yaw: 74 };
 const sceneHardLimits = { pitch: 91, yaw: 83 };
+const sceneDepthScale = .24;
 const sceneAngles = { pitch: 0, yaw: 0 };
 const visibleDepthNodes = new Set();
 let sceneDepthSamples = [];
@@ -787,11 +788,26 @@ const applySceneDepth = () => {
 
 const renderScene = () => {
   sceneRenderFrame = undefined;
+  const pitchRadians = sceneAngles.pitch * Math.PI / 180;
+  const anchorScrollY = sceneOriginDocumentY === undefined
+    ? window.scrollY
+    : sceneOriginDocumentY - window.innerHeight / 2;
+  const scrollDelta = window.scrollY - anchorScrollY;
+  const yawRadians = sceneAngles.yaw * Math.PI / 180;
+  // Treat scroll as a camera dolly along the rotated timeline. The inverse
+  // translation keeps the current document-space focus on the camera plane;
+  // surrounding entries retain their relative X/Y/Z depth and move through it.
+  const scrollCompensationX = -scrollDelta * Math.sin(pitchRadians) * Math.sin(yawRadians);
+  const scrollCompensationY = scrollDelta * (1 - Math.cos(pitchRadians));
+  const scrollCompensationZ = -scrollDelta * Math.sin(pitchRadians) * Math.cos(yawRadians) * sceneDepthScale;
   const sceneValues = {
     '--scene-rx': `${sceneAngles.pitch.toFixed(3)}deg`,
     '--scene-ry': `${sceneAngles.yaw.toFixed(3)}deg`,
     '--scene-counter-rx': `${(-sceneAngles.pitch).toFixed(3)}deg`,
-    '--scene-counter-ry': `${(-sceneAngles.yaw).toFixed(3)}deg`
+    '--scene-counter-ry': `${(-sceneAngles.yaw).toFixed(3)}deg`,
+    '--scene-scroll-x': `${scrollCompensationX.toFixed(3)}px`,
+    '--scene-scroll-y': `${scrollCompensationY.toFixed(3)}px`,
+    '--scene-scroll-z': `${scrollCompensationZ.toFixed(3)}px`
   };
   [timelinePanel, backToTop, profile, footerContact].forEach((element) => {
     Object.entries(sceneValues).forEach(([property, value]) => element.style.setProperty(property, value));

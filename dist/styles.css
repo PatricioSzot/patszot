@@ -73,6 +73,9 @@ body.details-closing main::before {
   --scene-ry: 0deg;
   --scene-counter-rx: 0deg;
   --scene-counter-ry: 0deg;
+  --scene-scroll-x: 0px;
+  --scene-scroll-y: 0px;
+  --scene-scroll-z: 0px;
   --scene-anchor-x: -40px;
   --scene-anchor-y: 50vh;
   position: absolute;
@@ -91,7 +94,7 @@ body.details-closing main::before {
 }
 
 body.details-open .profile {
-  transform: perspective(920px) rotateY(var(--scene-ry)) rotateX(var(--scene-rx));
+  transform: perspective(920px) translate3d(var(--scene-scroll-x), var(--scene-scroll-y), var(--scene-scroll-z)) scale3d(1, 1, .24) rotateY(var(--scene-ry)) rotateX(var(--scene-rx));
   transform-origin: var(--scene-anchor-x) var(--scene-anchor-y);
 }
 
@@ -309,6 +312,9 @@ body.details-open .profile-scene-copy {
   --scene-ry: 0deg;
   --scene-counter-rx: 0deg;
   --scene-counter-ry: 0deg;
+  --scene-scroll-x: 0px;
+  --scene-scroll-y: 0px;
+  --scene-scroll-z: 0px;
   width: 100vw;
   padding-top: 0;
   overflow: visible;
@@ -324,7 +330,7 @@ body.details-open .profile-scene-copy {
   min-height: 0;
   overflow: visible;
   opacity: 0;
-  transform: rotateY(var(--scene-ry)) rotateX(var(--scene-rx));
+  transform: translate3d(var(--scene-scroll-x), var(--scene-scroll-y), var(--scene-scroll-z)) scale3d(1, 1, .24) rotateY(var(--scene-ry)) rotateX(var(--scene-rx));
   transform-origin: 50% var(--scene-origin-y);
   transform-style: preserve-3d;
   transition: opacity .28s ease;
@@ -1539,6 +1545,9 @@ body.details-open .footer-contact {
   --scene-ry: 0deg;
   --scene-counter-rx: 0deg;
   --scene-counter-ry: 0deg;
+  --scene-scroll-x: 0px;
+  --scene-scroll-y: 0px;
+  --scene-scroll-z: 0px;
   --scene-anchor-x: -40px;
   --scene-anchor-y: 50vh;
   position: absolute;
@@ -1557,7 +1566,7 @@ body.details-open .footer-contact {
 .footer-scene-copy { transform-style: preserve-3d; }
 
 body.details-open .footer-contact {
-  transform: perspective(920px) rotateY(var(--scene-ry)) rotateX(var(--scene-rx));
+  transform: perspective(920px) translate3d(var(--scene-scroll-x), var(--scene-scroll-y), var(--scene-scroll-z)) scale3d(1, 1, .24) rotateY(var(--scene-ry)) rotateX(var(--scene-rx));
   transform-origin: var(--scene-anchor-x) var(--scene-anchor-y);
 }
 
