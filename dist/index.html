@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:wdth,wght@75..125,100..900&amp;display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=20260927-3d-arrow-attached" />
   </head>
   <body>
     <main>
@@ -80,11 +80,14 @@
         <div class="writing-reader-content"></div>
       </article>
     </aside>
-    <aside class="project-focus-preview" id="project-focus-preview" aria-live="polite" aria-label="Focused project preview" aria-hidden="true">
+    <button class="project-focus-preview" id="project-focus-preview" type="button" aria-live="polite" aria-label="Show all AirOps project images" aria-expanded="false" aria-hidden="true">
+      <img class="project-focus-preview-sheet project-focus-preview-sheet-back" alt="" aria-hidden="true" />
+      <img class="project-focus-preview-sheet project-focus-preview-sheet-middle" alt="" aria-hidden="true" />
       <img class="project-focus-preview-image is-current" src="assets/airops-og.jpg" alt="AirOps project preview" />
       <img class="project-focus-preview-image" alt="" />
-    </aside>
+    </button>
     <div class="project-scatter" id="project-scatter" aria-hidden="true"></div>
-    <script src="script.js"></script>
+    <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top"><span class="back-to-top-object" aria-hidden="true"><i class="ri-arrow-up-line"></i></span></button>
+    <script src="script.js?v=20260927-3d-arrow-attached"></script>
   </body>
 </html>

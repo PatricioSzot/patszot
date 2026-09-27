@@ -177,12 +177,96 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const openDuration = () => reducedMotion.matches ? 0 : 900;
 const closeDuration = () => reducedMotion.matches ? 0 : 650;
 
+const backToTop = document.querySelector('#back-to-top');
+let driftTarget = window.scrollY;
+let driftFrame;
+let driftAnimating = false;
+
+const maxScrollY = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+const clampScrollY = (value) => Math.min(maxScrollY(), Math.max(0, value));
+
+const cancelDrift = () => {
+  if (driftFrame) cancelAnimationFrame(driftFrame);
+  driftFrame = undefined;
+  driftAnimating = false;
+  driftTarget = window.scrollY;
+};
+
+const runDrift = () => {
+  const distance = driftTarget - window.scrollY;
+  if (Math.abs(distance) < .45) {
+    window.scrollTo(0, driftTarget);
+    driftFrame = undefined;
+    driftAnimating = false;
+    return;
+  }
+
+  driftAnimating = true;
+  window.scrollTo(0, window.scrollY + distance * .085);
+  driftFrame = requestAnimationFrame(runDrift);
+};
+
+const driftTo = (position) => {
+  if (reducedMotion.matches) {
+    window.scrollTo(0, clampScrollY(position));
+    return;
+  }
+  driftTarget = clampScrollY(position);
+  if (!driftFrame) driftFrame = requestAnimationFrame(runDrift);
+};
+
+window.addEventListener('wheel', (event) => {
+  if (reducedMotion.matches || event.ctrlKey || event.target.closest('.writing-reader-scroll')) return;
+  const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
+  event.preventDefault();
+  driftTo(driftTarget + event.deltaY * unit * .58);
+}, { passive: false });
+
+document.addEventListener('keydown', (event) => {
+  if (reducedMotion.matches || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
+  if (event.target.closest('a, button, input, textarea, select, [contenteditable="true"], .writing-reader-scroll')) return;
+
+  const keyboardDistances = {
+    ArrowDown: 72,
+    ArrowUp: -72,
+    PageDown: window.innerHeight * .72,
+    PageUp: window.innerHeight * -.72,
+    ' ': window.innerHeight * (event.shiftKey ? -.82 : .82)
+  };
+
+  if (event.key === 'Home') {
+    event.preventDefault();
+    driftTo(0);
+  } else if (event.key === 'End') {
+    event.preventDefault();
+    driftTo(maxScrollY());
+  } else if (keyboardDistances[event.key] !== undefined) {
+    event.preventDefault();
+    driftTo(driftTarget + keyboardDistances[event.key]);
+  }
+});
+
+window.addEventListener('touchstart', cancelDrift, { passive: true });
+window.addEventListener('resize', () => { driftTarget = clampScrollY(driftTarget); });
+window.addEventListener('scroll', () => {
+  if (!driftAnimating) driftTarget = window.scrollY;
+  backToTop.classList.toggle('is-visible', window.scrollY > window.innerHeight * .65);
+}, { passive: true });
+
+backToTop.addEventListener('click', () => driftTo(0));
+backToTop.classList.toggle('is-visible', window.scrollY > window.innerHeight * .65);
+
 const entryMarkup = (entry, index) => {
   const complexity = Math.max(20, Math.min(100, Math.round(entry.intensity / 1.76)));
 
-  const linkedTitle = entry.url && entry.kind !== 'milestone'
-    ? `<a class="text-link${entry.kind === 'writing' ? ' writing-popup-trigger' : ''}" href="${entry.url}" rel="noopener">${entry.title}</a>`
-    : entry.title;
+  const linkedTitle = entry.kind === 'project' && entry.url
+    ? `<button class="text-link project-title-trigger" type="button" tabindex="-1" aria-label="Show ${entry.title} images" aria-expanded="false">${entry.title}</button>`
+    : entry.url && entry.kind !== 'milestone'
+      ? `<a class="text-link${entry.kind === 'writing' ? ' writing-popup-trigger' : ''}" href="${entry.url}" rel="noopener">${entry.title}</a>`
+      : entry.title;
+  const externalAction = entry.url && entry.kind !== 'milestone'
+    ? `<a class="timeline-external" href="${entry.url}" target="_blank" rel="noopener noreferrer"><span>${entry.kind === 'writing' ? 'Open writing' : 'Open project'}</span><i class="ri-external-link-line" aria-hidden="true"></i></a>`
+    : '';
   const marker = entry.kind === 'project' && entry.url
     ? `<button class="timeline-marker project-expand-trigger" type="button" tabindex="-1" aria-label="Show ${entry.title} images" aria-expanded="false"><i class="ri-add-line" aria-hidden="true"></i></button>`
     : entry.kind === 'writing' && entry.url
@@ -195,9 +279,12 @@ const entryMarkup = (entry, index) => {
     <article class="timeline-entry" data-kind="${entry.kind}" style="--complexity: ${complexity}; --reveal-delay: ${(index % 8) * 45}ms">
       ${marker}
       ${complexityLabel}
-      <div class="timeline-meta"><time>${entry.date}</time><span>${entry.kind}</span></div>
-      <h3>${linkedTitle}</h3>
-      ${entry.description ? `<p>${entry.description}</p>` : ''}
+      <div class="timeline-entry-copy">
+        <div class="timeline-meta"><time>${entry.date}</time><span>${entry.kind}</span></div>
+        <h3>${linkedTitle}</h3>
+        ${entry.description ? `<p>${entry.description}</p>` : ''}
+        ${externalAction}
+      </div>
     </article>`;
 };
 
@@ -209,7 +296,7 @@ const displayTimelineData = timelineData.map((section, index) => ({
 }));
 timeline.innerHTML = displayTimelineData.map((section, yearIndex) => `
   <section class="timeline-year" aria-labelledby="year-${section.year.toLowerCase()}">
-    <h2 class="timeline-year-heading" id="year-${section.year.toLowerCase()}" style="--year-delay: ${yearIndex * 55}ms">${section.year}</h2>
+    <h2 class="timeline-year-heading" id="year-${section.year.toLowerCase()}" style="--year-delay: ${yearIndex * 55}ms"><span>${section.year}</span></h2>
     <div class="timeline-year-entries">${section.entries.map((entry) => entryMarkup(entry, timelineSequence++)).join('')}</div>
   </section>`).join('');
 
@@ -302,6 +389,7 @@ let timelineScrollDirection = 0;
 let timelineScrollVelocity = 0;
 const projectPreview = document.querySelector('#project-focus-preview');
 const previewImages = [...projectPreview.querySelectorAll('.project-focus-preview-image')];
+const previewSheets = [...projectPreview.querySelectorAll('.project-focus-preview-sheet')];
 const airOpsUrl = 'https://www.airops.com/';
 const airOpsFallback = 'assets/airops-og.jpg';
 let previewLayer = 0;
@@ -325,6 +413,45 @@ const previewSourceFor = (entry, manifest) => {
   if (youtube) return youtubeThumbnail(youtube.src);
   const airOps = manifest.projects[airOpsUrl]?.assets?.find((asset) => asset.type === 'image');
   return airOps?.src || airOpsFallback;
+};
+
+const uniqueVisualAssetsFor = (entry, manifest) => {
+  const assets = manifest.projects[entry?.assetsUrl || entry?.url]?.assets || [];
+  const seen = new Set();
+  return assets.filter((asset) => {
+    if (!['image', 'gif'].includes(asset.type)) return false;
+    const key = asset.source || asset.src;
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+};
+
+const setPreviewStack = async (entry, manifest, topSource, request) => {
+  const assets = uniqueVisualAssetsFor(entry, manifest)
+    .filter((asset) => asset.src !== topSource)
+    .slice(0, previewSheets.length);
+  const sources = await Promise.all(assets.map(async (asset) => {
+    const preload = new Image();
+    preload.src = asset.src;
+    await preload.decode().catch(() => {});
+    return preload.naturalWidth ? asset.src : undefined;
+  }));
+  if (request !== previewRequest) return;
+  const validSources = sources.filter(Boolean);
+  previewSheets.forEach((sheet, index) => {
+    const source = validSources[index];
+    if (source) sheet.src = source;
+    else sheet.removeAttribute('src');
+    sheet.classList.toggle('has-source', Boolean(source));
+  });
+  const hasStack = validSources.length > 0;
+  projectPreview.classList.toggle('has-stack', hasStack);
+  projectPreview.disabled = !hasStack;
+  projectPreview.setAttribute('aria-disabled', String(!hasStack));
+  projectPreview.setAttribute('aria-label', hasStack
+    ? `Show all ${entry?.title || 'AirOps'} project images`
+    : `${entry?.title || 'AirOps'} project preview`);
 };
 
 const runPreviewTransition = ({ src, alt, direction, velocity }) => {
@@ -381,6 +508,8 @@ const setProjectPreview = async (entry) => {
     await preload.decode().catch(() => {});
   }
   if (!preload.naturalWidth || request !== previewRequest) return;
+  await setPreviewStack(entry, manifest, src, request);
+  if (request !== previewRequest) return;
 
   const payload = {
     src,
@@ -403,9 +532,21 @@ const setPreviewVisibility = (visible) => {
 const clearTimelineActive = () => {
   if (scatterLink) dismissScatter();
   activeTimelineEntry?.classList.remove('is-active');
-  activeTimelineEntry?.querySelector('.project-expand-trigger, .writing-expand-trigger')?.setAttribute('tabindex', '-1');
+  activeTimelineEntry?.querySelectorAll('.project-expand-trigger, .project-title-trigger, .writing-expand-trigger').forEach((control) => control.setAttribute('tabindex', '-1'));
   activeTimelineEntry = undefined;
   timeline.classList.remove('has-active');
+};
+
+const untransformedDocumentCenter = (element) => {
+  let x = element.offsetWidth / 2;
+  let y = element.offsetHeight / 2;
+  let node = element;
+  while (node) {
+    x += node.offsetLeft;
+    y += node.offsetTop;
+    node = node.offsetParent;
+  }
+  return { x, y };
 };
 
 const timelineEntryForViewport = (candidateEntries) => {
@@ -414,8 +555,7 @@ const timelineEntryForViewport = (candidateEntries) => {
 
   const focusY = window.scrollY + window.innerHeight / 2;
   const entries = candidateEntries.map((entry) => {
-    const rect = entry.getBoundingClientRect();
-    return { entry, center: window.scrollY + rect.top + rect.height / 2 };
+    return { entry, center: untransformedDocumentCenter(entry).y };
   });
   const upcomingIndex = entries.findIndex((item) => item.center >= focusY);
   if (upcomingIndex === 0) return entries[0].entry;
@@ -435,8 +575,8 @@ const updateTimelineActive = () => {
   if (!document.body.classList.contains('details-open') || document.body.classList.contains('details-opening') || document.body.classList.contains('details-closing') || timelinePanel.hidden) return;
 
   const firstTimelineEntry = focusTimelineEntries[0];
-  const firstEntryRect = firstTimelineEntry?.getBoundingClientRect();
-  const presentOwnsFocus = Boolean(firstEntryRect && firstEntryRect.top + firstEntryRect.height / 2 > window.innerHeight / 2);
+  const firstEntryCenter = firstTimelineEntry ? untransformedDocumentCenter(firstTimelineEntry).y : 0;
+  const presentOwnsFocus = Boolean(firstTimelineEntry && firstEntryCenter - window.scrollY > window.innerHeight / 2);
   const closest = presentOwnsFocus ? undefined : timelineEntryForViewport(focusTimelineEntries);
   const closestPreview = presentOwnsFocus
     ? presentProjectData
@@ -454,11 +594,11 @@ const updateTimelineActive = () => {
   if (closest !== activeTimelineEntry) {
     if (scatterLink) dismissScatter();
     activeTimelineEntry?.classList.remove('is-active');
-    activeTimelineEntry?.querySelector('.project-expand-trigger, .writing-expand-trigger')?.setAttribute('tabindex', '-1');
+    activeTimelineEntry?.querySelectorAll('.project-expand-trigger, .project-title-trigger, .writing-expand-trigger').forEach((control) => control.setAttribute('tabindex', '-1'));
     activeTimelineEntry = closest;
     timeline.classList.add('has-active');
     activeTimelineEntry.classList.add('is-active');
-    activeTimelineEntry.querySelector('.project-expand-trigger, .writing-expand-trigger')?.setAttribute('tabindex', '0');
+    activeTimelineEntry.querySelectorAll('.project-expand-trigger, .project-title-trigger, .writing-expand-trigger').forEach((control) => control.setAttribute('tabindex', '0'));
   }
   if (closestPreview !== previewTimelineEntry) {
     previewTimelineEntry = closestPreview;
@@ -484,6 +624,279 @@ window.addEventListener('scroll', () => {
   requestTimelineActiveUpdate();
 }, { passive: true });
 window.addEventListener('resize', requestTimelineActiveUpdate);
+
+const timelineScene = timelinePanel.querySelector('.timeline-panel-inner');
+const sceneCoarsePointer = window.matchMedia('(hover: none), (pointer: coarse)');
+const sceneInteractiveSelector = 'a, button, input, textarea, select, iframe, video, [contenteditable="true"]';
+const sceneLimits = { pitch: 82, yaw: 74 };
+const sceneAngles = { pitch: 0, yaw: 0 };
+const visibleDepthNodes = new Set();
+let sceneDepthSamples = [];
+let sceneGesture;
+let sceneRenderFrame;
+let sceneGeometryFrame;
+let sceneMotionGeneration = 0;
+let sceneMotionControls = [];
+let sceneMotionPromise;
+
+const clampScene = (value, limit) => Math.max(-limit, Math.min(limit, value));
+
+const loadSceneMotion = () => {
+  sceneMotionPromise ||= import('https://cdn.jsdelivr.net/npm/motion@13.4.2/+esm').catch(() => undefined);
+  return sceneMotionPromise;
+};
+
+const stopSceneMotion = () => {
+  sceneMotionGeneration += 1;
+  sceneMotionControls.forEach((control) => control?.stop?.());
+  sceneMotionControls = [];
+  timelinePanel.classList.remove('is-scene-settling');
+};
+
+const applySceneDepth = () => {
+  const oriented = Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08;
+  const allowBlur = oriented && !reducedMotion.matches && !sceneCoarsePointer.matches;
+  const pitch = sceneAngles.pitch * Math.PI / 180;
+  const yaw = sceneAngles.yaw * Math.PI / 180;
+  const angleStrength = Math.max(
+    Math.abs(sceneAngles.pitch) / sceneLimits.pitch,
+    Math.abs(sceneAngles.yaw) / sceneLimits.yaw
+  );
+
+  sceneDepthSamples.forEach(({ element, x, y }) => {
+    const modeledDepth = -Math.sin(yaw) * x + Math.sin(pitch) * Math.cos(yaw) * y;
+    const active = element.classList.contains('is-active');
+    const opacityFloor = element.classList.contains('timeline-year-heading') ? .28 : .12;
+    const opacity = !oriented
+      ? 1
+      : active
+      ? 1
+      : Math.max(opacityFloor, Math.min(1, .9 - angleStrength * .44 + modeledDepth * .24));
+    const blur = active || !allowBlur
+      ? 0
+      : Math.min(1.8, angleStrength * .46 + Math.max(0, -modeledDepth) * 1.15);
+    const scale = !oriented || active ? 1 : Math.max(.92, Math.min(1.05, 1 + modeledDepth * .035));
+    element.style.setProperty('--scene-blur', `${blur.toFixed(2)}px`);
+    element.style.setProperty('--scene-opacity', opacity.toFixed(3));
+    if (element.classList.contains('timeline-entry')) element.style.setProperty('--scene-scale', scale.toFixed(3));
+  });
+};
+
+const renderScene = () => {
+  sceneRenderFrame = undefined;
+  const sceneValues = {
+    '--scene-rx': `${sceneAngles.pitch.toFixed(3)}deg`,
+    '--scene-ry': `${sceneAngles.yaw.toFixed(3)}deg`,
+    '--scene-counter-rx': `${(-sceneAngles.pitch).toFixed(3)}deg`,
+    '--scene-counter-ry': `${(-sceneAngles.yaw).toFixed(3)}deg`
+  };
+  [timelinePanel, backToTop].forEach((element) => {
+    Object.entries(sceneValues).forEach(([property, value]) => element.style.setProperty(property, value));
+  });
+  timelinePanel.classList.toggle('is-scene-oriented', Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08);
+  applySceneDepth();
+};
+
+const requestSceneRender = () => {
+  if (!sceneRenderFrame) sceneRenderFrame = requestAnimationFrame(renderScene);
+};
+
+const refreshSceneGeometry = () => {
+  sceneGeometryFrame = undefined;
+  if (timelinePanel.hidden) return;
+  const panelRect = timelinePanel.getBoundingClientRect();
+  const originY = Math.max(0, Math.min(timelineScene.offsetHeight, window.innerHeight / 2 - panelRect.top));
+  timelinePanel.style.setProperty('--scene-origin-y', `${originY}px`);
+  sceneDepthSamples = [...visibleDepthNodes].map((element) => {
+    const center = untransformedDocumentCenter(element);
+    return {
+      element,
+      x: Math.max(-1.5, Math.min(1.5, (center.x - window.innerWidth / 2) / (window.innerWidth / 2))),
+      y: Math.max(-1.5, Math.min(1.5, (center.y - window.scrollY - window.innerHeight / 2) / (window.innerHeight / 2)))
+    };
+  });
+  requestSceneRender();
+};
+
+const requestSceneGeometry = () => {
+  if (!sceneGeometryFrame) sceneGeometryFrame = requestAnimationFrame(refreshSceneGeometry);
+};
+
+const sceneDepthObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    entry.target.classList.toggle('is-scene-visible', entry.isIntersecting);
+    if (entry.isIntersecting) visibleDepthNodes.add(entry.target);
+    else {
+      visibleDepthNodes.delete(entry.target);
+      entry.target.style.removeProperty('--scene-blur');
+    }
+  });
+  requestSceneGeometry();
+}, { rootMargin: '20% 0px', threshold: 0 });
+
+[...timelineEntries, ...timeline.querySelectorAll('.timeline-year-heading')].forEach((element) => sceneDepthObserver.observe(element));
+
+const setSceneAngles = (pitch, yaw) => {
+  sceneAngles.pitch = clampScene(pitch, sceneLimits.pitch);
+  sceneAngles.yaw = clampScene(yaw, sceneLimits.yaw);
+  requestSceneRender();
+};
+
+const fallbackSceneSpring = (targetPitch, targetYaw, generation) => {
+  let pitchVelocity = 0;
+  let yawVelocity = 0;
+  const tick = () => {
+    if (generation !== sceneMotionGeneration) return;
+    pitchVelocity = (pitchVelocity + (targetPitch - sceneAngles.pitch) * .065) * .8;
+    yawVelocity = (yawVelocity + (targetYaw - sceneAngles.yaw) * .065) * .8;
+    setSceneAngles(sceneAngles.pitch + pitchVelocity, sceneAngles.yaw + yawVelocity);
+    if (Math.abs(targetPitch - sceneAngles.pitch) + Math.abs(targetYaw - sceneAngles.yaw) < .025 && Math.abs(pitchVelocity) + Math.abs(yawVelocity) < .025) {
+      setSceneAngles(targetPitch, targetYaw);
+      timelinePanel.classList.remove('is-scene-settling');
+      return;
+    }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+};
+
+const springSceneTo = async (targetPitch, targetYaw, pitchVelocity = 0, yawVelocity = 0) => {
+  stopSceneMotion();
+  const generation = sceneMotionGeneration;
+  targetPitch = clampScene(targetPitch, sceneLimits.pitch);
+  targetYaw = clampScene(targetYaw, sceneLimits.yaw);
+  if (reducedMotion.matches) {
+    setSceneAngles(targetPitch, targetYaw);
+    return;
+  }
+
+  timelinePanel.classList.add('is-scene-settling');
+  const motion = await loadSceneMotion();
+  if (generation !== sceneMotionGeneration) return;
+  if (!motion?.animate) {
+    fallbackSceneSpring(targetPitch, targetYaw, generation);
+    return;
+  }
+
+  let completed = 0;
+  const complete = () => {
+    completed += 1;
+    if (completed === 2 && generation === sceneMotionGeneration) timelinePanel.classList.remove('is-scene-settling');
+  };
+  const transition = { type: 'spring', stiffness: 78, damping: 17, mass: .9 };
+  sceneMotionControls = [
+    motion.animate(sceneAngles.pitch, targetPitch, {
+      ...transition,
+      velocity: pitchVelocity,
+      onUpdate: (value) => setSceneAngles(value, sceneAngles.yaw),
+      onComplete: complete
+    }),
+    motion.animate(sceneAngles.yaw, targetYaw, {
+      ...transition,
+      velocity: yawVelocity,
+      onUpdate: (value) => setSceneAngles(sceneAngles.pitch, value),
+      onComplete: complete
+    })
+  ];
+};
+
+const resetTimelineScene = (animate = true) => {
+  if (animate && (Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08)) springSceneTo(0, 0);
+  else {
+    stopSceneMotion();
+    setSceneAngles(0, 0);
+  }
+};
+
+timelinePanel.addEventListener('pointerdown', (event) => {
+  if (!document.body.classList.contains('details-open') || event.button !== 0 || event.target.closest(sceneInteractiveSelector)) return;
+  stopSceneMotion();
+  loadSceneMotion();
+  sceneGesture = {
+    id: event.pointerId,
+    pointerType: event.pointerType,
+    startX: event.clientX,
+    startY: event.clientY,
+    lastX: event.clientX,
+    lastY: event.clientY,
+    lastTime: performance.now(),
+    startPitch: sceneAngles.pitch,
+    startYaw: sceneAngles.yaw,
+    pitchVelocity: 0,
+    yawVelocity: 0,
+    dragging: false
+  };
+});
+
+timelinePanel.addEventListener('pointermove', (event) => {
+  if (!sceneGesture || event.pointerId !== sceneGesture.id) return;
+  const dx = event.clientX - sceneGesture.startX;
+  const dy = event.clientY - sceneGesture.startY;
+  if (!sceneGesture.dragging) {
+    if (Math.hypot(dx, dy) < 6) return;
+    if (sceneGesture.pointerType === 'touch' && Math.abs(dy) > Math.abs(dx) * 1.15) {
+      sceneGesture = undefined;
+      return;
+    }
+    sceneGesture.dragging = true;
+    timelinePanel.setPointerCapture(event.pointerId);
+    timelinePanel.classList.add('is-scene-dragging');
+    document.body.classList.add('timeline-scene-dragging');
+    requestSceneGeometry();
+  }
+
+  event.preventDefault();
+  const now = performance.now();
+  const elapsed = Math.max(8, now - sceneGesture.lastTime);
+  const yawPerPixel = 170 / Math.max(720, window.innerWidth);
+  const pitchPerPixel = 168 / Math.max(560, window.innerHeight);
+  const instantYawVelocity = (event.clientX - sceneGesture.lastX) / elapsed * yawPerPixel * 1000;
+  const instantPitchVelocity = -(event.clientY - sceneGesture.lastY) / elapsed * pitchPerPixel * 1000;
+  sceneGesture.yawVelocity = sceneGesture.yawVelocity * .68 + instantYawVelocity * .32;
+  sceneGesture.pitchVelocity = sceneGesture.pitchVelocity * .68 + instantPitchVelocity * .32;
+  sceneGesture.lastX = event.clientX;
+  sceneGesture.lastY = event.clientY;
+  sceneGesture.lastTime = now;
+  setSceneAngles(sceneGesture.startPitch - dy * pitchPerPixel, sceneGesture.startYaw + dx * yawPerPixel);
+}, { passive: false });
+
+const finishSceneGesture = (event, cancelled = false) => {
+  if (!sceneGesture || event.pointerId !== sceneGesture.id) return;
+  const gesture = sceneGesture;
+  sceneGesture = undefined;
+  if (!gesture.dragging) return;
+  if (timelinePanel.hasPointerCapture(event.pointerId)) timelinePanel.releasePointerCapture(event.pointerId);
+  timelinePanel.classList.remove('is-scene-dragging');
+  document.body.classList.remove('timeline-scene-dragging');
+  if (cancelled || reducedMotion.matches) return;
+  const snapAngle = (value, threshold, destination) => {
+    if (Math.abs(value) < 2.5) return 0;
+    if (Math.abs(value) > threshold) return Math.sign(value) * destination;
+    return value;
+  };
+  const targetPitch = snapAngle(clampScene(sceneAngles.pitch + gesture.pitchVelocity * .07, sceneLimits.pitch), 64, 79);
+  const targetYaw = snapAngle(clampScene(sceneAngles.yaw + gesture.yawVelocity * .07, sceneLimits.yaw), 58, 70);
+  springSceneTo(targetPitch, targetYaw, gesture.pitchVelocity, gesture.yawVelocity);
+};
+
+timelinePanel.addEventListener('pointerup', (event) => finishSceneGesture(event));
+timelinePanel.addEventListener('pointercancel', (event) => finishSceneGesture(event, true));
+timelinePanel.addEventListener('dblclick', (event) => {
+  if (!event.target.closest(sceneInteractiveSelector)) resetTimelineScene();
+});
+
+window.addEventListener('scroll', requestSceneGeometry, { passive: true });
+window.addEventListener('resize', requestSceneGeometry);
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && timelinePanel.classList.contains('is-scene-oriented')) resetTimelineScene();
+});
+detailsTrigger.addEventListener('click', () => {
+  if (detailsTrigger.getAttribute('aria-expanded') === 'false') resetTimelineScene(false);
+  else {
+    loadSceneMotion();
+    requestSceneGeometry();
+  }
+});
 
 const scatter = document.querySelector('#project-scatter');
 const projectManifest = fetch('assets-visual/manifest.json').then((response) => response.json());
@@ -679,13 +1092,29 @@ timeline.querySelectorAll('.project-expand-trigger').forEach((trigger) => {
   });
 });
 
+timeline.querySelectorAll('.project-title-trigger').forEach((trigger) => {
+  trigger.addEventListener('click', () => {
+    const entry = trigger.closest('.timeline-entry');
+    if (entry !== activeTimelineEntry) return;
+    if (scatterLink === trigger) { dismissScatter(); return; }
+    showScatter(entry.entryData, trigger);
+  });
+});
+
 presentProjectTrigger.addEventListener('click', () => {
   if (scatterLink === presentProjectTrigger) { dismissScatter(); return; }
   showScatter(presentProjectData, presentProjectTrigger);
 });
 
+projectPreview.addEventListener('click', () => {
+  const entry = previewTimelineEntry || presentProjectData;
+  if (!projectPreview.classList.contains('has-stack')) return;
+  if (scatterLink === projectPreview) { dismissScatter(); return; }
+  showScatter(entry, projectPreview);
+});
+
 document.addEventListener('click', (event) => {
-  if (scatterLocked && !event.target.closest('.project-expand-trigger, .present-project-trigger') && !event.target.closest('.scatter-item')) dismissScatter();
+  if (scatterLocked && !event.target.closest('.project-expand-trigger, .project-title-trigger, .present-project-trigger, .project-focus-preview') && !event.target.closest('.scatter-item')) dismissScatter();
 });
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && scatterLink) dismissScatter(); });
 
