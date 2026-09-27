@@ -650,10 +650,13 @@ button.timeline-marker {
   color: var(--muted);
   font-size: 12px;
   line-height: 1.3;
+  letter-spacing: 0;
+  text-align: left;
 }
 
 .timeline-entry-copy {
   position: relative;
+  text-align: left;
   opacity: var(--scene-opacity, 1);
   transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
   transform-origin: left 24px;
@@ -671,6 +674,7 @@ button.timeline-marker {
   font-variation-settings: "wght" 400, "wdth" 100;
   line-height: 1.18;
   letter-spacing: -.32px;
+  text-align: left;
   transition: opacity .34s ease, font-variation-settings .62s var(--ease), letter-spacing .62s var(--ease);
 }
 
@@ -707,6 +711,11 @@ button.timeline-marker {
 }
 
 .project-title-trigger {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
   pointer-events: none;
 }
 
@@ -724,6 +733,8 @@ button.timeline-marker {
   font-size: 12px;
   font-weight: 400;
   line-height: 1;
+  letter-spacing: 0;
+  text-align: left;
   text-decoration: none;
   opacity: 0;
   visibility: hidden;

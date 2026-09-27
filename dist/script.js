@@ -257,14 +257,38 @@ window.addEventListener('scroll', () => {
 backToTop.addEventListener('click', () => driftTo(0));
 backToTop.classList.toggle('is-visible', window.scrollY > window.innerHeight * .65);
 
+const projectDisplayTitles = new Map(Object.entries({
+  'GlossAI Rebrand': 'GlossAI rebrand',
+  'Album Art: Presage 2022': 'Album art: Presage 2022',
+  'Webflow Rebrand': 'Webflow rebrand',
+  'Webflow “User Guide”': 'Webflow “User guide”',
+  'Webflow Conf 2022 – Process and Guidelines': 'Webflow Conf 2022 – Process and guidelines',
+  '3D Scene': '3D scene',
+  'Studio Project Trophy Decks': 'Studio project trophy decks',
+  'UI Design – Deloitte Digital Internal Directory': 'UI design – Deloitte Digital internal directory',
+  'Brand Package – Atelier Saady': 'Brand package – Atelier Saady',
+  'Stylized Logo': 'Stylized logo',
+  'Webflow Conf 2022 – Grow with the ’Flow Room': 'Webflow Conf 2022 – Grow with the ’Flow room',
+  'Webflow Conf 2022 – Themes': 'Webflow Conf 2022 – themes',
+  'WNBA Pursuit': 'WNBA pursuit',
+  'Deloitte Digital National Brand Launch': 'Deloitte Digital national brand launch',
+  'Lilly Pulitzer Virtual Runway': 'Lilly Pulitzer virtual runway',
+  'Deloitte Digital DC Brand POV': 'Deloitte Digital DC brand POV',
+  'Deloitte Digital DC Culture Site': 'Deloitte Digital DC culture site'
+}));
+
+const metadataTitleCase = (value) => value.replace(/\b([a-z])([a-z]*)/g, (_, first, rest) => `${first.toUpperCase()}${rest.toLowerCase()}`);
+const displayEntryTitle = (entry) => entry.kind === 'project' ? projectDisplayTitles.get(entry.title) || entry.title : entry.title;
+
 const entryMarkup = (entry, index) => {
+  const displayTitle = displayEntryTitle(entry);
   const linkedTitle = entry.kind === 'project' && entry.url
-    ? `<button class="text-link project-title-trigger" type="button" tabindex="-1" aria-label="Show ${entry.title} images" aria-expanded="false">${entry.title}</button>`
+    ? `<button class="text-link project-title-trigger" type="button" tabindex="-1" aria-label="Show ${displayTitle} images" aria-expanded="false">${displayTitle}</button>`
     : entry.url && entry.kind !== 'milestone'
-      ? `<a class="text-link${entry.kind === 'writing' ? ' writing-popup-trigger' : ''}" href="${entry.url}" rel="noopener">${entry.title}</a>`
-      : entry.title;
+      ? `<a class="text-link${entry.kind === 'writing' ? ' writing-popup-trigger' : ''}" href="${entry.url}" rel="noopener">${displayTitle}</a>`
+      : displayTitle;
   const externalAction = entry.url && entry.kind !== 'milestone'
-    ? `<a class="timeline-external" href="${entry.url}" target="_blank" rel="noopener noreferrer"><span>${entry.kind === 'writing' ? 'Open writing' : 'Open project'}</span><i class="ri-external-link-line" aria-hidden="true"></i></a>`
+    ? `<a class="timeline-external" href="${entry.url}" target="_blank" rel="noopener noreferrer"><span>View source</span><i class="ri-external-link-line" aria-hidden="true"></i></a>`
     : '';
   const marker = entry.kind === 'project' && entry.url
     ? `<button class="timeline-marker project-expand-trigger" type="button" tabindex="-1" aria-label="Show ${entry.title} images" aria-expanded="false"><i class="ri-add-line" aria-hidden="true"></i></button>`
@@ -275,7 +299,7 @@ const entryMarkup = (entry, index) => {
     <article class="timeline-entry" data-kind="${entry.kind}" style="--reveal-delay: ${(index % 8) * 45}ms">
       ${marker}
       <div class="timeline-entry-copy">
-        <div class="timeline-meta"><time>${entry.date}</time><span>${entry.kind}</span></div>
+        <div class="timeline-meta"><time>${metadataTitleCase(entry.date)}</time><span>${metadataTitleCase(entry.kind)}</span></div>
         <h3>${linkedTitle}</h3>
         ${entry.description ? `<p>${entry.description}</p>` : ''}
         ${externalAction}
