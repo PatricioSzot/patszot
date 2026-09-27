@@ -177,6 +177,85 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const openDuration = () => reducedMotion.matches ? 0 : 900;
 const closeDuration = () => reducedMotion.matches ? 0 : 650;
 
+const backToTop = document.querySelector('#back-to-top');
+let driftTarget = window.scrollY;
+let driftFrame;
+let driftAnimating = false;
+
+const maxScrollY = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+const clampScrollY = (value) => Math.min(maxScrollY(), Math.max(0, value));
+
+const cancelDrift = () => {
+  if (driftFrame) cancelAnimationFrame(driftFrame);
+  driftFrame = undefined;
+  driftAnimating = false;
+  driftTarget = window.scrollY;
+};
+
+const runDrift = () => {
+  const distance = driftTarget - window.scrollY;
+  if (Math.abs(distance) < .45) {
+    window.scrollTo(0, driftTarget);
+    driftFrame = undefined;
+    driftAnimating = false;
+    return;
+  }
+
+  driftAnimating = true;
+  window.scrollTo(0, window.scrollY + distance * .085);
+  driftFrame = requestAnimationFrame(runDrift);
+};
+
+const driftTo = (position) => {
+  if (reducedMotion.matches) {
+    window.scrollTo(0, clampScrollY(position));
+    return;
+  }
+  driftTarget = clampScrollY(position);
+  if (!driftFrame) driftFrame = requestAnimationFrame(runDrift);
+};
+
+window.addEventListener('wheel', (event) => {
+  if (reducedMotion.matches || event.ctrlKey || event.target.closest('.writing-reader-scroll')) return;
+  const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
+  event.preventDefault();
+  driftTo(driftTarget + event.deltaY * unit * .58);
+}, { passive: false });
+
+document.addEventListener('keydown', (event) => {
+  if (reducedMotion.matches || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
+  if (event.target.closest('a, button, input, textarea, select, [contenteditable="true"], .writing-reader-scroll')) return;
+
+  const keyboardDistances = {
+    ArrowDown: 72,
+    ArrowUp: -72,
+    PageDown: window.innerHeight * .72,
+    PageUp: window.innerHeight * -.72,
+    ' ': window.innerHeight * (event.shiftKey ? -.82 : .82)
+  };
+
+  if (event.key === 'Home') {
+    event.preventDefault();
+    driftTo(0);
+  } else if (event.key === 'End') {
+    event.preventDefault();
+    driftTo(maxScrollY());
+  } else if (keyboardDistances[event.key] !== undefined) {
+    event.preventDefault();
+    driftTo(driftTarget + keyboardDistances[event.key]);
+  }
+});
+
+window.addEventListener('touchstart', cancelDrift, { passive: true });
+window.addEventListener('resize', () => { driftTarget = clampScrollY(driftTarget); });
+window.addEventListener('scroll', () => {
+  if (!driftAnimating) driftTarget = window.scrollY;
+  backToTop.classList.toggle('is-visible', window.scrollY > window.innerHeight * .65);
+}, { passive: true });
+
+backToTop.addEventListener('click', () => driftTo(0));
+backToTop.classList.toggle('is-visible', window.scrollY > window.innerHeight * .65);
+
 const entryMarkup = (entry, index) => {
   const complexity = Math.max(20, Math.min(100, Math.round(entry.intensity / 1.76)));
 
