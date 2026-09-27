@@ -211,7 +211,8 @@ timeline.innerHTML = timelineData.map((section, yearIndex) => `
 const timelineEntries = [...timeline.querySelectorAll('.timeline-entry')];
 const timelineRecords = timelineData.flatMap((section) => section.entries);
 timelineEntries.forEach((element, index) => { element.entryData = timelineRecords[index]; });
-const focusTimelineEntries = timelineEntries.filter((entry) =>
+const focusTimelineEntries = timelineEntries;
+const previewTimelineEntries = timelineEntries.filter((entry) =>
   entry.entryData.url && (entry.dataset.kind === 'project' || entry.dataset.kind === 'writing')
 );
 const revealObserver = new IntersectionObserver((entries) => {
@@ -287,6 +288,7 @@ detailsTrigger.addEventListener('click', () => {
 });
 
 let activeTimelineEntry;
+let previewTimelineEntry;
 let activeTimelineFrame;
 let previousScrollY = window.scrollY;
 let previousScrollTime = performance.now();
@@ -400,12 +402,12 @@ const clearTimelineActive = () => {
   timeline.classList.remove('has-active');
 };
 
-const timelineEntryForViewport = () => {
-  if (!focusTimelineEntries.length) return undefined;
-  if (window.scrollY <= 48) return focusTimelineEntries[0];
+const timelineEntryForViewport = (candidateEntries) => {
+  if (!candidateEntries.length) return undefined;
+  if (window.scrollY <= 48) return candidateEntries[0];
 
   const focusY = window.scrollY + window.innerHeight / 2;
-  const entries = focusTimelineEntries.map((entry) => {
+  const entries = candidateEntries.map((entry) => {
     const rect = entry.getBoundingClientRect();
     return { entry, center: window.scrollY + rect.top + rect.height / 2 };
   });
@@ -426,7 +428,8 @@ const updateTimelineActive = () => {
   activeTimelineFrame = undefined;
   if (!document.body.classList.contains('details-open') || document.body.classList.contains('details-opening') || document.body.classList.contains('details-closing') || timelinePanel.hidden) return;
 
-  const closest = timelineEntryForViewport();
+  const closest = timelineEntryForViewport(focusTimelineEntries);
+  const closestPreview = timelineEntryForViewport(previewTimelineEntries);
   if (!closest) {
     clearTimelineActive();
     setProjectPreview();
@@ -440,7 +443,10 @@ const updateTimelineActive = () => {
     timeline.classList.add('has-active');
     activeTimelineEntry.classList.add('is-active');
     activeTimelineEntry.querySelector('.project-expand-trigger, .writing-expand-trigger')?.setAttribute('tabindex', '0');
-    setProjectPreview(activeTimelineEntry.entryData);
+  }
+  if (closestPreview !== previewTimelineEntry) {
+    previewTimelineEntry = closestPreview;
+    setProjectPreview(previewTimelineEntry?.entryData);
   }
 };
 

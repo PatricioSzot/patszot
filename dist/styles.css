@@ -552,6 +552,21 @@ button.timeline-marker {
   font-size: 14px;
   line-height: 1.32;
   letter-spacing: -.14px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 4px, 0);
+  transition:
+    opacity .38s ease,
+    transform .58s var(--ease),
+    visibility 0s linear .58s;
+}
+
+.timeline-entry.is-active p,
+.timeline-entry:focus-within p {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
+  transition-delay: .08s, .04s, 0s;
 }
 
 .timeline-entry a {
