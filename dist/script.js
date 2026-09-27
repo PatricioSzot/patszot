@@ -323,8 +323,14 @@ const timelineEntries = [...timeline.querySelectorAll('.timeline-entry')];
 const timelineRecords = displayTimelineData.flatMap((section) => section.entries);
 timelineEntries.forEach((element, index) => { element.entryData = timelineRecords[index]; });
 const focusTimelineEntries = timelineEntries;
+const fixedPreviewSourceFor = (entry) => {
+  if (!entry || entry.url === 'https://www.airops.com/') return 'assets/airops-og.jpg';
+  if (/webflow-rebrand/i.test(entry.url || '')) return 'assets/webflow-rebrand-og.jpg';
+  if (entry.cover && !/\.mp4(?:$|\?)/i.test(entry.cover)) return entry.cover;
+  return undefined;
+};
 const previewTimelineEntries = timelineEntries.filter((entry) =>
-  entry.entryData.url && (entry.dataset.kind === 'project' || entry.dataset.kind === 'writing')
+  fixedPreviewSourceFor(entry.entryData)
 );
 timelineEntries.forEach((entry) => entry.classList.add('is-visible'));
 
@@ -395,140 +401,25 @@ let previousScrollTime = performance.now();
 let timelineScrollDirection = 0;
 let timelineScrollVelocity = 0;
 const projectPreview = document.querySelector('#project-focus-preview');
-const previewImages = [...projectPreview.querySelectorAll('.project-focus-preview-image')];
-const previewSheets = [...projectPreview.querySelectorAll('.project-focus-preview-sheet')];
-const airOpsUrl = 'https://www.airops.com/';
+const previewImage = projectPreview.querySelector('.project-focus-preview-image');
 const airOpsFallback = 'assets/airops-og.jpg';
-let previewLayer = 0;
-let previewRequest = 0;
-let previewTransitioning = false;
-let queuedPreview;
-previewImages[0].dataset.previewSrc = airOpsFallback;
+let lastResolvedPreview = airOpsFallback;
+previewImage.dataset.previewSrc = airOpsFallback;
+previewImage.addEventListener('load', () => { lastResolvedPreview = previewImage.currentSrc || previewImage.src; });
+previewImage.addEventListener('error', () => {
+  const fallback = lastResolvedPreview || airOpsFallback;
+  if (previewImage.src !== fallback) previewImage.src = fallback;
+});
 
-const youtubeThumbnail = (src) => {
-  const id = src.match(/youtube\.com\/embed\/([^?&/]+)/)?.[1];
-  return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : undefined;
-};
-
-const previewSourceFor = (entry, manifest) => {
-  if (!entry || entry.url === airOpsUrl) return airOpsFallback;
-  if (entry?.cover && !/\.mp4(?:$|\?)/i.test(entry.cover)) return entry.cover;
-  const assets = manifest.projects[entry?.assetsUrl || entry?.url]?.assets || [];
-  const still = assets.find((asset) => asset.type === 'image') || assets.find((asset) => asset.type === 'gif');
-  if (still) return still.src;
-  const youtube = assets.find((asset) => asset.type === 'youtube');
-  if (youtube) return youtubeThumbnail(youtube.src);
-  const airOps = manifest.projects[airOpsUrl]?.assets?.find((asset) => asset.type === 'image');
-  return airOps?.src || airOpsFallback;
-};
-
-const uniqueVisualAssetsFor = (entry, manifest) => {
-  const assets = manifest.projects[entry?.assetsUrl || entry?.url]?.assets || [];
-  const seen = new Set();
-  return assets.filter((asset) => {
-    if (!['image', 'gif'].includes(asset.type)) return false;
-    const key = asset.source || asset.src;
-    if (!key || seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-};
-
-const setPreviewStack = async (entry, manifest, topSource, request) => {
-  const assets = uniqueVisualAssetsFor(entry, manifest)
-    .filter((asset) => asset.src !== topSource)
-    .slice(0, previewSheets.length);
-  const sources = await Promise.all(assets.map(async (asset) => {
-    const preload = new Image();
-    preload.src = asset.src;
-    await preload.decode().catch(() => {});
-    return preload.naturalWidth ? asset.src : undefined;
-  }));
-  if (request !== previewRequest) return;
-  const validSources = sources.filter(Boolean);
-  previewSheets.forEach((sheet, index) => {
-    const source = validSources[index];
-    if (source) sheet.src = source;
-    else sheet.removeAttribute('src');
-    sheet.classList.toggle('has-source', Boolean(source));
-  });
-  const hasStack = validSources.length > 0;
-  projectPreview.classList.toggle('has-stack', hasStack);
-  projectPreview.disabled = !hasStack;
-  projectPreview.setAttribute('aria-disabled', String(!hasStack));
-  projectPreview.setAttribute('aria-label', hasStack
-    ? `Show all ${entry?.title || 'AirOps'} project images`
-    : `${entry?.title || 'AirOps'} project preview`);
-};
-
-const runPreviewTransition = ({ src, alt, direction, velocity }) => {
-  const current = previewImages[previewLayer];
-  if (current.dataset.previewSrc === src) {
-    current.alt = alt;
-    return;
+const setProjectPreview = (entry) => {
+  const src = fixedPreviewSourceFor(entry) || airOpsFallback;
+  const title = entry?.title || 'AirOps';
+  if (previewImage.dataset.previewSrc !== src) {
+    previewImage.src = src;
+    previewImage.dataset.previewSrc = src;
   }
-
-  previewTransitioning = true;
-  const nextLayer = previewLayer === 0 ? 1 : 0;
-  const next = previewImages[nextLayer];
-  next.src = src;
-  next.alt = alt;
-  next.dataset.previewSrc = src;
-  const duration = reducedMotion.matches ? 0 : Math.max(500, 780 - velocity * 80);
-  projectPreview.style.setProperty('--preview-out-y', `${-direction * 100}%`);
-  projectPreview.style.setProperty('--preview-in-y', `${direction * 100}%`);
-  projectPreview.style.setProperty('--preview-duration', `${duration}ms`);
-  next.style.transition = 'none';
-  next.classList.remove('is-current', 'is-departing');
-  void next.offsetHeight;
-  next.style.removeProperty('transition');
-
-  requestAnimationFrame(() => {
-    current.classList.add('is-departing');
-    current.classList.remove('is-current');
-    next.classList.add('is-current');
-  });
-
-  window.setTimeout(() => {
-    current.classList.remove('is-departing');
-    current.alt = '';
-    previewLayer = nextLayer;
-    previewTransitioning = false;
-    const queued = queuedPreview;
-    queuedPreview = undefined;
-    if (queued) runPreviewTransition(queued);
-  }, duration + 40);
-};
-
-const setProjectPreview = async (entry) => {
-  const request = ++previewRequest;
-  const manifest = await projectManifest;
-  let src = previewSourceFor(entry, manifest) || airOpsFallback;
-  let alt = src === airOpsFallback ? 'AirOps project preview' : `${entry?.title || 'AirOps'} project preview`;
-  const preload = new Image();
-  preload.src = src;
-  await preload.decode().catch(() => {});
-  if (!preload.naturalWidth && src !== airOpsFallback) {
-    src = airOpsFallback;
-    alt = 'AirOps project preview';
-    preload.src = src;
-    await preload.decode().catch(() => {});
-  }
-  if (!preload.naturalWidth || request !== previewRequest) return;
-  await setPreviewStack(entry, manifest, src, request);
-  if (request !== previewRequest) return;
-
-  const payload = {
-    src,
-    alt,
-    direction: timelineScrollDirection || 1,
-    velocity: timelineScrollVelocity
-  };
-  if (previewTransitioning) {
-    queuedPreview = payload;
-    return;
-  }
-  runPreviewTransition(payload);
+  previewImage.alt = `${title} project preview`;
+  projectPreview.setAttribute('aria-label', `Show all ${title} images`);
 };
 
 const setPreviewVisibility = (visible) => {
@@ -577,6 +468,25 @@ const timelineEntryForViewport = (candidateEntries) => {
   return focusY < handoffPoint ? previous.entry : upcoming.entry;
 };
 
+const previewStateForViewport = () => {
+  const focusY = window.scrollY + window.innerHeight / 2;
+  const points = [
+    { entry: presentProjectData, center: untransformedDocumentCenter(presentProjectTrigger).y },
+    ...previewTimelineEntries.map((element) => ({ entry: element.entryData, center: untransformedDocumentCenter(element).y }))
+  ];
+  const first = points[0];
+  const last = points.at(-1);
+  const span = Math.max(1, last.center - first.center);
+  const progress = Math.max(0, Math.min(1, (focusY - first.center) / span));
+  projectPreview.style.setProperty('--preview-progress', progress.toFixed(4));
+  const upcomingIndex = points.findIndex((point) => point.center >= focusY);
+  if (upcomingIndex <= 0) return first.entry;
+  if (upcomingIndex === -1) return last.entry;
+  const previous = points[upcomingIndex - 1];
+  const upcoming = points[upcomingIndex];
+  return focusY < previous.center + (upcoming.center - previous.center) / 2 ? previous.entry : upcoming.entry;
+};
+
 const updateTimelineActive = () => {
   activeTimelineFrame = undefined;
   if (!document.body.classList.contains('details-open') || document.body.classList.contains('details-opening') || document.body.classList.contains('details-closing') || timelinePanel.hidden) return;
@@ -585,9 +495,7 @@ const updateTimelineActive = () => {
   const firstEntryCenter = firstTimelineEntry ? untransformedDocumentCenter(firstTimelineEntry).y : 0;
   const presentOwnsFocus = Boolean(firstTimelineEntry && firstEntryCenter - window.scrollY > window.innerHeight / 2);
   const closest = presentOwnsFocus ? undefined : timelineEntryForViewport(focusTimelineEntries);
-  const closestPreview = presentOwnsFocus
-    ? presentProjectData
-    : timelineEntryForViewport(previewTimelineEntries)?.entryData;
+  const closestPreview = previewStateForViewport();
 
   document.body.classList.toggle('present-focus', presentOwnsFocus);
   if (!closest) {
@@ -645,7 +553,6 @@ const cameraBillboards = [...document.querySelectorAll([
   '.profile-anchor-marker',
   '.present-project-trigger',
   '.footer-contact-billboard',
-  '.timeline-footer-marker',
   '.timeline-footer-billboard'
 ].join(','))];
 const sceneInteractiveSelector = 'a, button, input, textarea, select, iframe, video, [contenteditable="true"]';
@@ -703,7 +610,7 @@ const refreshSceneGeometry = () => {
   const panelRect = timelinePanel.getBoundingClientRect();
   const originY = Math.max(0, Math.min(timelineScene.offsetHeight, window.innerHeight / 2 - panelRect.top));
   timelinePanel.style.setProperty('--scene-origin-y', `${originY}px`);
-  const axisMarkers = [...timelineScene.querySelectorAll('.timeline-marker, .timeline-footer-marker')];
+  const axisMarkers = [...timelineScene.querySelectorAll('.timeline-marker')];
   const markerCenterY = (marker) => {
     let y = marker.offsetHeight / 2;
     let node = marker;
@@ -714,10 +621,17 @@ const refreshSceneGeometry = () => {
     return y;
   };
   if (axisMarkers.length) {
-    const axisStart = markerCenterY(axisMarkers[0]);
+    const timelineSceneCenter = untransformedDocumentCenter(timelineScene);
+    const timelineSceneTop = timelineSceneCenter.y - timelineScene.offsetHeight / 2;
+    const axisStart = untransformedDocumentCenter(presentProjectTrigger).y - timelineSceneTop;
     const axisEnd = markerCenterY(axisMarkers[axisMarkers.length - 1]);
     timelineScene.style.setProperty('--timeline-axis-start', `${axisStart.toFixed(2)}px`);
     timelineScene.style.setProperty('--timeline-axis-length', `${Math.max(0, axisEnd - axisStart).toFixed(2)}px`);
+  }
+  const firstYearHeading = timeline.querySelector('.timeline-year-heading');
+  if (firstYearHeading) {
+    const yearShift = untransformedDocumentCenter(presentProjectTrigger).y - untransformedDocumentCenter(firstYearHeading).y;
+    firstYearHeading.style.setProperty('--first-year-shift', `${yearShift.toFixed(2)}px`);
   }
   const profileCenter = untransformedDocumentCenter(profile);
   const profileLayoutLeft = profileCenter.x - profile.offsetWidth / 2;
@@ -906,6 +820,8 @@ const scatter = document.querySelector('#project-scatter');
 const projectManifest = fetch('assets-visual/manifest.json').then((response) => response.json());
 const coarsePointer = window.matchMedia('(hover: none), (pointer: coarse)');
 let scatterLink;
+let scatterEntryData;
+let scatterControls = [];
 let scatterLocked = false;
 let scatterCycle;
 let scatterGeneration = 0;
@@ -923,8 +839,10 @@ const dismissScatter = (immediate = false) => {
   scatterCycle = undefined;
   scatterGeneration += 1;
   scatterLocked = false;
-  scatterLink?.setAttribute('aria-expanded', 'false');
+  scatterControls.forEach((control) => setScatterExpanded(control, false));
+  scatterControls = [];
   scatterLink = undefined;
+  scatterEntryData = undefined;
   scatter.style.setProperty('--scatter-out-y', `${-(timelineScrollDirection || 1) * 18}px`);
   scatter.querySelectorAll('.scatter-group').forEach((group) => group.classList.add('is-leaving'));
   scatter.classList.add('is-closing');
@@ -937,6 +855,15 @@ const dismissScatter = (immediate = false) => {
     scatter.replaceChildren();
     scatter.classList.remove('is-closing');
   }, delay);
+};
+
+const setScatterExpanded = (trigger, expanded) => {
+  if (!trigger) return;
+  trigger.setAttribute('aria-expanded', String(expanded));
+  const icon = trigger.querySelector('i');
+  if (!icon) return;
+  icon.classList.toggle('ri-add-line', !expanded);
+  icon.classList.toggle('ri-close-line', expanded);
 };
 
 const gifCanvas = async (asset, generation) => {
@@ -1064,11 +991,18 @@ const showScatter = async (entry, trigger) => {
   if (!projectAssets.length) return;
   if (scatterLink && scatterLink !== trigger) dismissScatter(true);
   scatterLink = trigger;
+  scatterEntryData = entry;
+  const timelineEntry = trigger.closest?.('.timeline-entry') || timelineEntries.find((element) => element.entryData === entry);
+  scatterControls = timelineEntry
+    ? [...timelineEntry.querySelectorAll('.project-expand-trigger, .project-title-trigger')]
+    : trigger === presentProjectTrigger || entry === presentProjectData
+      ? [presentProjectTrigger]
+      : [trigger];
   scatterLocked = true;
   scatter.style.setProperty('--scatter-in-y', `${(timelineScrollDirection || 1) * 16}px`);
   scatterGeneration += 1;
   const generation = scatterGeneration;
-  trigger.setAttribute('aria-expanded', 'true');
+  scatterControls.forEach((control) => setScatterExpanded(control, true));
   scatter.setAttribute('aria-hidden', 'false');
   scatter.classList.add('is-active');
   let offset = 0;
@@ -1091,7 +1025,7 @@ timeline.querySelectorAll('.project-expand-trigger').forEach((trigger) => {
   trigger.addEventListener('click', () => {
     const entry = trigger.closest('.timeline-entry');
     if (entry !== activeTimelineEntry) return;
-    if (scatterLink === trigger) { dismissScatter(); return; }
+    if (scatterEntryData === entry.entryData) { dismissScatter(); return; }
     showScatter(entry.entryData, trigger);
   });
 });
@@ -1100,20 +1034,19 @@ timeline.querySelectorAll('.project-title-trigger').forEach((trigger) => {
   trigger.addEventListener('click', () => {
     const entry = trigger.closest('.timeline-entry');
     if (entry !== activeTimelineEntry) return;
-    if (scatterLink === trigger) { dismissScatter(); return; }
+    if (scatterEntryData === entry.entryData) { dismissScatter(); return; }
     showScatter(entry.entryData, trigger);
   });
 });
 
 presentProjectTrigger.addEventListener('click', () => {
-  if (scatterLink === presentProjectTrigger) { dismissScatter(); return; }
+  if (scatterEntryData === presentProjectData) { dismissScatter(); return; }
   showScatter(presentProjectData, presentProjectTrigger);
 });
 
 projectPreview.addEventListener('click', () => {
   const entry = previewTimelineEntry || presentProjectData;
-  if (!projectPreview.classList.contains('has-stack')) return;
-  if (scatterLink === projectPreview) { dismissScatter(); return; }
+  if (scatterEntryData === entry) { dismissScatter(); return; }
   showScatter(entry, projectPreview);
 });
 
