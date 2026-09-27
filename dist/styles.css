@@ -661,6 +661,7 @@ button.timeline-marker {
 
 .timeline-entry-copy {
   position: relative;
+  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
   transform-origin: left 24px;
   transform-style: preserve-3d;
   transition: filter .28s ease, transform .38s var(--ease);
@@ -672,7 +673,6 @@ button.timeline-marker {
 
 .timeline-entry.is-active .timeline-entry-copy {
   filter: none;
-  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
 }
 
 .timeline-entry.is-active .complexity-label {
