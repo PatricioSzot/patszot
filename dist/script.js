@@ -620,6 +620,8 @@ window.addEventListener('scroll', () => {
 window.addEventListener('resize', requestTimelineActiveUpdate);
 
 const timelineScene = timelinePanel.querySelector('.timeline-panel-inner');
+const profileScene = document.querySelector('.profile-scene');
+const footerContactScene = document.querySelector('.footer-contact-scene');
 const sceneCoarsePointer = window.matchMedia('(hover: none), (pointer: coarse)');
 const sceneInteractiveSelector = 'a, button, input, textarea, select, iframe, video, [contenteditable="true"]';
 const sceneLimits = { pitch: 82, yaw: 74 };
@@ -684,7 +686,7 @@ const renderScene = () => {
     '--scene-counter-rx': `${(-sceneAngles.pitch).toFixed(3)}deg`,
     '--scene-counter-ry': `${(-sceneAngles.yaw).toFixed(3)}deg`
   };
-  [timelinePanel, backToTop].forEach((element) => {
+  [timelinePanel, backToTop, profileScene, footerContactScene].forEach((element) => {
     Object.entries(sceneValues).forEach(([property, value]) => element.style.setProperty(property, value));
   });
   timelinePanel.classList.toggle('is-scene-oriented', Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08);
@@ -701,6 +703,13 @@ const refreshSceneGeometry = () => {
   const panelRect = timelinePanel.getBoundingClientRect();
   const originY = Math.max(0, Math.min(timelineScene.offsetHeight, window.innerHeight / 2 - panelRect.top));
   timelinePanel.style.setProperty('--scene-origin-y', `${originY}px`);
+  [profileScene, footerContactScene].forEach((element) => {
+    const center = untransformedDocumentCenter(element);
+    const layoutLeft = center.x - element.offsetWidth / 2;
+    const layoutTop = center.y - element.offsetHeight / 2;
+    element.style.setProperty('--scene-local-origin-x', `${window.innerWidth / 2 - layoutLeft}px`);
+    element.style.setProperty('--scene-local-origin-y', `${window.scrollY + window.innerHeight / 2 - layoutTop}px`);
+  });
   sceneDepthSamples = [...visibleDepthNodes].map((element) => {
     const center = untransformedDocumentCenter(element);
     return {
