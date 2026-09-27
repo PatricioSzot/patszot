@@ -170,6 +170,7 @@ const timelineData = [
 const timeline = document.querySelector('#career-timeline');
 const detailsGroup = document.querySelector('.details-group');
 const detailsTrigger = document.querySelector('#details-trigger');
+const presentProjectTrigger = document.querySelector('#present-project-trigger');
 const timelinePanel = document.querySelector('#timeline-panel');
 let detailsCloseTimer;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -201,14 +202,19 @@ const entryMarkup = (entry, index) => {
 };
 
 let timelineSequence = 0;
-timeline.innerHTML = timelineData.map((section, yearIndex) => `
+const presentProjectData = timelineData[0].entries[0];
+const displayTimelineData = timelineData.map((section, index) => ({
+  ...section,
+  entries: index === 0 ? section.entries.slice(1) : section.entries
+}));
+timeline.innerHTML = displayTimelineData.map((section, yearIndex) => `
   <section class="timeline-year" aria-labelledby="year-${section.year.toLowerCase()}">
     <h2 class="timeline-year-heading" id="year-${section.year.toLowerCase()}" style="--year-delay: ${yearIndex * 55}ms">${section.year}</h2>
     <div class="timeline-year-entries">${section.entries.map((entry) => entryMarkup(entry, timelineSequence++)).join('')}</div>
   </section>`).join('');
 
 const timelineEntries = [...timeline.querySelectorAll('.timeline-entry')];
-const timelineRecords = timelineData.flatMap((section) => section.entries);
+const timelineRecords = displayTimelineData.flatMap((section) => section.entries);
 timelineEntries.forEach((element, index) => { element.entryData = timelineRecords[index]; });
 const focusTimelineEntries = timelineEntries;
 const previewTimelineEntries = timelineEntries.filter((entry) =>
@@ -428,7 +434,9 @@ const updateTimelineActive = () => {
   if (!document.body.classList.contains('details-open') || document.body.classList.contains('details-opening') || document.body.classList.contains('details-closing') || timelinePanel.hidden) return;
 
   const closest = timelineEntryForViewport(focusTimelineEntries);
-  const closestPreview = timelineEntryForViewport(previewTimelineEntries);
+  const closestPreview = window.scrollY <= 48
+    ? presentProjectData
+    : timelineEntryForViewport(previewTimelineEntries)?.entryData;
   if (!closest) {
     clearTimelineActive();
     setProjectPreview();
@@ -445,7 +453,7 @@ const updateTimelineActive = () => {
   }
   if (closestPreview !== previewTimelineEntry) {
     previewTimelineEntry = closestPreview;
-    setProjectPreview(previewTimelineEntry?.entryData);
+    setProjectPreview(previewTimelineEntry);
   }
 };
 
@@ -662,8 +670,13 @@ timeline.querySelectorAll('.project-expand-trigger').forEach((trigger) => {
   });
 });
 
+presentProjectTrigger.addEventListener('click', () => {
+  if (scatterLink === presentProjectTrigger) { dismissScatter(); return; }
+  showScatter(presentProjectData, presentProjectTrigger);
+});
+
 document.addEventListener('click', (event) => {
-  if (scatterLocked && !event.target.closest('.project-expand-trigger') && !event.target.closest('.scatter-item')) dismissScatter();
+  if (scatterLocked && !event.target.closest('.project-expand-trigger, .present-project-trigger') && !event.target.closest('.scatter-item')) dismissScatter();
 });
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && scatterLink) dismissScatter(); });
 
