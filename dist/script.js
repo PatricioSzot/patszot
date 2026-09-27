@@ -279,10 +279,12 @@ const entryMarkup = (entry, index) => {
     <article class="timeline-entry" data-kind="${entry.kind}" style="--complexity: ${complexity}; --reveal-delay: ${(index % 8) * 45}ms">
       ${marker}
       ${complexityLabel}
-      <div class="timeline-meta"><time>${entry.date}</time><span>${entry.kind}</span></div>
-      <h3>${linkedTitle}</h3>
-      ${entry.description ? `<p>${entry.description}</p>` : ''}
-      ${externalAction}
+      <div class="timeline-entry-copy">
+        <div class="timeline-meta"><time>${entry.date}</time><span>${entry.kind}</span></div>
+        <h3>${linkedTitle}</h3>
+        ${entry.description ? `<p>${entry.description}</p>` : ''}
+        ${externalAction}
+      </div>
     </article>`;
 };
 
@@ -294,7 +296,7 @@ const displayTimelineData = timelineData.map((section, index) => ({
 }));
 timeline.innerHTML = displayTimelineData.map((section, yearIndex) => `
   <section class="timeline-year" aria-labelledby="year-${section.year.toLowerCase()}">
-    <h2 class="timeline-year-heading" id="year-${section.year.toLowerCase()}" style="--year-delay: ${yearIndex * 55}ms">${section.year}</h2>
+    <h2 class="timeline-year-heading" id="year-${section.year.toLowerCase()}" style="--year-delay: ${yearIndex * 55}ms"><span>${section.year}</span></h2>
     <div class="timeline-year-entries">${section.entries.map((entry) => entryMarkup(entry, timelineSequence++)).join('')}</div>
   </section>`).join('');
 
@@ -535,14 +537,25 @@ const clearTimelineActive = () => {
   timeline.classList.remove('has-active');
 };
 
+const untransformedDocumentCenter = (element) => {
+  let x = element.offsetWidth / 2;
+  let y = element.offsetHeight / 2;
+  let node = element;
+  while (node) {
+    x += node.offsetLeft;
+    y += node.offsetTop;
+    node = node.offsetParent;
+  }
+  return { x, y };
+};
+
 const timelineEntryForViewport = (candidateEntries) => {
   if (!candidateEntries.length) return undefined;
   if (window.scrollY <= 48) return candidateEntries[0];
 
   const focusY = window.scrollY + window.innerHeight / 2;
   const entries = candidateEntries.map((entry) => {
-    const rect = entry.getBoundingClientRect();
-    return { entry, center: window.scrollY + rect.top + rect.height / 2 };
+    return { entry, center: untransformedDocumentCenter(entry).y };
   });
   const upcomingIndex = entries.findIndex((item) => item.center >= focusY);
   if (upcomingIndex === 0) return entries[0].entry;
@@ -562,8 +575,8 @@ const updateTimelineActive = () => {
   if (!document.body.classList.contains('details-open') || document.body.classList.contains('details-opening') || document.body.classList.contains('details-closing') || timelinePanel.hidden) return;
 
   const firstTimelineEntry = focusTimelineEntries[0];
-  const firstEntryRect = firstTimelineEntry?.getBoundingClientRect();
-  const presentOwnsFocus = Boolean(firstEntryRect && firstEntryRect.top + firstEntryRect.height / 2 > window.innerHeight / 2);
+  const firstEntryCenter = firstTimelineEntry ? untransformedDocumentCenter(firstTimelineEntry).y : 0;
+  const presentOwnsFocus = Boolean(firstTimelineEntry && firstEntryCenter - window.scrollY > window.innerHeight / 2);
   const closest = presentOwnsFocus ? undefined : timelineEntryForViewport(focusTimelineEntries);
   const closestPreview = presentOwnsFocus
     ? presentProjectData
@@ -615,7 +628,7 @@ window.addEventListener('resize', requestTimelineActiveUpdate);
 const timelineScene = timelinePanel.querySelector('.timeline-panel-inner');
 const sceneCoarsePointer = window.matchMedia('(hover: none), (pointer: coarse)');
 const sceneInteractiveSelector = 'a, button, input, textarea, select, iframe, video, [contenteditable="true"]';
-const sceneLimits = { pitch: 7, yaw: 12 };
+const sceneLimits = { pitch: 82, yaw: 74 };
 const sceneAngles = { pitch: 0, yaw: 0 };
 const visibleDepthNodes = new Set();
 let sceneDepthSamples = [];
@@ -645,13 +658,27 @@ const applySceneDepth = () => {
   const allowBlur = oriented && !reducedMotion.matches && !sceneCoarsePointer.matches;
   const pitch = sceneAngles.pitch * Math.PI / 180;
   const yaw = sceneAngles.yaw * Math.PI / 180;
+  const angleStrength = Math.max(
+    Math.abs(sceneAngles.pitch) / sceneLimits.pitch,
+    Math.abs(sceneAngles.yaw) / sceneLimits.yaw
+  );
 
   sceneDepthSamples.forEach(({ element, x, y }) => {
-    const modeledDepth = -Math.sin(yaw) * x + Math.sin(pitch) * y;
-    const blur = element.classList.contains('is-active') || !allowBlur
+    const modeledDepth = -Math.sin(yaw) * x + Math.sin(pitch) * Math.cos(yaw) * y;
+    const active = element.classList.contains('is-active');
+    const opacityFloor = element.classList.contains('timeline-year-heading') ? .28 : .12;
+    const opacity = !oriented
+      ? 1
+      : active
+      ? 1
+      : Math.max(opacityFloor, Math.min(1, .9 - angleStrength * .44 + modeledDepth * .24));
+    const blur = active || !allowBlur
       ? 0
-      : Math.min(.9, Math.max(0, -modeledDepth) * 6);
+      : Math.min(1.8, angleStrength * .46 + Math.max(0, -modeledDepth) * 1.15);
+    const scale = !oriented || active ? 1 : Math.max(.92, Math.min(1.05, 1 + modeledDepth * .035));
     element.style.setProperty('--scene-blur', `${blur.toFixed(2)}px`);
+    element.style.setProperty('--scene-opacity', opacity.toFixed(3));
+    if (element.classList.contains('timeline-entry')) element.style.setProperty('--scene-scale', scale.toFixed(3));
   });
 };
 
@@ -659,6 +686,8 @@ const renderScene = () => {
   sceneRenderFrame = undefined;
   timelinePanel.style.setProperty('--scene-rx', `${sceneAngles.pitch.toFixed(3)}deg`);
   timelinePanel.style.setProperty('--scene-ry', `${sceneAngles.yaw.toFixed(3)}deg`);
+  timelinePanel.style.setProperty('--scene-counter-rx', `${(-sceneAngles.pitch).toFixed(3)}deg`);
+  timelinePanel.style.setProperty('--scene-counter-ry', `${(-sceneAngles.yaw).toFixed(3)}deg`);
   timelinePanel.classList.toggle('is-scene-oriented', Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08);
   applySceneDepth();
 };
@@ -674,11 +703,11 @@ const refreshSceneGeometry = () => {
   const originY = Math.max(0, Math.min(timelineScene.offsetHeight, window.innerHeight / 2 - panelRect.top));
   timelinePanel.style.setProperty('--scene-origin-y', `${originY}px`);
   sceneDepthSamples = [...visibleDepthNodes].map((element) => {
-    const rect = element.getBoundingClientRect();
+    const center = untransformedDocumentCenter(element);
     return {
       element,
-      x: Math.max(-1, Math.min(1, (rect.left + rect.width / 2 - window.innerWidth / 2) / (window.innerWidth / 2))),
-      y: Math.max(-1, Math.min(1, (rect.top + rect.height / 2 - window.innerHeight / 2) / (window.innerHeight / 2)))
+      x: Math.max(-1.5, Math.min(1.5, (center.x - window.innerWidth / 2) / (window.innerWidth / 2))),
+      y: Math.max(-1.5, Math.min(1.5, (center.y - window.scrollY - window.innerHeight / 2) / (window.innerHeight / 2)))
     };
   });
   requestSceneRender();
@@ -690,6 +719,7 @@ const requestSceneGeometry = () => {
 
 const sceneDepthObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
+    entry.target.classList.toggle('is-scene-visible', entry.isIntersecting);
     if (entry.isIntersecting) visibleDepthNodes.add(entry.target);
     else {
       visibleDepthNodes.delete(entry.target);
@@ -748,7 +778,7 @@ const springSceneTo = async (targetPitch, targetYaw, pitchVelocity = 0, yawVeloc
     completed += 1;
     if (completed === 2 && generation === sceneMotionGeneration) timelinePanel.classList.remove('is-scene-settling');
   };
-  const transition = { type: 'spring', stiffness: 92, damping: 19, mass: .82 };
+  const transition = { type: 'spring', stiffness: 78, damping: 17, mass: .9 };
   sceneMotionControls = [
     motion.animate(sceneAngles.pitch, targetPitch, {
       ...transition,
@@ -813,8 +843,8 @@ timelinePanel.addEventListener('pointermove', (event) => {
   event.preventDefault();
   const now = performance.now();
   const elapsed = Math.max(8, now - sceneGesture.lastTime);
-  const yawPerPixel = 24 / Math.max(720, window.innerWidth);
-  const pitchPerPixel = 16 / Math.max(560, window.innerHeight);
+  const yawPerPixel = 170 / Math.max(720, window.innerWidth);
+  const pitchPerPixel = 168 / Math.max(560, window.innerHeight);
   const instantYawVelocity = (event.clientX - sceneGesture.lastX) / elapsed * yawPerPixel * 1000;
   const instantPitchVelocity = -(event.clientY - sceneGesture.lastY) / elapsed * pitchPerPixel * 1000;
   sceneGesture.yawVelocity = sceneGesture.yawVelocity * .68 + instantYawVelocity * .32;
@@ -834,8 +864,13 @@ const finishSceneGesture = (event, cancelled = false) => {
   timelinePanel.classList.remove('is-scene-dragging');
   document.body.classList.remove('timeline-scene-dragging');
   if (cancelled || reducedMotion.matches) return;
-  const targetPitch = sceneAngles.pitch + gesture.pitchVelocity * .1;
-  const targetYaw = sceneAngles.yaw + gesture.yawVelocity * .1;
+  const snapAngle = (value, threshold, destination) => {
+    if (Math.abs(value) < 2.5) return 0;
+    if (Math.abs(value) > threshold) return Math.sign(value) * destination;
+    return value;
+  };
+  const targetPitch = snapAngle(clampScene(sceneAngles.pitch + gesture.pitchVelocity * .07, sceneLimits.pitch), 64, 79);
+  const targetYaw = snapAngle(clampScene(sceneAngles.yaw + gesture.yawVelocity * .07, sceneLimits.yaw), 58, 70);
   springSceneTo(targetPitch, targetYaw, gesture.pitchVelocity, gesture.yawVelocity);
 };
 
