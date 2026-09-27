@@ -185,7 +185,9 @@ const entryMarkup = (entry, index) => {
     : entry.title;
   const marker = entry.kind === 'project' && entry.url
     ? `<button class="timeline-marker project-expand-trigger" type="button" tabindex="-1" aria-label="Show ${entry.title} images" aria-expanded="false"><i class="ri-add-line" aria-hidden="true"></i></button>`
-    : '<span class="timeline-marker" aria-hidden="true"></span>';
+    : entry.kind === 'writing' && entry.url
+      ? `<button class="timeline-marker writing-expand-trigger" type="button" tabindex="-1" aria-label="Read ${entry.title}" aria-expanded="false"><i class="ri-add-line" aria-hidden="true"></i></button>`
+      : `<span class="timeline-marker${entry.kind === 'milestone' || (entry.kind === 'project' && !entry.url) ? ' is-muted' : ''}" aria-hidden="true"></span>`;
   const complexityLabel = entry.kind === 'project'
     ? `<span class="complexity-label" aria-hidden="true">Complexity <span>${complexity}%</span></span>`
     : '';
@@ -209,7 +211,9 @@ timeline.innerHTML = timelineData.map((section, yearIndex) => `
 const timelineEntries = [...timeline.querySelectorAll('.timeline-entry')];
 const timelineRecords = timelineData.flatMap((section) => section.entries);
 timelineEntries.forEach((element, index) => { element.entryData = timelineRecords[index]; });
-const previewTimelineEntries = timelineEntries.filter((entry) => entry.dataset.kind === 'project' && entry.entryData.url);
+const focusTimelineEntries = timelineEntries.filter((entry) =>
+  entry.entryData.url && (entry.dataset.kind === 'project' || entry.dataset.kind === 'writing')
+);
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (!entry.isIntersecting) return;
@@ -391,26 +395,26 @@ const setPreviewVisibility = (visible) => {
 const clearTimelineActive = () => {
   if (scatterLink) dismissScatter();
   activeTimelineEntry?.classList.remove('is-active');
-  activeTimelineEntry?.querySelector('.project-expand-trigger')?.setAttribute('tabindex', '-1');
+  activeTimelineEntry?.querySelector('.project-expand-trigger, .writing-expand-trigger')?.setAttribute('tabindex', '-1');
   activeTimelineEntry = undefined;
   timeline.classList.remove('has-active');
 };
 
-const timelineProjectForViewport = () => {
-  if (!previewTimelineEntries.length) return undefined;
-  if (window.scrollY <= 48) return previewTimelineEntries[0];
+const timelineEntryForViewport = () => {
+  if (!focusTimelineEntries.length) return undefined;
+  if (window.scrollY <= 48) return focusTimelineEntries[0];
 
   const focusY = window.scrollY + window.innerHeight / 2;
-  const projects = previewTimelineEntries.map((entry) => {
+  const entries = focusTimelineEntries.map((entry) => {
     const rect = entry.getBoundingClientRect();
     return { entry, center: window.scrollY + rect.top + rect.height / 2 };
   });
-  const upcomingIndex = projects.findIndex((project) => project.center >= focusY);
-  if (upcomingIndex === 0) return projects[0].entry;
-  if (upcomingIndex === -1) return projects.at(-1).entry;
+  const upcomingIndex = entries.findIndex((item) => item.center >= focusY);
+  if (upcomingIndex === 0) return entries[0].entry;
+  if (upcomingIndex === -1) return entries.at(-1).entry;
 
-  const previous = projects[upcomingIndex - 1];
-  const upcoming = projects[upcomingIndex];
+  const previous = entries[upcomingIndex - 1];
+  const upcoming = entries[upcomingIndex];
   const gap = upcoming.center - previous.center;
   const velocityBias = Math.min(.08, timelineScrollVelocity * .025);
   const directionalBias = timelineScrollDirection * gap * (.035 + velocityBias);
@@ -422,7 +426,7 @@ const updateTimelineActive = () => {
   activeTimelineFrame = undefined;
   if (!document.body.classList.contains('details-open') || document.body.classList.contains('details-opening') || document.body.classList.contains('details-closing') || timelinePanel.hidden) return;
 
-  const closest = timelineProjectForViewport();
+  const closest = timelineEntryForViewport();
   if (!closest) {
     clearTimelineActive();
     setProjectPreview();
@@ -431,11 +435,11 @@ const updateTimelineActive = () => {
   if (closest !== activeTimelineEntry) {
     if (scatterLink) dismissScatter();
     activeTimelineEntry?.classList.remove('is-active');
-    activeTimelineEntry?.querySelector('.project-expand-trigger')?.setAttribute('tabindex', '-1');
+    activeTimelineEntry?.querySelector('.project-expand-trigger, .writing-expand-trigger')?.setAttribute('tabindex', '-1');
     activeTimelineEntry = closest;
     timeline.classList.add('has-active');
     activeTimelineEntry.classList.add('is-active');
-    activeTimelineEntry.querySelector('.project-expand-trigger')?.setAttribute('tabindex', '0');
+    activeTimelineEntry.querySelector('.project-expand-trigger, .writing-expand-trigger')?.setAttribute('tabindex', '0');
     setProjectPreview(activeTimelineEntry.entryData);
   }
 };
@@ -717,12 +721,22 @@ document.querySelectorAll('.writing-popup-trigger').forEach((link) => {
   });
 });
 
+timeline.querySelectorAll('.writing-expand-trigger').forEach((trigger) => {
+  trigger.setAttribute('aria-controls', 'writing-reader');
+  trigger.addEventListener('click', () => {
+    const entry = trigger.closest('.timeline-entry');
+    if (entry !== activeTimelineEntry) return;
+    const link = entry.querySelector('.writing-popup-trigger');
+    if (link) openWriting(link);
+  });
+});
+
 writingClose.addEventListener('click', () => {
   closeWriting();
   writingReturnTarget?.focus({ preventScroll: true });
 });
 document.addEventListener('click', (event) => {
-  if (writingReader.hidden || event.target.closest('#writing-reader, .writing-popup-trigger')) return;
+  if (writingReader.hidden || event.target.closest('#writing-reader, .writing-popup-trigger, .writing-expand-trigger')) return;
   closeWriting();
 });
 document.addEventListener('keydown', (event) => {

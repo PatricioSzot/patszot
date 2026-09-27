@@ -477,6 +477,8 @@ body.details-open:not(.details-closing) .timeline-year-heading {
   transition: top .58s var(--ease), left .58s var(--ease), width .58s var(--ease), height .58s var(--ease), background-color .3s ease;
 }
 
+.timeline-marker.is-muted { background: var(--muted); }
+
 button.timeline-marker {
   pointer-events: none;
 }
@@ -489,7 +491,8 @@ button.timeline-marker {
   transition: opacity .24s ease .08s, transform .52s var(--ease) .04s;
 }
 
-.timeline-entry.is-active .project-expand-trigger {
+.timeline-entry.is-active .project-expand-trigger,
+.timeline-entry.is-active .writing-expand-trigger {
   top: 13.5px;
   left: -14px;
   width: 28px;
@@ -498,7 +501,8 @@ button.timeline-marker {
   cursor: pointer;
 }
 
-.timeline-entry.is-active .project-expand-trigger i {
+.timeline-entry.is-active .project-expand-trigger i,
+.timeline-entry.is-active .writing-expand-trigger i {
   opacity: 1;
   transform: rotate(0) scale(1);
 }
@@ -507,7 +511,8 @@ button.timeline-marker {
   transform: rotate(45deg) scale(1);
 }
 
-.project-expand-trigger:focus-visible {
+.project-expand-trigger:focus-visible,
+.writing-expand-trigger:focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 3px;
 }
