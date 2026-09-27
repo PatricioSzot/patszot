@@ -1,7 +1,7 @@
 :root {
   --bg: #fff;
   --ink: #1d1b19;
-  --muted: rgba(29, 27, 25, .4);
+  --muted: rgba(29, 27, 25, .62);
   --faint: rgba(29, 27, 25, .032);
   --accent: #f04438;
   --font: "Zalando Sans", Arial, sans-serif;
@@ -326,6 +326,24 @@ body.details-closing main::before {
   will-change: transform;
 }
 
+.timeline-panel.is-scene-dragging .timeline-entry,
+.timeline-panel.is-scene-settling .timeline-entry {
+  transition-property: opacity, top;
+}
+
+.timeline-panel.is-scene-dragging .timeline-entry-copy,
+.timeline-panel.is-scene-settling .timeline-entry-copy,
+.timeline-panel.is-scene-dragging .timeline-year-heading,
+.timeline-panel.is-scene-settling .timeline-year-heading,
+.timeline-panel.is-scene-dragging .timeline-marker,
+.timeline-panel.is-scene-settling .timeline-marker,
+.timeline-panel.is-scene-dragging .complexity-label,
+.timeline-panel.is-scene-settling .complexity-label {
+  transition-property: opacity, color, background-color, border-color;
+  transition-duration: .16s;
+  transition-delay: 0s;
+}
+
 body.details-open .timeline-panel { cursor: grab; }
 
 body.timeline-scene-dragging,
@@ -336,6 +354,16 @@ body.timeline-scene-dragging * {
 
 body.details-open .timeline-panel-inner {
   opacity: 1;
+}
+
+.timeline-panel.is-scene-steep .timeline-entry:not(.is-active):not(.is-scene-neighbor) .timeline-entry-copy {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .18s ease, visibility 0s linear .18s;
+}
+
+.timeline-panel.is-scene-steep .timeline-year:not(.is-scene-active-year) .timeline-year-heading {
+  opacity: .14;
 }
 
 body.details-open main::before { opacity: 0; }
@@ -388,7 +416,7 @@ body.present-focus .present-complexity-circle {
   gap: 7px;
   align-items: baseline;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1;
   letter-spacing: .02em;
   white-space: nowrap;
@@ -570,16 +598,16 @@ body.details-open:not(.details-closing) .timeline-year-heading {
 .present-project-trigger {
   position: absolute;
   z-index: 24;
-  top: 91px;
-  left: calc(50% - 14px);
-  width: 28px;
-  height: 28px;
+  top: 83px;
+  left: calc(50% - 22px);
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: var(--ink);
+  background: transparent;
   color: #fff;
   opacity: 0;
   visibility: hidden;
@@ -588,7 +616,16 @@ body.details-open:not(.details-closing) .timeline-year-heading {
   transition: opacity .24s ease, transform .52s var(--ease), visibility 0s linear .52s;
 }
 
-.present-project-trigger i { font-size: 16px; line-height: 1; }
+.present-project-trigger::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: var(--ink);
+  transition: transform .18s ease;
+}
+
+.present-project-trigger i { position: relative; font-size: 16px; line-height: 1; }
 
 body.details-open .present-project-trigger {
   opacity: 1;
@@ -607,10 +644,25 @@ body.details-open .present-project-trigger {
 }
 
 button.timeline-marker {
+  background: transparent;
   pointer-events: none;
 }
 
+button.timeline-marker::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--ink);
+  transition: inset .58s var(--ease), background-color .3s ease, transform .18s ease;
+}
+
+.present-project-trigger:active::before,
+.timeline-entry.is-active button.timeline-marker:active::before { transform: scale(.9); }
+
 .timeline-marker i {
+  position: relative;
+  z-index: 1;
   font-size: 16px;
   line-height: 1;
   opacity: 0;
@@ -620,13 +672,16 @@ button.timeline-marker {
 
 .timeline-entry.is-active .project-expand-trigger,
 .timeline-entry.is-active .writing-expand-trigger {
-  top: 13.5px;
-  left: -14px;
-  width: 28px;
-  height: 28px;
+  top: 5.5px;
+  left: -22px;
+  width: 44px;
+  height: 44px;
   pointer-events: auto;
   cursor: pointer;
 }
+
+.timeline-entry.is-active .project-expand-trigger::before,
+.timeline-entry.is-active .writing-expand-trigger::before { inset: 8px; }
 
 .timeline-entry.is-active .project-expand-trigger i,
 .timeline-entry.is-active .writing-expand-trigger i {
@@ -1540,6 +1595,41 @@ body.details-open .footer-contact {
   outline-offset: 3px;
 }
 
+.scene-reset {
+  position: fixed;
+  z-index: 90;
+  right: 40px;
+  bottom: 92px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(29, 27, 25, .2);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .94);
+  color: var(--ink);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate3d(0, 7px, 0) scale(.94);
+  transition: opacity .22s ease, transform .42s var(--ease), visibility 0s linear .42s, background-color .2s ease, color .2s ease;
+}
+
+.scene-reset.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  cursor: pointer;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.scene-reset:hover { background: var(--ink); color: #fff; }
+.scene-reset:active { transform: scale(.92); }
+.scene-reset:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.scene-reset i { font-size: 17px; line-height: 1; }
+
 @keyframes enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes text-in {
   from { opacity: 0; transform: translateY(4px); }
@@ -1615,6 +1705,11 @@ body.details-open .footer-contact {
   .back-to-top {
     right: 20px;
     bottom: 20px;
+  }
+
+  .scene-reset {
+    right: 20px;
+    bottom: 68px;
   }
 
   .scatter-item {
@@ -1694,4 +1789,12 @@ body.details-open .footer-contact {
   .timeline-year-heading > span,
   .timeline-entry.is-active .timeline-marker,
   .timeline-entry.is-active .complexity-label { transform: none !important; filter: none !important; }
+}
+
+@media (prefers-contrast: more) {
+  :root { --muted: rgba(29, 27, 25, .78); }
+  .timeline-panel-inner::before,
+  main::before { background: rgba(29, 27, 25, .34); }
+  .timeline-entry[data-kind="project"]::after,
+  .present-complexity-circle { border-color: rgba(29, 27, 25, .34); }
 }
