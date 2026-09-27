@@ -178,6 +178,7 @@ const openDuration = () => reducedMotion.matches ? 0 : 900;
 const closeDuration = () => reducedMotion.matches ? 0 : 650;
 
 const backToTop = document.querySelector('#back-to-top');
+const sceneReset = document.querySelector('#scene-reset');
 let driftTarget = window.scrollY;
 let driftFrame;
 let driftAnimating = false;
@@ -631,7 +632,9 @@ const cameraBillboards = [...document.querySelectorAll([
   '.profile-billboard',
   '.profile-anchor-marker',
   '.present-project-trigger',
-  '.footer-contact-billboard'
+  '.footer-contact-billboard',
+  '.timeline-footer-marker',
+  '.timeline-footer-billboard'
 ].join(','))];
 const sceneCoarsePointer = window.matchMedia('(hover: none), (pointer: coarse)');
 const sceneInteractiveSelector = 'a, button, input, textarea, select, iframe, video, [contenteditable="true"]';
@@ -707,6 +710,7 @@ const renderScene = () => {
   footerContactScene.style.transform = forwardTransform;
   cameraBillboards.forEach((element) => { element.style.transform = billboardTransform; });
   timelinePanel.classList.toggle('is-scene-oriented', Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08);
+  sceneReset.classList.toggle('is-visible', document.body.classList.contains('details-open') && (Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08));
   applySceneDepth();
 };
 
@@ -720,6 +724,22 @@ const refreshSceneGeometry = () => {
   const panelRect = timelinePanel.getBoundingClientRect();
   const originY = Math.max(0, Math.min(timelineScene.offsetHeight, window.innerHeight / 2 - panelRect.top));
   timelinePanel.style.setProperty('--scene-origin-y', `${originY}px`);
+  const axisMarkers = [...timelineScene.querySelectorAll('.timeline-marker, .timeline-footer-marker')];
+  const markerCenterY = (marker) => {
+    let y = marker.offsetHeight / 2;
+    let node = marker;
+    while (node && node !== timelineScene) {
+      y += node.offsetTop;
+      node = node.offsetParent;
+    }
+    return y;
+  };
+  if (axisMarkers.length) {
+    const axisStart = markerCenterY(axisMarkers[0]);
+    const axisEnd = markerCenterY(axisMarkers[axisMarkers.length - 1]);
+    timelineScene.style.setProperty('--timeline-axis-start', `${axisStart.toFixed(2)}px`);
+    timelineScene.style.setProperty('--timeline-axis-length', `${Math.max(0, axisEnd - axisStart).toFixed(2)}px`);
+  }
   const profileCenter = untransformedDocumentCenter(profile);
   const profileLayoutLeft = profileCenter.x - profile.offsetWidth / 2;
   const profileLayoutTop = profileCenter.y - profile.offsetHeight / 2;
@@ -832,6 +852,8 @@ const resetTimelineScene = (animate = true) => {
     setSceneAngles(0, 0);
   }
 };
+
+sceneReset.addEventListener('click', () => resetTimelineScene());
 
 timelinePanel.addEventListener('pointerdown', (event) => {
   if (!document.body.classList.contains('details-open') || event.button !== 0 || event.target.closest(sceneInteractiveSelector)) return;

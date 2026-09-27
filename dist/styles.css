@@ -352,6 +352,8 @@ body.details-open .profile-anchor-marker {
 .timeline-panel[hidden] { display: none; }
 
 .timeline-panel-inner {
+  --timeline-axis-start: 0px;
+  --timeline-axis-length: 100%;
   position: relative;
   min-height: 0;
   overflow: visible;
@@ -362,17 +364,23 @@ body.details-open .profile-anchor-marker {
   transition: opacity .28s ease;
 }
 
-.timeline-panel-inner::before {
+.timeline-panel-inner::before,
+.timeline-panel-inner::after {
   content: "";
   position: absolute;
   z-index: 0;
-  top: 0;
-  bottom: 0;
+  top: var(--timeline-axis-start);
   left: 50%;
-  width: 1px;
+  width: 1.25px;
+  height: var(--timeline-axis-length);
   background: rgba(29, 27, 25, .16);
   pointer-events: none;
+  transform-origin: center;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
 }
+
+.timeline-panel-inner::after { transform: rotateY(90deg); }
 
 .timeline-panel.is-scene-dragging .timeline-panel-inner,
 .timeline-panel.is-scene-settling .timeline-panel-inner {
@@ -756,10 +764,9 @@ button.timeline-marker {
 }
 
 body.details-open .footer-contact {
-  position: relative;
-  left: calc(50% + 40px);
-  bottom: auto;
-  margin: 64px 0 40px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .muted { color: var(--muted); }
@@ -1468,15 +1475,66 @@ body.details-open .footer-contact {
 .footer-contact-billboard > span { display: block; }
 .footer-scholar { color: var(--muted); }
 
+.timeline-footer-anchor {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  min-height: clamp(360px, 54vh, 620px);
+  padding-top: 112px;
+  overflow: visible;
+  transform-style: preserve-3d;
+}
+
+.timeline-footer-marker {
+  position: absolute;
+  z-index: 3;
+  top: 120px;
+  left: calc(50% - 3.5px);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ink);
+  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
+  transform-origin: center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.timeline-footer-billboard {
+  grid-column: 2;
+  align-self: start;
+  margin: 0;
+  padding: 0 6vw 0 40px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: nowrap;
+  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
+  transform-origin: left top;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.timeline-footer-billboard > span { display: block; }
+.timeline-footer-billboard > span:first-child { color: var(--muted); }
+
+.viewport-controls {
+  position: fixed;
+  z-index: 90;
+  right: 40px;
+  bottom: 40px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
 .back-to-top {
   --scene-rx: 0deg;
   --scene-ry: 0deg;
   --scene-counter-rx: 0deg;
   --scene-counter-ry: 0deg;
-  position: fixed;
-  z-index: 90;
-  right: 40px;
-  bottom: 40px;
+  position: relative;
   width: 40px;
   height: 40px;
   padding: 0;
@@ -1486,7 +1544,6 @@ body.details-open .footer-contact {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  perspective: 360px;
   transition: opacity .24s ease, visibility 0s linear .52s;
 }
 
@@ -1499,26 +1556,14 @@ body.details-open .footer-contact {
   border-radius: 50%;
   background: rgba(255, 255, 255, .92);
   color: var(--ink);
-  transform: translate3d(0, 8px, 0) rotateY(var(--scene-ry)) rotateX(var(--scene-rx)) scale(.94);
-  transform-style: preserve-3d;
+  transform: translate3d(0, 8px, 0) scale(.94);
   transition: background-color .24s ease, color .24s ease;
-}
-
-.back-to-top-object::before {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  z-index: -1;
-  border: 1px solid rgba(29, 27, 25, .1);
-  border-radius: 50%;
-  background: rgba(29, 27, 25, .055);
-  transform: translateZ(-6px);
 }
 
 .back-to-top i {
   font-size: 18px;
   line-height: 1;
-  transform: translateZ(4px);
+  transform: rotateY(var(--scene-ry)) rotateX(var(--scene-rx));
   transform-style: preserve-3d;
   backface-visibility: hidden;
 }
@@ -1532,7 +1577,7 @@ body.details-open .footer-contact {
 }
 
 .back-to-top.is-visible .back-to-top-object {
-  transform: rotateY(var(--scene-ry)) rotateX(var(--scene-rx)) scale(1);
+  transform: scale(1);
 }
 
 .back-to-top:hover .back-to-top-object {
@@ -1544,6 +1589,37 @@ body.details-open .footer-contact {
   outline: 2px solid var(--ink);
   outline-offset: 3px;
 }
+
+.scene-reset {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid rgba(29, 27, 25, .18);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .92);
+  color: var(--ink);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(8px) scale(.94);
+  transition: opacity .24s ease, visibility 0s linear .32s, transform .42s var(--ease), background-color .24s ease, color .24s ease;
+}
+
+.scene-reset i { font-size: 17px; line-height: 1; }
+
+.scene-reset.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.scene-reset:hover { background: var(--ink); color: #fff; }
+.scene-reset:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
 @keyframes enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes text-in {
@@ -1615,19 +1691,32 @@ body.details-open .footer-contact {
     line-height: 1.35;
   }
 
-  body.details-open .footer-contact {
-    left: 40px;
-    margin: 48px 0 24px;
-  }
-
   .footer-contact {
     left: 40px;
     bottom: 24px;
   }
 
-  .back-to-top {
+  .viewport-controls {
     right: 20px;
     bottom: 20px;
+  }
+
+  .timeline-footer-anchor {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    min-height: 44svh;
+    padding-top: 72px;
+  }
+
+  .timeline-footer-marker {
+    top: 80px;
+    left: calc(40px - 3.5px);
+  }
+
+  .timeline-footer-billboard {
+    grid-column: 2;
+    padding: 0 18px 0 20px;
+    font-size: 15px;
   }
 
   .scatter-item {
@@ -1712,5 +1801,7 @@ body.details-open .footer-contact {
   .profile-scene,
   .profile-billboard,
   .footer-contact-scene,
-  .footer-contact-billboard { transform: none !important; filter: none !important; }
+  .footer-contact-billboard,
+  .timeline-footer-marker,
+  .timeline-footer-billboard { transform: none !important; filter: none !important; }
 }
