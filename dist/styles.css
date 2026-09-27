@@ -495,17 +495,17 @@ body.details-open:not(.details-closing) .timeline-year-heading > span {
   --scene-z: 0px;
   position: relative;
   z-index: 2;
-  top: 6px;
+  top: 0;
   width: 100%;
   min-height: 112px;
   margin: 0 0 72px;
   padding: 0 6vw 0 40px;
   overflow: visible;
-  opacity: 0;
+  opacity: 1;
   transform: translateZ(var(--scene-z)) scale(var(--scene-scale));
   transform-origin: left 24px;
   transform-style: preserve-3d;
-  transition: opacity .3s ease var(--reveal-delay, 0ms), top .64s var(--ease) var(--reveal-delay, 0ms);
+  transition: none;
 }
 
 .timeline-entry.is-active {

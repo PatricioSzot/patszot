@@ -326,15 +326,7 @@ const focusTimelineEntries = timelineEntries;
 const previewTimelineEntries = timelineEntries.filter((entry) =>
   entry.entryData.url && (entry.dataset.kind === 'project' || entry.dataset.kind === 'writing')
 );
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (!entry.isIntersecting) return;
-    entry.target.classList.add('is-visible');
-    revealObserver.unobserve(entry.target);
-  });
-}, { rootMargin: '0px 0px -10% 0px', threshold: .12 });
-
-timelineEntries.forEach((entry) => revealObserver.observe(entry));
+timelineEntries.forEach((entry) => entry.classList.add('is-visible'));
 
 detailsTrigger.addEventListener('click', () => {
   window.clearTimeout(detailsCloseTimer);
@@ -391,10 +383,6 @@ detailsTrigger.addEventListener('click', () => {
     timeline.querySelectorAll('.is-exiting').forEach((element) => {
       element.classList.remove('is-exiting');
       element.style.removeProperty('--close-delay');
-    });
-    timelineEntries.forEach((entry) => {
-      entry.classList.remove('is-visible');
-      revealObserver.observe(entry);
     });
   }, closeDuration());
 });
@@ -660,12 +648,9 @@ const cameraBillboards = [...document.querySelectorAll([
   '.timeline-footer-marker',
   '.timeline-footer-billboard'
 ].join(','))];
-const sceneCoarsePointer = window.matchMedia('(hover: none), (pointer: coarse)');
 const sceneInteractiveSelector = 'a, button, input, textarea, select, iframe, video, [contenteditable="true"]';
 const sceneLimits = { pitch: 82, yaw: 74 };
 const sceneAngles = { pitch: 0, yaw: 0 };
-const visibleDepthNodes = new Set();
-let sceneDepthSamples = [];
 let sceneGesture;
 let sceneRenderFrame;
 let sceneGeometryFrame;
@@ -687,35 +672,6 @@ const stopSceneMotion = () => {
   timelinePanel.classList.remove('is-scene-settling');
 };
 
-const applySceneDepth = () => {
-  const oriented = Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08;
-  const allowBlur = oriented && !reducedMotion.matches && !sceneCoarsePointer.matches;
-  const pitch = sceneAngles.pitch * Math.PI / 180;
-  const yaw = sceneAngles.yaw * Math.PI / 180;
-  const angleStrength = Math.max(
-    Math.abs(sceneAngles.pitch) / sceneLimits.pitch,
-    Math.abs(sceneAngles.yaw) / sceneLimits.yaw
-  );
-
-  sceneDepthSamples.forEach(({ element, x, y }) => {
-    const modeledDepth = -Math.sin(yaw) * x + Math.sin(pitch) * Math.cos(yaw) * y;
-    const active = element.classList.contains('is-active');
-    const opacityFloor = element.classList.contains('timeline-year-heading') ? .28 : .12;
-    const opacity = !oriented
-      ? 1
-      : active
-      ? 1
-      : Math.max(opacityFloor, Math.min(1, .9 - angleStrength * .44 + modeledDepth * .24));
-    const blur = active || !allowBlur
-      ? 0
-      : Math.min(1.8, angleStrength * .46 + Math.max(0, -modeledDepth) * 1.15);
-    const scale = !oriented || active ? 1 : Math.max(.92, Math.min(1.05, 1 + modeledDepth * .035));
-    element.style.setProperty('--scene-blur', `${blur.toFixed(2)}px`);
-    element.style.setProperty('--scene-opacity', opacity.toFixed(3));
-    if (element.classList.contains('timeline-entry')) element.style.setProperty('--scene-scale', scale.toFixed(3));
-  });
-};
-
 const renderScene = () => {
   sceneRenderFrame = undefined;
   const forwardTransform = `rotateY(${sceneAngles.yaw.toFixed(3)}deg) rotateX(${sceneAngles.pitch.toFixed(3)}deg)`;
@@ -735,7 +691,6 @@ const renderScene = () => {
   cameraBillboards.forEach((element) => { element.style.transform = billboardTransform; });
   timelinePanel.classList.toggle('is-scene-oriented', Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08);
   sceneReset.classList.toggle('is-visible', document.body.classList.contains('details-open') && (Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08));
-  applySceneDepth();
 };
 
 const requestSceneRender = () => {
@@ -776,34 +731,12 @@ const refreshSceneGeometry = () => {
     element.style.setProperty('--scene-local-origin-x', `${window.innerWidth / 2 - layoutLeft}px`);
     element.style.setProperty('--scene-local-origin-y', `${window.scrollY + window.innerHeight / 2 - layoutTop}px`);
   });
-  sceneDepthSamples = [...visibleDepthNodes].map((element) => {
-    const center = untransformedDocumentCenter(element);
-    return {
-      element,
-      x: Math.max(-1.5, Math.min(1.5, (center.x - window.innerWidth / 2) / (window.innerWidth / 2))),
-      y: Math.max(-1.5, Math.min(1.5, (center.y - window.scrollY - window.innerHeight / 2) / (window.innerHeight / 2)))
-    };
-  });
   requestSceneRender();
 };
 
 const requestSceneGeometry = () => {
   if (!sceneGeometryFrame) sceneGeometryFrame = requestAnimationFrame(refreshSceneGeometry);
 };
-
-const sceneDepthObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    entry.target.classList.toggle('is-scene-visible', entry.isIntersecting);
-    if (entry.isIntersecting) visibleDepthNodes.add(entry.target);
-    else {
-      visibleDepthNodes.delete(entry.target);
-      entry.target.style.removeProperty('--scene-blur');
-    }
-  });
-  requestSceneGeometry();
-}, { rootMargin: '20% 0px', threshold: 0 });
-
-[...timelineEntries, ...timeline.querySelectorAll('.timeline-year-heading')].forEach((element) => sceneDepthObserver.observe(element));
 
 const setSceneAngles = (pitch, yaw) => {
   sceneAngles.pitch = clampScene(pitch, sceneLimits.pitch);
