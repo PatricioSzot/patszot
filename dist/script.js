@@ -259,9 +259,14 @@ backToTop.classList.toggle('is-visible', window.scrollY > window.innerHeight * .
 const entryMarkup = (entry, index) => {
   const complexity = Math.max(20, Math.min(100, Math.round(entry.intensity / 1.76)));
 
-  const linkedTitle = entry.url && entry.kind !== 'milestone'
-    ? `<a class="text-link${entry.kind === 'writing' ? ' writing-popup-trigger' : ''}" href="${entry.url}" rel="noopener">${entry.title}</a>`
-    : entry.title;
+  const linkedTitle = entry.kind === 'project' && entry.url
+    ? `<button class="text-link project-title-trigger" type="button" tabindex="-1" aria-label="Show ${entry.title} images" aria-expanded="false">${entry.title}</button>`
+    : entry.url && entry.kind !== 'milestone'
+      ? `<a class="text-link${entry.kind === 'writing' ? ' writing-popup-trigger' : ''}" href="${entry.url}" rel="noopener">${entry.title}</a>`
+      : entry.title;
+  const externalAction = entry.url && entry.kind !== 'milestone'
+    ? `<a class="timeline-external" href="${entry.url}" target="_blank" rel="noopener noreferrer"><span>${entry.kind === 'writing' ? 'Open writing' : 'Open project'}</span><i class="ri-external-link-line" aria-hidden="true"></i></a>`
+    : '';
   const marker = entry.kind === 'project' && entry.url
     ? `<button class="timeline-marker project-expand-trigger" type="button" tabindex="-1" aria-label="Show ${entry.title} images" aria-expanded="false"><i class="ri-add-line" aria-hidden="true"></i></button>`
     : entry.kind === 'writing' && entry.url
@@ -277,6 +282,7 @@ const entryMarkup = (entry, index) => {
       <div class="timeline-meta"><time>${entry.date}</time><span>${entry.kind}</span></div>
       <h3>${linkedTitle}</h3>
       ${entry.description ? `<p>${entry.description}</p>` : ''}
+      ${externalAction}
     </article>`;
 };
 
@@ -524,7 +530,7 @@ const setPreviewVisibility = (visible) => {
 const clearTimelineActive = () => {
   if (scatterLink) dismissScatter();
   activeTimelineEntry?.classList.remove('is-active');
-  activeTimelineEntry?.querySelector('.project-expand-trigger, .writing-expand-trigger')?.setAttribute('tabindex', '-1');
+  activeTimelineEntry?.querySelectorAll('.project-expand-trigger, .project-title-trigger, .writing-expand-trigger').forEach((control) => control.setAttribute('tabindex', '-1'));
   activeTimelineEntry = undefined;
   timeline.classList.remove('has-active');
 };
@@ -575,11 +581,11 @@ const updateTimelineActive = () => {
   if (closest !== activeTimelineEntry) {
     if (scatterLink) dismissScatter();
     activeTimelineEntry?.classList.remove('is-active');
-    activeTimelineEntry?.querySelector('.project-expand-trigger, .writing-expand-trigger')?.setAttribute('tabindex', '-1');
+    activeTimelineEntry?.querySelectorAll('.project-expand-trigger, .project-title-trigger, .writing-expand-trigger').forEach((control) => control.setAttribute('tabindex', '-1'));
     activeTimelineEntry = closest;
     timeline.classList.add('has-active');
     activeTimelineEntry.classList.add('is-active');
-    activeTimelineEntry.querySelector('.project-expand-trigger, .writing-expand-trigger')?.setAttribute('tabindex', '0');
+    activeTimelineEntry.querySelectorAll('.project-expand-trigger, .project-title-trigger, .writing-expand-trigger').forEach((control) => control.setAttribute('tabindex', '0'));
   }
   if (closestPreview !== previewTimelineEntry) {
     previewTimelineEntry = closestPreview;
@@ -800,6 +806,15 @@ timeline.querySelectorAll('.project-expand-trigger').forEach((trigger) => {
   });
 });
 
+timeline.querySelectorAll('.project-title-trigger').forEach((trigger) => {
+  trigger.addEventListener('click', () => {
+    const entry = trigger.closest('.timeline-entry');
+    if (entry !== activeTimelineEntry) return;
+    if (scatterLink === trigger) { dismissScatter(); return; }
+    showScatter(entry.entryData, trigger);
+  });
+});
+
 presentProjectTrigger.addEventListener('click', () => {
   if (scatterLink === presentProjectTrigger) { dismissScatter(); return; }
   showScatter(presentProjectData, presentProjectTrigger);
@@ -813,7 +828,7 @@ projectPreview.addEventListener('click', () => {
 });
 
 document.addEventListener('click', (event) => {
-  if (scatterLocked && !event.target.closest('.project-expand-trigger, .present-project-trigger, .project-focus-preview') && !event.target.closest('.scatter-item')) dismissScatter();
+  if (scatterLocked && !event.target.closest('.project-expand-trigger, .project-title-trigger, .present-project-trigger, .project-focus-preview') && !event.target.closest('.scatter-item')) dismissScatter();
 });
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && scatterLink) dismissScatter(); });
 

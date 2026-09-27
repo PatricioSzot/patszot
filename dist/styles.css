@@ -632,6 +632,49 @@ button.timeline-marker {
   transition-delay: .08s, .04s, 0s;
 }
 
+.project-title-trigger {
+  pointer-events: none;
+}
+
+.timeline-entry.is-active .project-title-trigger {
+  pointer-events: auto;
+}
+
+.timeline-external {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  text-decoration: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 4px, 0);
+  transition: color .2s ease, opacity .32s ease, transform .52s var(--ease), visibility 0s linear .52s;
+}
+
+.timeline-external i {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.timeline-entry.is-active .timeline-external,
+.timeline-entry:focus-within .timeline-external {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s, .14s, .1s, 0s;
+}
+
+.timeline-external:hover,
+.timeline-external:focus-visible {
+  color: var(--ink);
+}
+
 .timeline-entry a {
   color: inherit;
   text-decoration-color: rgba(29, 27, 25, .32);
