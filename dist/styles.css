@@ -361,21 +361,51 @@ body.details-open main::before { opacity: 0; }
   transition: opacity .4s ease .08s;
 }
 
-.present-complexity-circle {
+.complexity-sphere {
   position: absolute;
-  top: 0;
+  z-index: -1;
+  top: 28px;
   left: 0;
-  width: 50vw;
-  height: 50vw;
-  border: 1.5px dotted rgba(29, 27, 25, .14);
+  width: calc(var(--complexity) * .5vw);
+  aspect-ratio: 1;
   border-radius: 50%;
-  background: transparent;
   transform: translate(-50%, -50%);
-  transition: background-color .52s ease, border-color .52s ease;
+  transform-style: preserve-3d;
+  pointer-events: none;
 }
 
-body.present-focus .present-complexity-circle {
-  background: var(--faint);
+.present-complexity-sphere {
+  top: 0;
+  width: 50vw;
+  transform: translate(-50%, -50%) rotateY(var(--scene-ry, 0deg)) rotateX(var(--scene-rx, 0deg));
+}
+
+.complexity-sphere::after {
+  content: "";
+  position: absolute;
+  inset: 7%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, rgba(29, 27, 25, .008), rgba(29, 27, 25, .035) 68%, rgba(29, 27, 25, .012));
+  opacity: 0;
+  transform: translateZ(-1px);
+  transition: opacity .52s ease;
+}
+
+.complexity-sphere-ring {
+  position: absolute;
+  inset: 0;
+  border: 1.5px dotted rgba(29, 27, 25, .14);
+  border-radius: 50%;
+  transform-style: preserve-3d;
+}
+
+.complexity-sphere-ring-front { transform: translateZ(1px); }
+.complexity-sphere-ring-x { transform: rotateY(66deg); }
+.complexity-sphere-ring-y { transform: rotateX(66deg); }
+
+body.present-focus .present-complexity-sphere::after,
+.timeline-entry[data-kind="project"].is-active .complexity-sphere::after {
+  opacity: 1;
 }
 
 .present-complexity-label,
@@ -520,25 +550,7 @@ body.details-open:not(.details-closing) .timeline-year-heading {
   transition-delay: var(--close-delay, 0ms);
 }
 
-.timeline-entry[data-kind="project"]::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: 28px;
-  left: 0;
-  width: calc(var(--complexity) * .5vw);
-  height: calc(var(--complexity) * .5vw);
-  border: 1.5px dotted rgba(29, 27, 25, .14);
-  border-radius: 50%;
-  background: transparent;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  transition: background-color .52s ease, border-color .52s ease;
-}
-
-.timeline-entry[data-kind="project"].is-active::after { background: var(--faint); }
-
-.timeline-year:first-child .timeline-entry:first-child::after,
+.timeline-year:first-child .timeline-entry:first-child .complexity-sphere,
 .timeline-year:first-child .timeline-entry:first-child .complexity-label {
   display: none;
 }

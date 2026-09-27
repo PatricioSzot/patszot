@@ -172,6 +172,7 @@ const detailsGroup = document.querySelector('.details-group');
 const detailsTrigger = document.querySelector('#details-trigger');
 const presentProjectTrigger = document.querySelector('#present-project-trigger');
 const timelinePanel = document.querySelector('#timeline-panel');
+const presentComplexity = document.querySelector('.present-complexity');
 let detailsCloseTimer;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const openDuration = () => reducedMotion.matches ? 0 : 900;
@@ -273,7 +274,7 @@ const entryMarkup = (entry, index) => {
       ? `<button class="timeline-marker writing-expand-trigger" type="button" tabindex="-1" aria-label="Read ${entry.title}" aria-expanded="false"><i class="ri-add-line" aria-hidden="true"></i></button>`
       : `<span class="timeline-marker${entry.kind === 'milestone' || (entry.kind === 'project' && !entry.url) ? ' is-muted' : ''}" aria-hidden="true"></span>`;
   const complexityLabel = entry.kind === 'project'
-    ? `<span class="complexity-label" aria-hidden="true">Complexity <span>${complexity}%</span></span>`
+    ? `<span class="complexity-sphere" aria-hidden="true"><span class="complexity-sphere-ring complexity-sphere-ring-front"></span><span class="complexity-sphere-ring complexity-sphere-ring-x"></span><span class="complexity-sphere-ring complexity-sphere-ring-y"></span></span><span class="complexity-label" aria-hidden="true">Complexity <span>${complexity}%</span></span>`
     : '';
   return `
     <article class="timeline-entry" data-kind="${entry.kind}" style="--complexity: ${complexity}; --reveal-delay: ${(index % 8) * 45}ms">
@@ -690,7 +691,7 @@ const renderScene = () => {
     '--scene-counter-rx': `${(-sceneAngles.pitch).toFixed(3)}deg`,
     '--scene-counter-ry': `${(-sceneAngles.yaw).toFixed(3)}deg`
   };
-  [timelinePanel, backToTop].forEach((element) => {
+  [timelinePanel, presentComplexity, backToTop].forEach((element) => {
     Object.entries(sceneValues).forEach(([property, value]) => element.style.setProperty(property, value));
   });
   timelinePanel.classList.toggle('is-scene-oriented', Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08);
