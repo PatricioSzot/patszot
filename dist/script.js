@@ -684,10 +684,15 @@ const applySceneDepth = () => {
 
 const renderScene = () => {
   sceneRenderFrame = undefined;
-  timelinePanel.style.setProperty('--scene-rx', `${sceneAngles.pitch.toFixed(3)}deg`);
-  timelinePanel.style.setProperty('--scene-ry', `${sceneAngles.yaw.toFixed(3)}deg`);
-  timelinePanel.style.setProperty('--scene-counter-rx', `${(-sceneAngles.pitch).toFixed(3)}deg`);
-  timelinePanel.style.setProperty('--scene-counter-ry', `${(-sceneAngles.yaw).toFixed(3)}deg`);
+  const sceneValues = {
+    '--scene-rx': `${sceneAngles.pitch.toFixed(3)}deg`,
+    '--scene-ry': `${sceneAngles.yaw.toFixed(3)}deg`,
+    '--scene-counter-rx': `${(-sceneAngles.pitch).toFixed(3)}deg`,
+    '--scene-counter-ry': `${(-sceneAngles.yaw).toFixed(3)}deg`
+  };
+  [timelinePanel, backToTop].forEach((element) => {
+    Object.entries(sceneValues).forEach(([property, value]) => element.style.setProperty(property, value));
+  });
   timelinePanel.classList.toggle('is-scene-oriented', Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08);
   applySceneDepth();
 };
