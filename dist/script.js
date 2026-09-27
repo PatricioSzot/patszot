@@ -624,6 +624,15 @@ const timelineScene = timelinePanel.querySelector('.timeline-panel-inner');
 const profile = document.querySelector('.profile');
 const profileScenes = [...document.querySelectorAll('.profile-scene')];
 const footerContactScene = document.querySelector('.footer-contact-scene');
+const cameraBillboards = [...document.querySelectorAll([
+  '.timeline-year-heading',
+  '.timeline-entry-copy',
+  '.timeline-marker',
+  '.profile-billboard',
+  '.profile-anchor-marker',
+  '.present-project-trigger',
+  '.footer-contact-billboard'
+].join(','))];
 const sceneCoarsePointer = window.matchMedia('(hover: none), (pointer: coarse)');
 const sceneInteractiveSelector = 'a, button, input, textarea, select, iframe, video, [contenteditable="true"]';
 const sceneLimits = { pitch: 82, yaw: 74 };
@@ -682,6 +691,8 @@ const applySceneDepth = () => {
 
 const renderScene = () => {
   sceneRenderFrame = undefined;
+  const forwardTransform = `rotateY(${sceneAngles.yaw.toFixed(3)}deg) rotateX(${sceneAngles.pitch.toFixed(3)}deg)`;
+  const billboardTransform = `rotateX(${(-sceneAngles.pitch).toFixed(3)}deg) rotateY(${(-sceneAngles.yaw).toFixed(3)}deg)`;
   const sceneValues = {
     '--scene-rx': `${sceneAngles.pitch.toFixed(3)}deg`,
     '--scene-ry': `${sceneAngles.yaw.toFixed(3)}deg`,
@@ -691,12 +702,16 @@ const renderScene = () => {
   [timelinePanel, backToTop, ...profileScenes, footerContactScene].forEach((element) => {
     Object.entries(sceneValues).forEach(([property, value]) => element.style.setProperty(property, value));
   });
+  timelineScene.style.transform = forwardTransform;
+  profileScenes.forEach((element) => { element.style.transform = forwardTransform; });
+  footerContactScene.style.transform = forwardTransform;
+  cameraBillboards.forEach((element) => { element.style.transform = billboardTransform; });
   timelinePanel.classList.toggle('is-scene-oriented', Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08);
   applySceneDepth();
 };
 
 const requestSceneRender = () => {
-  if (!sceneRenderFrame) sceneRenderFrame = requestAnimationFrame(renderScene);
+  renderScene();
 };
 
 const refreshSceneGeometry = () => {
