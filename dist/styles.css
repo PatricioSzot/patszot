@@ -1513,7 +1513,7 @@ body.details-open .footer-contact {
 .back-to-top i {
   font-size: 18px;
   line-height: 1;
-  transform: translateZ(4px) rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
+  transform: translateZ(4px);
   transform-style: preserve-3d;
   backface-visibility: hidden;
 }
