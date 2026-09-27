@@ -69,14 +69,35 @@ body.details-closing main::before {
 }
 
 .profile {
+  --scene-rx: 0deg;
+  --scene-ry: 0deg;
+  --scene-counter-rx: 0deg;
+  --scene-counter-ry: 0deg;
+  --scene-anchor-x: -40px;
+  --scene-anchor-y: 50vh;
   position: absolute;
   z-index: 2;
   top: 33px;
   left: calc(50% + 40px);
   width: 357px;
+  transform-style: preserve-3d;
+}
+
+.profile-scene-copy {
   display: flex;
   flex-direction: column;
   gap: 40px;
+  transform-style: preserve-3d;
+}
+
+body.details-open .profile {
+  transform: perspective(920px) rotateY(var(--scene-ry)) rotateX(var(--scene-rx));
+  transform-origin: var(--scene-anchor-x) var(--scene-anchor-y);
+}
+
+body.details-open .profile-scene-copy {
+  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
+  transform-origin: left top;
 }
 
 .bio,
@@ -572,6 +593,7 @@ body.details-open:not(.details-closing) .timeline-year-heading {
 }
 
 .timeline-marker {
+  --sphere-color: #1d1b19;
   position: absolute;
   z-index: 2;
   top: 24px;
@@ -580,20 +602,22 @@ body.details-open:not(.details-closing) .timeline-year-heading {
   height: 7px;
   border: 0;
   border-radius: 50%;
-  background: var(--ink);
+  background:
+    radial-gradient(circle at 32% 27%, rgba(255,255,255,.58) 0 6%, rgba(255,255,255,.12) 7% 17%, transparent 18%),
+    radial-gradient(circle at 38% 34%, color-mix(in srgb, var(--sphere-color), white 17%) 0 18%, var(--sphere-color) 60%, color-mix(in srgb, var(--sphere-color), black 48%) 100%);
   display: grid;
   place-items: center;
   padding: 0;
   color: #fff;
+  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry)) translateZ(2px);
   transform-style: preserve-3d;
+  backface-visibility: hidden;
   transition: top .58s var(--ease), left .58s var(--ease), width .58s var(--ease), height .58s var(--ease), background-color .3s ease, transform .36s var(--ease);
 }
 
-.timeline-entry.is-active .timeline-marker {
-  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
-}
+.timeline-entry.is-active .timeline-marker { transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry)) translateZ(8px); }
 
-.timeline-marker.is-muted { background: var(--muted); }
+.timeline-marker.is-muted { --sphere-color: #8f8c89; }
 
 .present-project-trigger {
   position: absolute;
@@ -621,7 +645,10 @@ body.details-open:not(.details-closing) .timeline-year-heading {
   position: absolute;
   inset: 8px;
   border-radius: 50%;
-  background: var(--ink);
+  background:
+    radial-gradient(circle at 32% 27%, rgba(255,255,255,.58) 0 6%, rgba(255,255,255,.12) 7% 17%, transparent 18%),
+    radial-gradient(circle at 38% 34%, #494642 0 18%, var(--ink) 60%, #0d0c0b 100%);
+  box-shadow: inset -1px -1px 2px rgba(0,0,0,.38);
   transition: transform .18s ease;
 }
 
@@ -653,7 +680,10 @@ button.timeline-marker::before {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: var(--ink);
+  background:
+    radial-gradient(circle at 32% 27%, rgba(255,255,255,.58) 0 6%, rgba(255,255,255,.12) 7% 17%, transparent 18%),
+    radial-gradient(circle at 38% 34%, #494642 0 18%, var(--ink) 60%, #0d0c0b 100%);
+  box-shadow: inset -1px -1px 2px rgba(0,0,0,.38);
   transition: inset .58s var(--ease), background-color .3s ease, transform .18s ease;
 }
 
@@ -1505,6 +1535,12 @@ body.details-open .footer-contact {
 .nested-panel-inner .load-line { display: block; }
 
 .footer-contact {
+  --scene-rx: 0deg;
+  --scene-ry: 0deg;
+  --scene-counter-rx: 0deg;
+  --scene-counter-ry: 0deg;
+  --scene-anchor-x: -40px;
+  --scene-anchor-y: 50vh;
   position: absolute;
   left: calc(50% + 40px);
   bottom: 40px;
@@ -1513,9 +1549,22 @@ body.details-open .footer-contact {
   font-weight: 400;
   line-height: 1.5;
   white-space: nowrap;
+  transform-style: preserve-3d;
 }
 
-.footer-contact > span { display: block; }
+.footer-scene-copy,
+.footer-scene-copy > span { display: block; }
+.footer-scene-copy { transform-style: preserve-3d; }
+
+body.details-open .footer-contact {
+  transform: perspective(920px) rotateY(var(--scene-ry)) rotateX(var(--scene-rx));
+  transform-origin: var(--scene-anchor-x) var(--scene-anchor-y);
+}
+
+body.details-open .footer-scene-copy {
+  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
+  transform-origin: left top;
+}
 .footer-scholar { color: var(--muted); }
 
 .back-to-top {
@@ -1656,7 +1705,6 @@ body.details-open .footer-contact {
     min-height: 50svh;
     margin: calc(35svh - 64px) 20px 0 40px;
     padding-bottom: 28px;
-    transform: none;
     animation-name: enter;
   }
 
