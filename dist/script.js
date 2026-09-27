@@ -172,6 +172,9 @@ const detailsGroup = document.querySelector('.details-group');
 const detailsTrigger = document.querySelector('#details-trigger');
 const presentProjectTrigger = document.querySelector('#present-project-trigger');
 const timelinePanel = document.querySelector('#timeline-panel');
+const timelineScene = document.querySelector('#timeline-scene');
+const timelinePanelInner = timelinePanel.querySelector('.timeline-panel-inner');
+const main = document.querySelector('main');
 let detailsCloseTimer;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const openDuration = () => reducedMotion.matches ? 0 : 900;
@@ -542,7 +545,7 @@ const updateTimelineFocusFalloff = (activeEntry) => {
   const activeIndex = timelineEntries.indexOf(activeEntry);
   timelineEntries.forEach((entry, index) => {
     const distance = Math.abs(index - activeIndex);
-    const opacity = distance === 0 ? 1 : distance === 1 ? .56 : distance === 2 ? .3 : .12;
+    const opacity = distance === 0 ? 1 : distance === 1 ? .62 : distance === 2 ? .38 : .2;
     entry.style.setProperty('--focus-opacity', opacity.toFixed(2));
   });
 };
@@ -636,7 +639,6 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 window.addEventListener('resize', requestTimelineActiveUpdate);
 
-const timelineScene = timelinePanel.querySelector('.timeline-panel-inner');
 const sceneCoarsePointer = window.matchMedia('(hover: none), (pointer: coarse)');
 const sceneInteractiveSelector = 'a, button, input, textarea, select, iframe, video, [contenteditable="true"]';
 const sceneLimits = { pitch: 82, yaw: 74 };
@@ -701,9 +703,23 @@ const renderScene = () => {
     '--scene-counter-rx': `${(-sceneAngles.pitch).toFixed(3)}deg`,
     '--scene-counter-ry': `${(-sceneAngles.yaw).toFixed(3)}deg`
   };
-  [timelinePanel, backToTop].forEach((element) => {
+  [timelineScene, backToTop].forEach((element) => {
     Object.entries(sceneValues).forEach(([property, value]) => element.style.setProperty(property, value));
   });
+  const sceneTransform = getComputedStyle(timelineScene).transform;
+  let inverseSceneTransform = 'matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)';
+  if (sceneTransform.startsWith('matrix3d(')) {
+    const matrix = sceneTransform.slice(9, -1).split(',').map(Number);
+    if (matrix.length === 16 && matrix.every(Number.isFinite)) {
+      inverseSceneTransform = `matrix3d(${[
+        matrix[0], matrix[4], matrix[8], 0,
+        matrix[1], matrix[5], matrix[9], 0,
+        matrix[2], matrix[6], matrix[10], 0,
+        0, 0, 0, 1
+      ].join(', ')})`;
+    }
+  }
+  timelinePanel.style.setProperty('--scene-counter-matrix', inverseSceneTransform);
   timelinePanel.classList.toggle('is-scene-oriented', Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08);
   applySceneDepth();
 };
@@ -715,9 +731,16 @@ const requestSceneRender = () => {
 const refreshSceneGeometry = () => {
   sceneGeometryFrame = undefined;
   if (timelinePanel.hidden) return;
-  const panelRect = timelinePanel.getBoundingClientRect();
-  const originY = Math.max(0, Math.min(timelineScene.offsetHeight, window.innerHeight / 2 - panelRect.top));
-  timelinePanel.style.setProperty('--scene-origin-y', `${originY}px`);
+  let sceneDocumentTop = 0;
+  let sceneNode = timelineScene;
+  while (sceneNode) {
+    sceneDocumentTop += sceneNode.offsetTop;
+    sceneNode = sceneNode.offsetParent;
+  }
+  const cameraDocumentY = window.scrollY + window.innerHeight / 2;
+  const originY = Math.max(0, Math.min(timelineScene.offsetHeight, cameraDocumentY - sceneDocumentTop));
+  timelineScene.style.setProperty('--scene-origin-y', `${originY}px`);
+  main.style.setProperty('--scene-camera-y', `${cameraDocumentY}px`);
   sceneDepthSamples = [...visibleDepthNodes].map((element) => {
     const center = untransformedDocumentCenter(element);
     return {

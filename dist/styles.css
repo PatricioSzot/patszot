@@ -29,6 +29,8 @@ main {
   min-height: 100svh;
   overflow-x: clip;
   overflow-y: hidden;
+  perspective: 920px;
+  perspective-origin: 50% var(--scene-camera-y, 50vh);
 }
 
 body.details-open main { overflow-y: visible; }
@@ -54,6 +56,34 @@ body.details-closing main::before {
   transition-delay: .14s;
 }
 
+.timeline-scene {
+  --scene-origin-y: 50vh;
+  --scene-rx: 0deg;
+  --scene-ry: 0deg;
+  position: relative;
+  width: 100%;
+  min-height: calc(100svh - 28px);
+  transform: rotateY(var(--scene-ry)) rotateX(var(--scene-rx));
+  transform-origin: 50% var(--scene-origin-y);
+  transform-style: preserve-3d;
+}
+
+.timeline-scene::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: rgba(29, 27, 25, .16);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .28s ease;
+}
+
+body.details-open .timeline-scene::before { opacity: 1; }
+
 .logo {
   position: sticky;
   z-index: 20;
@@ -71,7 +101,7 @@ body.details-closing main::before {
 .profile {
   position: absolute;
   z-index: 2;
-  top: 33px;
+  top: 5px;
   left: calc(50% + 40px);
   width: 357px;
   display: flex;
@@ -288,11 +318,10 @@ body.details-closing main::before {
   --scene-ry: 0deg;
   --scene-counter-rx: 0deg;
   --scene-counter-ry: 0deg;
+  --scene-counter-matrix: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
   width: 100vw;
   padding-top: 0;
   overflow: visible;
-  perspective: 920px;
-  perspective-origin: 50% var(--scene-origin-y);
   touch-action: pan-y;
 }
 
@@ -303,22 +332,12 @@ body.details-closing main::before {
   min-height: 0;
   overflow: visible;
   opacity: 0;
-  transform: rotateY(var(--scene-ry)) rotateX(var(--scene-rx));
-  transform-origin: 50% var(--scene-origin-y);
   transform-style: preserve-3d;
   transition: opacity .28s ease;
 }
 
 .timeline-panel-inner::before {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 1px;
-  background: rgba(29, 27, 25, .16);
-  pointer-events: none;
+  display: none;
 }
 
 .timeline-panel.is-scene-dragging .timeline-panel-inner,
@@ -361,7 +380,7 @@ body.details-open main::before { opacity: 0; }
 .present-complexity {
   position: absolute;
   z-index: 1;
-  top: 40px;
+  top: 12px;
   left: 50%;
   width: 0;
   height: 0;
@@ -408,7 +427,7 @@ body.present-focus .present-complexity-circle {
 }
 
 .complexity-label {
-  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
+  transform: var(--scene-counter-matrix);
   transform-origin: left center;
   backface-visibility: hidden;
 }
@@ -464,7 +483,7 @@ body.details-open .present-complexity { opacity: 1; }
   line-height: .94;
   letter-spacing: -2.4px;
   opacity: 0;
-  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
+  transform: var(--scene-counter-matrix);
   transform-origin: right center;
   backface-visibility: hidden;
   transition: opacity .42s ease calc(80ms + var(--year-delay, 0ms));
@@ -534,7 +553,7 @@ body.details-open:not(.details-closing) .timeline-year-heading > span {
 
 .timeline-entry.is-visible {
   top: 0;
-  opacity: var(--focus-opacity, 1);
+  opacity: max(.2, calc(var(--focus-opacity, 1) * var(--scene-opacity, 1)));
 }
 
 .timeline-entry.is-visible.is-exiting {
@@ -594,7 +613,7 @@ body.details-open:not(.details-closing) .timeline-year-heading > span {
 .present-project-trigger {
   position: absolute;
   z-index: 24;
-  top: 91px;
+  top: 63px;
   left: calc(50% - 14px);
   width: 28px;
   height: 28px;
@@ -680,8 +699,8 @@ button.timeline-marker {
 
 .timeline-entry-copy {
   position: relative;
-  opacity: var(--scene-opacity, 1);
-  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
+  opacity: 1;
+  transform: var(--scene-counter-matrix);
   transform-origin: left 24px;
   transform-style: preserve-3d;
   backface-visibility: hidden;
@@ -691,7 +710,7 @@ button.timeline-marker {
 .timeline-entry.is-active .timeline-entry-copy { opacity: 1; }
 
 .timeline-entry.is-active .complexity-label {
-  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
+  transform: var(--scene-counter-matrix);
 }
 
 .timeline-entry h3 {
@@ -1712,6 +1731,7 @@ body.details-open .footer-contact {
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; transition-duration: .01ms !important; }
+  .timeline-scene,
   .timeline-panel-inner { transform: none !important; }
   .timeline-entry { top: 0; opacity: 1; transform: none; }
   .timeline-entry-copy,
