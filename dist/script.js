@@ -474,17 +474,27 @@ const previewStateForViewport = () => {
     { entry: presentProjectData, center: untransformedDocumentCenter(presentProjectTrigger).y },
     ...previewTimelineEntries.map((element) => ({ entry: element.entryData, center: untransformedDocumentCenter(element).y }))
   ];
-  const first = points[0];
-  const last = points.at(-1);
-  const span = Math.max(1, last.center - first.center);
-  const progress = Math.max(0, Math.min(1, (focusY - first.center) / span));
-  projectPreview.style.setProperty('--preview-progress', progress.toFixed(4));
   const upcomingIndex = points.findIndex((point) => point.center >= focusY);
-  if (upcomingIndex <= 0) return first.entry;
-  if (upcomingIndex === -1) return last.entry;
-  const previous = points[upcomingIndex - 1];
-  const upcoming = points[upcomingIndex];
-  return focusY < previous.center + (upcoming.center - previous.center) / 2 ? previous.entry : upcoming.entry;
+  let activeIndex;
+  if (window.scrollY <= 48 || upcomingIndex <= 0) activeIndex = 0;
+  else if (upcomingIndex === -1) activeIndex = points.length - 1;
+  else {
+    const previous = points[upcomingIndex - 1];
+    const upcoming = points[upcomingIndex];
+    activeIndex = focusY < previous.center + (upcoming.center - previous.center) / 2
+      ? upcomingIndex - 1
+      : upcomingIndex;
+  }
+  const active = points[activeIndex];
+  const intervalStart = activeIndex === 0
+    ? active.center - window.innerHeight / 2
+    : (points[activeIndex - 1].center + active.center) / 2;
+  const intervalEnd = activeIndex === points.length - 1
+    ? active.center + window.innerHeight / 2
+    : (active.center + points[activeIndex + 1].center) / 2;
+  const progress = Math.max(0, Math.min(1, (focusY - intervalStart) / Math.max(1, intervalEnd - intervalStart)));
+  projectPreview.style.setProperty('--preview-progress', progress.toFixed(4));
+  return active.entry;
 };
 
 const updateTimelineActive = () => {
@@ -627,11 +637,6 @@ const refreshSceneGeometry = () => {
     const axisEnd = markerCenterY(axisMarkers[axisMarkers.length - 1]);
     timelineScene.style.setProperty('--timeline-axis-start', `${axisStart.toFixed(2)}px`);
     timelineScene.style.setProperty('--timeline-axis-length', `${Math.max(0, axisEnd - axisStart).toFixed(2)}px`);
-  }
-  const firstYearHeading = timeline.querySelector('.timeline-year-heading');
-  if (firstYearHeading) {
-    const yearShift = untransformedDocumentCenter(presentProjectTrigger).y - untransformedDocumentCenter(firstYearHeading).y;
-    firstYearHeading.style.setProperty('--first-year-shift', `${yearShift.toFixed(2)}px`);
   }
   const profileCenter = untransformedDocumentCenter(profile);
   const profileLayoutLeft = profileCenter.x - profile.offsetWidth / 2;
