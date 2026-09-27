@@ -261,6 +261,7 @@ detailsTrigger.addEventListener('click', () => {
 
   detailsGroup.classList.remove('is-open');
   document.body.classList.remove('details-opening');
+  document.body.classList.remove('present-focus');
   document.body.classList.add('details-closing');
   setPreviewVisibility(false);
   clearTimelineActive();
@@ -433,13 +434,21 @@ const updateTimelineActive = () => {
   activeTimelineFrame = undefined;
   if (!document.body.classList.contains('details-open') || document.body.classList.contains('details-opening') || document.body.classList.contains('details-closing') || timelinePanel.hidden) return;
 
-  const closest = timelineEntryForViewport(focusTimelineEntries);
-  const closestPreview = window.scrollY <= 48
+  const firstTimelineEntry = focusTimelineEntries[0];
+  const firstEntryRect = firstTimelineEntry?.getBoundingClientRect();
+  const presentOwnsFocus = Boolean(firstEntryRect && firstEntryRect.top + firstEntryRect.height / 2 > window.innerHeight / 2);
+  const closest = presentOwnsFocus ? undefined : timelineEntryForViewport(focusTimelineEntries);
+  const closestPreview = presentOwnsFocus
     ? presentProjectData
     : timelineEntryForViewport(previewTimelineEntries)?.entryData;
+
+  document.body.classList.toggle('present-focus', presentOwnsFocus);
   if (!closest) {
     clearTimelineActive();
-    setProjectPreview();
+    if (closestPreview !== previewTimelineEntry) {
+      previewTimelineEntry = closestPreview;
+      setProjectPreview(previewTimelineEntry);
+    }
     return;
   }
   if (closest !== activeTimelineEntry) {

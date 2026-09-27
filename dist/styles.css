@@ -335,20 +335,8 @@ body.details-open .timeline-panel-inner {
   transition: background-color .52s ease, border-color .52s ease;
 }
 
-body:has(.timeline-year:first-child .timeline-entry:first-child.is-active) .present-complexity-circle {
+body.present-focus .present-complexity-circle {
   background: var(--faint);
-}
-
-.present-complexity-dot {
-  position: absolute;
-  z-index: 3;
-  top: -3.5px;
-  left: -3.5px;
-  width: 7px;
-  height: 7px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--ink);
 }
 
 .present-complexity-label,
@@ -386,7 +374,7 @@ body:has(.timeline-year:first-child .timeline-entry:first-child.is-active) .pres
   left: calc(25vw + 12px);
 }
 
-body:has(.timeline-year:first-child .timeline-entry:first-child.is-active) .present-complexity-label,
+body.present-focus .present-complexity-label,
 .timeline-entry.is-active .complexity-label {
   opacity: 1;
   transform: none;
