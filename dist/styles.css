@@ -69,6 +69,8 @@ body.details-closing main::before {
 }
 
 .profile {
+  --profile-perspective-origin-x: -40px;
+  --profile-perspective-origin-y: 50vh;
   position: absolute;
   z-index: 2;
   top: 33px;
@@ -77,6 +79,8 @@ body.details-closing main::before {
   display: flex;
   flex-direction: column;
   gap: 40px;
+  perspective: 920px;
+  perspective-origin: var(--profile-perspective-origin-x) var(--profile-perspective-origin-y);
   transform-style: preserve-3d;
 }
 

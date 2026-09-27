@@ -621,6 +621,7 @@ window.addEventListener('scroll', () => {
 window.addEventListener('resize', requestTimelineActiveUpdate);
 
 const timelineScene = timelinePanel.querySelector('.timeline-panel-inner');
+const profile = document.querySelector('.profile');
 const profileScenes = [...document.querySelectorAll('.profile-scene')];
 const footerContactScene = document.querySelector('.footer-contact-scene');
 const sceneCoarsePointer = window.matchMedia('(hover: none), (pointer: coarse)');
@@ -704,6 +705,11 @@ const refreshSceneGeometry = () => {
   const panelRect = timelinePanel.getBoundingClientRect();
   const originY = Math.max(0, Math.min(timelineScene.offsetHeight, window.innerHeight / 2 - panelRect.top));
   timelinePanel.style.setProperty('--scene-origin-y', `${originY}px`);
+  const profileCenter = untransformedDocumentCenter(profile);
+  const profileLayoutLeft = profileCenter.x - profile.offsetWidth / 2;
+  const profileLayoutTop = profileCenter.y - profile.offsetHeight / 2;
+  profile.style.setProperty('--profile-perspective-origin-x', `${window.innerWidth / 2 - profileLayoutLeft}px`);
+  profile.style.setProperty('--profile-perspective-origin-y', `${window.scrollY + window.innerHeight / 2 - profileLayoutTop}px`);
   [...profileScenes, footerContactScene].forEach((element) => {
     const center = untransformedDocumentCenter(element);
     const layoutLeft = center.x - element.offsetWidth / 2;
