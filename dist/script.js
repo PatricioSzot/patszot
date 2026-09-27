@@ -171,7 +171,6 @@ const timeline = document.querySelector('#career-timeline');
 const detailsGroup = document.querySelector('.details-group');
 const detailsTrigger = document.querySelector('#details-trigger');
 const timelinePanel = document.querySelector('#timeline-panel');
-const detailsLabel = detailsTrigger.querySelector('.details-label');
 let detailsCloseTimer;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const openDuration = () => reducedMotion.matches ? 0 : 900;
@@ -229,7 +228,7 @@ detailsTrigger.addEventListener('click', () => {
   window.clearTimeout(detailsCloseTimer);
   const open = !detailsGroup.classList.contains('is-open');
   detailsTrigger.setAttribute('aria-expanded', String(open));
-  detailsLabel.textContent = open ? 'Less detail' : 'More detail';
+  detailsTrigger.setAttribute('aria-label', open ? 'Show less detail' : 'Show more detail');
 
   if (open) {
     clearTimelineActive();
