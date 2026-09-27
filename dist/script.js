@@ -238,6 +238,8 @@ const sceneReset = document.querySelector('#scene-reset');
 let driftTarget = window.scrollY;
 let driftFrame;
 let driftAnimating = false;
+let driftVelocity = 0;
+let driftLastTime = performance.now();
 
 const maxScrollY = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
 const clampScrollY = (value) => Math.min(maxScrollY(), Math.max(0, value));
@@ -246,20 +248,28 @@ const cancelDrift = () => {
   if (driftFrame) cancelAnimationFrame(driftFrame);
   driftFrame = undefined;
   driftAnimating = false;
+  driftVelocity = 0;
   driftTarget = window.scrollY;
 };
 
-const runDrift = () => {
+const runDrift = (now) => {
+  const deltaTime = Math.min(.032, Math.max(.008, (now - driftLastTime) / 1000));
+  driftLastTime = now;
   const distance = driftTarget - window.scrollY;
-  if (Math.abs(distance) < .45) {
+  if (Math.abs(distance) < .4 && Math.abs(driftVelocity) < 3) {
     window.scrollTo(0, driftTarget);
     driftFrame = undefined;
     driftAnimating = false;
+    driftVelocity = 0;
     return;
   }
 
   driftAnimating = true;
-  window.scrollTo(0, window.scrollY + distance * .085);
+  const acceleration = distance * 58 - driftVelocity * 14;
+  driftVelocity += acceleration * deltaTime;
+  const nextPosition = clampScrollY(window.scrollY + driftVelocity * deltaTime);
+  if ((nextPosition === 0 && driftVelocity < 0) || (nextPosition === maxScrollY() && driftVelocity > 0)) driftVelocity = 0;
+  window.scrollTo(0, nextPosition);
   driftFrame = requestAnimationFrame(runDrift);
 };
 
@@ -269,14 +279,19 @@ const driftTo = (position) => {
     return;
   }
   driftTarget = clampScrollY(position);
-  if (!driftFrame) driftFrame = requestAnimationFrame(runDrift);
+  if (!driftFrame) {
+    driftLastTime = performance.now();
+    driftFrame = requestAnimationFrame(runDrift);
+  }
 };
 
 window.addEventListener('wheel', (event) => {
   if (reducedMotion.matches || event.ctrlKey || event.target.closest('.writing-reader-scroll')) return;
   const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
   event.preventDefault();
-  driftTo(driftTarget + event.deltaY * unit * .58);
+  const impulse = event.deltaY * unit;
+  driftVelocity += Math.max(-720, Math.min(720, impulse * 1.4));
+  driftTo(driftTarget + impulse * .56);
 }, { passive: false });
 
 document.addEventListener('keydown', (event) => {
@@ -620,6 +635,7 @@ window.addEventListener('scroll', () => {
   if (Math.abs(delta) > .5) {
     timelineScrollDirection = Math.sign(delta);
     timelineScrollVelocity = Math.min(3, Math.abs(delta) / Math.max(1, window.innerHeight) * 1000 / elapsed);
+    respondToSceneScroll(delta);
   }
   previousScrollY = window.scrollY;
   previousScrollTime = now;
@@ -649,42 +665,47 @@ let sceneGesture;
 let sceneRenderFrame;
 let sceneGeometryFrame;
 let sceneMotionGeneration = 0;
-let sceneMotionControls = [];
-let sceneMotionPromise;
+let sceneMotionFrame;
+let sceneScrollFrame;
+const sceneScroll = { y: 0, z: 0, velocityY: 0, velocityZ: 0, targetY: 0, targetZ: 0, lastTime: performance.now() };
+let renderedScenePitch = Number.NaN;
+let renderedSceneYaw = Number.NaN;
 
 const clampScene = (value, limit) => Math.max(-limit, Math.min(limit, value));
 
-const loadSceneMotion = () => {
-  sceneMotionPromise ||= import('https://cdn.jsdelivr.net/npm/motion@13.4.2/+esm').catch(() => undefined);
-  return sceneMotionPromise;
-};
-
 const stopSceneMotion = () => {
   sceneMotionGeneration += 1;
-  sceneMotionControls.forEach((control) => control?.stop?.());
-  sceneMotionControls = [];
+  if (sceneMotionFrame) cancelAnimationFrame(sceneMotionFrame);
+  sceneMotionFrame = undefined;
   timelinePanel.classList.remove('is-scene-settling');
 };
 
 const renderScene = () => {
   sceneRenderFrame = undefined;
-  const forwardTransform = `rotateY(${sceneAngles.yaw.toFixed(3)}deg) rotateX(${sceneAngles.pitch.toFixed(3)}deg)`;
-  const billboardTransform = `rotateX(${(-sceneAngles.pitch).toFixed(3)}deg) rotateY(${(-sceneAngles.yaw).toFixed(3)}deg)`;
-  const sceneValues = {
-    '--scene-rx': `${sceneAngles.pitch.toFixed(3)}deg`,
-    '--scene-ry': `${sceneAngles.yaw.toFixed(3)}deg`,
-    '--scene-counter-rx': `${(-sceneAngles.pitch).toFixed(3)}deg`,
-    '--scene-counter-ry': `${(-sceneAngles.yaw).toFixed(3)}deg`
-  };
-  [timelinePanel, backToTop, ...profileScenes, footerContactScene].forEach((element) => {
-    Object.entries(sceneValues).forEach(([property, value]) => element.style.setProperty(property, value));
-  });
+  const forwardTransform = `translate3d(0, ${sceneScroll.y.toFixed(3)}px, ${sceneScroll.z.toFixed(3)}px) rotateY(${sceneAngles.yaw.toFixed(3)}deg) rotateX(${sceneAngles.pitch.toFixed(3)}deg)`;
   timelineScene.style.transform = forwardTransform;
   profileScenes.forEach((element) => { element.style.transform = forwardTransform; });
   footerContactScene.style.transform = forwardTransform;
-  cameraBillboards.forEach((element) => { element.style.transform = billboardTransform; });
-  timelinePanel.classList.toggle('is-scene-oriented', Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08);
-  sceneReset.classList.toggle('is-visible', document.body.classList.contains('details-open') && (Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08));
+
+  const anglesChanged = sceneAngles.pitch !== renderedScenePitch || sceneAngles.yaw !== renderedSceneYaw;
+  if (anglesChanged) {
+    const billboardTransform = `rotateX(${(-sceneAngles.pitch).toFixed(3)}deg) rotateY(${(-sceneAngles.yaw).toFixed(3)}deg)`;
+    const sceneValues = {
+      '--scene-rx': `${sceneAngles.pitch.toFixed(3)}deg`,
+      '--scene-ry': `${sceneAngles.yaw.toFixed(3)}deg`,
+      '--scene-counter-rx': `${(-sceneAngles.pitch).toFixed(3)}deg`,
+      '--scene-counter-ry': `${(-sceneAngles.yaw).toFixed(3)}deg`
+    };
+    [timelinePanel, backToTop, ...profileScenes, footerContactScene].forEach((element) => {
+      Object.entries(sceneValues).forEach(([property, value]) => element.style.setProperty(property, value));
+    });
+    cameraBillboards.forEach((element) => { element.style.transform = billboardTransform; });
+    const oriented = Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08;
+    timelinePanel.classList.toggle('is-scene-oriented', oriented);
+    sceneReset.classList.toggle('is-visible', document.body.classList.contains('details-open') && oriented);
+    renderedScenePitch = sceneAngles.pitch;
+    renderedSceneYaw = sceneAngles.yaw;
+  }
 };
 
 const requestSceneRender = () => {
@@ -740,25 +761,7 @@ const setSceneAngles = (pitch, yaw) => {
   requestSceneRender();
 };
 
-const fallbackSceneSpring = (targetPitch, targetYaw, generation) => {
-  let pitchVelocity = 0;
-  let yawVelocity = 0;
-  const tick = () => {
-    if (generation !== sceneMotionGeneration) return;
-    pitchVelocity = (pitchVelocity + (targetPitch - sceneAngles.pitch) * .065) * .8;
-    yawVelocity = (yawVelocity + (targetYaw - sceneAngles.yaw) * .065) * .8;
-    setSceneAngles(sceneAngles.pitch + pitchVelocity, sceneAngles.yaw + yawVelocity);
-    if (Math.abs(targetPitch - sceneAngles.pitch) + Math.abs(targetYaw - sceneAngles.yaw) < .025 && Math.abs(pitchVelocity) + Math.abs(yawVelocity) < .025) {
-      setSceneAngles(targetPitch, targetYaw);
-      timelinePanel.classList.remove('is-scene-settling');
-      return;
-    }
-    requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
-};
-
-const springSceneTo = async (targetPitch, targetYaw, pitchVelocity = 0, yawVelocity = 0) => {
+const springSceneTo = (targetPitch, targetYaw, pitchVelocity = 0, yawVelocity = 0) => {
   stopSceneMotion();
   const generation = sceneMotionGeneration;
   targetPitch = clampScene(targetPitch, sceneLimits.pitch);
@@ -769,33 +772,60 @@ const springSceneTo = async (targetPitch, targetYaw, pitchVelocity = 0, yawVeloc
   }
 
   timelinePanel.classList.add('is-scene-settling');
-  const motion = await loadSceneMotion();
-  if (generation !== sceneMotionGeneration) return;
-  if (!motion?.animate) {
-    fallbackSceneSpring(targetPitch, targetYaw, generation);
+  let velocityPitch = Math.max(-220, Math.min(220, pitchVelocity));
+  let velocityYaw = Math.max(-220, Math.min(220, yawVelocity));
+  let lastTime = performance.now();
+  const tick = (now) => {
+    if (generation !== sceneMotionGeneration) return;
+    const deltaTime = Math.min(.032, Math.max(.008, (now - lastTime) / 1000));
+    lastTime = now;
+    velocityPitch += ((targetPitch - sceneAngles.pitch) * 72 - velocityPitch * 15.5) * deltaTime;
+    velocityYaw += ((targetYaw - sceneAngles.yaw) * 72 - velocityYaw * 15.5) * deltaTime;
+    setSceneAngles(sceneAngles.pitch + velocityPitch * deltaTime, sceneAngles.yaw + velocityYaw * deltaTime);
+    const remaining = Math.abs(targetPitch - sceneAngles.pitch) + Math.abs(targetYaw - sceneAngles.yaw);
+    if (remaining < .025 && Math.abs(velocityPitch) + Math.abs(velocityYaw) < .08) {
+      setSceneAngles(targetPitch, targetYaw);
+      sceneMotionFrame = undefined;
+      timelinePanel.classList.remove('is-scene-settling');
+      return;
+    }
+    sceneMotionFrame = requestAnimationFrame(tick);
+  };
+  sceneMotionFrame = requestAnimationFrame(tick);
+};
+
+const settleSceneScroll = (now) => {
+  const deltaTime = Math.min(.032, Math.max(.008, (now - sceneScroll.lastTime) / 1000));
+  sceneScroll.lastTime = now;
+  const targetDecay = Math.exp(-9 * deltaTime);
+  sceneScroll.targetY *= targetDecay;
+  sceneScroll.targetZ *= targetDecay;
+  sceneScroll.velocityY += ((sceneScroll.targetY - sceneScroll.y) * 88 - sceneScroll.velocityY * 18) * deltaTime;
+  sceneScroll.velocityZ += ((sceneScroll.targetZ - sceneScroll.z) * 74 - sceneScroll.velocityZ * 17) * deltaTime;
+  sceneScroll.y += sceneScroll.velocityY * deltaTime;
+  sceneScroll.z += sceneScroll.velocityZ * deltaTime;
+  requestSceneRender();
+  const energy = Math.abs(sceneScroll.y) + Math.abs(sceneScroll.z) + Math.abs(sceneScroll.velocityY) + Math.abs(sceneScroll.velocityZ);
+  if (energy < .025 && Math.abs(sceneScroll.targetY) + Math.abs(sceneScroll.targetZ) < .01) {
+    sceneScroll.y = 0;
+    sceneScroll.z = 0;
+    sceneScroll.velocityY = 0;
+    sceneScroll.velocityZ = 0;
+    sceneScrollFrame = undefined;
+    requestSceneRender();
     return;
   }
+  sceneScrollFrame = requestAnimationFrame(settleSceneScroll);
+};
 
-  let completed = 0;
-  const complete = () => {
-    completed += 1;
-    if (completed === 2 && generation === sceneMotionGeneration) timelinePanel.classList.remove('is-scene-settling');
-  };
-  const transition = { type: 'spring', stiffness: 78, damping: 17, mass: .9 };
-  sceneMotionControls = [
-    motion.animate(sceneAngles.pitch, targetPitch, {
-      ...transition,
-      velocity: pitchVelocity,
-      onUpdate: (value) => setSceneAngles(value, sceneAngles.yaw),
-      onComplete: complete
-    }),
-    motion.animate(sceneAngles.yaw, targetYaw, {
-      ...transition,
-      velocity: yawVelocity,
-      onUpdate: (value) => setSceneAngles(sceneAngles.pitch, value),
-      onComplete: complete
-    })
-  ];
+const respondToSceneScroll = (delta) => {
+  if (reducedMotion.matches || !document.body.classList.contains('details-open')) return;
+  sceneScroll.targetY = Math.max(-8, Math.min(8, -delta * .12));
+  sceneScroll.targetZ = Math.max(0, Math.min(10, Math.abs(delta) * .1));
+  if (!sceneScrollFrame) {
+    sceneScroll.lastTime = performance.now();
+    sceneScrollFrame = requestAnimationFrame(settleSceneScroll);
+  }
 };
 
 const resetTimelineScene = (animate = true) => {
@@ -811,7 +841,6 @@ sceneReset.addEventListener('click', () => resetTimelineScene());
 timelinePanel.addEventListener('pointerdown', (event) => {
   if (!document.body.classList.contains('details-open') || event.button !== 0 || event.target.closest(sceneInteractiveSelector)) return;
   stopSceneMotion();
-  loadSceneMotion();
   sceneGesture = {
     id: event.pointerId,
     pointerType: event.pointerType,
@@ -839,7 +868,7 @@ timelinePanel.addEventListener('pointermove', (event) => {
       return;
     }
     sceneGesture.dragging = true;
-    timelinePanel.setPointerCapture(event.pointerId);
+    timelinePanel.setPointerCapture?.(event.pointerId);
     timelinePanel.classList.add('is-scene-dragging');
     document.body.classList.add('timeline-scene-dragging');
     requestSceneGeometry();
@@ -865,7 +894,7 @@ const finishSceneGesture = (event, cancelled = false) => {
   const gesture = sceneGesture;
   sceneGesture = undefined;
   if (!gesture.dragging) return;
-  if (timelinePanel.hasPointerCapture(event.pointerId)) timelinePanel.releasePointerCapture(event.pointerId);
+  if (timelinePanel.hasPointerCapture?.(event.pointerId)) timelinePanel.releasePointerCapture?.(event.pointerId);
   timelinePanel.classList.remove('is-scene-dragging');
   document.body.classList.remove('timeline-scene-dragging');
   if (cancelled || reducedMotion.matches) return;
@@ -893,7 +922,6 @@ document.addEventListener('keydown', (event) => {
 detailsTrigger.addEventListener('click', () => {
   if (detailsTrigger.getAttribute('aria-expanded') === 'false') resetTimelineScene(false);
   else {
-    loadSceneMotion();
     requestSceneGeometry();
   }
 });

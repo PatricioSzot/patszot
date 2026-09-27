@@ -666,8 +666,8 @@ button.timeline-marker {
 .timeline-entry-copy {
   position: relative;
   text-align: left;
-  background: #fff;
-  box-shadow: 0 0 0 3px #fff;
+  background: transparent;
+  box-shadow: none;
   opacity: var(--scene-opacity, 1);
   transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
   transform-origin: left 24px;
