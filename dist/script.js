@@ -381,6 +381,7 @@ let timelineScrollDirection = 0;
 let timelineScrollVelocity = 0;
 const projectPreview = document.querySelector('#project-focus-preview');
 const previewImages = [...projectPreview.querySelectorAll('.project-focus-preview-image')];
+const previewSheets = [...projectPreview.querySelectorAll('.project-focus-preview-sheet')];
 const airOpsUrl = 'https://www.airops.com/';
 const airOpsFallback = 'assets/airops-og.jpg';
 let previewLayer = 0;
@@ -404,6 +405,45 @@ const previewSourceFor = (entry, manifest) => {
   if (youtube) return youtubeThumbnail(youtube.src);
   const airOps = manifest.projects[airOpsUrl]?.assets?.find((asset) => asset.type === 'image');
   return airOps?.src || airOpsFallback;
+};
+
+const uniqueVisualAssetsFor = (entry, manifest) => {
+  const assets = manifest.projects[entry?.assetsUrl || entry?.url]?.assets || [];
+  const seen = new Set();
+  return assets.filter((asset) => {
+    if (!['image', 'gif'].includes(asset.type)) return false;
+    const key = asset.source || asset.src;
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+};
+
+const setPreviewStack = async (entry, manifest, topSource, request) => {
+  const assets = uniqueVisualAssetsFor(entry, manifest)
+    .filter((asset) => asset.src !== topSource)
+    .slice(0, previewSheets.length);
+  const sources = await Promise.all(assets.map(async (asset) => {
+    const preload = new Image();
+    preload.src = asset.src;
+    await preload.decode().catch(() => {});
+    return preload.naturalWidth ? asset.src : undefined;
+  }));
+  if (request !== previewRequest) return;
+  const validSources = sources.filter(Boolean);
+  previewSheets.forEach((sheet, index) => {
+    const source = validSources[index];
+    if (source) sheet.src = source;
+    else sheet.removeAttribute('src');
+    sheet.classList.toggle('has-source', Boolean(source));
+  });
+  const hasStack = validSources.length > 0;
+  projectPreview.classList.toggle('has-stack', hasStack);
+  projectPreview.disabled = !hasStack;
+  projectPreview.setAttribute('aria-disabled', String(!hasStack));
+  projectPreview.setAttribute('aria-label', hasStack
+    ? `Show all ${entry?.title || 'AirOps'} project images`
+    : `${entry?.title || 'AirOps'} project preview`);
 };
 
 const runPreviewTransition = ({ src, alt, direction, velocity }) => {
@@ -460,6 +500,8 @@ const setProjectPreview = async (entry) => {
     await preload.decode().catch(() => {});
   }
   if (!preload.naturalWidth || request !== previewRequest) return;
+  await setPreviewStack(entry, manifest, src, request);
+  if (request !== previewRequest) return;
 
   const payload = {
     src,
@@ -763,8 +805,15 @@ presentProjectTrigger.addEventListener('click', () => {
   showScatter(presentProjectData, presentProjectTrigger);
 });
 
+projectPreview.addEventListener('click', () => {
+  const entry = previewTimelineEntry || presentProjectData;
+  if (!projectPreview.classList.contains('has-stack')) return;
+  if (scatterLink === projectPreview) { dismissScatter(); return; }
+  showScatter(entry, projectPreview);
+});
+
 document.addEventListener('click', (event) => {
-  if (scatterLocked && !event.target.closest('.project-expand-trigger, .present-project-trigger') && !event.target.closest('.scatter-item')) dismissScatter();
+  if (scatterLocked && !event.target.closest('.project-expand-trigger, .present-project-trigger, .project-focus-preview') && !event.target.closest('.scatter-item')) dismissScatter();
 });
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && scatterLink) dismissScatter(); });
 

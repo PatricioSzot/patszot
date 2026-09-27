@@ -714,9 +714,11 @@ body.details-open .footer-contact {
   left: 40px;
   width: min(36vw, 520px);
   aspect-ratio: 1200 / 630;
-  overflow: hidden;
+  overflow: visible;
+  padding: 0;
+  border: 0;
   border-radius: 4px;
-  background: #fff;
+  background: transparent;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -728,12 +730,65 @@ body.details-open .footer-contact {
 .project-focus-preview.is-visible {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
+  cursor: pointer;
   transform: none;
   transition-delay: .12s, .12s, 0s;
 }
 
+.project-focus-preview:not(.has-stack) {
+  cursor: default;
+}
+
+.project-focus-preview-sheet,
+.project-focus-preview-image {
+  border: 1px solid rgba(29, 27, 25, .14);
+  border-radius: 4px;
+  background: #fff;
+}
+
+.project-focus-preview-sheet {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .28s ease, transform .58s var(--ease);
+}
+
+.project-focus-preview.has-stack .project-focus-preview-sheet.has-source { opacity: 1; }
+
+.project-focus-preview-sheet-back {
+  z-index: 1;
+  transform: translate3d(14px, -14px, 0);
+}
+
+.project-focus-preview-sheet-middle {
+  z-index: 2;
+  transform: translate3d(7px, -7px, 0);
+}
+
+.project-focus-preview.has-stack:hover .project-focus-preview-sheet-back,
+.project-focus-preview.has-stack:focus-visible .project-focus-preview-sheet-back {
+  transform: translate3d(18px, -18px, 0);
+}
+
+.project-focus-preview.has-stack:hover .project-focus-preview-sheet-middle,
+.project-focus-preview.has-stack:focus-visible .project-focus-preview-sheet-middle {
+  transform: translate3d(9px, -9px, 0);
+}
+
+.project-focus-preview:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
 .project-focus-preview-image {
   position: absolute;
+  z-index: 3;
   inset: 0;
   display: block;
   width: 100%;
