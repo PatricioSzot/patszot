@@ -326,6 +326,13 @@ body.details-closing main::before {
   will-change: transform;
 }
 
+.timeline-panel.is-scene-dragging .timeline-year-heading,
+.timeline-panel.is-scene-settling .timeline-year-heading {
+  transition-property: opacity;
+  transition-duration: .16s;
+  transition-delay: 0s;
+}
+
 body.details-open .timeline-panel { cursor: grab; }
 
 body.timeline-scene-dragging,
@@ -502,15 +509,13 @@ body.details-open:not(.details-closing) .timeline-year-heading {
 
 .timeline-entry.is-active {
   --scene-opacity: 1;
-  --scene-scale: 1;
-  --scene-z: 42px;
 }
 
 .timeline-entry:last-child { margin-bottom: 0; }
 
 .timeline-entry.is-visible {
   top: 0;
-  opacity: 1;
+  opacity: var(--focus-opacity, 1);
 }
 
 .timeline-entry.is-visible.is-exiting {
@@ -562,7 +567,7 @@ body.details-open:not(.details-closing) .timeline-year-heading {
 }
 
 .timeline-entry.is-active .timeline-marker {
-  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
+  transform: none;
 }
 
 .timeline-marker.is-muted { background: var(--muted); }
@@ -680,7 +685,7 @@ button.timeline-marker {
   transition: opacity .34s ease, font-variation-settings .62s var(--ease), letter-spacing .62s var(--ease);
 }
 
-.timeline.has-active .timeline-entry:not(.is-active) h3 { opacity: .42; }
+.timeline.has-active .timeline-entry:not(.is-active) h3 { opacity: 1; }
 .timeline-entry.is-active h3,
 .timeline-entry:focus-within h3 {
   opacity: 1;

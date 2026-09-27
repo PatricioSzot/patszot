@@ -535,6 +535,16 @@ const clearTimelineActive = () => {
   activeTimelineEntry?.querySelectorAll('.project-expand-trigger, .project-title-trigger, .writing-expand-trigger').forEach((control) => control.setAttribute('tabindex', '-1'));
   activeTimelineEntry = undefined;
   timeline.classList.remove('has-active');
+  timelineEntries.forEach((entry) => entry.style.removeProperty('--focus-opacity'));
+};
+
+const updateTimelineFocusFalloff = (activeEntry) => {
+  const activeIndex = timelineEntries.indexOf(activeEntry);
+  timelineEntries.forEach((entry, index) => {
+    const distance = Math.abs(index - activeIndex);
+    const opacity = distance === 0 ? 1 : distance === 1 ? .56 : distance === 2 ? .3 : .12;
+    entry.style.setProperty('--focus-opacity', opacity.toFixed(2));
+  });
 };
 
 const untransformedDocumentCenter = (element) => {
@@ -599,6 +609,7 @@ const updateTimelineActive = () => {
     timeline.classList.add('has-active');
     activeTimelineEntry.classList.add('is-active');
     activeTimelineEntry.querySelectorAll('.project-expand-trigger, .project-title-trigger, .writing-expand-trigger').forEach((control) => control.setAttribute('tabindex', '0'));
+    updateTimelineFocusFalloff(activeTimelineEntry);
   }
   if (closestPreview !== previewTimelineEntry) {
     previewTimelineEntry = closestPreview;
@@ -675,7 +686,7 @@ const applySceneDepth = () => {
     const blur = active || !allowBlur
       ? 0
       : Math.min(1.8, angleStrength * .46 + Math.max(0, -modeledDepth) * 1.15);
-    const scale = !oriented || active ? 1 : Math.max(.92, Math.min(1.05, 1 + modeledDepth * .035));
+    const scale = !oriented ? 1 : Math.max(.92, Math.min(1.05, 1 + modeledDepth * .035));
     element.style.setProperty('--scene-blur', `${blur.toFixed(2)}px`);
     element.style.setProperty('--scene-opacity', opacity.toFixed(3));
     if (element.classList.contains('timeline-entry')) element.style.setProperty('--scene-scale', scale.toFixed(3));
