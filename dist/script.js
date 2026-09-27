@@ -612,6 +612,252 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 window.addEventListener('resize', requestTimelineActiveUpdate);
 
+const timelineScene = timelinePanel.querySelector('.timeline-panel-inner');
+const sceneCoarsePointer = window.matchMedia('(hover: none), (pointer: coarse)');
+const sceneInteractiveSelector = 'a, button, input, textarea, select, iframe, video, [contenteditable="true"]';
+const sceneLimits = { pitch: 7, yaw: 12 };
+const sceneAngles = { pitch: 0, yaw: 0 };
+const visibleDepthNodes = new Set();
+let sceneDepthSamples = [];
+let sceneGesture;
+let sceneRenderFrame;
+let sceneGeometryFrame;
+let sceneMotionGeneration = 0;
+let sceneMotionControls = [];
+let sceneMotionPromise;
+
+const clampScene = (value, limit) => Math.max(-limit, Math.min(limit, value));
+
+const loadSceneMotion = () => {
+  sceneMotionPromise ||= import('https://cdn.jsdelivr.net/npm/motion@13.4.2/+esm').catch(() => undefined);
+  return sceneMotionPromise;
+};
+
+const stopSceneMotion = () => {
+  sceneMotionGeneration += 1;
+  sceneMotionControls.forEach((control) => control?.stop?.());
+  sceneMotionControls = [];
+  timelinePanel.classList.remove('is-scene-settling');
+};
+
+const applySceneDepth = () => {
+  const oriented = Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08;
+  const allowBlur = oriented && !reducedMotion.matches && !sceneCoarsePointer.matches;
+  const pitch = sceneAngles.pitch * Math.PI / 180;
+  const yaw = sceneAngles.yaw * Math.PI / 180;
+
+  sceneDepthSamples.forEach(({ element, x, y }) => {
+    const modeledDepth = -Math.sin(yaw) * x + Math.sin(pitch) * y;
+    const blur = element.classList.contains('is-active') || !allowBlur
+      ? 0
+      : Math.min(.9, Math.max(0, -modeledDepth) * 6);
+    element.style.setProperty('--scene-blur', `${blur.toFixed(2)}px`);
+  });
+};
+
+const renderScene = () => {
+  sceneRenderFrame = undefined;
+  timelinePanel.style.setProperty('--scene-rx', `${sceneAngles.pitch.toFixed(3)}deg`);
+  timelinePanel.style.setProperty('--scene-ry', `${sceneAngles.yaw.toFixed(3)}deg`);
+  timelinePanel.classList.toggle('is-scene-oriented', Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08);
+  applySceneDepth();
+};
+
+const requestSceneRender = () => {
+  if (!sceneRenderFrame) sceneRenderFrame = requestAnimationFrame(renderScene);
+};
+
+const refreshSceneGeometry = () => {
+  sceneGeometryFrame = undefined;
+  if (timelinePanel.hidden) return;
+  const panelRect = timelinePanel.getBoundingClientRect();
+  const originY = Math.max(0, Math.min(timelineScene.offsetHeight, window.innerHeight / 2 - panelRect.top));
+  timelinePanel.style.setProperty('--scene-origin-y', `${originY}px`);
+  sceneDepthSamples = [...visibleDepthNodes].map((element) => {
+    const rect = element.getBoundingClientRect();
+    return {
+      element,
+      x: Math.max(-1, Math.min(1, (rect.left + rect.width / 2 - window.innerWidth / 2) / (window.innerWidth / 2))),
+      y: Math.max(-1, Math.min(1, (rect.top + rect.height / 2 - window.innerHeight / 2) / (window.innerHeight / 2)))
+    };
+  });
+  requestSceneRender();
+};
+
+const requestSceneGeometry = () => {
+  if (!sceneGeometryFrame) sceneGeometryFrame = requestAnimationFrame(refreshSceneGeometry);
+};
+
+const sceneDepthObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) visibleDepthNodes.add(entry.target);
+    else {
+      visibleDepthNodes.delete(entry.target);
+      entry.target.style.removeProperty('--scene-blur');
+    }
+  });
+  requestSceneGeometry();
+}, { rootMargin: '20% 0px', threshold: 0 });
+
+[...timelineEntries, ...timeline.querySelectorAll('.timeline-year-heading')].forEach((element) => sceneDepthObserver.observe(element));
+
+const setSceneAngles = (pitch, yaw) => {
+  sceneAngles.pitch = clampScene(pitch, sceneLimits.pitch);
+  sceneAngles.yaw = clampScene(yaw, sceneLimits.yaw);
+  requestSceneRender();
+};
+
+const fallbackSceneSpring = (targetPitch, targetYaw, generation) => {
+  let pitchVelocity = 0;
+  let yawVelocity = 0;
+  const tick = () => {
+    if (generation !== sceneMotionGeneration) return;
+    pitchVelocity = (pitchVelocity + (targetPitch - sceneAngles.pitch) * .065) * .8;
+    yawVelocity = (yawVelocity + (targetYaw - sceneAngles.yaw) * .065) * .8;
+    setSceneAngles(sceneAngles.pitch + pitchVelocity, sceneAngles.yaw + yawVelocity);
+    if (Math.abs(targetPitch - sceneAngles.pitch) + Math.abs(targetYaw - sceneAngles.yaw) < .025 && Math.abs(pitchVelocity) + Math.abs(yawVelocity) < .025) {
+      setSceneAngles(targetPitch, targetYaw);
+      timelinePanel.classList.remove('is-scene-settling');
+      return;
+    }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+};
+
+const springSceneTo = async (targetPitch, targetYaw, pitchVelocity = 0, yawVelocity = 0) => {
+  stopSceneMotion();
+  const generation = sceneMotionGeneration;
+  targetPitch = clampScene(targetPitch, sceneLimits.pitch);
+  targetYaw = clampScene(targetYaw, sceneLimits.yaw);
+  if (reducedMotion.matches) {
+    setSceneAngles(targetPitch, targetYaw);
+    return;
+  }
+
+  timelinePanel.classList.add('is-scene-settling');
+  const motion = await loadSceneMotion();
+  if (generation !== sceneMotionGeneration) return;
+  if (!motion?.animate) {
+    fallbackSceneSpring(targetPitch, targetYaw, generation);
+    return;
+  }
+
+  let completed = 0;
+  const complete = () => {
+    completed += 1;
+    if (completed === 2 && generation === sceneMotionGeneration) timelinePanel.classList.remove('is-scene-settling');
+  };
+  const transition = { type: 'spring', stiffness: 92, damping: 19, mass: .82 };
+  sceneMotionControls = [
+    motion.animate(sceneAngles.pitch, targetPitch, {
+      ...transition,
+      velocity: pitchVelocity,
+      onUpdate: (value) => setSceneAngles(value, sceneAngles.yaw),
+      onComplete: complete
+    }),
+    motion.animate(sceneAngles.yaw, targetYaw, {
+      ...transition,
+      velocity: yawVelocity,
+      onUpdate: (value) => setSceneAngles(sceneAngles.pitch, value),
+      onComplete: complete
+    })
+  ];
+};
+
+const resetTimelineScene = (animate = true) => {
+  if (animate && (Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08)) springSceneTo(0, 0);
+  else {
+    stopSceneMotion();
+    setSceneAngles(0, 0);
+  }
+};
+
+timelinePanel.addEventListener('pointerdown', (event) => {
+  if (!document.body.classList.contains('details-open') || event.button !== 0 || event.target.closest(sceneInteractiveSelector)) return;
+  stopSceneMotion();
+  loadSceneMotion();
+  sceneGesture = {
+    id: event.pointerId,
+    pointerType: event.pointerType,
+    startX: event.clientX,
+    startY: event.clientY,
+    lastX: event.clientX,
+    lastY: event.clientY,
+    lastTime: performance.now(),
+    startPitch: sceneAngles.pitch,
+    startYaw: sceneAngles.yaw,
+    pitchVelocity: 0,
+    yawVelocity: 0,
+    dragging: false
+  };
+});
+
+timelinePanel.addEventListener('pointermove', (event) => {
+  if (!sceneGesture || event.pointerId !== sceneGesture.id) return;
+  const dx = event.clientX - sceneGesture.startX;
+  const dy = event.clientY - sceneGesture.startY;
+  if (!sceneGesture.dragging) {
+    if (Math.hypot(dx, dy) < 6) return;
+    if (sceneGesture.pointerType === 'touch' && Math.abs(dy) > Math.abs(dx) * 1.15) {
+      sceneGesture = undefined;
+      return;
+    }
+    sceneGesture.dragging = true;
+    timelinePanel.setPointerCapture(event.pointerId);
+    timelinePanel.classList.add('is-scene-dragging');
+    document.body.classList.add('timeline-scene-dragging');
+    requestSceneGeometry();
+  }
+
+  event.preventDefault();
+  const now = performance.now();
+  const elapsed = Math.max(8, now - sceneGesture.lastTime);
+  const yawPerPixel = 24 / Math.max(720, window.innerWidth);
+  const pitchPerPixel = 16 / Math.max(560, window.innerHeight);
+  const instantYawVelocity = (event.clientX - sceneGesture.lastX) / elapsed * yawPerPixel * 1000;
+  const instantPitchVelocity = -(event.clientY - sceneGesture.lastY) / elapsed * pitchPerPixel * 1000;
+  sceneGesture.yawVelocity = sceneGesture.yawVelocity * .68 + instantYawVelocity * .32;
+  sceneGesture.pitchVelocity = sceneGesture.pitchVelocity * .68 + instantPitchVelocity * .32;
+  sceneGesture.lastX = event.clientX;
+  sceneGesture.lastY = event.clientY;
+  sceneGesture.lastTime = now;
+  setSceneAngles(sceneGesture.startPitch - dy * pitchPerPixel, sceneGesture.startYaw + dx * yawPerPixel);
+}, { passive: false });
+
+const finishSceneGesture = (event, cancelled = false) => {
+  if (!sceneGesture || event.pointerId !== sceneGesture.id) return;
+  const gesture = sceneGesture;
+  sceneGesture = undefined;
+  if (!gesture.dragging) return;
+  if (timelinePanel.hasPointerCapture(event.pointerId)) timelinePanel.releasePointerCapture(event.pointerId);
+  timelinePanel.classList.remove('is-scene-dragging');
+  document.body.classList.remove('timeline-scene-dragging');
+  if (cancelled || reducedMotion.matches) return;
+  const targetPitch = sceneAngles.pitch + gesture.pitchVelocity * .1;
+  const targetYaw = sceneAngles.yaw + gesture.yawVelocity * .1;
+  springSceneTo(targetPitch, targetYaw, gesture.pitchVelocity, gesture.yawVelocity);
+};
+
+timelinePanel.addEventListener('pointerup', (event) => finishSceneGesture(event));
+timelinePanel.addEventListener('pointercancel', (event) => finishSceneGesture(event, true));
+timelinePanel.addEventListener('dblclick', (event) => {
+  if (!event.target.closest(sceneInteractiveSelector)) resetTimelineScene();
+});
+
+window.addEventListener('scroll', requestSceneGeometry, { passive: true });
+window.addEventListener('resize', requestSceneGeometry);
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && timelinePanel.classList.contains('is-scene-oriented')) resetTimelineScene();
+});
+detailsTrigger.addEventListener('click', () => {
+  if (detailsTrigger.getAttribute('aria-expanded') === 'false') resetTimelineScene(false);
+  else {
+    loadSceneMotion();
+    requestSceneGeometry();
+  }
+});
+
 const scatter = document.querySelector('#project-scatter');
 const projectManifest = fetch('assets-visual/manifest.json').then((response) => response.json());
 const coarsePointer = window.matchMedia('(hover: none), (pointer: coarse)');
