@@ -9,55 +9,64 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:wdth,wght@75..125,100..900&amp;display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=20260927-anchored-accordion-scene" />
+    <link rel="stylesheet" href="styles.css?v=20260927-matched-timeline-anchors" />
   </head>
   <body>
     <main>
       <img class="logo" src="assets/ps-logo.png" width="908" height="200" alt="Patrick Szot" />
       <section class="profile" aria-label="Profile">
-        <div class="profile-scene">
+        <div class="profile-scene profile-title-scene">
+          <div class="profile-billboard">
+            <p class="bio"><span class="load-line" style="--i: 0">Brand Engineer</span></p>
+          </div>
+        </div>
+
+        <div class="profile-scene profile-current-scene">
           <button class="present-project-trigger" id="present-project-trigger" type="button" aria-label="Show Brand Engineer at AirOps images" aria-expanded="false"><i class="ri-add-line" aria-hidden="true"></i></button>
           <div class="profile-billboard">
-        <p class="bio"><span class="load-line" style="--i: 0">Brand Engineer</span></p>
+            <div class="groups">
+              <div class="group is-open">
+                <button class="group-trigger load-line" style="--i: 1" type="button" aria-expanded="true" aria-controls="current-panel">
+                  <span>Currently: airops</span>
+                  <span class="accordion-icon" aria-hidden="true"><i class="ri-add-line icon-plus"></i><i class="ri-subtract-line icon-minus"></i></span>
+                </button>
+                <div class="group-panel" id="current-panel">
+                  <div class="group-panel-inner">
+                    <p class="accordion-line" style="--line: 0"><span class="load-line" style="--i: 2">Led 4-week market reposition design sprint</span></p>
+                    <p class="accordion-line" style="--line: 1"><span class="load-line" style="--i: 3">Brand strategy and web transformation</span></p>
+                    <p class="accordion-line" style="--line: 2"><span class="load-line" style="--i: 4">Industry-specific image production</span></p>
 
-        <div class="groups">
-          <div class="group is-open">
-            <button class="group-trigger load-line" style="--i: 1" type="button" aria-expanded="true" aria-controls="current-panel">
-              <span>Currently: airops</span>
-              <span class="accordion-icon" aria-hidden="true"><i class="ri-add-line icon-plus"></i><i class="ri-subtract-line icon-minus"></i></span>
-            </button>
-            <div class="group-panel" id="current-panel">
-              <div class="group-panel-inner">
-                <p class="accordion-line" style="--line: 0"><span class="load-line" style="--i: 2">Led 4-week market reposition design sprint</span></p>
-                <p class="accordion-line" style="--line: 1"><span class="load-line" style="--i: 3">Brand strategy and web transformation</span></p>
-                <p class="accordion-line" style="--line: 2"><span class="load-line" style="--i: 4">Industry-specific image production</span></p>
-
-                <div class="nested-group">
-                  <button class="nested-trigger load-line accordion-line" style="--i: 5; --line: 3" type="button" aria-expanded="false" aria-controls="tooling-panel">
-                    <span>Tooling and marketing org transformation</span>
-                    <span class="accordion-icon" aria-hidden="true"><i class="ri-add-line icon-plus"></i><i class="ri-subtract-line icon-minus"></i></span>
-                  </button>
-                  <div class="nested-panel" id="tooling-panel" inert>
-                    <div class="nested-panel-inner">
-                      <p><span class="accordion-line" style="--line: 0">Brand Portal</span><span class="accordion-line" style="--line: 1">Web Prototyping</span><span class="accordion-line" style="--line: 2">Old brand marketing asset maker</span></p>
+                    <div class="nested-group">
+                      <button class="nested-trigger load-line accordion-line" style="--i: 5; --line: 3" type="button" aria-expanded="false" aria-controls="tooling-panel">
+                        <span>Tooling and marketing org transformation</span>
+                        <span class="accordion-icon" aria-hidden="true"><i class="ri-add-line icon-plus"></i><i class="ri-subtract-line icon-minus"></i></span>
+                      </button>
+                      <div class="nested-panel" id="tooling-panel" inert>
+                        <div class="nested-panel-inner">
+                          <p><span class="accordion-line" style="--line: 0">Brand Portal</span><span class="accordion-line" style="--line: 1">Web Prototyping</span><span class="accordion-line" style="--line: 2">Old brand marketing asset maker</span></p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="previous-row load-line" style="--i: 6">
-            <p>Previously: <span class="muted"><a class="text-link" href="https://glossgenius.com/">GlossAI 2025 Rebrand</a>, <a class="text-link" href="https://patrickszot.webflow.io/recent-work/webflow-rebrand">Webflow 2020 Rebrand</a>, Lovable 2025</span></p>
-          </div>
         </div>
 
-        <div class="details-group load-line" style="--i: 7">
-          <button class="details-trigger" id="details-trigger" type="button" aria-expanded="false" aria-controls="timeline-panel" aria-label="Show more detail">
-            <span class="details-label" aria-hidden="true"><span class="details-label-more">More detail</span><span class="details-label-less">Less detail</span></span>
-            <span class="accordion-icon" aria-hidden="true"><i class="ri-add-line icon-plus"></i><i class="ri-subtract-line icon-minus"></i></span>
-          </button>
-        </div>
+        <div class="profile-scene profile-previous-scene">
+          <span class="profile-anchor-marker" aria-hidden="true"></span>
+          <div class="profile-billboard profile-previous-billboard">
+            <div class="previous-row load-line" style="--i: 6">
+              <p>Previously: <span class="muted"><a class="text-link" href="https://glossgenius.com/">GlossAI 2025 Rebrand</a>, <a class="text-link" href="https://patrickszot.webflow.io/recent-work/webflow-rebrand">Webflow 2020 Rebrand</a>, Lovable 2025</span></p>
+            </div>
+
+            <div class="details-group load-line" style="--i: 7">
+              <button class="details-trigger" id="details-trigger" type="button" aria-expanded="false" aria-controls="timeline-panel" aria-label="Show more detail">
+                <span class="details-label" aria-hidden="true"><span class="details-label-more">More detail</span><span class="details-label-less">Less detail</span></span>
+                <span class="accordion-icon" aria-hidden="true"><i class="ri-add-line icon-plus"></i><i class="ri-subtract-line icon-minus"></i></span>
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -89,6 +98,6 @@
     </button>
     <div class="project-scatter" id="project-scatter" aria-hidden="true"></div>
     <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top"><span class="back-to-top-object" aria-hidden="true"><i class="ri-arrow-up-line"></i></span></button>
-    <script src="script.js?v=20260927-anchored-accordion-scene"></script>
+    <script src="script.js?v=20260927-matched-timeline-anchors"></script>
   </body>
 </html>

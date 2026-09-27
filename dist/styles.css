@@ -74,6 +74,9 @@ body.details-closing main::before {
   top: 33px;
   left: calc(50% + 40px);
   width: 357px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
   transform-style: preserve-3d;
 }
 
@@ -94,9 +97,35 @@ body.details-closing main::before {
 .profile-billboard {
   display: flex;
   flex-direction: column;
-  gap: 40px;
   transform: rotateX(var(--scene-counter-rx, 0deg)) rotateY(var(--scene-counter-ry, 0deg));
   transform-origin: left top;
+}
+
+.profile-previous-billboard { gap: 8px; }
+.profile-previous-billboard .details-group { margin-top: 0; }
+
+.profile-anchor-marker {
+  position: absolute;
+  z-index: 24;
+  top: 8.5px;
+  left: -43.5px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ink);
+  opacity: 0;
+  visibility: hidden;
+  transform: rotateX(var(--scene-counter-rx, 0deg)) rotateY(var(--scene-counter-ry, 0deg));
+  transform-origin: center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: opacity .24s ease, visibility 0s linear .52s;
+}
+
+body.details-open .profile-anchor-marker {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: .18s, 0s;
 }
 
 .bio,
@@ -513,7 +542,7 @@ body.details-open:not(.details-closing) .timeline-year-heading > span {
 .present-project-trigger {
   position: absolute;
   z-index: 24;
-  top: 58px;
+  top: 0;
   left: -54px;
   width: 28px;
   height: 28px;
@@ -1546,6 +1575,10 @@ body.details-open .footer-contact {
     left: calc(50vw - 54px);
   }
 
+  .profile-anchor-marker {
+    left: calc(50vw - 43.5px);
+  }
+
   .groups { gap: 40px; }
   .nested-panel-inner p { width: calc(100% - 16px); }
 
@@ -1671,6 +1704,7 @@ body.details-open .footer-contact {
   .timeline-year-heading > span,
   .timeline-marker,
   .present-project-trigger,
+  .profile-anchor-marker,
   .profile-scene,
   .profile-billboard,
   .footer-contact-scene,
