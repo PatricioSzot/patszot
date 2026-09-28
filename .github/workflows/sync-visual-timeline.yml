@@ -1,0 +1,33 @@
+name: Sync visual timeline
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "dist/assets-visual/**"
+      - "scripts/build-visual-manifest.mjs"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build dated visual manifest
+        run: node scripts/build-visual-manifest.mjs
+      - name: Commit generated timeline data
+        run: |
+          if git diff --quiet -- dist/assets-visual/manifest.json; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dist/assets-visual/manifest.json
+          git commit -m "Sync visual timeline manifest"
+          git push

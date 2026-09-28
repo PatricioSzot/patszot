@@ -1,11 +1,13 @@
 import { createHash } from 'node:crypto';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
+import { promisify } from 'node:util';
 
 const root = new URL('../', import.meta.url).pathname;
 const outRoot = join(root, 'dist/assets-visual');
-const projectDir = join(outRoot, 'airops');
-const manifestPath = join(outRoot, 'manifest.json');
+const projectFolder = '09-27-2026-airops';
+const projectDir = join(outRoot, projectFolder);
 const pages = ['https://www.airops.com/', 'https://www.airops.com/why-airops', 'https://www.airops.com/solutions', 'https://www.airops.com/platform'];
 const sourceUrls = new Set();
 
@@ -38,7 +40,7 @@ for (const source of sourceUrls) {
     const filename = `${String(++index).padStart(2, '0')}-${hash}${extension}`;
     await writeFile(join(projectDir, filename), bytes);
     assets.push({
-      src: `assets-visual/airops/${filename}`,
+      src: `assets-visual/${projectFolder}/${filename}`,
       type: extension === '.gif' ? 'gif' : ['.mp4','.webm'].includes(extension) ? 'video' : 'image',
       alt: decodeURIComponent(new URL(source).pathname.split('/').pop()).replace(/^[a-f0-9]+_/, '').replace(/\.[^.]+$/, '').replace(/%20/g, ' '),
       bytes: bytes.length,
@@ -49,8 +51,5 @@ for (const source of sourceUrls) {
   }
 }
 
-const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
-manifest.generatedAt = new Date().toISOString();
-manifest.projects['https://www.airops.com/'] = { slug: 'airops', title: 'Brand Engineer at AirOps', assets };
-await writeFile(manifestPath, JSON.stringify(manifest, null, 2));
+await promisify(execFile)(process.execPath, [join(root, 'scripts/build-visual-manifest.mjs')], { cwd: root });
 process.stdout.write(`saved ${assets.length} AirOps assets from ${pages.length} pages\n`);

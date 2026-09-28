@@ -1,3 +1,13 @@
+const visualManifestData = await fetch('assets-visual/manifest.json')
+  .then((response) => {
+    if (!response.ok) throw new Error(`Visual manifest failed: ${response.status}`);
+    return response.json();
+  })
+  .catch((error) => {
+    console.error(error);
+    return { projects: {} };
+  });
+
 const setGroup = (group, open) => {
   const trigger = group.querySelector(':scope > .group-trigger, :scope > .nested-trigger, :scope > .previous-row > .group-trigger');
   const panel = group.querySelector(':scope > div');
@@ -22,7 +32,7 @@ document.querySelectorAll('.nested-group').forEach((group) => {
   });
 });
 
-const timelineData = [
+let timelineData = [
   {
     year: '2026',
     entries: [
@@ -35,7 +45,7 @@ const timelineData = [
     entries: [
       { date: 'December 24', kind: 'writing', title: 'The Importance of Celebration and Rest for Creatives', url: 'https://medium.com/@patrick.m.szot/the-importance-of-celebration-and-rest-for-creatives-8cdd66602d74', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*GSVjAl3r5qXH0HcL9gFlSQ.png', description: 'On pausing to recognize the work before moving to the next thing.' },
       { date: 'May 9', kind: 'writing', title: 'Config 2025: It’s The Same, Just Different This Time', url: 'https://medium.com/@patrick.m.szot/config-2025-its-the-same-just-different-this-time-19ab9ed00a52', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*ht0MLlsIZJJpyYASbWi-dw.png', description: 'Thoughts on beauty, efficient production, and working across aisles.' },
-      { date: '2025', kind: 'project', title: 'GlossAI Rebrand', url: 'https://glossgenius.com/', cover: 'assets-visual/Gloss AI/Preview 00. Thumbnail-Gloss-LogoCycle_1.mp4', description: 'Brand identity and launch expression for GlossGenius.' },
+      { date: '2025', kind: 'project', title: 'GlossAI Rebrand', url: 'https://glossgenius.com/', description: 'Brand identity and launch expression for GlossGenius.' },
       { date: '2025', kind: 'project', title: 'Lovable', description: 'Brand work for a fast-moving product company.' }
     ]
   },
@@ -45,7 +55,7 @@ const timelineData = [
       { date: 'November 20', kind: 'writing', title: 'Celebrating My 30th And A Decade in Tech', url: 'https://medium.com/@patrick.m.szot/celebrating-my-30th-and-a-decade-in-tech-2014-2024-1347b3b3ef72', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*zmDBsxxtVsG_WIYBFak_Ug.png', description: 'A decade-in-review across work, practice, and recent flowers from the garden.' },
       { date: 'July 29', kind: 'writing', title: 'I Was Separated From My Position at Webflow', url: 'https://patrickszot.webflow.io/journal/i-got-seperated-from-my-position-at-webflow', description: 'A candid reflection on the end of a chapter.' },
       { date: 'June 10', kind: 'project', title: 'Album Art: Presage 2022', url: 'https://dribbble.com/shots/24328431-Album-Art-Presage-2022', cover: 'https://cdn.dribbble.com/userupload/15032821/file/original-fe6a0e24019319be3d899139d9a02b50.png?crop=237x133-2804x2059&format=webp&resize=800x600&vertical=center' },
-      { date: '2022–24', kind: 'project', title: 'Webflow Rebrand', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', cover: 'assets-visual/webflow-rebrand/Preview 04-f3183d6465.jpg', description: 'Visual foundations, motion guidelines, campaigns, customer stories, and event systems.' }
+      { date: '2022–24', kind: 'project', title: 'Webflow Rebrand', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', description: 'Visual foundations, motion guidelines, campaigns, customer stories, and event systems.' }
     ]
   },
   {
@@ -66,7 +76,7 @@ const timelineData = [
       { date: 'January 17', kind: 'project', title: 'Webflow Conf 2022 – Grow with the ’Flow Room', url: 'https://dribbble.com/shots/20410030-Webflow-Conf-2022-Grow-with-the-Flow-room', cover: 'https://cdn.dribbble.com/userupload/4293440/file/original-d1e576e3b7230d2cc45147ed55ac5495.jpg?crop=0x0-1920x1440&format=webp&resize=800x600&vertical=center' },
       { date: 'January 11', kind: 'project', title: 'Webflow Conf 2022 – Themes', url: 'https://dribbble.com/shots/20356384-Webflow-Conf-2022-Themes', cover: 'https://cdn.dribbble.com/userupload/4272644/file/original-848a983cbfe134a519a90f6802a8dff4.jpg?crop=3x0-1503x1125&format=webp&resize=800x600&vertical=center' },
       { date: 'January 4', kind: 'writing', title: '2022 Retrospective: Leadership and Soft Skills', url: 'https://patrickszot.webflow.io/journal/2022-retrospective', description: 'Notes on leadership, collaboration, and creative practice.' },
-      { date: '2023', kind: 'project', title: 'Webflow visual foundations', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', cover: 'assets-visual/webflow-customerStories/Preview VisualFoundations-Example6.jpg', description: 'Illustration, sub-branding, color, lighting, motion, and more than 1,000 custom icons.' }
+      { date: '2023', kind: 'project', title: 'Webflow visual foundations', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', description: 'Illustration, sub-branding, color, lighting, motion, and more than 1,000 custom icons.' }
     ]
   },
   {
@@ -106,7 +116,7 @@ const timelineData = [
       { date: 'April', kind: 'project', title: 'Takeda social campaign and COVID-19 microsite', description: 'Visual concepting, asset development, and UI design.' },
       { date: 'April', kind: 'project', title: 'New Balance', description: 'UI production assets for a flagship web property.' },
       { date: 'March', kind: 'milestone', title: 'Shifted to fully remote work' },
-      { date: 'March', kind: 'project', title: 'CIA.gov site implementation', url: 'https://patrickszot.webflow.io/older-work/cia', cover: 'assets-visual/BlackbriarDesignSystem/01-2df8be9eb7.gif', description: 'Co-led brand application, product development, and library design for a recruiting and marketing site.' },
+      { date: 'March', kind: 'project', title: 'CIA.gov site implementation', url: 'https://patrickszot.webflow.io/older-work/cia', description: 'Co-led brand application, product development, and library design for a recruiting and marketing site.' },
       { date: 'February 5', kind: 'writing', title: 'When People Say, “I’m Not Creative”', url: 'https://patrickszot.webflow.io/journal/scared-to-try', description: 'On fear, experimentation, and creative identity.' },
       { date: 'January 14', kind: 'writing', title: 'Recurring Evidence that Everything is a Metaphor', url: 'https://patrickszot.webflow.io/journal/everything-is-a-metaphor', description: 'Notes on analogy as a design and thinking tool.' }
     ]
@@ -153,7 +163,7 @@ const timelineData = [
     year: '2017',
     entries: [
       { date: 'October 21', kind: 'writing', title: 'Winning Gilman Scholarship Essay', url: 'https://patrickszot.webflow.io/journal/the-ticking-bomb-of-usability', description: 'The essay behind a Gilman Scholarship.' },
-      { date: '2017', kind: 'project', title: 'CIA.gov / Blackbriar design system', url: 'https://patrickszot.webflow.io/older-work/cia', cover: 'assets-visual/BlackbriarDesignSystem/01-2df8be9eb7.gif', description: 'A recruiting identity shaped by the tension between the Agency’s history and its future.' }
+      { date: '2017', kind: 'project', title: 'CIA.gov / Blackbriar design system', url: 'https://patrickszot.webflow.io/older-work/cia', description: 'A recruiting identity shaped by the tension between the Agency’s history and its future.' }
     ]
   },
   {
@@ -187,41 +197,95 @@ const visualAssetKeyByTitle = new Map(Object.entries({
   'The Smart Factory': 'smart-factory',
   'Global Marketing Trends 2021': 'global-marketing-trends',
   'CIA.gov site implementation': 'blackbriar',
-  'CIA.gov / Blackbriar design system': 'blackbriar',
   'Lilly Pulitzer Virtual Runway': 'lilly-pulitzer',
   'Rite of Spring': 'rite-of-spring',
   'TOREI (トレイ)': 'torei',
   'Looking Glass EP': 'looking-glass'
 }));
 
-const visualPreviewByKey = Object.freeze({
-  'airops': 'assets-visual/airops/01-3195b8cc04.avif',
-  'gloss-ai': 'assets-visual/Gloss AI/Preview 00. Thumbnail-Gloss-LogoCycle_1.mp4',
-  'album-art-presage': 'assets-visual/AlbumArtPresage/Thumbnail 01-6d6cc9cdd4.jpg',
-  'webflow-rebrand': 'assets-visual/webflow-rebrand/Preview 04-f3183d6465.jpg',
-  'webflow-customer-stories': 'assets-visual/webflow-customerStories/Preview VisualFoundations-Example6.jpg',
-  'webflow-user-guide': 'assets-visual/webflow-user-guide/08-3b0c66ad77-Preview.mp4',
-  'webflow-conf-process-guidelines': 'assets-visual/webflow-conf-2022-process-and-guidelines/Preview original-d8f26e67a226f3ee3aaf9aebe986d8d9.webp',
-  '3d-scene': 'assets-visual/3DScene/original-50e33bfaab1a4bf931dd2ee88c5483fa.webp',
-  'studio-trophy-decks': 'assets-visual/TrophyDecks/01-3b08cc0842.gif',
-  'design-directory': 'assets-visual/Design Directory/Preview 01-c2b0485fb4.gif',
-  'atelier-saady': 'assets-visual/brand-package-atelier-saady/Preview 01-7a487e3d2e.gif',
-  'stylized-logo': 'assets-visual/stylized-logo/01-1c7f4b21ad.gif',
-  'webflow-conf-grow-room': 'assets-visual/webflow-conf-2022-grow-with-the-flow-room/Preview 01-4bc42b03db.webp',
-  'webflow-conf-themes': 'assets-visual/webflow-conf-2022-themes/Preview original-2849102af7a27f96184a86323c719a8d.webp',
-  'webflow-conf': 'assets-visual/WebflowConf/Preview 01-cab6fa3076.jpg',
-  'thrivent': 'assets-visual/thrivent/Preview 01-20b16a1177.gif',
-  'smart-factory': 'assets-visual/the-smart-factory/Preview 02-bff0612e47.png',
-  'global-marketing-trends': 'assets-visual/Deloitte Marketing Trends/Preview 01-c676ad19ad.gif',
-  'blackbriar': 'assets-visual/BlackbriarDesignSystem/01-2df8be9eb7.gif',
-  'rite-of-spring': 'assets-visual/rite-of-spring/Preview 01-c467fa59a9.gif',
-  'torei': 'assets-visual/torei/Preview 02-fc1d3b7683.png',
-  'looking-glass': 'assets-visual/LookingGlassAlbumArt/Preview 01-3fb54b4b4a.jpg'
-});
+const visualPreviewByKey = Object.freeze(Object.fromEntries(
+  Object.entries(visualManifestData.projects).map(([key, project]) => [key, project.preview])
+));
 
-timelineData.forEach((section) => section.entries.forEach((entry) => {
-  entry.assetKey = visualAssetKeyByTitle.get(entry.title);
-}));
+const formatVisualDate = (isoDate) => {
+  if (!isoDate) return '';
+  return new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' })
+    .format(new Date(`${isoDate}T00:00:00Z`));
+};
+
+const approximateEntryDate = (year, date, order) => {
+  if (date === 'Present') return Date.UTC(Number(year), 11, 31, 23, 59, 59);
+  const monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+  const month = monthNames.findIndex((name) => date.toLowerCase().startsWith(name));
+  const day = Number(date.match(/\b(\d{1,2})\b/)?.[1] || 1);
+  return Date.UTC(Number(year), month >= 0 ? month : 0, day) - order;
+};
+
+const placeVisualProjectsFromFolders = () => {
+  const managedEntries = [];
+  const placedKeys = new Set();
+
+  timelineData.forEach((section) => {
+    section.entries = section.entries.filter((entry) => {
+      entry.assetKey = visualAssetKeyByTitle.get(entry.title);
+      if (!entry.assetKey) return true;
+      const project = visualManifestData.projects[entry.assetKey];
+      if (!project) return false;
+      if (placedKeys.has(entry.assetKey)) {
+        entry.assetKey = undefined;
+        return true;
+      }
+      placedKeys.add(entry.assetKey);
+      entry.timelineDate = project.date;
+      if (entry.assetKey !== 'airops') entry.date = formatVisualDate(project.date);
+      managedEntries.push(entry);
+      return false;
+    });
+  });
+
+  Object.entries(visualManifestData.projects).forEach(([assetKey, project]) => {
+    if (placedKeys.has(assetKey)) return;
+    managedEntries.push({
+      date: formatVisualDate(project.date),
+      timelineDate: project.date,
+      kind: 'project',
+      title: project.title,
+      assetKey
+    });
+  });
+
+  const sectionsByYear = new Map(timelineData.map((section) => [section.year, section]));
+  managedEntries.forEach((entry) => {
+    const year = entry.timelineDate.slice(0, 4);
+    if (!sectionsByYear.has(year)) {
+      const section = { year, entries: [] };
+      timelineData.push(section);
+      sectionsByYear.set(year, section);
+    }
+    sectionsByYear.get(year).entries.push(entry);
+  });
+
+  timelineData.forEach((section) => {
+    section.entries = section.entries
+      .map((entry, order) => ({ entry, order }))
+      .sort((a, b) => {
+        const aDate = a.entry.timelineDate
+          ? new Date(`${a.entry.timelineDate}T00:00:00Z`).valueOf()
+          : approximateEntryDate(section.year, a.entry.date, a.order);
+        const bDate = b.entry.timelineDate
+          ? new Date(`${b.entry.timelineDate}T00:00:00Z`).valueOf()
+          : approximateEntryDate(section.year, b.entry.date, b.order);
+        return bDate - aDate || a.order - b.order;
+      })
+      .map(({ entry }) => entry);
+  });
+
+  timelineData = timelineData
+    .filter((section) => section.entries.length)
+    .sort((a, b) => Number(b.year) - Number(a.year));
+};
+
+placeVisualProjectsFromFolders();
 
 const timeline = document.querySelector('#career-timeline');
 const detailsGroup = document.querySelector('.details-group');
@@ -376,10 +440,10 @@ const displayEntryTitle = (entry) => entry.kind === 'project' ? projectDisplayTi
 
 const entryMarkup = (entry) => {
   const displayTitle = displayEntryTitle(entry);
-  const assetCount = entry.kind === 'project' && entry.url
+  const assetCount = entry.kind === 'project' && entry.assetKey
     ? '<span class="timeline-asset-count" hidden></span>'
     : '';
-  const linkedTitle = entry.kind === 'project' && entry.url
+  const linkedTitle = entry.kind === 'project' && entry.assetKey
     ? `<button class="project-title-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Browse ${displayTitle} media" aria-controls="content-well">${displayTitle}</button>`
     : entry.kind === 'writing' && entry.url
       ? `<button class="text-link writing-title-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Read ${displayTitle}" aria-controls="content-well">${displayTitle}</button>`
@@ -387,7 +451,7 @@ const entryMarkup = (entry) => {
   const externalAction = entry.url && entry.kind !== 'milestone'
     ? `<a class="timeline-external" href="${entry.url}" target="_blank" rel="noopener noreferrer"><span>View source</span><i class="ri-external-link-line" aria-hidden="true"></i></a>`
     : '';
-  const marker = entry.kind === 'project' && entry.url
+  const marker = entry.kind === 'project' && entry.assetKey
     ? `<button class="timeline-marker project-expand-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Browse ${entry.title} media" aria-controls="content-well"></button>`
     : entry.kind === 'writing' && entry.url
       ? `<button class="timeline-marker writing-expand-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Read ${entry.title}" aria-controls="content-well"></button>`
@@ -879,7 +943,7 @@ detailsTrigger.addEventListener('click', () => {
   }
 });
 
-const projectManifest = fetch('assets-visual/manifest.json').then((response) => response.json());
+const projectManifest = Promise.resolve(visualManifestData);
 const writingManifest = fetch('assets-writing/manifest.json').then((response) => response.json());
 const contentWellPositions = new Map();
 let contentWellEntry;

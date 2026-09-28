@@ -2,31 +2,36 @@ import { readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const root = path.resolve('dist/assets-visual');
+const folderPattern = /^(\d{2})-(\d{2})-(\d{4})-(.+)$/;
 
-const projects = {
-  'airops': { title: 'Brand Engineer at AirOps', folders: ['airops'], files: ['Perplexity Ad Jam_4.gif'] },
-  'gloss-ai': { title: 'GlossAI rebrand', folders: ['Gloss AI'] },
-  'album-art-presage': { title: 'Album art: Presage 2022', folders: ['AlbumArtPresage'] },
-  'webflow-rebrand': { title: 'Webflow rebrand', folders: ['webflow-rebrand', 'Webflow-OOHSFCampaign'] },
-  'webflow-customer-stories': { title: 'Webflow visual foundations', folders: ['webflow-customerStories'] },
-  'webflow-user-guide': { title: 'Webflow “User Guide”', folders: ['webflow-user-guide'] },
-  'webflow-conf-process-guidelines': { title: 'Webflow Conf 2022 – Process and guidelines', folders: ['webflow-conf-2022-process-and-guidelines'] },
-  '3d-scene': { title: '3D scene', folders: ['3DScene'] },
-  'studio-trophy-decks': { title: 'Studio project trophy decks', folders: ['TrophyDecks'] },
-  'design-directory': { title: 'UI design – Deloitte Digital internal directory', folders: ['Design Directory'] },
-  'atelier-saady': { title: 'Brand package – Atelier Saady', folders: ['brand-package-atelier-saady'] },
-  'stylized-logo': { title: 'Stylized logo', folders: ['stylized-logo'] },
-  'webflow-conf-grow-room': { title: 'Webflow Conf 2022 – Grow with the ’Flow room', folders: ['webflow-conf-2022-grow-with-the-flow-room'] },
-  'webflow-conf-themes': { title: 'Webflow Conf 2022 – themes', folders: ['webflow-conf-2022-themes'] },
-  'webflow-conf': { title: 'Webflow Conf 2022', folders: ['WebflowConf'] },
-  'thrivent': { title: 'Thrivent Financial app and web', folders: ['thrivent'] },
-  'smart-factory': { title: 'The Smart Factory', folders: ['the-smart-factory'] },
-  'global-marketing-trends': { title: 'Global Marketing Trends 2021', folders: ['Deloitte Marketing Trends'] },
-  'blackbriar': { title: 'CIA.gov / Blackbriar design system', folders: ['BlackbriarDesignSystem'] },
-  'lilly-pulitzer': { title: 'Lilly Pulitzer virtual runway', folders: ['LilluPulitzer'] },
-  'rite-of-spring': { title: 'Rite of Spring', folders: ['rite-of-spring'] },
-  'torei': { title: 'TOREI', folders: ['torei'] },
-  'looking-glass': { title: 'Looking Glass EP', folders: ['LookingGlassAlbumArt'] }
+const knownProjects = {
+  'airops': { title: 'Principal Brand Designer at AirOps' },
+  'gloss-ai': { title: 'GlossAI rebrand' },
+  'album-art-presage': { title: 'Album art: Presage 2022' },
+  'webflow-rebrand': { title: 'Webflow rebrand' },
+  'webflow-customer-stories': { title: 'Webflow visual foundations' },
+  'webflow-user-guide': { title: 'Webflow “User Guide”' },
+  'webflow-conf-process-guidelines': { title: 'Webflow Conf 2022 – Process and guidelines' },
+  '3d-scene': { title: '3D scene' },
+  'studio-trophy-decks': { title: 'Studio project trophy decks' },
+  'design-directory': { title: 'UI design – Deloitte Digital internal directory' },
+  'atelier-saady': { title: 'Brand package – Atelier Saady' },
+  'stylized-logo': { title: 'Stylized logo' },
+  'webflow-conf-grow-room': { title: 'Webflow Conf 2022 – Grow with the ’Flow room' },
+  'webflow-conf-themes': { title: 'Webflow Conf 2022 – themes' },
+  'webflow-conf': { title: 'Webflow Conf 2022' },
+  'thrivent': { title: 'Thrivent Financial app and web' },
+  'smart-factory': { title: 'The Smart Factory' },
+  'global-marketing-trends': { title: 'Global Marketing Trends 2021' },
+  'blackbriar': { title: 'CIA.gov site implementation' },
+  'lilly-pulitzer': { title: 'Lilly Pulitzer virtual runway' },
+  'rite-of-spring': { title: 'Rite of Spring' },
+  'torei': { title: 'TOREI' },
+  'looking-glass': { title: 'Looking Glass EP' }
+};
+
+const folderAliases = {
+  'webflow-oohsf-campaign': 'webflow-rebrand'
 };
 
 const embeds = {
@@ -54,53 +59,79 @@ const publicAssetPath = (...segments) => ['assets-visual', ...segments]
   .map((segment) => encodeURIComponent(segment))
   .join('/');
 
-const mediaForFolder = async (folder, title) => {
-  let names = [];
-  try {
-    names = await readdir(path.join(root, folder));
-  } catch {
-    return [];
-  }
+const humanizeSlug = (slug) => slug
+  .split('-')
+  .filter(Boolean)
+  .map((word) => /^(ai|ui|ux|ep|gov|3d)$/i.test(word) ? word.toUpperCase() : `${word[0].toUpperCase()}${word.slice(1)}`)
+  .join(' ');
 
+const parseFolder = (name) => {
+  const match = name.match(folderPattern);
+  if (!match) throw new Error(`Visual asset folder must use MM-DD-YYYY-name: ${name}`);
+  const [, month, day, year, rawSlug] = match;
+  const date = new Date(`${year}-${month}-${day}T00:00:00Z`);
+  if (Number.isNaN(date.valueOf()) || date.getUTCMonth() !== Number(month) - 1 || date.getUTCDate() !== Number(day)) {
+    throw new Error(`Visual asset folder has an invalid date: ${name}`);
+  }
+  const folderSlug = rawSlug.toLowerCase();
+  const slug = folderAliases[folderSlug] || folderSlug;
+  return { name, folderSlug, slug, date: `${year}-${month}-${day}` };
+};
+
+const mediaForFolder = async (folder, title) => {
+  const names = await readdir(path.join(root, folder.name), { withFileTypes: true });
   return names
+    .filter((entry) => entry.isFile())
+    .map((entry) => entry.name)
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
     .flatMap((name) => {
       const type = mediaType(name);
       if (!type) return [];
       return [{
-        src: publicAssetPath(folder, name),
+        src: publicAssetPath(folder.name, name),
         type,
         alt: `${title} — ${path.parse(name).name}`
       }];
     });
 };
 
-const output = { generatedAt: new Date().toISOString(), projects: {} };
+const entries = await readdir(root, { withFileTypes: true });
+const folders = entries.filter((entry) => entry.isDirectory()).map((entry) => parseFolder(entry.name));
+const groupedFolders = new Map();
 
-for (const [key, project] of Object.entries(projects)) {
-  const folderAssets = (await Promise.all(project.folders.map((folder) => mediaForFolder(folder, project.title)))).flat();
-  const fileAssets = (project.files || []).flatMap((name) => {
-    const type = mediaType(name);
-    return type ? [{ src: publicAssetPath(name), type, alt: `${project.title} — ${path.parse(name).name}` }] : [];
-  });
-  const localAssets = [...folderAssets, ...fileAssets];
+folders.forEach((folder) => {
+  const group = groupedFolders.get(folder.slug) || [];
+  group.push(folder);
+  groupedFolders.set(folder.slug, group);
+});
+
+const output = { naming: 'MM-DD-YYYY-project-name', projects: {} };
+const sortedGroups = [...groupedFolders.entries()].sort(([, a], [, b]) => b[0].date.localeCompare(a[0].date));
+
+for (const [slug, projectFolders] of sortedGroups) {
+  const title = knownProjects[slug]?.title || humanizeSlug(slug);
+  const canonicalFolder = projectFolders.find((folder) => folder.folderSlug === slug) || projectFolders[0];
+  const orderedFolders = [canonicalFolder, ...projectFolders.filter((folder) => folder !== canonicalFolder)];
+  const folderAssets = (await Promise.all(orderedFolders.map((folder) => mediaForFolder(folder, title)))).flat();
   const seen = new Set();
-  const assets = [...localAssets, ...(embeds[key] || [])].filter((asset) => {
+  const assets = [...folderAssets, ...(embeds[slug] || [])].filter((asset) => {
     if (seen.has(asset.src)) return false;
     seen.add(asset.src);
     return true;
   });
-  const preview = localAssets.find((asset) => /preview/i.test(path.basename(asset.src)))
-    || localAssets.find((asset) => /thumbnail/i.test(path.basename(asset.src)))
-    || localAssets[0];
+  const preview = folderAssets.find((asset) => /preview/i.test(decodeURIComponent(path.basename(asset.src))))
+    || folderAssets.find((asset) => /thumbnail/i.test(decodeURIComponent(path.basename(asset.src))))
+    || folderAssets[0];
 
-  output.projects[key] = {
-    slug: key,
-    title: project.title,
+  output.projects[slug] = {
+    slug,
+    title,
+    date: canonicalFolder.date,
+    folders: orderedFolders.map((folder) => folder.name),
     preview: preview?.src,
     assets
   };
 }
 
 await writeFile(path.join(root, 'manifest.json'), `${JSON.stringify(output, null, 2)}\n`);
-console.log(`Wrote ${Object.keys(output.projects).length} project mappings with ${Object.values(output.projects).reduce((sum, project) => sum + project.assets.length, 0)} assets.`);
+console.log(`Wrote ${Object.keys(output.projects).length} dated project mappings with ${Object.values(output.projects).reduce((sum, project) => sum + project.assets.length, 0)} assets.`);

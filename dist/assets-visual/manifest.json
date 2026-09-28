@@ -1,318 +1,322 @@
 {
-  "generatedAt": "2026-09-27T22:23:43.499Z",
+  "naming": "MM-DD-YYYY-project-name",
   "projects": {
     "airops": {
       "slug": "airops",
       "title": "Principal Brand Designer at AirOps",
-      "preview": "assets-visual/airops/01-3195b8cc04.avif",
+      "date": "2026-09-27",
+      "folders": [
+        "09-27-2026-airops"
+      ],
+      "preview": "assets-visual/09-27-2026-airops/01-3195b8cc04.avif",
       "assets": [
         {
-          "src": "assets-visual/airops/01-3195b8cc04.avif",
+          "src": "assets-visual/09-27-2026-airops/01-3195b8cc04.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 01-3195b8cc04"
         },
         {
-          "src": "assets-visual/airops/02-590eca555b.avif",
+          "src": "assets-visual/09-27-2026-airops/02-590eca555b.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 02-590eca555b"
         },
         {
-          "src": "assets-visual/airops/03-d9f4c76b86.avif",
+          "src": "assets-visual/09-27-2026-airops/03-d9f4c76b86.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 03-d9f4c76b86"
         },
         {
-          "src": "assets-visual/airops/04-3a9f987dcc.avif",
+          "src": "assets-visual/09-27-2026-airops/04-3a9f987dcc.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 04-3a9f987dcc"
         },
         {
-          "src": "assets-visual/airops/05-9315a704c5.avif",
+          "src": "assets-visual/09-27-2026-airops/05-9315a704c5.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 05-9315a704c5"
         },
         {
-          "src": "assets-visual/airops/07-b9a63caa6f.avif",
+          "src": "assets-visual/09-27-2026-airops/07-b9a63caa6f.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 07-b9a63caa6f"
         },
         {
-          "src": "assets-visual/airops/08-2ef9dd34ff.avif",
+          "src": "assets-visual/09-27-2026-airops/08-2ef9dd34ff.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 08-2ef9dd34ff"
         },
         {
-          "src": "assets-visual/airops/09-42e9871c33.avif",
+          "src": "assets-visual/09-27-2026-airops/09-42e9871c33.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 09-42e9871c33"
         },
         {
-          "src": "assets-visual/airops/10-cc44a14f62.avif",
+          "src": "assets-visual/09-27-2026-airops/10-cc44a14f62.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 10-cc44a14f62"
         },
         {
-          "src": "assets-visual/airops/11-0a631e8655.avif",
+          "src": "assets-visual/09-27-2026-airops/11-0a631e8655.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 11-0a631e8655"
         },
         {
-          "src": "assets-visual/airops/12-1fbcea137c.avif",
+          "src": "assets-visual/09-27-2026-airops/12-1fbcea137c.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 12-1fbcea137c"
         },
         {
-          "src": "assets-visual/airops/13-3475b9f7c4.avif",
+          "src": "assets-visual/09-27-2026-airops/13-3475b9f7c4.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 13-3475b9f7c4"
         },
         {
-          "src": "assets-visual/airops/14-51dbe28feb.avif",
+          "src": "assets-visual/09-27-2026-airops/14-51dbe28feb.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 14-51dbe28feb"
         },
         {
-          "src": "assets-visual/airops/15-9e9e969bac.avif",
+          "src": "assets-visual/09-27-2026-airops/15-9e9e969bac.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 15-9e9e969bac"
         },
         {
-          "src": "assets-visual/airops/16-d9bc7dee3b.avif",
+          "src": "assets-visual/09-27-2026-airops/16-d9bc7dee3b.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 16-d9bc7dee3b"
         },
         {
-          "src": "assets-visual/airops/17-d341e0ea56.avif",
+          "src": "assets-visual/09-27-2026-airops/17-d341e0ea56.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 17-d341e0ea56"
         },
         {
-          "src": "assets-visual/airops/18-eed765ada2.avif",
+          "src": "assets-visual/09-27-2026-airops/18-eed765ada2.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 18-eed765ada2"
         },
         {
-          "src": "assets-visual/airops/19-d49000e21b.avif",
+          "src": "assets-visual/09-27-2026-airops/19-d49000e21b.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 19-d49000e21b"
         },
         {
-          "src": "assets-visual/airops/20-f91e6d4271.avif",
+          "src": "assets-visual/09-27-2026-airops/20-f91e6d4271.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 20-f91e6d4271"
         },
         {
-          "src": "assets-visual/airops/21-6593154c91.avif",
+          "src": "assets-visual/09-27-2026-airops/21-6593154c91.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 21-6593154c91"
         },
         {
-          "src": "assets-visual/airops/22-71ea6dcd41.avif",
+          "src": "assets-visual/09-27-2026-airops/22-71ea6dcd41.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 22-71ea6dcd41"
         },
         {
-          "src": "assets-visual/airops/23-0fa8dddf85.avif",
+          "src": "assets-visual/09-27-2026-airops/23-0fa8dddf85.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 23-0fa8dddf85"
         },
         {
-          "src": "assets-visual/airops/24-83e88d54fa.avif",
+          "src": "assets-visual/09-27-2026-airops/24-83e88d54fa.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 24-83e88d54fa"
         },
         {
-          "src": "assets-visual/airops/25-03dabf10dc.avif",
+          "src": "assets-visual/09-27-2026-airops/25-03dabf10dc.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 25-03dabf10dc"
         },
         {
-          "src": "assets-visual/airops/26-6e509d6d48.avif",
+          "src": "assets-visual/09-27-2026-airops/26-6e509d6d48.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 26-6e509d6d48"
         },
         {
-          "src": "assets-visual/airops/27-fbefcd0c5b.avif",
+          "src": "assets-visual/09-27-2026-airops/27-fbefcd0c5b.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 27-fbefcd0c5b"
         },
         {
-          "src": "assets-visual/airops/28-fcee3553fd.avif",
+          "src": "assets-visual/09-27-2026-airops/28-fcee3553fd.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 28-fcee3553fd"
         },
         {
-          "src": "assets-visual/airops/29-1c66d43b9c.avif",
+          "src": "assets-visual/09-27-2026-airops/29-1c66d43b9c.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 29-1c66d43b9c"
         },
         {
-          "src": "assets-visual/airops/30-55adff6275.jpg",
+          "src": "assets-visual/09-27-2026-airops/30-55adff6275.jpg",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 30-55adff6275"
         },
         {
-          "src": "assets-visual/airops/31-da0ca639f5.avif",
+          "src": "assets-visual/09-27-2026-airops/31-da0ca639f5.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 31-da0ca639f5"
         },
         {
-          "src": "assets-visual/airops/32-277e94aa4e.avif",
+          "src": "assets-visual/09-27-2026-airops/32-277e94aa4e.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 32-277e94aa4e"
         },
         {
-          "src": "assets-visual/airops/33-da0d9504da.avif",
+          "src": "assets-visual/09-27-2026-airops/33-da0d9504da.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 33-da0d9504da"
         },
         {
-          "src": "assets-visual/airops/34-f12106ee73.avif",
+          "src": "assets-visual/09-27-2026-airops/34-f12106ee73.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 34-f12106ee73"
         },
         {
-          "src": "assets-visual/airops/35-f2b85aff6e.avif",
+          "src": "assets-visual/09-27-2026-airops/35-f2b85aff6e.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 35-f2b85aff6e"
         },
         {
-          "src": "assets-visual/airops/36-7bca155e78.avif",
+          "src": "assets-visual/09-27-2026-airops/36-7bca155e78.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 36-7bca155e78"
         },
         {
-          "src": "assets-visual/airops/37-e1bb94e1f7.avif",
+          "src": "assets-visual/09-27-2026-airops/37-e1bb94e1f7.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 37-e1bb94e1f7"
         },
         {
-          "src": "assets-visual/airops/38-459e663be1.avif",
+          "src": "assets-visual/09-27-2026-airops/38-459e663be1.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 38-459e663be1"
         },
         {
-          "src": "assets-visual/airops/39-1b9c1ec3d3.avif",
+          "src": "assets-visual/09-27-2026-airops/39-1b9c1ec3d3.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 39-1b9c1ec3d3"
         },
         {
-          "src": "assets-visual/airops/40-d6957a37b4.avif",
+          "src": "assets-visual/09-27-2026-airops/40-d6957a37b4.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 40-d6957a37b4"
         },
         {
-          "src": "assets-visual/airops/41-816035dd5b.avif",
+          "src": "assets-visual/09-27-2026-airops/41-816035dd5b.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 41-816035dd5b"
         },
         {
-          "src": "assets-visual/airops/42-246ff1ea52.avif",
+          "src": "assets-visual/09-27-2026-airops/42-246ff1ea52.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 42-246ff1ea52"
         },
         {
-          "src": "assets-visual/airops/43-6a6e427f0b.avif",
+          "src": "assets-visual/09-27-2026-airops/43-6a6e427f0b.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 43-6a6e427f0b"
         },
         {
-          "src": "assets-visual/airops/44-5764a58ee6.avif",
+          "src": "assets-visual/09-27-2026-airops/44-5764a58ee6.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 44-5764a58ee6"
         },
         {
-          "src": "assets-visual/airops/45-d92f4b6003.avif",
+          "src": "assets-visual/09-27-2026-airops/45-d92f4b6003.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 45-d92f4b6003"
         },
         {
-          "src": "assets-visual/airops/46-66b9c0afc4.avif",
+          "src": "assets-visual/09-27-2026-airops/46-66b9c0afc4.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 46-66b9c0afc4"
         },
         {
-          "src": "assets-visual/airops/47-e94e10ba69.avif",
+          "src": "assets-visual/09-27-2026-airops/47-e94e10ba69.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 47-e94e10ba69"
         },
         {
-          "src": "assets-visual/airops/48-cc664e275f.avif",
+          "src": "assets-visual/09-27-2026-airops/48-cc664e275f.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 48-cc664e275f"
         },
         {
-          "src": "assets-visual/airops/49-c2996912ac.avif",
+          "src": "assets-visual/09-27-2026-airops/49-c2996912ac.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 49-c2996912ac"
         },
         {
-          "src": "assets-visual/airops/50-673650bb8d.avif",
+          "src": "assets-visual/09-27-2026-airops/50-673650bb8d.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 50-673650bb8d"
         },
         {
-          "src": "assets-visual/airops/51-6e4dee546b.avif",
+          "src": "assets-visual/09-27-2026-airops/51-6e4dee546b.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 51-6e4dee546b"
         },
         {
-          "src": "assets-visual/airops/52-bd18b202c7.avif",
+          "src": "assets-visual/09-27-2026-airops/52-bd18b202c7.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 52-bd18b202c7"
         },
         {
-          "src": "assets-visual/airops/53-6630908fab.avif",
+          "src": "assets-visual/09-27-2026-airops/53-6630908fab.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 53-6630908fab"
         },
         {
-          "src": "assets-visual/airops/54-502b47d168.avif",
+          "src": "assets-visual/09-27-2026-airops/54-502b47d168.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 54-502b47d168"
         },
         {
-          "src": "assets-visual/airops/55-6df8f83a9a.avif",
+          "src": "assets-visual/09-27-2026-airops/55-6df8f83a9a.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 55-6df8f83a9a"
         },
         {
-          "src": "assets-visual/airops/56-30be0e3c18.avif",
+          "src": "assets-visual/09-27-2026-airops/56-30be0e3c18.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 56-30be0e3c18"
         },
         {
-          "src": "assets-visual/airops/57-dea39a84b8.avif",
+          "src": "assets-visual/09-27-2026-airops/57-dea39a84b8.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 57-dea39a84b8"
         },
         {
-          "src": "assets-visual/airops/58-8ca74ea4c9.avif",
+          "src": "assets-visual/09-27-2026-airops/58-8ca74ea4c9.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 58-8ca74ea4c9"
         },
         {
-          "src": "assets-visual/airops/59-74ac73dc45.avif",
+          "src": "assets-visual/09-27-2026-airops/59-74ac73dc45.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 59-74ac73dc45"
         },
         {
-          "src": "assets-visual/airops/60-5fbd2c6f75.avif",
+          "src": "assets-visual/09-27-2026-airops/60-5fbd2c6f75.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 60-5fbd2c6f75"
         },
         {
-          "src": "assets-visual/airops/61-a1a9665653.avif",
+          "src": "assets-visual/09-27-2026-airops/61-a1a9665653.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 61-a1a9665653"
         },
         {
-          "src": "assets-visual/airops/62-7f7b02fc9a.avif",
+          "src": "assets-visual/09-27-2026-airops/62-7f7b02fc9a.avif",
           "type": "image",
           "alt": "Principal Brand Designer at AirOps — 62-7f7b02fc9a"
         },
         {
-          "src": "assets-visual/Perplexity%20Ad%20Jam_4.gif",
+          "src": "assets-visual/09-27-2026-airops/Perplexity%20Ad%20Jam_4.gif",
           "type": "gif",
           "alt": "Principal Brand Designer at AirOps — Perplexity Ad Jam_4"
         }
@@ -321,345 +325,349 @@
     "gloss-ai": {
       "slug": "gloss-ai",
       "title": "GlossAI rebrand",
-      "preview": "assets-visual/Gloss%20AI/Preview%2000.%20Thumbnail-Gloss-LogoCycle_1.mp4",
+      "date": "2025-01-01",
+      "folders": [
+        "01-01-2025-gloss-ai"
+      ],
+      "preview": "assets-visual/01-01-2025-gloss-ai/Preview%2000.%20Thumbnail-Gloss-LogoCycle_1.mp4",
       "assets": [
         {
-          "src": "assets-visual/Gloss%20AI/00.HeroVideo.mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/00.HeroVideo.mp4",
           "type": "video",
           "alt": "GlossAI rebrand — 00.HeroVideo"
         },
         {
-          "src": "assets-visual/Gloss%20AI/00.Scene%20(13).mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/00.Scene%20(13).mp4",
           "type": "video",
           "alt": "GlossAI rebrand — 00.Scene (13)"
         },
         {
-          "src": "assets-visual/Gloss%20AI/00.scissors.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/00.scissors.png",
           "type": "image",
           "alt": "GlossAI rebrand — 00.scissors"
         },
         {
-          "src": "assets-visual/Gloss%20AI/01-eb16f17718.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/01-eb16f17718.png",
           "type": "image",
           "alt": "GlossAI rebrand — 01-eb16f17718"
         },
         {
-          "src": "assets-visual/Gloss%20AI/02-27d22a2672.jpg",
+          "src": "assets-visual/01-01-2025-gloss-ai/02-27d22a2672.jpg",
           "type": "image",
           "alt": "GlossAI rebrand — 02-27d22a2672"
         },
         {
-          "src": "assets-visual/Gloss%20AI/2.jpg",
+          "src": "assets-visual/01-01-2025-gloss-ai/2.jpg",
           "type": "image",
           "alt": "GlossAI rebrand — 2"
         },
         {
-          "src": "assets-visual/Gloss%20AI/03-d7603749e2.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/03-d7603749e2.png",
           "type": "image",
           "alt": "GlossAI rebrand — 03-d7603749e2"
         },
         {
-          "src": "assets-visual/Gloss%20AI/04-02ddb8eee4.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/04-02ddb8eee4.png",
           "type": "image",
           "alt": "GlossAI rebrand — 04-02ddb8eee4"
         },
         {
-          "src": "assets-visual/Gloss%20AI/4K%20Wallpaper%20(24).png",
+          "src": "assets-visual/01-01-2025-gloss-ai/4K%20Wallpaper%20(24).png",
           "type": "image",
           "alt": "GlossAI rebrand — 4K Wallpaper (24)"
         },
         {
-          "src": "assets-visual/Gloss%20AI/05-0665de151a.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/05-0665de151a.png",
           "type": "image",
           "alt": "GlossAI rebrand — 05-0665de151a"
         },
         {
-          "src": "assets-visual/Gloss%20AI/07-7daa036bb3.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/07-7daa036bb3.png",
           "type": "image",
           "alt": "GlossAI rebrand — 07-7daa036bb3"
         },
         {
-          "src": "assets-visual/Gloss%20AI/08-a26e551ae2.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/08-a26e551ae2.png",
           "type": "image",
           "alt": "GlossAI rebrand — 08-a26e551ae2"
         },
         {
-          "src": "assets-visual/Gloss%20AI/09-990a0385c0.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/09-990a0385c0.png",
           "type": "image",
           "alt": "GlossAI rebrand — 09-990a0385c0"
         },
         {
-          "src": "assets-visual/Gloss%20AI/10-15944187a5.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/10-15944187a5.png",
           "type": "image",
           "alt": "GlossAI rebrand — 10-15944187a5"
         },
         {
-          "src": "assets-visual/Gloss%20AI/11-1f074be6d3.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/11-1f074be6d3.png",
           "type": "image",
           "alt": "GlossAI rebrand — 11-1f074be6d3"
         },
         {
-          "src": "assets-visual/Gloss%20AI/12-147b1bb4c4.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/12-147b1bb4c4.png",
           "type": "image",
           "alt": "GlossAI rebrand — 12-147b1bb4c4"
         },
         {
-          "src": "assets-visual/Gloss%20AI/13-27b3877e46.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/13-27b3877e46.png",
           "type": "image",
           "alt": "GlossAI rebrand — 13-27b3877e46"
         },
         {
-          "src": "assets-visual/Gloss%20AI/15-a1cabb8c1d.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/15-a1cabb8c1d.png",
           "type": "image",
           "alt": "GlossAI rebrand — 15-a1cabb8c1d"
         },
         {
-          "src": "assets-visual/Gloss%20AI/16-af8e4ef255.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/16-af8e4ef255.png",
           "type": "image",
           "alt": "GlossAI rebrand — 16-af8e4ef255"
         },
         {
-          "src": "assets-visual/Gloss%20AI/17-ef7dcf3574.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/17-ef7dcf3574.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 17-ef7dcf3574"
         },
         {
-          "src": "assets-visual/Gloss%20AI/19-8387872f2b.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/19-8387872f2b.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 19-8387872f2b"
         },
         {
-          "src": "assets-visual/Gloss%20AI/20-9f0773fb6a.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/20-9f0773fb6a.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 20-9f0773fb6a"
         },
         {
-          "src": "assets-visual/Gloss%20AI/21-655b824312.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/21-655b824312.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 21-655b824312"
         },
         {
-          "src": "assets-visual/Gloss%20AI/22-4513672514.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/22-4513672514.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 22-4513672514"
         },
         {
-          "src": "assets-visual/Gloss%20AI/23-09cab3e2da.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/23-09cab3e2da.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 23-09cab3e2da"
         },
         {
-          "src": "assets-visual/Gloss%20AI/24-68ce7bfcb6.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/24-68ce7bfcb6.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 24-68ce7bfcb6"
         },
         {
-          "src": "assets-visual/Gloss%20AI/25-27ab48ff25.jpg",
+          "src": "assets-visual/01-01-2025-gloss-ai/25-27ab48ff25.jpg",
           "type": "image",
           "alt": "GlossAI rebrand — 25-27ab48ff25"
         },
         {
-          "src": "assets-visual/Gloss%20AI/26-43b0650e58.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/26-43b0650e58.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 26-43b0650e58"
         },
         {
-          "src": "assets-visual/Gloss%20AI/27-932588f11a.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/27-932588f11a.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 27-932588f11a"
         },
         {
-          "src": "assets-visual/Gloss%20AI/28-c8cd2e3557.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/28-c8cd2e3557.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 28-c8cd2e3557"
         },
         {
-          "src": "assets-visual/Gloss%20AI/29-2a3df69793.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/29-2a3df69793.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 29-2a3df69793"
         },
         {
-          "src": "assets-visual/Gloss%20AI/30-b9594b977b.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/30-b9594b977b.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 30-b9594b977b"
         },
         {
-          "src": "assets-visual/Gloss%20AI/31-5a4912da5e.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/31-5a4912da5e.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 31-5a4912da5e"
         },
         {
-          "src": "assets-visual/Gloss%20AI/32-42f57119bf.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/32-42f57119bf.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 32-42f57119bf"
         },
         {
-          "src": "assets-visual/Gloss%20AI/33-66bc4364c0.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/33-66bc4364c0.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 33-66bc4364c0"
         },
         {
-          "src": "assets-visual/Gloss%20AI/34-f6f7d06a39.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/34-f6f7d06a39.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 34-f6f7d06a39"
         },
         {
-          "src": "assets-visual/Gloss%20AI/35-6d5a5a97da.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/35-6d5a5a97da.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 35-6d5a5a97da"
         },
         {
-          "src": "assets-visual/Gloss%20AI/36-816c8e3824.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/36-816c8e3824.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 36-816c8e3824"
         },
         {
-          "src": "assets-visual/Gloss%20AI/38-e5883a2b62.jpg",
+          "src": "assets-visual/01-01-2025-gloss-ai/38-e5883a2b62.jpg",
           "type": "image",
           "alt": "GlossAI rebrand — 38-e5883a2b62"
         },
         {
-          "src": "assets-visual/Gloss%20AI/39-376edbaf34.jpg",
+          "src": "assets-visual/01-01-2025-gloss-ai/39-376edbaf34.jpg",
           "type": "image",
           "alt": "GlossAI rebrand — 39-376edbaf34"
         },
         {
-          "src": "assets-visual/Gloss%20AI/40-4469f0ba3e.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/40-4469f0ba3e.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 40-4469f0ba3e"
         },
         {
-          "src": "assets-visual/Gloss%20AI/41-64048648f8.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/41-64048648f8.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 41-64048648f8"
         },
         {
-          "src": "assets-visual/Gloss%20AI/42-7bbf99a79b.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/42-7bbf99a79b.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 42-7bbf99a79b"
         },
         {
-          "src": "assets-visual/Gloss%20AI/43-490d902b40.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/43-490d902b40.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 43-490d902b40"
         },
         {
-          "src": "assets-visual/Gloss%20AI/45-4ecfeb5ac0.webp",
+          "src": "assets-visual/01-01-2025-gloss-ai/45-4ecfeb5ac0.webp",
           "type": "image",
           "alt": "GlossAI rebrand — 45-4ecfeb5ac0"
         },
         {
-          "src": "assets-visual/Gloss%20AI/440x600.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/440x600.png",
           "type": "image",
           "alt": "GlossAI rebrand — 440x600"
         },
         {
-          "src": "assets-visual/Gloss%20AI/Card-Flip-With-Type-Transition-16x9.mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/Card-Flip-With-Type-Transition-16x9.mp4",
           "type": "video",
           "alt": "GlossAI rebrand — Card-Flip-With-Type-Transition-16x9"
         },
         {
-          "src": "assets-visual/Gloss%20AI/Carousel%20String%20Out-R2.mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/Carousel%20String%20Out-R2.mp4",
           "type": "video",
           "alt": "GlossAI rebrand — Carousel String Out-R2"
         },
         {
-          "src": "assets-visual/Gloss%20AI/GG-CampaignPitch.mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/GG-CampaignPitch.mp4",
           "type": "video",
           "alt": "GlossAI rebrand — GG-CampaignPitch"
         },
         {
-          "src": "assets-visual/Gloss%20AI/GG-GlossedReport.mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/GG-GlossedReport.mp4",
           "type": "video",
           "alt": "GlossAI rebrand — GG-GlossedReport"
         },
         {
-          "src": "assets-visual/Gloss%20AI/GG-PricingPage.mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/GG-PricingPage.mp4",
           "type": "video",
           "alt": "GlossAI rebrand — GG-PricingPage"
         },
         {
-          "src": "assets-visual/Gloss%20AI/GG-SizzleComps-WDS.mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/GG-SizzleComps-WDS.mp4",
           "type": "video",
           "alt": "GlossAI rebrand — GG-SizzleComps-WDS"
         },
         {
-          "src": "assets-visual/Gloss%20AI/GG-WebinarsKits%20(2).mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/GG-WebinarsKits%20(2).mp4",
           "type": "video",
           "alt": "GlossAI rebrand — GG-WebinarsKits (2)"
         },
         {
-          "src": "assets-visual/Gloss%20AI/Gloss_Lifestyle_Device_01.jpg",
+          "src": "assets-visual/01-01-2025-gloss-ai/Gloss_Lifestyle_Device_01.jpg",
           "type": "image",
           "alt": "GlossAI rebrand — Gloss_Lifestyle_Device_01"
         },
         {
-          "src": "assets-visual/Gloss%20AI/Gloss_Lifestyle_Device_02.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/Gloss_Lifestyle_Device_02.png",
           "type": "image",
           "alt": "GlossAI rebrand — Gloss_Lifestyle_Device_02"
         },
         {
-          "src": "assets-visual/Gloss%20AI/Gloss_Lifestyle_Device_03.jpg",
+          "src": "assets-visual/01-01-2025-gloss-ai/Gloss_Lifestyle_Device_03.jpg",
           "type": "image",
           "alt": "GlossAI rebrand — Gloss_Lifestyle_Device_03"
         },
         {
-          "src": "assets-visual/Gloss%20AI/HomepageVideo-V2-Compressed.mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/HomepageVideo-V2-Compressed.mp4",
           "type": "video",
           "alt": "GlossAI rebrand — HomepageVideo-V2-Compressed"
         },
         {
-          "src": "assets-visual/Gloss%20AI/HomePageVideoLoopv2LITE.mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/HomePageVideoLoopv2LITE.mp4",
           "type": "video",
           "alt": "GlossAI rebrand — HomePageVideoLoopv2LITE"
         },
         {
-          "src": "assets-visual/Gloss%20AI/hp_video_super_comp_4mbps.mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/hp_video_super_comp_4mbps.mp4",
           "type": "video",
           "alt": "GlossAI rebrand — hp_video_super_comp_4mbps"
         },
         {
-          "src": "assets-visual/Gloss%20AI/IMG_9770.JPG",
+          "src": "assets-visual/01-01-2025-gloss-ai/IMG_9770.JPG",
           "type": "image",
           "alt": "GlossAI rebrand — IMG_9770"
         },
         {
-          "src": "assets-visual/Gloss%20AI/KitTut3.gif",
+          "src": "assets-visual/01-01-2025-gloss-ai/KitTut3.gif",
           "type": "gif",
           "alt": "GlossAI rebrand — KitTut3"
         },
         {
-          "src": "assets-visual/Gloss%20AI/List-(16_9)%20(1).mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/List-(16_9)%20(1).mp4",
           "type": "video",
           "alt": "GlossAI rebrand — List-(16_9) (1)"
         },
         {
-          "src": "assets-visual/Gloss%20AI/MAIN%20Carousel%2015%20(1350).mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/MAIN%20Carousel%2015%20(1350).mp4",
           "type": "video",
           "alt": "GlossAI rebrand — MAIN Carousel 15 (1350)"
         },
         {
-          "src": "assets-visual/Gloss%20AI/Merch-Scene%20(1).mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/Merch-Scene%20(1).mp4",
           "type": "video",
           "alt": "GlossAI rebrand — Merch-Scene (1)"
         },
         {
-          "src": "assets-visual/Gloss%20AI/Payments.mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/Payments.mp4",
           "type": "video",
           "alt": "GlossAI rebrand — Payments"
         },
         {
-          "src": "assets-visual/Gloss%20AI/PaymentsLifestyle.png",
+          "src": "assets-visual/01-01-2025-gloss-ai/PaymentsLifestyle.png",
           "type": "image",
           "alt": "GlossAI rebrand — PaymentsLifestyle"
         },
         {
-          "src": "assets-visual/Gloss%20AI/portrait-of-a-beautiful-woman-with-pink-creative-m-2023-11-27-05-09-08-utc%20(generative%20extend).png",
+          "src": "assets-visual/01-01-2025-gloss-ai/portrait-of-a-beautiful-woman-with-pink-creative-m-2023-11-27-05-09-08-utc%20(generative%20extend).png",
           "type": "image",
           "alt": "GlossAI rebrand — portrait-of-a-beautiful-woman-with-pink-creative-m-2023-11-27-05-09-08-utc (generative extend)"
         },
         {
-          "src": "assets-visual/Gloss%20AI/Preview%2000.%20Thumbnail-Gloss-LogoCycle_1.mp4",
+          "src": "assets-visual/01-01-2025-gloss-ai/Preview%2000.%20Thumbnail-Gloss-LogoCycle_1.mp4",
           "type": "video",
           "alt": "GlossAI rebrand — Preview 00. Thumbnail-Gloss-LogoCycle_1"
         }
@@ -668,40 +676,44 @@
     "album-art-presage": {
       "slug": "album-art-presage",
       "title": "Album art: Presage 2022",
-      "preview": "assets-visual/AlbumArtPresage/Thumbnail%2001-6d6cc9cdd4.jpg",
+      "date": "2024-06-10",
+      "folders": [
+        "06-10-2024-album-art-presage"
+      ],
+      "preview": "assets-visual/06-10-2024-album-art-presage/Thumbnail%2001-6d6cc9cdd4.jpg",
       "assets": [
         {
-          "src": "assets-visual/AlbumArtPresage/02-4e715c2c9b.png",
+          "src": "assets-visual/06-10-2024-album-art-presage/02-4e715c2c9b.png",
           "type": "image",
           "alt": "Album art: Presage 2022 — 02-4e715c2c9b"
         },
         {
-          "src": "assets-visual/AlbumArtPresage/03-60c6f16dca.jpg",
+          "src": "assets-visual/06-10-2024-album-art-presage/03-60c6f16dca.jpg",
           "type": "image",
           "alt": "Album art: Presage 2022 — 03-60c6f16dca"
         },
         {
-          "src": "assets-visual/AlbumArtPresage/04-a6372e0fc2.jpg",
+          "src": "assets-visual/06-10-2024-album-art-presage/04-a6372e0fc2.jpg",
           "type": "image",
           "alt": "Album art: Presage 2022 — 04-a6372e0fc2"
         },
         {
-          "src": "assets-visual/AlbumArtPresage/05-c55d9cc3f4.jpg",
+          "src": "assets-visual/06-10-2024-album-art-presage/05-c55d9cc3f4.jpg",
           "type": "image",
           "alt": "Album art: Presage 2022 — 05-c55d9cc3f4"
         },
         {
-          "src": "assets-visual/AlbumArtPresage/06-c7edd67044.jpg",
+          "src": "assets-visual/06-10-2024-album-art-presage/06-c7edd67044.jpg",
           "type": "image",
           "alt": "Album art: Presage 2022 — 06-c7edd67044"
         },
         {
-          "src": "assets-visual/AlbumArtPresage/07-364362b37e.mp4",
+          "src": "assets-visual/06-10-2024-album-art-presage/07-364362b37e.mp4",
           "type": "video",
           "alt": "Album art: Presage 2022 — 07-364362b37e"
         },
         {
-          "src": "assets-visual/AlbumArtPresage/Thumbnail%2001-6d6cc9cdd4.jpg",
+          "src": "assets-visual/06-10-2024-album-art-presage/Thumbnail%2001-6d6cc9cdd4.jpg",
           "type": "image",
           "alt": "Album art: Presage 2022 — Thumbnail 01-6d6cc9cdd4"
         }
@@ -710,249 +722,206 @@
     "webflow-rebrand": {
       "slug": "webflow-rebrand",
       "title": "Webflow rebrand",
-      "preview": "assets-visual/webflow-rebrand/Preview%2004-f3183d6465.jpg",
+      "date": "2024-01-01",
+      "folders": [
+        "01-01-2024-webflow-rebrand",
+        "01-01-2024-webflow-oohsf-campaign"
+      ],
+      "preview": "assets-visual/01-01-2024-webflow-rebrand/Preview%2004-f3183d6465.jpg",
       "assets": [
         {
-          "src": "assets-visual/webflow-rebrand/02-733239dd34.gif",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/02-733239dd34.gif",
           "type": "gif",
           "alt": "Webflow rebrand — 02-733239dd34"
         },
         {
-          "src": "assets-visual/webflow-rebrand/03-11e19ea583.jpg",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/03-11e19ea583.jpg",
           "type": "image",
           "alt": "Webflow rebrand — 03-11e19ea583"
         },
         {
-          "src": "assets-visual/webflow-rebrand/05-3bd4efabc0.jpg",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/05-3bd4efabc0.jpg",
           "type": "image",
           "alt": "Webflow rebrand — 05-3bd4efabc0"
         },
         {
-          "src": "assets-visual/webflow-rebrand/06-c02b96823e.jpg",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/06-c02b96823e.jpg",
           "type": "image",
           "alt": "Webflow rebrand — 06-c02b96823e"
         },
         {
-          "src": "assets-visual/webflow-rebrand/07-5db5f17aed.jpg",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/07-5db5f17aed.jpg",
           "type": "image",
           "alt": "Webflow rebrand — 07-5db5f17aed"
         },
         {
-          "src": "assets-visual/webflow-rebrand/08-facf1d14ac.jpg",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/08-facf1d14ac.jpg",
           "type": "image",
           "alt": "Webflow rebrand — 08-facf1d14ac"
         },
         {
-          "src": "assets-visual/webflow-rebrand/09-88efa12d04.jpg",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/09-88efa12d04.jpg",
           "type": "image",
           "alt": "Webflow rebrand — 09-88efa12d04"
         },
         {
-          "src": "assets-visual/webflow-customerStories/Preview%20VisualFoundations-Example6.jpg",
-          "type": "image",
-          "alt": "Webflow rebrand — Visual foundations preview"
-        },
-        {
-          "src": "assets-visual/webflow-rebrand/11-932e228921.jpg",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/11-932e228921.jpg",
           "type": "image",
           "alt": "Webflow rebrand — 11-932e228921"
         },
         {
-          "src": "assets-visual/webflow-rebrand/12-0bf921d3a9.jpg",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/12-0bf921d3a9.jpg",
           "type": "image",
           "alt": "Webflow rebrand — 12-0bf921d3a9"
         },
         {
-          "src": "assets-visual/webflow-rebrand/13-ea01011108.jpg",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/13-ea01011108.jpg",
           "type": "image",
           "alt": "Webflow rebrand — 13-ea01011108"
         },
         {
-          "src": "assets-visual/webflow-rebrand/28-acbcf94fef.gif",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/28-acbcf94fef.gif",
           "type": "gif",
           "alt": "Webflow rebrand — 28-acbcf94fef"
         },
         {
-          "src": "assets-visual/webflow-rebrand/Cinematic%20Logo%20Reveal.mp4",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/Cinematic%20Logo%20Reveal.mp4",
           "type": "video",
           "alt": "Webflow rebrand — Cinematic Logo Reveal"
         },
         {
-          "src": "assets-visual/webflow-rebrand/Integrations-Tools_30s_16x9_30s_v08.mp4",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/Integrations-Tools_30s_16x9_30s_v08.mp4",
           "type": "video",
           "alt": "Webflow rebrand — Integrations-Tools_30s_16x9_30s_v08"
         },
         {
-          "src": "assets-visual/webflow-rebrand/LogoAnimation.mp4",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/LogoAnimation.mp4",
           "type": "video",
           "alt": "Webflow rebrand — LogoAnimation"
         },
         {
-          "src": "assets-visual/webflow-rebrand/Lower.png",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/Lower.png",
           "type": "image",
           "alt": "Webflow rebrand — Lower"
         },
         {
-          "src": "assets-visual/webflow-rebrand/Origins%20Logo%20Loop.mp4",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/Origins%20Logo%20Loop.mp4",
           "type": "video",
           "alt": "Webflow rebrand — Origins Logo Loop"
         },
         {
-          "src": "assets-visual/webflow-rebrand/Pointers.png",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/Pointers.png",
           "type": "image",
           "alt": "Webflow rebrand — Pointers"
         },
         {
-          "src": "assets-visual/webflow-rebrand/Preview%2004-f3183d6465.jpg",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/Preview%2004-f3183d6465.jpg",
           "type": "image",
           "alt": "Webflow rebrand — Preview 04-f3183d6465"
         },
         {
-          "src": "assets-visual/webflow-rebrand/UI%20and%20Site%20Promos.mov",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/UI%20and%20Site%20Promos.mov",
           "type": "video",
           "alt": "Webflow rebrand — UI and Site Promos"
         },
         {
-          "src": "assets-visual/webflow-rebrand/Venn3.png",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/Venn3.png",
           "type": "image",
           "alt": "Webflow rebrand — Venn3"
         },
         {
-          "src": "assets-visual/webflow-rebrand/W.png",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/W.png",
           "type": "image",
           "alt": "Webflow rebrand — W"
         },
         {
-          "src": "assets-visual/webflow-rebrand/Webflow_Animated-illustration-bank_A_60fps_v02.mp4",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/Webflow_Animated-illustration-bank_A_60fps_v02.mp4",
           "type": "video",
           "alt": "Webflow rebrand — Webflow_Animated-illustration-bank_A_60fps_v02"
         },
         {
-          "src": "assets-visual/webflow-rebrand/Webflow_Animated-illustration-bank_C_v01%20-%2060fps%20-%20loop.mp4",
+          "src": "assets-visual/01-01-2024-webflow-rebrand/Webflow_Animated-illustration-bank_C_v01%20-%2060fps%20-%20loop.mp4",
           "type": "video",
           "alt": "Webflow rebrand — Webflow_Animated-illustration-bank_C_v01 - 60fps - loop"
         },
         {
-          "src": "assets-visual/Webflow-OOHSFCampaign/AdCampaign2-66b0bac61e60dc539c35ee4d_66b0b8e58b0bf3cd15c1aa7b_3877322_Webflow_San%2520Francisco-Berkeley_Station%2520Domination_SFDOM01%2520W_2024-07-29%2520(2).jpeg",
+          "src": "assets-visual/01-01-2024-webflow-oohsf-campaign/AdCampaign2-66b0bac61e60dc539c35ee4d_66b0b8e58b0bf3cd15c1aa7b_3877322_Webflow_San%2520Francisco-Berkeley_Station%2520Domination_SFDOM01%2520W_2024-07-29%2520(2).jpeg",
           "type": "image",
           "alt": "Webflow rebrand — AdCampaign2-66b0bac61e60dc539c35ee4d_66b0b8e58b0bf3cd15c1aa7b_3877322_Webflow_San%20Francisco-Berkeley_Station%20Domination_SFDOM01%20W_2024-07-29%20(2)"
         },
         {
-          "src": "assets-visual/Webflow-OOHSFCampaign/AdCampaign3-66b0ba61fcbfa7ffc9ea73de_66b0b9c8672c4e7bb01a214b_3877322_Webflow_San%2520Francisco-Berkeley_Station%2520Domination_BTMONTG%25202_2024-07-30-8%2520(1).jpeg",
+          "src": "assets-visual/01-01-2024-webflow-oohsf-campaign/AdCampaign3-66b0ba61fcbfa7ffc9ea73de_66b0b9c8672c4e7bb01a214b_3877322_Webflow_San%2520Francisco-Berkeley_Station%2520Domination_BTMONTG%25202_2024-07-30-8%2520(1).jpeg",
           "type": "image",
           "alt": "Webflow rebrand — AdCampaign3-66b0ba61fcbfa7ffc9ea73de_66b0b9c8672c4e7bb01a214b_3877322_Webflow_San%20Francisco-Berkeley_Station%20Domination_BTMONTG%202_2024-07-30-8%20(1)"
         },
         {
-          "src": "assets-visual/Webflow-OOHSFCampaign/IMG_1003.JPG",
+          "src": "assets-visual/01-01-2024-webflow-oohsf-campaign/IMG_1003.JPG",
           "type": "image",
           "alt": "Webflow rebrand — IMG_1003"
         },
         {
-          "src": "assets-visual/Webflow-OOHSFCampaign/IMG_1010.JPG",
+          "src": "assets-visual/01-01-2024-webflow-oohsf-campaign/IMG_1010.JPG",
           "type": "image",
           "alt": "Webflow rebrand — IMG_1010"
         },
         {
-          "src": "assets-visual/Webflow-OOHSFCampaign/IMG_8030.JPG",
+          "src": "assets-visual/01-01-2024-webflow-oohsf-campaign/IMG_8030.JPG",
           "type": "image",
           "alt": "Webflow rebrand — IMG_8030"
         },
         {
-          "src": "assets-visual/Webflow-OOHSFCampaign/Preview%20AdCampagin-66b0b8472eb040dadd2413f7_Blog_M1-OOH_2400x1260.jpg",
+          "src": "assets-visual/01-01-2024-webflow-oohsf-campaign/Preview%20AdCampagin-66b0b8472eb040dadd2413f7_Blog_M1-OOH_2400x1260.jpg",
           "type": "image",
           "alt": "Webflow rebrand — Preview AdCampagin-66b0b8472eb040dadd2413f7_Blog_M1-OOH_2400x1260"
-        }
-      ]
-    },
-    "webflow-customer-stories": {
-      "slug": "webflow-customer-stories",
-      "title": "Webflow visual foundations",
-      "preview": "assets-visual/webflow-customerStories/Preview%20VisualFoundations-Example6.jpg",
-      "assets": [
-        {
-          "src": "assets-visual/webflow-customerStories/01-310a065d28.jpg",
-          "type": "image",
-          "alt": "Webflow visual foundations — 01-310a065d28"
-        },
-        {
-          "src": "assets-visual/webflow-customerStories/12-5d78e996a9.jpg",
-          "type": "image",
-          "alt": "Webflow visual foundations — 12-5d78e996a9"
-        },
-        {
-          "src": "assets-visual/webflow-customerStories/13-b1c99862be.jpg",
-          "type": "image",
-          "alt": "Webflow visual foundations — 13-b1c99862be"
-        },
-        {
-          "src": "assets-visual/webflow-customerStories/IMG_7004.JPG",
-          "type": "image",
-          "alt": "Webflow visual foundations — IMG_7004"
-        },
-        {
-          "src": "assets-visual/webflow-customerStories/IMG_7013.JPG",
-          "type": "image",
-          "alt": "Webflow visual foundations — IMG_7013"
-        },
-        {
-          "src": "assets-visual/webflow-customerStories/IMG_7014.JPG",
-          "type": "image",
-          "alt": "Webflow visual foundations — IMG_7014"
-        },
-        {
-          "src": "assets-visual/webflow-customerStories/Preview%20VisualFoundations-Example6.jpg",
-          "type": "image",
-          "alt": "Webflow visual foundations — Preview VisualFoundations-Example6"
-        },
-        {
-          "src": "assets-visual/webflow-customerStories/UI%20Camera%20Rig%202.mp4",
-          "type": "video",
-          "alt": "Webflow visual foundations — UI Camera Rig 2"
         }
       ]
     },
     "webflow-user-guide": {
       "slug": "webflow-user-guide",
       "title": "Webflow “User Guide”",
-      "preview": "assets-visual/webflow-user-guide/08-3b0c66ad77-Preview.mp4",
+      "date": "2023-02-12",
+      "folders": [
+        "02-12-2023-webflow-user-guide"
+      ],
+      "preview": "assets-visual/02-12-2023-webflow-user-guide/08-3b0c66ad77-Preview.mp4",
       "assets": [
         {
-          "src": "assets-visual/webflow-user-guide/01-7b5ec9bb01.jpg",
+          "src": "assets-visual/02-12-2023-webflow-user-guide/01-7b5ec9bb01.jpg",
           "type": "image",
           "alt": "Webflow “User Guide” — 01-7b5ec9bb01"
         },
         {
-          "src": "assets-visual/webflow-user-guide/02-803fefd4fe.jpg",
+          "src": "assets-visual/02-12-2023-webflow-user-guide/02-803fefd4fe.jpg",
           "type": "image",
           "alt": "Webflow “User Guide” — 02-803fefd4fe"
         },
         {
-          "src": "assets-visual/webflow-user-guide/03-f57ecde0dc.jpg",
+          "src": "assets-visual/02-12-2023-webflow-user-guide/03-f57ecde0dc.jpg",
           "type": "image",
           "alt": "Webflow “User Guide” — 03-f57ecde0dc"
         },
         {
-          "src": "assets-visual/webflow-user-guide/04-25f5e8637b.jpg",
+          "src": "assets-visual/02-12-2023-webflow-user-guide/04-25f5e8637b.jpg",
           "type": "image",
           "alt": "Webflow “User Guide” — 04-25f5e8637b"
         },
         {
-          "src": "assets-visual/webflow-user-guide/05-9f068bd787.jpg",
+          "src": "assets-visual/02-12-2023-webflow-user-guide/05-9f068bd787.jpg",
           "type": "image",
           "alt": "Webflow “User Guide” — 05-9f068bd787"
         },
         {
-          "src": "assets-visual/webflow-user-guide/06-2e1a2c4f31.jpg",
+          "src": "assets-visual/02-12-2023-webflow-user-guide/06-2e1a2c4f31.jpg",
           "type": "image",
           "alt": "Webflow “User Guide” — 06-2e1a2c4f31"
         },
         {
-          "src": "assets-visual/webflow-user-guide/07-267bb5a57f.jpg",
+          "src": "assets-visual/02-12-2023-webflow-user-guide/07-267bb5a57f.jpg",
           "type": "image",
           "alt": "Webflow “User Guide” — 07-267bb5a57f"
         },
         {
-          "src": "assets-visual/webflow-user-guide/08-3b0c66ad77-Preview.mp4",
+          "src": "assets-visual/02-12-2023-webflow-user-guide/08-3b0c66ad77-Preview.mp4",
           "type": "video",
           "alt": "Webflow “User Guide” — 08-3b0c66ad77-Preview"
         }
@@ -961,115 +930,119 @@
     "webflow-conf-process-guidelines": {
       "slug": "webflow-conf-process-guidelines",
       "title": "Webflow Conf 2022 – Process and guidelines",
-      "preview": "assets-visual/webflow-conf-2022-process-and-guidelines/Preview%20original-d8f26e67a226f3ee3aaf9aebe986d8d9.webp",
+      "date": "2023-02-04",
+      "folders": [
+        "02-04-2023-webflow-conf-process-guidelines"
+      ],
+      "preview": "assets-visual/02-04-2023-webflow-conf-process-guidelines/Preview%20original-d8f26e67a226f3ee3aaf9aebe986d8d9.webp",
       "assets": [
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-0afe189599610bb358d0acc9ebcbdc74.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-0afe189599610bb358d0acc9ebcbdc74.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-0afe189599610bb358d0acc9ebcbdc74"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-6d02df833e9317b34139ca7a7e0c3456.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-6d02df833e9317b34139ca7a7e0c3456.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-6d02df833e9317b34139ca7a7e0c3456"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-6dd2f2a88d05a9c1f50b044fd23d2ba3.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-6dd2f2a88d05a9c1f50b044fd23d2ba3.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-6dd2f2a88d05a9c1f50b044fd23d2ba3"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-9b3afb6a0ff914290e632b320c2b41d1%20(1).webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-9b3afb6a0ff914290e632b320c2b41d1%20(1).webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-9b3afb6a0ff914290e632b320c2b41d1 (1)"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-09d00d9ed388134f840704ec72e49eb5.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-09d00d9ed388134f840704ec72e49eb5.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-09d00d9ed388134f840704ec72e49eb5"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-500e0f0aa9cff58133b29193a0c3b95f.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-500e0f0aa9cff58133b29193a0c3b95f.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-500e0f0aa9cff58133b29193a0c3b95f"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-656a23132e95ae723c06dd3466773c6c.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-656a23132e95ae723c06dd3466773c6c.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-656a23132e95ae723c06dd3466773c6c"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-35821567ae8ae39293c875d9492a0210.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-35821567ae8ae39293c875d9492a0210.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-35821567ae8ae39293c875d9492a0210"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-440720853ef64684ecd10bfaed717b15.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-440720853ef64684ecd10bfaed717b15.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-440720853ef64684ecd10bfaed717b15"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-69466630482acb90dd92c20e0657c998.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-69466630482acb90dd92c20e0657c998.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-69466630482acb90dd92c20e0657c998"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-a79a6c47b22bccdb8b7dcdd2e03e8bfc.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-a79a6c47b22bccdb8b7dcdd2e03e8bfc.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-a79a6c47b22bccdb8b7dcdd2e03e8bfc"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-b8d44c6e57bf0ccedb7f83fe4bc6446f.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-b8d44c6e57bf0ccedb7f83fe4bc6446f.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-b8d44c6e57bf0ccedb7f83fe4bc6446f"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-b696e96ac1e16013015c89a9cd2e2190.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-b696e96ac1e16013015c89a9cd2e2190.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-b696e96ac1e16013015c89a9cd2e2190"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-d8fd3931f4ec35f459e5354fa7ade506.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-d8fd3931f4ec35f459e5354fa7ade506.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-d8fd3931f4ec35f459e5354fa7ade506"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-d89ceed5bf966f4cb5f6d89d154d5118.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-d89ceed5bf966f4cb5f6d89d154d5118.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-d89ceed5bf966f4cb5f6d89d154d5118"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-d1852f0db66f67b42fffbd847fc754c0.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-d1852f0db66f67b42fffbd847fc754c0.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-d1852f0db66f67b42fffbd847fc754c0"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-dcaaba89b9532d462e974e64c8bb4025.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-dcaaba89b9532d462e974e64c8bb4025.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-dcaaba89b9532d462e974e64c8bb4025"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-de6f2fcbb4f6f66b84cf8c58185dba28.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-de6f2fcbb4f6f66b84cf8c58185dba28.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-de6f2fcbb4f6f66b84cf8c58185dba28"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-ebf0da88078bfc13fbbd0b4b105557e3.jpg",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-ebf0da88078bfc13fbbd0b4b105557e3.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-ebf0da88078bfc13fbbd0b4b105557e3"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-ece73cb658d13f44f0ff6ff53ba6136f.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-ece73cb658d13f44f0ff6ff53ba6136f.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-ece73cb658d13f44f0ff6ff53ba6136f"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/original-eddb60c55c2fe1c02cfe810243b78f57.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/original-eddb60c55c2fe1c02cfe810243b78f57.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — original-eddb60c55c2fe1c02cfe810243b78f57"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-process-and-guidelines/Preview%20original-d8f26e67a226f3ee3aaf9aebe986d8d9.webp",
+          "src": "assets-visual/02-04-2023-webflow-conf-process-guidelines/Preview%20original-d8f26e67a226f3ee3aaf9aebe986d8d9.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Process and guidelines — Preview original-d8f26e67a226f3ee3aaf9aebe986d8d9"
         }
@@ -1078,68 +1051,88 @@
     "3d-scene": {
       "slug": "3d-scene",
       "title": "3D scene",
-      "preview": "assets-visual/3DScene/original-50e33bfaab1a4bf931dd2ee88c5483fa.webp",
+      "date": "2023-01-29",
+      "folders": [
+        "01-29-2023-3d-scene"
+      ],
+      "preview": "assets-visual/01-29-2023-3d-scene/original-50e33bfaab1a4bf931dd2ee88c5483fa.webp",
       "assets": [
         {
-          "src": "assets-visual/3DScene/original-50e33bfaab1a4bf931dd2ee88c5483fa.webp",
+          "src": "assets-visual/01-29-2023-3d-scene/original-50e33bfaab1a4bf931dd2ee88c5483fa.webp",
           "type": "image",
           "alt": "3D scene — original-50e33bfaab1a4bf931dd2ee88c5483fa"
         },
         {
-          "src": "assets-visual/3DScene/original-b61cec200dd2bd1f019999ffbf25bc5d.webp",
+          "src": "assets-visual/01-29-2023-3d-scene/original-b61cec200dd2bd1f019999ffbf25bc5d.webp",
           "type": "image",
           "alt": "3D scene — original-b61cec200dd2bd1f019999ffbf25bc5d"
-        }
-      ]
-    },
-    "studio-trophy-decks": {
-      "slug": "studio-trophy-decks",
-      "title": "Studio project trophy decks",
-      "preview": "assets-visual/TrophyDecks/01-3b08cc0842.gif",
-      "assets": [
-        {
-          "src": "assets-visual/TrophyDecks/01-3b08cc0842.gif",
-          "type": "gif",
-          "alt": "Studio project trophy decks — 01-3b08cc0842"
-        }
-      ]
-    },
-    "design-directory": {
-      "slug": "design-directory",
-      "title": "UI design – Deloitte Digital internal directory",
-      "preview": "assets-visual/Design%20Directory/Preview%2001-c2b0485fb4.gif",
-      "assets": [
-        {
-          "src": "assets-visual/Design%20Directory/02-c963ac19ae.gif",
-          "type": "gif",
-          "alt": "UI design – Deloitte Digital internal directory — 02-c963ac19ae"
-        },
-        {
-          "src": "assets-visual/Design%20Directory/Preview%2001-c2b0485fb4.gif",
-          "type": "gif",
-          "alt": "UI design – Deloitte Digital internal directory — Preview 01-c2b0485fb4"
         }
       ]
     },
     "atelier-saady": {
       "slug": "atelier-saady",
       "title": "Brand package – Atelier Saady",
-      "preview": "assets-visual/brand-package-atelier-saady/Preview%2001-7a487e3d2e.gif",
+      "date": "2023-01-29",
+      "folders": [
+        "01-29-2023-atelier-saady"
+      ],
+      "preview": "assets-visual/01-29-2023-atelier-saady/Preview%2001-7a487e3d2e.gif",
       "assets": [
         {
-          "src": "assets-visual/brand-package-atelier-saady/Preview%2001-7a487e3d2e.gif",
+          "src": "assets-visual/01-29-2023-atelier-saady/Preview%2001-7a487e3d2e.gif",
           "type": "gif",
           "alt": "Brand package – Atelier Saady — Preview 01-7a487e3d2e"
+        }
+      ]
+    },
+    "design-directory": {
+      "slug": "design-directory",
+      "title": "UI design – Deloitte Digital internal directory",
+      "date": "2023-01-29",
+      "folders": [
+        "01-29-2023-design-directory"
+      ],
+      "preview": "assets-visual/01-29-2023-design-directory/Preview%2001-c2b0485fb4.gif",
+      "assets": [
+        {
+          "src": "assets-visual/01-29-2023-design-directory/02-c963ac19ae.gif",
+          "type": "gif",
+          "alt": "UI design – Deloitte Digital internal directory — 02-c963ac19ae"
+        },
+        {
+          "src": "assets-visual/01-29-2023-design-directory/Preview%2001-c2b0485fb4.gif",
+          "type": "gif",
+          "alt": "UI design – Deloitte Digital internal directory — Preview 01-c2b0485fb4"
+        }
+      ]
+    },
+    "studio-trophy-decks": {
+      "slug": "studio-trophy-decks",
+      "title": "Studio project trophy decks",
+      "date": "2023-01-29",
+      "folders": [
+        "01-29-2023-studio-trophy-decks"
+      ],
+      "preview": "assets-visual/01-29-2023-studio-trophy-decks/01-3b08cc0842.gif",
+      "assets": [
+        {
+          "src": "assets-visual/01-29-2023-studio-trophy-decks/01-3b08cc0842.gif",
+          "type": "gif",
+          "alt": "Studio project trophy decks — 01-3b08cc0842"
         }
       ]
     },
     "stylized-logo": {
       "slug": "stylized-logo",
       "title": "Stylized logo",
-      "preview": "assets-visual/stylized-logo/01-1c7f4b21ad.gif",
+      "date": "2023-01-29",
+      "folders": [
+        "01-29-2023-stylized-logo"
+      ],
+      "preview": "assets-visual/01-29-2023-stylized-logo/01-1c7f4b21ad.gif",
       "assets": [
         {
-          "src": "assets-visual/stylized-logo/01-1c7f4b21ad.gif",
+          "src": "assets-visual/01-29-2023-stylized-logo/01-1c7f4b21ad.gif",
           "type": "gif",
           "alt": "Stylized logo — 01-1c7f4b21ad"
         }
@@ -1148,75 +1141,79 @@
     "webflow-conf-grow-room": {
       "slug": "webflow-conf-grow-room",
       "title": "Webflow Conf 2022 – Grow with the ’Flow room",
-      "preview": "assets-visual/webflow-conf-2022-grow-with-the-flow-room/Preview%2001-4bc42b03db.webp",
+      "date": "2023-01-17",
+      "folders": [
+        "01-17-2023-webflow-conf-grow-room"
+      ],
+      "preview": "assets-visual/01-17-2023-webflow-conf-grow-room/Preview%2001-4bc42b03db.webp",
       "assets": [
         {
-          "src": "assets-visual/webflow-conf-2022-grow-with-the-flow-room/original-0ad4751c8779d3597ad0ab54a35e2987.webp",
+          "src": "assets-visual/01-17-2023-webflow-conf-grow-room/original-0ad4751c8779d3597ad0ab54a35e2987.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Grow with the ’Flow room — original-0ad4751c8779d3597ad0ab54a35e2987"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-grow-with-the-flow-room/original-0cff17b1cf337a3057454cf800ccbe0e.webp",
+          "src": "assets-visual/01-17-2023-webflow-conf-grow-room/original-0cff17b1cf337a3057454cf800ccbe0e.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Grow with the ’Flow room — original-0cff17b1cf337a3057454cf800ccbe0e"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-grow-with-the-flow-room/original-1fdc2189764cd9cb3f2a8dc21103c689.webp",
+          "src": "assets-visual/01-17-2023-webflow-conf-grow-room/original-1fdc2189764cd9cb3f2a8dc21103c689.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Grow with the ’Flow room — original-1fdc2189764cd9cb3f2a8dc21103c689"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-grow-with-the-flow-room/original-4a54910524b8c51a9cc325b29d29e89a.webp",
+          "src": "assets-visual/01-17-2023-webflow-conf-grow-room/original-4a54910524b8c51a9cc325b29d29e89a.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Grow with the ’Flow room — original-4a54910524b8c51a9cc325b29d29e89a"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-grow-with-the-flow-room/original-10e431de619541fe390644634957a0c5.webp",
+          "src": "assets-visual/01-17-2023-webflow-conf-grow-room/original-10e431de619541fe390644634957a0c5.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Grow with the ’Flow room — original-10e431de619541fe390644634957a0c5"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-grow-with-the-flow-room/original-82994fa6e4e3448ac0b0e50bd59a6344.webp",
+          "src": "assets-visual/01-17-2023-webflow-conf-grow-room/original-82994fa6e4e3448ac0b0e50bd59a6344.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Grow with the ’Flow room — original-82994fa6e4e3448ac0b0e50bd59a6344"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-grow-with-the-flow-room/original-a53b64675b4df6031b6f343e4c79b707.webp",
+          "src": "assets-visual/01-17-2023-webflow-conf-grow-room/original-a53b64675b4df6031b6f343e4c79b707.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Grow with the ’Flow room — original-a53b64675b4df6031b6f343e4c79b707"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-grow-with-the-flow-room/original-a75ae755853fed8fa56fe4b03c88ca0b.webp",
+          "src": "assets-visual/01-17-2023-webflow-conf-grow-room/original-a75ae755853fed8fa56fe4b03c88ca0b.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Grow with the ’Flow room — original-a75ae755853fed8fa56fe4b03c88ca0b"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-grow-with-the-flow-room/original-a250831f49e35464a31fbd334cac8aeb.webp",
+          "src": "assets-visual/01-17-2023-webflow-conf-grow-room/original-a250831f49e35464a31fbd334cac8aeb.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Grow with the ’Flow room — original-a250831f49e35464a31fbd334cac8aeb"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-grow-with-the-flow-room/original-b402b3fc76b437d1d56dcdedc7d7fa65.webp",
+          "src": "assets-visual/01-17-2023-webflow-conf-grow-room/original-b402b3fc76b437d1d56dcdedc7d7fa65.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Grow with the ’Flow room — original-b402b3fc76b437d1d56dcdedc7d7fa65"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-grow-with-the-flow-room/original-e726b1325e384a71dd5dcd52abc21e33.webp",
+          "src": "assets-visual/01-17-2023-webflow-conf-grow-room/original-e726b1325e384a71dd5dcd52abc21e33.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Grow with the ’Flow room — original-e726b1325e384a71dd5dcd52abc21e33"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-grow-with-the-flow-room/original-ef6e24e8501eea82e52c1faae12288da.webp",
+          "src": "assets-visual/01-17-2023-webflow-conf-grow-room/original-ef6e24e8501eea82e52c1faae12288da.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Grow with the ’Flow room — original-ef6e24e8501eea82e52c1faae12288da"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-grow-with-the-flow-room/original-fa7a1f408b29d1ffdc111adb76fcbdad.webp",
+          "src": "assets-visual/01-17-2023-webflow-conf-grow-room/original-fa7a1f408b29d1ffdc111adb76fcbdad.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Grow with the ’Flow room — original-fa7a1f408b29d1ffdc111adb76fcbdad"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-grow-with-the-flow-room/Preview%2001-4bc42b03db.webp",
+          "src": "assets-visual/01-17-2023-webflow-conf-grow-room/Preview%2001-4bc42b03db.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – Grow with the ’Flow room — Preview 01-4bc42b03db"
         }
@@ -1225,132 +1222,191 @@
     "webflow-conf-themes": {
       "slug": "webflow-conf-themes",
       "title": "Webflow Conf 2022 – themes",
-      "preview": "assets-visual/webflow-conf-2022-themes/Preview%20original-2849102af7a27f96184a86323c719a8d.webp",
+      "date": "2023-01-11",
+      "folders": [
+        "01-11-2023-webflow-conf-themes"
+      ],
+      "preview": "assets-visual/01-11-2023-webflow-conf-themes/Preview%20original-2849102af7a27f96184a86323c719a8d.webp",
       "assets": [
         {
-          "src": "assets-visual/webflow-conf-2022-themes/original-5a4cfe0f047eb9a9d20ec46acf06d978.webp",
+          "src": "assets-visual/01-11-2023-webflow-conf-themes/original-5a4cfe0f047eb9a9d20ec46acf06d978.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – themes — original-5a4cfe0f047eb9a9d20ec46acf06d978"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-themes/original-7bfd1c23838b3445a1516e2a8e7b9d1e.webp",
+          "src": "assets-visual/01-11-2023-webflow-conf-themes/original-7bfd1c23838b3445a1516e2a8e7b9d1e.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – themes — original-7bfd1c23838b3445a1516e2a8e7b9d1e"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-themes/original-94c93645084d1eb0d518525036d9026f.webp",
+          "src": "assets-visual/01-11-2023-webflow-conf-themes/original-94c93645084d1eb0d518525036d9026f.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – themes — original-94c93645084d1eb0d518525036d9026f"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-themes/original-b3a89463051d225155feffc47438f4bf.webp",
+          "src": "assets-visual/01-11-2023-webflow-conf-themes/original-b3a89463051d225155feffc47438f4bf.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – themes — original-b3a89463051d225155feffc47438f4bf"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-themes/original-b36f0e9d7272e216e33f67d681e9c5df.webp",
+          "src": "assets-visual/01-11-2023-webflow-conf-themes/original-b36f0e9d7272e216e33f67d681e9c5df.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – themes — original-b36f0e9d7272e216e33f67d681e9c5df"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-themes/original-d18afad7b9322b51aebea1332a91ce30.webp",
+          "src": "assets-visual/01-11-2023-webflow-conf-themes/original-d18afad7b9322b51aebea1332a91ce30.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – themes — original-d18afad7b9322b51aebea1332a91ce30"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-themes/original-f82c832cb1c77a1dbebd831a2c889f97.webp",
+          "src": "assets-visual/01-11-2023-webflow-conf-themes/original-f82c832cb1c77a1dbebd831a2c889f97.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – themes — original-f82c832cb1c77a1dbebd831a2c889f97"
         },
         {
-          "src": "assets-visual/webflow-conf-2022-themes/Preview%20original-2849102af7a27f96184a86323c719a8d.webp",
+          "src": "assets-visual/01-11-2023-webflow-conf-themes/Preview%20original-2849102af7a27f96184a86323c719a8d.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 – themes — Preview original-2849102af7a27f96184a86323c719a8d"
+        }
+      ]
+    },
+    "webflow-customer-stories": {
+      "slug": "webflow-customer-stories",
+      "title": "Webflow visual foundations",
+      "date": "2023-01-01",
+      "folders": [
+        "01-01-2023-webflow-customer-stories"
+      ],
+      "preview": "assets-visual/01-01-2023-webflow-customer-stories/Preview%20VisualFoundations-Example6.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/01-01-2023-webflow-customer-stories/01-310a065d28.jpg",
+          "type": "image",
+          "alt": "Webflow visual foundations — 01-310a065d28"
+        },
+        {
+          "src": "assets-visual/01-01-2023-webflow-customer-stories/12-5d78e996a9.jpg",
+          "type": "image",
+          "alt": "Webflow visual foundations — 12-5d78e996a9"
+        },
+        {
+          "src": "assets-visual/01-01-2023-webflow-customer-stories/13-b1c99862be.jpg",
+          "type": "image",
+          "alt": "Webflow visual foundations — 13-b1c99862be"
+        },
+        {
+          "src": "assets-visual/01-01-2023-webflow-customer-stories/IMG_7004.JPG",
+          "type": "image",
+          "alt": "Webflow visual foundations — IMG_7004"
+        },
+        {
+          "src": "assets-visual/01-01-2023-webflow-customer-stories/IMG_7013.JPG",
+          "type": "image",
+          "alt": "Webflow visual foundations — IMG_7013"
+        },
+        {
+          "src": "assets-visual/01-01-2023-webflow-customer-stories/IMG_7014.JPG",
+          "type": "image",
+          "alt": "Webflow visual foundations — IMG_7014"
+        },
+        {
+          "src": "assets-visual/01-01-2023-webflow-customer-stories/Preview%20VisualFoundations-Example6.jpg",
+          "type": "image",
+          "alt": "Webflow visual foundations — Preview VisualFoundations-Example6"
+        },
+        {
+          "src": "assets-visual/01-01-2023-webflow-customer-stories/UI%20Camera%20Rig%202.mp4",
+          "type": "video",
+          "alt": "Webflow visual foundations — UI Camera Rig 2"
         }
       ]
     },
     "webflow-conf": {
       "slug": "webflow-conf",
       "title": "Webflow Conf 2022",
-      "preview": "assets-visual/WebflowConf/Preview%2001-cab6fa3076.jpg",
+      "date": "2022-01-01",
+      "folders": [
+        "01-01-2022-webflow-conf"
+      ],
+      "preview": "assets-visual/01-01-2022-webflow-conf/Preview%2001-cab6fa3076.jpg",
       "assets": [
         {
-          "src": "assets-visual/WebflowConf/14-e2477835c4.jpg",
+          "src": "assets-visual/01-01-2022-webflow-conf/14-e2477835c4.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 14-e2477835c4"
         },
         {
-          "src": "assets-visual/WebflowConf/15-ff851c4591.gif",
+          "src": "assets-visual/01-01-2022-webflow-conf/15-ff851c4591.gif",
           "type": "gif",
           "alt": "Webflow Conf 2022 — 15-ff851c4591"
         },
         {
-          "src": "assets-visual/WebflowConf/16-15aefaea33.jpg",
+          "src": "assets-visual/01-01-2022-webflow-conf/16-15aefaea33.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 16-15aefaea33"
         },
         {
-          "src": "assets-visual/WebflowConf/17-dc3ec8da3b.jpg",
+          "src": "assets-visual/01-01-2022-webflow-conf/17-dc3ec8da3b.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 17-dc3ec8da3b"
         },
         {
-          "src": "assets-visual/WebflowConf/18-64e125a22e.jpg",
+          "src": "assets-visual/01-01-2022-webflow-conf/18-64e125a22e.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 18-64e125a22e"
         },
         {
-          "src": "assets-visual/WebflowConf/19-fc742c3a61.jpg",
+          "src": "assets-visual/01-01-2022-webflow-conf/19-fc742c3a61.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 19-fc742c3a61"
         },
         {
-          "src": "assets-visual/WebflowConf/20-a05fa87eb1.jpg",
+          "src": "assets-visual/01-01-2022-webflow-conf/20-a05fa87eb1.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 20-a05fa87eb1"
         },
         {
-          "src": "assets-visual/WebflowConf/21-7c4a9a0ce7.jpg",
+          "src": "assets-visual/01-01-2022-webflow-conf/21-7c4a9a0ce7.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 21-7c4a9a0ce7"
         },
         {
-          "src": "assets-visual/WebflowConf/22-65d7bde82c.jpg",
+          "src": "assets-visual/01-01-2022-webflow-conf/22-65d7bde82c.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 22-65d7bde82c"
         },
         {
-          "src": "assets-visual/WebflowConf/23-c5083d6410.jpg",
+          "src": "assets-visual/01-01-2022-webflow-conf/23-c5083d6410.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 23-c5083d6410"
         },
         {
-          "src": "assets-visual/WebflowConf/24-ca69654ea2.jpg",
+          "src": "assets-visual/01-01-2022-webflow-conf/24-ca69654ea2.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 24-ca69654ea2"
         },
         {
-          "src": "assets-visual/WebflowConf/25-a9ae79088a.jpg",
+          "src": "assets-visual/01-01-2022-webflow-conf/25-a9ae79088a.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 25-a9ae79088a"
         },
         {
-          "src": "assets-visual/WebflowConf/26-0140679326.jpg",
+          "src": "assets-visual/01-01-2022-webflow-conf/26-0140679326.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 26-0140679326"
         },
         {
-          "src": "assets-visual/WebflowConf/27-5eaa05d7fe.jpg",
+          "src": "assets-visual/01-01-2022-webflow-conf/27-5eaa05d7fe.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 27-5eaa05d7fe"
         },
         {
-          "src": "assets-visual/WebflowConf/IMG_1085.JPG",
+          "src": "assets-visual/01-01-2022-webflow-conf/IMG_1085.JPG",
           "type": "image",
           "alt": "Webflow Conf 2022 — IMG_1085"
         },
         {
-          "src": "assets-visual/WebflowConf/Preview%2001-cab6fa3076.jpg",
+          "src": "assets-visual/01-01-2022-webflow-conf/Preview%2001-cab6fa3076.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — Preview 01-cab6fa3076"
         }
@@ -1359,30 +1415,34 @@
     "thrivent": {
       "slug": "thrivent",
       "title": "Thrivent Financial app and web",
-      "preview": "assets-visual/thrivent/Preview%2001-20b16a1177.gif",
+      "date": "2021-08-01",
+      "folders": [
+        "08-01-2021-thrivent"
+      ],
+      "preview": "assets-visual/08-01-2021-thrivent/Preview%2001-20b16a1177.gif",
       "assets": [
         {
-          "src": "assets-visual/thrivent/03-56405694c9.png",
+          "src": "assets-visual/08-01-2021-thrivent/03-56405694c9.png",
           "type": "image",
           "alt": "Thrivent Financial app and web — 03-56405694c9"
         },
         {
-          "src": "assets-visual/thrivent/04-d4f07c4f9a.png",
+          "src": "assets-visual/08-01-2021-thrivent/04-d4f07c4f9a.png",
           "type": "image",
           "alt": "Thrivent Financial app and web — 04-d4f07c4f9a"
         },
         {
-          "src": "assets-visual/thrivent/05-2636319855.png",
+          "src": "assets-visual/08-01-2021-thrivent/05-2636319855.png",
           "type": "image",
           "alt": "Thrivent Financial app and web — 05-2636319855"
         },
         {
-          "src": "assets-visual/thrivent/06-5ff4815ea3.gif",
+          "src": "assets-visual/08-01-2021-thrivent/06-5ff4815ea3.gif",
           "type": "gif",
           "alt": "Thrivent Financial app and web — 06-5ff4815ea3"
         },
         {
-          "src": "assets-visual/thrivent/Preview%2001-20b16a1177.gif",
+          "src": "assets-visual/08-01-2021-thrivent/Preview%2001-20b16a1177.gif",
           "type": "gif",
           "alt": "Thrivent Financial app and web — Preview 01-20b16a1177"
         }
@@ -1391,45 +1451,49 @@
     "smart-factory": {
       "slug": "smart-factory",
       "title": "The Smart Factory",
-      "preview": "assets-visual/the-smart-factory/Preview%2002-bff0612e47.png",
+      "date": "2020-07-01",
+      "folders": [
+        "07-01-2020-smart-factory"
+      ],
+      "preview": "assets-visual/07-01-2020-smart-factory/Preview%2002-bff0612e47.png",
       "assets": [
         {
-          "src": "assets-visual/the-smart-factory/01-a09c98d992.gif",
+          "src": "assets-visual/07-01-2020-smart-factory/01-a09c98d992.gif",
           "type": "gif",
           "alt": "The Smart Factory — 01-a09c98d992"
         },
         {
-          "src": "assets-visual/the-smart-factory/03-e2d7ff81e7.gif",
+          "src": "assets-visual/07-01-2020-smart-factory/03-e2d7ff81e7.gif",
           "type": "gif",
           "alt": "The Smart Factory — 03-e2d7ff81e7"
         },
         {
-          "src": "assets-visual/the-smart-factory/04-2c563a9c50.png",
+          "src": "assets-visual/07-01-2020-smart-factory/04-2c563a9c50.png",
           "type": "image",
           "alt": "The Smart Factory — 04-2c563a9c50"
         },
         {
-          "src": "assets-visual/the-smart-factory/05-f7e4b03a87.gif",
+          "src": "assets-visual/07-01-2020-smart-factory/05-f7e4b03a87.gif",
           "type": "gif",
           "alt": "The Smart Factory — 05-f7e4b03a87"
         },
         {
-          "src": "assets-visual/the-smart-factory/06-efd0772a0b.gif",
+          "src": "assets-visual/07-01-2020-smart-factory/06-efd0772a0b.gif",
           "type": "gif",
           "alt": "The Smart Factory — 06-efd0772a0b"
         },
         {
-          "src": "assets-visual/the-smart-factory/07-581bff92f5.gif",
+          "src": "assets-visual/07-01-2020-smart-factory/07-581bff92f5.gif",
           "type": "gif",
           "alt": "The Smart Factory — 07-581bff92f5"
         },
         {
-          "src": "assets-visual/the-smart-factory/08-c76db321b8.gif",
+          "src": "assets-visual/07-01-2020-smart-factory/08-c76db321b8.gif",
           "type": "gif",
           "alt": "The Smart Factory — 08-c76db321b8"
         },
         {
-          "src": "assets-visual/the-smart-factory/Preview%2002-bff0612e47.png",
+          "src": "assets-visual/07-01-2020-smart-factory/Preview%2002-bff0612e47.png",
           "type": "image",
           "alt": "The Smart Factory — Preview 02-bff0612e47"
         }
@@ -1438,30 +1502,34 @@
     "global-marketing-trends": {
       "slug": "global-marketing-trends",
       "title": "Global Marketing Trends 2021",
-      "preview": "assets-visual/Deloitte%20Marketing%20Trends/Preview%2001-c676ad19ad.gif",
+      "date": "2020-06-01",
+      "folders": [
+        "06-01-2020-global-marketing-trends"
+      ],
+      "preview": "assets-visual/06-01-2020-global-marketing-trends/Preview%2001-c676ad19ad.gif",
       "assets": [
         {
-          "src": "assets-visual/Deloitte%20Marketing%20Trends/02-a04dc1d862.gif",
+          "src": "assets-visual/06-01-2020-global-marketing-trends/02-a04dc1d862.gif",
           "type": "gif",
           "alt": "Global Marketing Trends 2021 — 02-a04dc1d862"
         },
         {
-          "src": "assets-visual/Deloitte%20Marketing%20Trends/03-1e61918c5c.gif",
+          "src": "assets-visual/06-01-2020-global-marketing-trends/03-1e61918c5c.gif",
           "type": "gif",
           "alt": "Global Marketing Trends 2021 — 03-1e61918c5c"
         },
         {
-          "src": "assets-visual/Deloitte%20Marketing%20Trends/04-2c1f63f73a.gif",
+          "src": "assets-visual/06-01-2020-global-marketing-trends/04-2c1f63f73a.gif",
           "type": "gif",
           "alt": "Global Marketing Trends 2021 — 04-2c1f63f73a"
         },
         {
-          "src": "assets-visual/Deloitte%20Marketing%20Trends/05-ac7344fa5b.gif",
+          "src": "assets-visual/06-01-2020-global-marketing-trends/05-ac7344fa5b.gif",
           "type": "gif",
           "alt": "Global Marketing Trends 2021 — 05-ac7344fa5b"
         },
         {
-          "src": "assets-visual/Deloitte%20Marketing%20Trends/Preview%2001-c676ad19ad.gif",
+          "src": "assets-visual/06-01-2020-global-marketing-trends/Preview%2001-c676ad19ad.gif",
           "type": "gif",
           "alt": "Global Marketing Trends 2021 — Preview 01-c676ad19ad"
         }
@@ -1469,59 +1537,67 @@
     },
     "blackbriar": {
       "slug": "blackbriar",
-      "title": "CIA.gov / Blackbriar design system",
-      "preview": "assets-visual/BlackbriarDesignSystem/01-2df8be9eb7.gif",
+      "title": "CIA.gov site implementation",
+      "date": "2020-03-01",
+      "folders": [
+        "03-01-2020-blackbriar"
+      ],
+      "preview": "assets-visual/03-01-2020-blackbriar/01-2df8be9eb7.gif",
       "assets": [
         {
-          "src": "assets-visual/BlackbriarDesignSystem/01-2df8be9eb7.gif",
+          "src": "assets-visual/03-01-2020-blackbriar/01-2df8be9eb7.gif",
           "type": "gif",
-          "alt": "CIA.gov / Blackbriar design system — 01-2df8be9eb7"
+          "alt": "CIA.gov site implementation — 01-2df8be9eb7"
         },
         {
-          "src": "assets-visual/BlackbriarDesignSystem/02-00380b0130.png",
+          "src": "assets-visual/03-01-2020-blackbriar/02-00380b0130.png",
           "type": "image",
-          "alt": "CIA.gov / Blackbriar design system — 02-00380b0130"
+          "alt": "CIA.gov site implementation — 02-00380b0130"
         },
         {
-          "src": "assets-visual/BlackbriarDesignSystem/03-4c133fcbd9.gif",
+          "src": "assets-visual/03-01-2020-blackbriar/03-4c133fcbd9.gif",
           "type": "gif",
-          "alt": "CIA.gov / Blackbriar design system — 03-4c133fcbd9"
+          "alt": "CIA.gov site implementation — 03-4c133fcbd9"
         },
         {
-          "src": "assets-visual/BlackbriarDesignSystem/04-7d3e1ebdfb.jpg",
+          "src": "assets-visual/03-01-2020-blackbriar/04-7d3e1ebdfb.jpg",
           "type": "image",
-          "alt": "CIA.gov / Blackbriar design system — 04-7d3e1ebdfb"
+          "alt": "CIA.gov site implementation — 04-7d3e1ebdfb"
         },
         {
-          "src": "assets-visual/BlackbriarDesignSystem/05-3116e83662.gif",
+          "src": "assets-visual/03-01-2020-blackbriar/05-3116e83662.gif",
           "type": "gif",
-          "alt": "CIA.gov / Blackbriar design system — 05-3116e83662"
+          "alt": "CIA.gov site implementation — 05-3116e83662"
         },
         {
-          "src": "assets-visual/BlackbriarDesignSystem/06-1d05eadb9e.png",
+          "src": "assets-visual/03-01-2020-blackbriar/06-1d05eadb9e.png",
           "type": "image",
-          "alt": "CIA.gov / Blackbriar design system — 06-1d05eadb9e"
+          "alt": "CIA.gov site implementation — 06-1d05eadb9e"
         },
         {
-          "src": "assets-visual/BlackbriarDesignSystem/07-9675c34c37.gif",
+          "src": "assets-visual/03-01-2020-blackbriar/07-9675c34c37.gif",
           "type": "gif",
-          "alt": "CIA.gov / Blackbriar design system — 07-9675c34c37"
+          "alt": "CIA.gov site implementation — 07-9675c34c37"
         },
         {
-          "src": "assets-visual/BlackbriarDesignSystem/08-01dad72912.gif",
+          "src": "assets-visual/03-01-2020-blackbriar/08-01dad72912.gif",
           "type": "gif",
-          "alt": "CIA.gov / Blackbriar design system — 08-01dad72912"
+          "alt": "CIA.gov site implementation — 08-01dad72912"
         },
         {
-          "src": "assets-visual/BlackbriarDesignSystem/09-bb52d4e07f.gif",
+          "src": "assets-visual/03-01-2020-blackbriar/09-bb52d4e07f.gif",
           "type": "gif",
-          "alt": "CIA.gov / Blackbriar design system — 09-bb52d4e07f"
+          "alt": "CIA.gov site implementation — 09-bb52d4e07f"
         }
       ]
     },
     "lilly-pulitzer": {
       "slug": "lilly-pulitzer",
       "title": "Lilly Pulitzer virtual runway",
+      "date": "2019-12-01",
+      "folders": [
+        "12-01-2019-lilly-pulitzer"
+      ],
       "assets": [
         {
           "src": "https://www.youtube.com/embed/r7ZTCFzELf8?rel=0&controls=0&autoplay=0&mute=0&start=0",
@@ -1533,30 +1609,34 @@
     "rite-of-spring": {
       "slug": "rite-of-spring",
       "title": "Rite of Spring",
-      "preview": "assets-visual/rite-of-spring/Preview%2001-c467fa59a9.gif",
+      "date": "2016-03-01",
+      "folders": [
+        "03-01-2016-rite-of-spring"
+      ],
+      "preview": "assets-visual/03-01-2016-rite-of-spring/Preview%2001-c467fa59a9.gif",
       "assets": [
         {
-          "src": "assets-visual/rite-of-spring/02-a240af8f97.gif",
+          "src": "assets-visual/03-01-2016-rite-of-spring/02-a240af8f97.gif",
           "type": "gif",
           "alt": "Rite of Spring — 02-a240af8f97"
         },
         {
-          "src": "assets-visual/rite-of-spring/03-5134682fdf.png",
+          "src": "assets-visual/03-01-2016-rite-of-spring/03-5134682fdf.png",
           "type": "image",
           "alt": "Rite of Spring — 03-5134682fdf"
         },
         {
-          "src": "assets-visual/rite-of-spring/04-4ee658bb54.gif",
+          "src": "assets-visual/03-01-2016-rite-of-spring/04-4ee658bb54.gif",
           "type": "gif",
           "alt": "Rite of Spring — 04-4ee658bb54"
         },
         {
-          "src": "assets-visual/rite-of-spring/05-b9bb7a41c1.gif",
+          "src": "assets-visual/03-01-2016-rite-of-spring/05-b9bb7a41c1.gif",
           "type": "gif",
           "alt": "Rite of Spring — 05-b9bb7a41c1"
         },
         {
-          "src": "assets-visual/rite-of-spring/Preview%2001-c467fa59a9.gif",
+          "src": "assets-visual/03-01-2016-rite-of-spring/Preview%2001-c467fa59a9.gif",
           "type": "gif",
           "alt": "Rite of Spring — Preview 01-c467fa59a9"
         }
@@ -1565,15 +1645,19 @@
     "torei": {
       "slug": "torei",
       "title": "TOREI",
-      "preview": "assets-visual/torei/Preview%2002-fc1d3b7683.png",
+      "date": "2016-02-01",
+      "folders": [
+        "02-01-2016-torei"
+      ],
+      "preview": "assets-visual/02-01-2016-torei/Preview%2002-fc1d3b7683.png",
       "assets": [
         {
-          "src": "assets-visual/torei/01-67be545afc.gif",
+          "src": "assets-visual/02-01-2016-torei/01-67be545afc.gif",
           "type": "gif",
           "alt": "TOREI — 01-67be545afc"
         },
         {
-          "src": "assets-visual/torei/Preview%2002-fc1d3b7683.png",
+          "src": "assets-visual/02-01-2016-torei/Preview%2002-fc1d3b7683.png",
           "type": "image",
           "alt": "TOREI — Preview 02-fc1d3b7683"
         },
@@ -1592,25 +1676,29 @@
     "looking-glass": {
       "slug": "looking-glass",
       "title": "Looking Glass EP",
-      "preview": "assets-visual/LookingGlassAlbumArt/Preview%2001-3fb54b4b4a.jpg",
+      "date": "2016-01-01",
+      "folders": [
+        "01-01-2016-looking-glass"
+      ],
+      "preview": "assets-visual/01-01-2016-looking-glass/Preview%2001-3fb54b4b4a.jpg",
       "assets": [
         {
-          "src": "assets-visual/LookingGlassAlbumArt/02-f33a609a30.jpg",
+          "src": "assets-visual/01-01-2016-looking-glass/02-f33a609a30.jpg",
           "type": "image",
           "alt": "Looking Glass EP — 02-f33a609a30"
         },
         {
-          "src": "assets-visual/LookingGlassAlbumArt/03-1c4f8d030c.jpg",
+          "src": "assets-visual/01-01-2016-looking-glass/03-1c4f8d030c.jpg",
           "type": "image",
           "alt": "Looking Glass EP — 03-1c4f8d030c"
         },
         {
-          "src": "assets-visual/LookingGlassAlbumArt/04-27395612df.jpg",
+          "src": "assets-visual/01-01-2016-looking-glass/04-27395612df.jpg",
           "type": "image",
           "alt": "Looking Glass EP — 04-27395612df"
         },
         {
-          "src": "assets-visual/LookingGlassAlbumArt/Preview%2001-3fb54b4b4a.jpg",
+          "src": "assets-visual/01-01-2016-looking-glass/Preview%2001-3fb54b4b4a.jpg",
           "type": "image",
           "alt": "Looking Glass EP — Preview 01-3fb54b4b4a"
         },

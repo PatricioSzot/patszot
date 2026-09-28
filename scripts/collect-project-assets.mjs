@@ -1,10 +1,36 @@
 import { createHash } from 'node:crypto';
+import { execFile } from 'node:child_process';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
+import { promisify } from 'node:util';
 
 const root = new URL('../', import.meta.url).pathname;
 const index = JSON.parse(await readFile(join(root, 'dist/articles/index.json'), 'utf8'));
 const outRoot = join(root, 'dist/assets-visual');
+
+const folderForSlug = {
+  'gloss-ai': '01-01-2025-gloss-ai',
+  '24328431-album-art-presage-2022': '06-10-2024-album-art-presage',
+  'webflow-rebrand': '01-01-2024-webflow-rebrand',
+  '20635546-webflow-user-guide': '02-12-2023-webflow-user-guide',
+  '20567364-webflow-conf-2022-process-and-guidelines': '02-04-2023-webflow-conf-process-guidelines',
+  '20509333-3d-scene': '01-29-2023-3d-scene',
+  '20509321-studio-project-trophy-decks': '01-29-2023-studio-trophy-decks',
+  '20509299-ui-design-deloitte-digital-internal-directory': '01-29-2023-design-directory',
+  '20509285-brand-package-atelier-saady': '01-29-2023-atelier-saady',
+  '20509280-stylized-logo': '01-29-2023-stylized-logo',
+  '20410030-webflow-conf-2022-grow-with-the-flow-room': '01-17-2023-webflow-conf-grow-room',
+  '20356384-webflow-conf-2022-themes': '01-11-2023-webflow-conf-themes',
+  'webflow-conf': '01-01-2022-webflow-conf',
+  'thrivent': '08-01-2021-thrivent',
+  'the-smart-factory': '07-01-2020-smart-factory',
+  'dolores-debitis-omnis-qui': '06-01-2020-global-marketing-trends',
+  'cia': '03-01-2020-blackbriar',
+  'lilly': '12-01-2019-lilly-pulitzer',
+  'rite-of-spring': '03-01-2016-rite-of-spring',
+  'torei': '02-01-2016-torei',
+  'looking-glass': '01-01-2016-looking-glass'
+};
 
 const projectUrls = Object.keys(index).filter((url) =>
   url === 'https://glossgenius.com/' ||
@@ -70,15 +96,15 @@ const contentExtension = (url, type, contentType) => {
 };
 
 await mkdir(outRoot, { recursive: true });
-const manifest = { generatedAt: new Date().toISOString(), projects: {} };
 let downloaded = 0;
-const sharedAssets = new Map();
 
 for (const pageUrl of projectUrls) {
   const id = index[pageUrl];
   const source = await readFile(join(root, `dist/articles/${id}.md`), 'utf8');
   const slug = slugFor(pageUrl);
-  const dir = join(outRoot, slug);
+  const projectFolder = folderForSlug[slug];
+  if (!projectFolder) throw new Error(`No dated asset folder configured for ${slug}`);
+  const dir = join(outRoot, projectFolder);
   await mkdir(dir, { recursive: true });
   let candidates = mediaFrom(scopedSource(source, pageUrl));
   if (slug === 'the-smart-factory') {
@@ -90,10 +116,6 @@ for (const pageUrl of projectUrls) {
 
   for (let i = 0; i < candidates.length; i += 1) {
     const item = candidates[i];
-    if (sharedAssets.has(item.url)) {
-      assets.push({ ...sharedAssets.get(item.url), alt: item.alt || sharedAssets.get(item.url).alt });
-      continue;
-    }
     try {
       const response = await fetch(item.url, { headers: { 'User-Agent': 'Mozilla/5.0' }, redirect: 'follow' });
       if (!response.ok) throw new Error(`${response.status}`);
@@ -106,30 +128,21 @@ for (const pageUrl of projectUrls) {
       const filename = `${String(assets.length + 1).padStart(2, '0')}-${hash}${extension}`;
       await writeFile(join(dir, filename), bytes);
       const asset = {
-        src: `assets-visual/${slug}/${filename}`,
+        src: `assets-visual/${projectFolder}/${filename}`,
         type: item.type === 'video' ? 'video' : extension === '.gif' ? 'gif' : 'image',
         alt: item.alt || `${titleFor(source, pageUrl)} project image`,
         bytes: bytes.length,
         source: item.url
       };
       assets.push(asset);
-      sharedAssets.set(item.url, asset);
       downloaded += 1;
     } catch (error) {
       process.stderr.write(`skip ${item.url}: ${error.message}\n`);
     }
   }
 
-  manifest.projects[pageUrl] = { slug, title: titleFor(source, pageUrl), assets };
   process.stdout.write(`${slug}: ${assets.length}\n`);
 }
 
-try {
-  const embeds = JSON.parse(await readFile(join(outRoot, 'project-embeds.json'), 'utf8'));
-  for (const [url, assets] of Object.entries(embeds)) {
-    if (manifest.projects[url]) manifest.projects[url].assets.unshift(...assets);
-  }
-} catch {}
-
-await writeFile(join(outRoot, 'manifest.json'), JSON.stringify(manifest, null, 2));
+await promisify(execFile)(process.execPath, [join(root, 'scripts/build-visual-manifest.mjs')], { cwd: root });
 process.stdout.write(`downloaded ${downloaded} assets across ${projectUrls.length} projects\n`);
