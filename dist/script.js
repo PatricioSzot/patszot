@@ -64,7 +64,7 @@ let timelineData = [
     entries: [
       { date: 'December 24', kind: 'writing', title: 'The Importance of Celebration and Rest for Creatives', url: 'https://medium.com/@patrick.m.szot/the-importance-of-celebration-and-rest-for-creatives-8cdd66602d74', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*GSVjAl3r5qXH0HcL9gFlSQ.png', description: 'On pausing to recognize the work before moving to the next thing.' },
       { date: 'May 9', kind: 'writing', title: 'Config 2025: It’s The Same, Just Different This Time', url: 'https://medium.com/@patrick.m.szot/config-2025-its-the-same-just-different-this-time-19ab9ed00a52', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*ht0MLlsIZJJpyYASbWi-dw.png', description: 'Thoughts on beauty, efficient production, and working across aisles.' },
-      { date: '2025', kind: 'project', title: 'GlossAI Rebrand', url: 'https://glossgenius.com/', description: 'Brand identity and launch expression for GlossGenius.' },
+      { date: '2025', kind: 'project', title: 'GlossAI Rebrand', url: 'https://genius.ai/', description: 'Brand identity and launch expression for GlossGenius.' },
       { date: '2025', kind: 'project', title: 'Lovable', description: 'Brand work for a fast-moving product company.' }
     ]
   },
