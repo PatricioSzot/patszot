@@ -1591,21 +1591,6 @@
         }
       ]
     },
-    "lilly-pulitzer": {
-      "slug": "lilly-pulitzer",
-      "title": "Lilly Pulitzer virtual runway",
-      "date": "2019-12-01",
-      "folders": [
-        "12-01-2019-lilly-pulitzer"
-      ],
-      "assets": [
-        {
-          "src": "https://www.youtube.com/embed/r7ZTCFzELf8?rel=0&controls=0&autoplay=0&mute=0&start=0",
-          "type": "youtube",
-          "alt": "Lilly Pulitzer Virtual Runway Pitch"
-        }
-      ]
-    },
     "rite-of-spring": {
       "slug": "rite-of-spring",
       "title": "Rite of Spring",
