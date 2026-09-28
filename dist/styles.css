@@ -1253,7 +1253,7 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
 @media (max-width: 700px) {
   main {
     overflow: visible;
-    touch-action: pan-x pinch-zoom;
+    touch-action: pan-y pinch-zoom;
   }
 
   .logo {

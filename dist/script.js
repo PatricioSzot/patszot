@@ -370,7 +370,7 @@ const driftTo = (position) => {
 };
 
 window.addEventListener('wheel', (event) => {
-  if (reducedMotion.matches || event.ctrlKey || event.target.closest('.content-well-scroll')) return;
+  if (coarsePointer.matches || reducedMotion.matches || event.ctrlKey || event.target.closest('.content-well-scroll')) return;
   const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
   event.preventDefault();
   const impulse = event.deltaY * unit;
@@ -378,28 +378,7 @@ window.addEventListener('wheel', (event) => {
   driftTo(driftTarget + impulse * .34);
 }, { passive: false });
 
-let touchScrollY;
-window.addEventListener('touchstart', (event) => {
-  cancelDrift();
-  if (!coarsePointer.matches || event.target.closest('.content-well-scroll') || event.touches.length !== 1) {
-    touchScrollY = undefined;
-    return;
-  }
-  touchScrollY = event.touches[0].clientY;
-}, { passive: true });
-
-window.addEventListener('touchmove', (event) => {
-  if (touchScrollY === undefined || event.touches.length !== 1) return;
-  const nextY = event.touches[0].clientY;
-  const delta = touchScrollY - nextY;
-  touchScrollY = nextY;
-  event.preventDefault();
-  driftVelocity += Math.max(-180, Math.min(180, delta * 2.1));
-  driftTo(driftTarget + delta * .38);
-}, { passive: false });
-
-window.addEventListener('touchend', () => { touchScrollY = undefined; }, { passive: true });
-window.addEventListener('touchcancel', () => { touchScrollY = undefined; }, { passive: true });
+window.addEventListener('touchstart', cancelDrift, { passive: true });
 
 document.addEventListener('keydown', (event) => {
   if (reducedMotion.matches || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
