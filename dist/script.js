@@ -286,7 +286,7 @@ const driftTo = (position) => {
 };
 
 window.addEventListener('wheel', (event) => {
-  if (reducedMotion.matches || event.ctrlKey || event.target.closest('.writing-reader-scroll')) return;
+  if (reducedMotion.matches || event.ctrlKey || event.target.closest('.content-well-scroll')) return;
   const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
   event.preventDefault();
   const impulse = event.deltaY * unit;
@@ -296,7 +296,7 @@ window.addEventListener('wheel', (event) => {
 
 document.addEventListener('keydown', (event) => {
   if (reducedMotion.matches || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
-  if (event.target.closest('a, button, input, textarea, select, [contenteditable="true"], .writing-reader-scroll')) return;
+  if (event.target.closest('a, button, input, textarea, select, [contenteditable="true"], .content-well-scroll')) return;
 
   const keyboardDistances = {
     ArrowDown: 72,
@@ -353,21 +353,21 @@ const displayEntryTitle = (entry) => entry.kind === 'project' ? projectDisplayTi
 
 const entryMarkup = (entry) => {
   const displayTitle = displayEntryTitle(entry);
-  const assetCount = entry.kind === 'project' && (entry.assetKey || entry.cover)
+  const assetCount = entry.kind === 'project' && entry.url
     ? '<span class="timeline-asset-count" hidden></span>'
     : '';
   const linkedTitle = entry.kind === 'project' && entry.url
-    ? `<button class="project-title-trigger" type="button" tabindex="-1" aria-label="Browse ${displayTitle} media" aria-controls="project-content-well">${displayTitle}</button>`
-    : entry.url && entry.kind !== 'milestone'
-      ? `<a class="text-link${entry.kind === 'writing' ? ' writing-popup-trigger' : ''}" href="${entry.url}" rel="noopener">${displayTitle}</a>`
+    ? `<button class="project-title-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Browse ${displayTitle} media" aria-controls="content-well">${displayTitle}</button>`
+    : entry.kind === 'writing' && entry.url
+      ? `<button class="text-link writing-title-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Read ${displayTitle}" aria-controls="content-well">${displayTitle}</button>`
       : displayTitle;
   const externalAction = entry.url && entry.kind !== 'milestone'
     ? `<a class="timeline-external" href="${entry.url}" target="_blank" rel="noopener noreferrer"><span>View source</span><i class="ri-external-link-line" aria-hidden="true"></i></a>`
     : '';
   const marker = entry.kind === 'project' && entry.url
-    ? `<button class="timeline-marker project-expand-trigger" type="button" tabindex="-1" aria-label="Browse ${entry.title} media" aria-controls="project-content-well"><i class="ri-add-line" aria-hidden="true"></i></button>`
+    ? `<button class="timeline-marker project-expand-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Browse ${entry.title} media" aria-controls="content-well"><i class="ri-add-line" aria-hidden="true"></i></button>`
     : entry.kind === 'writing' && entry.url
-      ? `<button class="timeline-marker writing-expand-trigger" type="button" tabindex="-1" aria-label="Read ${entry.title}" aria-expanded="false"><i class="ri-add-line" aria-hidden="true"></i></button>`
+      ? `<button class="timeline-marker writing-expand-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Read ${entry.title}" aria-controls="content-well"><i class="ri-add-line" aria-hidden="true"></i></button>`
       : `<span class="timeline-marker${entry.kind === 'milestone' || (entry.kind === 'project' && !entry.url) ? ' is-muted' : ''}" aria-hidden="true"></span>`;
   return `
     <article class="timeline-entry" data-kind="${entry.kind}">
@@ -399,9 +399,6 @@ const fixedPreviewSourceFor = (entry) => {
   if (!entry) return visualPreviewByKey.airops;
   return visualPreviewByKey[entry.assetKey] || entry.cover;
 };
-const previewTimelineEntries = timelineEntries.filter((entry) =>
-  entry.entryData.assetKey || fixedPreviewSourceFor(entry.entryData)
-);
 detailsTrigger.addEventListener('click', () => {
   window.clearTimeout(detailsCloseTimer);
   const open = !detailsGroup.classList.contains('is-open');
@@ -410,7 +407,7 @@ detailsTrigger.addEventListener('click', () => {
 
   if (open) {
     clearTimelineActive();
-    setProjectPreview();
+    renderContentWell(presentProjectData);
     document.body.classList.remove('details-closing');
     timeline.querySelectorAll('.is-exiting').forEach((element) => {
       element.classList.remove('is-exiting');
@@ -461,28 +458,26 @@ detailsTrigger.addEventListener('click', () => {
 });
 
 let activeTimelineEntry;
-let previewTimelineEntry;
 let activeTimelineFrame;
 let previousScrollY = window.scrollY;
 let previousScrollTime = performance.now();
 let timelineScrollDirection = 0;
 let timelineScrollVelocity = 0;
-const projectPreview = document.querySelector('#project-content-well');
-const contentWellScroll = projectPreview.querySelector('.content-well-scroll');
-const contentWellProgress = projectPreview.querySelector('.content-well-progress');
-const contentWellStatus = projectPreview.querySelector('.content-well-status');
+const contentWell = document.querySelector('#content-well');
+const contentWellScroll = contentWell.querySelector('.content-well-scroll');
+const contentWellProgress = contentWell.querySelector('.content-well-progress');
+const contentWellStatus = contentWell.querySelector('.content-well-status');
 let renderContentWell = () => {};
-const setProjectPreview = (entry) => renderContentWell(entry || presentProjectData);
 
 const setPreviewVisibility = (visible) => {
-  projectPreview.classList.toggle('is-visible', visible);
-  projectPreview.setAttribute('aria-hidden', String(!visible));
+  contentWell.classList.toggle('is-visible', visible);
+  contentWell.setAttribute('aria-hidden', String(!visible));
   if (!visible) contentWellScroll.querySelectorAll('video').forEach((video) => video.pause());
 };
 
 const clearTimelineActive = () => {
   activeTimelineEntry?.classList.remove('is-active');
-  activeTimelineEntry?.querySelectorAll('.project-expand-trigger, .project-title-trigger, .writing-expand-trigger').forEach((control) => control.setAttribute('tabindex', '-1'));
+  activeTimelineEntry?.querySelectorAll('.content-well-trigger').forEach((control) => control.setAttribute('tabindex', '-1'));
   activeTimelineEntry = undefined;
   timeline.classList.remove('has-active');
 };
@@ -520,26 +515,6 @@ const timelineEntryForViewport = (candidateEntries) => {
   return focusY < handoffPoint ? previous.entry : upcoming.entry;
 };
 
-const previewStateForViewport = () => {
-  const focusY = window.scrollY + window.innerHeight / 2;
-  const points = [
-    { entry: presentProjectData, center: untransformedDocumentCenter(presentProjectTrigger).y },
-    ...previewTimelineEntries.map((element) => ({ entry: element.entryData, center: untransformedDocumentCenter(element).y }))
-  ];
-  const upcomingIndex = points.findIndex((point) => point.center >= focusY);
-  let activeIndex;
-  if (window.scrollY <= 48 || upcomingIndex <= 0) activeIndex = 0;
-  else if (upcomingIndex === -1) activeIndex = points.length - 1;
-  else {
-    const previous = points[upcomingIndex - 1];
-    const upcoming = points[upcomingIndex];
-    activeIndex = focusY < previous.center + (upcoming.center - previous.center) / 2
-      ? upcomingIndex - 1
-      : upcomingIndex;
-  }
-  return points[activeIndex].entry;
-};
-
 const updateTimelineActive = () => {
   activeTimelineFrame = undefined;
   if (!document.body.classList.contains('details-open') || document.body.classList.contains('details-opening') || document.body.classList.contains('details-closing') || timelinePanel.hidden) return;
@@ -548,28 +523,21 @@ const updateTimelineActive = () => {
   const firstEntryCenter = firstTimelineEntry ? untransformedDocumentCenter(firstTimelineEntry).y : 0;
   const presentOwnsFocus = Boolean(firstTimelineEntry && firstEntryCenter - window.scrollY > window.innerHeight / 2);
   const closest = presentOwnsFocus ? undefined : timelineEntryForViewport(timelineEntries);
-  const closestPreview = previewStateForViewport();
 
   document.body.classList.toggle('present-focus', presentOwnsFocus);
   if (!closest) {
     clearTimelineActive();
-    if (closestPreview !== previewTimelineEntry) {
-      previewTimelineEntry = closestPreview;
-      setProjectPreview(previewTimelineEntry);
-    }
+    renderContentWell(presentProjectData);
     return;
   }
   if (closest !== activeTimelineEntry) {
     activeTimelineEntry?.classList.remove('is-active');
-    activeTimelineEntry?.querySelectorAll('.project-expand-trigger, .project-title-trigger, .writing-expand-trigger').forEach((control) => control.setAttribute('tabindex', '-1'));
+    activeTimelineEntry?.querySelectorAll('.content-well-trigger').forEach((control) => control.setAttribute('tabindex', '-1'));
     activeTimelineEntry = closest;
     timeline.classList.add('has-active');
     activeTimelineEntry.classList.add('is-active');
-    activeTimelineEntry.querySelectorAll('.project-expand-trigger, .project-title-trigger, .writing-expand-trigger').forEach((control) => control.setAttribute('tabindex', '0'));
-  }
-  if (closestPreview !== previewTimelineEntry) {
-    previewTimelineEntry = closestPreview;
-    setProjectPreview(previewTimelineEntry);
+    activeTimelineEntry.querySelectorAll('.content-well-trigger').forEach((control) => control.setAttribute('tabindex', '0'));
+    renderContentWell(activeTimelineEntry.entryData);
   }
 };
 
@@ -889,12 +857,14 @@ detailsTrigger.addEventListener('click', () => {
 });
 
 const projectManifest = fetch('assets-visual/manifest.json').then((response) => response.json());
-const hashText = (value) => [...value].reduce((hash, character) => Math.imul(hash ^ character.charCodeAt(0), 16777619), 2166136261) >>> 0;
+const writingManifest = fetch('assets-writing/manifest.json').then((response) => response.json());
 const contentWellPositions = new Map();
 let contentWellEntry;
-let contentWellProjectKey;
+let contentWellKey;
 let contentWellGeneration = 0;
 let contentWellFrame;
+
+const contentKeyFor = (entry) => entry.assetKey || entry.assetsUrl || entry.url || `${entry.kind}:${entry.title}`;
 
 const assetIdentity = (asset) => {
   try { return new URL(asset.source || asset.src, document.baseURI).href; }
@@ -958,10 +928,38 @@ const createContentWellMedia = (asset, index) => {
   return image;
 };
 
+const createWritingContent = (article) => {
+  const documentNode = document.createElement('article');
+  documentNode.className = 'content-well-writing';
+  const header = document.createElement('header');
+  header.className = 'content-well-writing-header';
+  const title = document.createElement('h1');
+  title.textContent = article.title;
+  const meta = document.createElement('p');
+  meta.className = 'content-well-writing-meta';
+  meta.textContent = [article.meta.published, article.meta.author].filter(Boolean).join(' · ');
+  const body = document.createElement('div');
+  body.className = 'content-well-writing-body';
+  body.innerHTML = article.content;
+  header.append(title, meta);
+  documentNode.append(header, body);
+  return documentNode;
+};
+
 const updateContentWellActive = () => {
   contentWellFrame = undefined;
+  if (contentWell.dataset.kind === 'writing') {
+    const range = Math.max(1, contentWellScroll.scrollHeight - contentWellScroll.clientHeight);
+    const progress = Math.max(0, Math.min(1, contentWellScroll.scrollTop / range));
+    contentWellProgress.style.setProperty('--document-progress', progress.toFixed(4));
+    contentWellStatus.textContent = `${Math.round(progress * 100)}% read`;
+    return;
+  }
   const items = [...contentWellScroll.querySelectorAll('.content-well-item')];
-  if (!items.length) return;
+  if (!items.length) {
+    contentWellStatus.textContent = '';
+    return;
+  }
   const center = contentWellScroll.scrollTop + contentWellScroll.clientHeight / 2;
   let activeIndex = 0;
   let activeDistance = Infinity;
@@ -973,13 +971,10 @@ const updateContentWellActive = () => {
     }
   });
   items.forEach((item, index) => {
-    const active = index === activeIndex;
-    item.classList.toggle('is-active', active);
     const video = item.querySelector('video');
-    if (video) {
-      if (active) video.play().catch(() => {});
-      else video.pause();
-    }
+    if (!video) return;
+    if (index === activeIndex) video.play().catch(() => {});
+    else video.pause();
   });
   [...contentWellProgress.children].forEach((button, index) => {
     if (index === activeIndex) button.setAttribute('aria-current', 'true');
@@ -993,57 +988,83 @@ const requestContentWellActive = () => {
 };
 
 contentWellScroll.addEventListener('scroll', () => {
-  if (contentWellProjectKey) contentWellPositions.set(contentWellProjectKey, contentWellScroll.scrollTop);
+  if (contentWellKey) contentWellPositions.set(contentWellKey, contentWellScroll.scrollTop);
   requestContentWellActive();
 }, { passive: true });
+
+contentWell.addEventListener('pointerenter', cancelDrift);
+contentWell.addEventListener('pointerdown', cancelDrift);
+contentWell.addEventListener('touchstart', cancelDrift, { passive: true });
 
 contentWellProgress.addEventListener('click', (event) => {
   const button = event.target.closest('button[data-index]');
   if (!button) return;
-  const item = contentWellScroll.children[Number(button.dataset.index)];
+  const item = contentWellScroll.querySelector(`[data-index="${button.dataset.index}"]`);
   if (!item) return;
   contentWellScroll.scrollTo({ top: item.offsetTop, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
 });
 
 renderContentWell = async (entry) => {
   if (!entry) return;
-  const projectKey = entry.assetKey || entry.assetsUrl || entry.url || entry.title;
-  if (contentWellEntry === entry && contentWellScroll.children.length) return;
-  const generation = ++contentWellGeneration;
-  const manifest = await projectManifest;
-  if (generation !== contentWellGeneration) return;
-  const assets = assetsForEntry(manifest, entry);
-  if (!assets.length) {
-    setPreviewVisibility(false);
+  const key = contentKeyFor(entry);
+  if (contentWellEntry === entry) {
+    setPreviewVisibility(document.body.classList.contains('details-open'));
     return;
   }
-  if (contentWellProjectKey) contentWellPositions.set(contentWellProjectKey, contentWellScroll.scrollTop);
+  if (contentWellKey) contentWellPositions.set(contentWellKey, contentWellScroll.scrollTop);
+  const generation = ++contentWellGeneration;
   contentWellEntry = entry;
-  contentWellProjectKey = projectKey;
-  projectPreview.classList.remove('is-ready');
-  const mediaFragment = document.createDocumentFragment();
-  const progressFragment = document.createDocumentFragment();
-  assets.forEach((asset, index) => {
-    const item = document.createElement('figure');
-    item.className = 'content-well-item';
-    item.dataset.index = String(index);
-    item.append(createContentWellMedia(asset, index));
-    mediaFragment.append(item);
-    const segment = document.createElement('button');
-    segment.type = 'button';
-    segment.dataset.index = String(index);
-    segment.setAttribute('aria-label', `View item ${index + 1} of ${assets.length}`);
-    progressFragment.append(segment);
-  });
+  contentWellKey = key;
+  contentWell.classList.remove('is-ready');
+  contentWell.dataset.kind = entry.kind;
   contentWellScroll.querySelectorAll('video').forEach((video) => video.pause());
-  contentWellScroll.replaceChildren(mediaFragment);
+
+  const contentFragment = document.createDocumentFragment();
+  const progressFragment = document.createDocumentFragment();
+  let label = `${entry.title}, no preview content`;
+
+  if (entry.kind === 'writing' && entry.url) {
+    const manifest = await writingManifest;
+    const record = manifest.writings[new URL(entry.url, document.baseURI).href];
+    if (record) {
+      const response = await fetch(record.file);
+      const article = await response.json();
+      if (generation !== contentWellGeneration) return;
+      contentFragment.append(createWritingContent(article));
+      contentWellProgress.classList.add('is-document');
+      label = `${entry.title}, writing`;
+    }
+  } else if (entry.kind === 'project') {
+    const manifest = await projectManifest;
+    if (generation !== contentWellGeneration) return;
+    const assets = assetsForEntry(manifest, entry);
+    assets.forEach((asset, index) => {
+      const item = document.createElement('figure');
+      item.className = 'content-well-item';
+      item.dataset.index = String(index);
+      item.style.setProperty('--item-index', index);
+      item.append(createContentWellMedia(asset, index));
+      contentFragment.append(item);
+      const segment = document.createElement('button');
+      segment.type = 'button';
+      segment.dataset.index = String(index);
+      segment.setAttribute('aria-label', `View item ${index + 1} of ${assets.length}`);
+      progressFragment.append(segment);
+    });
+    label = assets.length
+      ? `${entry.title}, ${assets.length} ${assets.length === 1 ? 'item' : 'items'}`
+      : `${entry.title}, no preview content`;
+  }
+
+  if (generation !== contentWellGeneration) return;
+  contentWellProgress.classList.toggle('is-document', entry.kind === 'writing' && contentFragment.childNodes.length > 0);
+  contentWellScroll.replaceChildren(contentFragment);
   contentWellProgress.replaceChildren(progressFragment);
-  const countLabel = `${assets.length} ${assets.length === 1 ? 'item' : 'items'}`;
-  projectPreview.setAttribute('aria-label', `${entry.title} project media, ${countLabel}`);
-  contentWellScroll.scrollTop = contentWellPositions.get(projectKey) || 0;
+  contentWell.setAttribute('aria-label', label);
+  contentWellScroll.scrollTop = contentWellPositions.get(key) || 0;
   setPreviewVisibility(document.body.classList.contains('details-open'));
   requestAnimationFrame(() => {
-    projectPreview.classList.add('is-ready');
+    contentWell.classList.add('is-ready');
     updateContentWellActive();
   });
 };
@@ -1063,7 +1084,7 @@ const focusContentWell = async (entry) => {
   contentWellScroll.focus({ preventScroll: true });
 };
 
-timeline.querySelectorAll('.project-expand-trigger, .project-title-trigger').forEach((trigger) => {
+timeline.querySelectorAll('.content-well-trigger').forEach((trigger) => {
   trigger.addEventListener('click', () => {
     const element = trigger.closest('.timeline-entry');
     if (element !== activeTimelineEntry) return;
@@ -1072,85 +1093,3 @@ timeline.querySelectorAll('.project-expand-trigger, .project-title-trigger').for
 });
 
 presentProjectTrigger.addEventListener('click', () => focusContentWell(presentProjectData));
-
-const writingReader = document.querySelector('#writing-reader');
-const writingTitle = writingReader.querySelector('#writing-reader-title');
-const writingMeta = writingReader.querySelector('.writing-reader-meta');
-const writingContent = writingReader.querySelector('.writing-reader-content');
-const writingScroll = writingReader.querySelector('.writing-reader-scroll');
-const writingClose = writingReader.querySelector('.writing-reader-close');
-const writingManifest = fetch('assets-writing/manifest.json').then((response) => response.json());
-let writingReturnTarget;
-let writingCloseTimer;
-
-const closeWriting = () => {
-  if (writingReader.hidden || writingReader.classList.contains('is-closing')) return;
-  window.clearTimeout(writingCloseTimer);
-  writingReader.classList.remove('is-open');
-  writingReader.classList.add('is-closing');
-  writingReader.setAttribute('aria-hidden', 'true');
-  writingCloseTimer = window.setTimeout(() => {
-    writingReader.hidden = true;
-    writingReader.classList.remove('is-closing');
-    writingTitle.textContent = '';
-    writingMeta.textContent = '';
-    writingContent.replaceChildren();
-  }, reducedMotion.matches ? 0 : 480);
-};
-
-const openWriting = async (link) => {
-  const manifest = await writingManifest;
-  const item = manifest.writings[new URL(link.href).href];
-  if (!item) return;
-  const response = await fetch(item.file);
-  const article = await response.json();
-  writingReturnTarget = link;
-  const readerSeed = hashText(article.meta.source || link.href);
-  writingReader.style.setProperty('--reader-left', `${32 + (readerSeed % 34)}px`);
-  writingReader.style.setProperty('--reader-bottom', `${28 + ((readerSeed >>> 5) % 28)}px`);
-  writingReader.style.setProperty('--reader-width', `${510 + ((readerSeed >>> 10) % 90)}px`);
-  window.clearTimeout(writingCloseTimer);
-  writingTitle.textContent = article.title;
-  writingMeta.textContent = [article.meta.published, article.meta.author].filter(Boolean).join(' · ');
-  writingContent.innerHTML = article.content;
-  writingScroll.scrollTop = 0;
-  writingReader.hidden = false;
-  writingReader.classList.remove('is-closing');
-  writingReader.setAttribute('aria-hidden', 'false');
-  requestAnimationFrame(() => {
-    writingReader.classList.add('is-open');
-    writingClose.focus({ preventScroll: true });
-  });
-};
-
-document.querySelectorAll('.writing-popup-trigger').forEach((link) => {
-  link.setAttribute('aria-controls', 'writing-reader');
-  link.addEventListener('click', (event) => {
-    event.preventDefault();
-    openWriting(link);
-  });
-});
-
-timeline.querySelectorAll('.writing-expand-trigger').forEach((trigger) => {
-  trigger.setAttribute('aria-controls', 'writing-reader');
-  trigger.addEventListener('click', () => {
-    const entry = trigger.closest('.timeline-entry');
-    if (entry !== activeTimelineEntry) return;
-    const link = entry.querySelector('.writing-popup-trigger');
-    if (link) openWriting(link);
-  });
-});
-
-writingClose.addEventListener('click', () => {
-  closeWriting();
-  writingReturnTarget?.focus({ preventScroll: true });
-});
-document.addEventListener('click', (event) => {
-  if (writingReader.hidden || event.target.closest('#writing-reader, .writing-popup-trigger, .writing-expand-trigger')) return;
-  closeWriting();
-});
-document.addEventListener('keydown', (event) => {
-  if (event.key !== 'Escape' || writingReader.hidden) return;
-  closeWriting();
-  writingReturnTarget?.focus({ preventScroll: true });
-});

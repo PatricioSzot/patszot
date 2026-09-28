@@ -839,7 +839,7 @@ body.details-open .footer-contact {
   cursor: pointer;
 }
 
-.project-content-well {
+.content-well {
   position: fixed;
   z-index: 30;
   bottom: 40px;
@@ -859,7 +859,7 @@ body.details-open .footer-contact {
   transition: opacity .26s ease, transform .5s var(--ease), visibility 0s linear .5s;
 }
 
-.project-content-well.is-visible {
+.content-well.is-visible {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -876,9 +876,9 @@ body.details-open .footer-contact {
   border-radius: 4px;
   background: #fff;
   scroll-behavior: auto;
-  scroll-snap-type: y proximity;
   scrollbar-width: none;
   touch-action: pan-y;
+  overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   contain: layout paint style;
 }
@@ -892,36 +892,37 @@ body.details-open .footer-contact {
 
 .content-well-item {
   width: 100%;
-  height: 100%;
-  min-height: 100%;
-  margin: 0;
+  min-height: 0;
+  margin: 0 0 8px;
   display: grid;
   place-items: center;
   overflow: hidden;
   border-radius: 4px;
   background: #fff;
-  scroll-snap-align: start;
-  scroll-snap-stop: normal;
-  opacity: .82;
+  opacity: 0;
   transform: translate3d(0, 6px, 0);
   transition: opacity .28s ease, transform .46s var(--ease);
+  transition-delay: calc(min(var(--item-index, 0), 6) * 45ms);
 }
 
-.project-content-well.is-ready .content-well-item { transform: none; }
-.content-well-item.is-active { opacity: 1; }
+.content-well.is-ready .content-well-item { opacity: 1; transform: none; }
 
 .content-well-item img,
 .content-well-item video,
 .content-well-item iframe {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
   max-width: 100%;
-  max-height: 100%;
   border: 0;
   border-radius: 4px;
   background: #fff;
   object-fit: contain;
+}
+
+.content-well-item iframe {
+  height: min(56vw, 420px);
+  min-height: 152px;
 }
 
 .content-well-progress {
@@ -961,6 +962,23 @@ body.details-open .footer-contact {
 
 .content-well-progress button:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
 
+.content-well-progress:empty:not(.is-document) { display: none; }
+
+.content-well-progress.is-document {
+  display: block;
+  background: rgba(29, 27, 25, .12);
+}
+
+.content-well-progress.is-document::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  transform: scaleY(var(--document-progress, 0));
+  transform-origin: top;
+  transition: transform .12s linear;
+}
+
 .content-well-status {
   position: absolute;
   width: 1px;
@@ -973,124 +991,75 @@ body.details-open .footer-contact {
   border: 0;
 }
 
-.logo,
-.timeline-year-heading,
-.timeline-marker { z-index: 48; }
-
-.writing-reader {
-  position: fixed;
-  z-index: 60;
-  top: auto;
-  bottom: var(--reader-bottom, 40px);
-  left: var(--reader-left, 40px);
-  width: min(var(--reader-width, 560px), calc(50vw - 64px));
-  height: min(72svh, 760px);
-  overflow: hidden;
-  border: 1px solid rgba(29, 27, 25, .14);
-  border-radius: 4px;
+.content-well-writing {
+  min-height: 100%;
+  padding: 52px 52px 72px;
   background: #fff;
-  opacity: 0;
-  transform: translate3d(-10px, 8px, 0) scale(.992);
-  transform-origin: left bottom;
-  transition: opacity .3s ease, transform .58s var(--ease);
 }
 
-.writing-reader.is-open {
-  opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
+.content-well-writing-header {
+  margin-bottom: 42px;
 }
 
-.writing-reader.is-closing {
-  opacity: 0;
-  transform: translate3d(-6px, 3px, 0) scale(.996);
-}
-
-.writing-reader-close {
-  position: absolute;
-  z-index: 2;
-  top: 14px;
-  right: 14px;
-  width: 32px;
-  height: 32px;
-  display: grid;
-  place-items: center;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, .92);
-  color: var(--ink);
-  cursor: pointer;
-}
-
-.writing-reader-close i { font-size: 19px; line-height: 1; }
-
-.writing-reader-scroll {
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 64px 56px 80px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(29, 27, 25, .28) transparent;
-}
-
-.writing-reader-header { margin-bottom: 48px; }
-
-.writing-reader-header h1 {
-  max-width: 480px;
-  margin: 0 0 16px;
-  font-size: clamp(30px, 3.2vw, 42px);
+.content-well-writing h1 {
+  max-width: 560px;
+  margin: 0 0 14px;
+  font-size: clamp(28px, 3vw, 40px);
   font-weight: 400;
   line-height: 1.04;
   letter-spacing: -.04em;
   text-wrap: balance;
 }
 
-.writing-reader-meta {
+.content-well-writing-meta {
   margin: 0;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.35;
 }
 
-.writing-reader-content { font-size: 17px; line-height: 1.52; }
-.writing-reader-content p { margin: 0 0 1.35em; }
-.writing-reader-content h2,
-.writing-reader-content h3,
-.writing-reader-content h4 {
+.content-well-writing-body { font-size: 17px; line-height: 1.52; }
+.content-well-writing-body p { margin: 0 0 1.35em; }
+.content-well-writing-body h2,
+.content-well-writing-body h3,
+.content-well-writing-body h4 {
   margin: 2.2em 0 .7em;
   font-weight: 400;
   line-height: 1.08;
   letter-spacing: -.035em;
 }
-.writing-reader-content h2 { font-size: 27px; }
-.writing-reader-content h3 { font-size: 22px; }
-.writing-reader-content h4 { font-size: 19px; }
-.writing-reader-content blockquote {
+.content-well-writing-body h2 { font-size: 27px; }
+.content-well-writing-body h3 { font-size: 22px; }
+.content-well-writing-body h4 { font-size: 19px; }
+.content-well-writing-body blockquote {
   margin: 2em 0;
   padding-left: 18px;
   border-left: 1px solid currentColor;
   font-size: 20px;
   line-height: 1.35;
 }
-.writing-reader-content ul,
-.writing-reader-content ol { margin: 0 0 1.35em; padding-left: 1.2em; }
-.writing-reader-content li { margin-bottom: .45em; }
-.writing-reader-content img {
+.content-well-writing-body ul,
+.content-well-writing-body ol { margin: 0 0 1.35em; padding-left: 1.2em; }
+.content-well-writing-body li { margin-bottom: .45em; }
+.content-well-writing-body img {
   display: block;
-  width: calc(100% + 112px);
+  width: calc(100% + 104px);
   max-width: none;
   height: auto;
-  margin: 40px -56px;
+  margin: 36px -52px;
 }
-.writing-reader-content figcaption {
-  margin-top: -28px;
+.content-well-writing-body figcaption {
+  margin-top: -24px;
   color: var(--muted);
   font-size: 13px;
   line-height: 1.4;
 }
-.writing-reader-content a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
-.writing-reader-content hr { margin: 40px 0; border: 0; border-top: 1px solid rgba(29, 27, 25, .14); }
+.content-well-writing-body a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.content-well-writing-body hr { margin: 36px 0; border: 0; border-top: 1px solid rgba(29, 27, 25, .14); }
+
+.logo,
+.timeline-year-heading,
+.timeline-marker { z-index: 48; }
 
 .load-line {
   opacity: 0;
@@ -1361,26 +1330,7 @@ body.details-open .footer-contact {
     font-size: 15px;
   }
 
-  .writing-reader {
-    top: auto;
-    right: 20px;
-    bottom: 20px;
-    left: 20px;
-    width: auto;
-    height: min(68svh, 620px);
-    transform: translate3d(0, 8px, 0) scale(.994);
-  }
-
-  .writing-reader.is-open { transform: none; }
-  .writing-reader.is-closing { transform: translate3d(0, -4px, 0) scale(.997); }
-  .writing-reader-scroll { padding: 56px 24px 64px; }
-  .writing-reader-header { margin-bottom: 38px; }
-  .writing-reader-header h1 { font-size: 30px; line-height: 1.06; }
-  .writing-reader-content { font-size: 16px; }
-  .writing-reader-content h2 { font-size: 24px; }
-  .writing-reader-content img { width: calc(100% + 48px); margin: 32px -24px; }
-
-  .project-content-well {
+  .content-well {
     right: 20px;
     bottom: 20px;
     left: 20px;
@@ -1390,6 +1340,12 @@ body.details-open .footer-contact {
 
   .content-well-progress { left: -12px; width: 7px; gap: 2px; }
 
+  .content-well-writing { padding: 40px 24px 56px; }
+  .content-well-writing-header { margin-bottom: 34px; }
+  .content-well-writing h1 { font-size: 28px; line-height: 1.06; }
+  .content-well-writing-body { font-size: 16px; }
+  .content-well-writing-body h2 { font-size: 24px; }
+  .content-well-writing-body img { width: calc(100% + 48px); margin: 30px -24px; }
 
 }
 
