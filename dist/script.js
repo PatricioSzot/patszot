@@ -51,6 +51,12 @@ const syncOverviewState = () => {
   requestAnimationFrame(syncOverviewHeight);
 };
 
+const setOverviewProjectOpen = (group, open) => {
+  setGroup(group, open);
+  if (open) choreographOverviewItems(group);
+  syncOverviewState();
+};
+
 new ResizeObserver(syncOverviewHeight).observe(overviewProfile);
 
 document.querySelectorAll('.load-line').forEach((line) => {
@@ -59,10 +65,7 @@ document.querySelectorAll('.load-line').forEach((line) => {
 
 document.querySelectorAll('.group').forEach((group) => {
   group.querySelector(':scope > .group-trigger, :scope > .overview-project-heading > .group-trigger, :scope > .previous-row > .group-trigger').addEventListener('click', () => {
-    const open = !group.classList.contains('is-open');
-    setGroup(group, open);
-    if (open) choreographOverviewItems(group);
-    syncOverviewState();
+    setOverviewProjectOpen(group, !group.classList.contains('is-open'));
   });
 });
 
@@ -348,6 +351,32 @@ let driftLastTime = performance.now();
 
 const maxScrollY = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
 const clampScrollY = (value) => Math.min(maxScrollY(), Math.max(0, value));
+const isAtScrollEnd = () => maxScrollY() - window.scrollY <= Math.max(4, window.innerHeight * .012);
+let scrollRevealLocked = false;
+let scrollRevealTimer;
+
+const advanceScrollReveal = () => {
+  if (scrollRevealLocked) return false;
+
+  const nextProject = overviewProjects.find((group) => !group.classList.contains('is-open'));
+  if (nextProject) {
+    setOverviewProjectOpen(nextProject, true);
+  } else if (!detailsGroup.classList.contains('is-open')) {
+    detailsTrigger.click();
+  } else {
+    return false;
+  }
+
+  scrollRevealLocked = true;
+  document.body.classList.add('scroll-reveal-transitioning');
+  window.clearTimeout(scrollRevealTimer);
+  scrollRevealTimer = window.setTimeout(() => {
+    scrollRevealLocked = false;
+    document.body.classList.remove('scroll-reveal-transitioning');
+    driftTarget = window.scrollY;
+  }, reducedMotion.matches ? 80 : 900);
+  return true;
+};
 
 const cancelDrift = () => {
   if (driftFrame) cancelAnimationFrame(driftFrame);
@@ -391,15 +420,36 @@ const driftTo = (position) => {
 };
 
 window.addEventListener('wheel', (event) => {
-  if (coarsePointer.matches || reducedMotion.matches || event.ctrlKey || event.target.closest('.content-well-scroll')) return;
+  if (event.ctrlKey || event.target.closest('.content-well-scroll')) return;
   const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
-  event.preventDefault();
   const impulse = event.deltaY * unit;
+  if (impulse > 0 && isAtScrollEnd() && advanceScrollReveal()) {
+    event.preventDefault();
+    cancelDrift();
+    return;
+  }
+  if (coarsePointer.matches || reducedMotion.matches) return;
+  event.preventDefault();
   driftVelocity += Math.max(-420, Math.min(420, impulse * .72));
   driftTo(driftTarget + impulse * .34);
 }, { passive: false });
 
-window.addEventListener('touchstart', cancelDrift, { passive: true });
+let scrollRevealTouchStartY;
+window.addEventListener('touchstart', (event) => {
+  cancelDrift();
+  scrollRevealTouchStartY = event.touches.length === 1 && !event.target.closest('.content-well-scroll')
+    ? event.touches[0].clientY
+    : undefined;
+}, { passive: true });
+
+window.addEventListener('touchend', (event) => {
+  if (scrollRevealTouchStartY === undefined || !event.changedTouches.length) return;
+  const upwardTravel = scrollRevealTouchStartY - event.changedTouches[0].clientY;
+  scrollRevealTouchStartY = undefined;
+  if (upwardTravel > 28 && isAtScrollEnd()) advanceScrollReveal();
+}, { passive: true });
+
+window.addEventListener('touchcancel', () => { scrollRevealTouchStartY = undefined; }, { passive: true });
 
 document.addEventListener('keydown', (event) => {
   if (reducedMotion.matches || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
@@ -421,7 +471,9 @@ document.addEventListener('keydown', (event) => {
     driftTo(maxScrollY());
   } else if (keyboardDistances[event.key] !== undefined) {
     event.preventDefault();
-    driftTo(driftTarget + keyboardDistances[event.key]);
+    const distance = keyboardDistances[event.key];
+    if (distance > 0 && isAtScrollEnd() && advanceScrollReveal()) return;
+    driftTo(driftTarget + distance);
   }
 });
 
