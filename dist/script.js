@@ -9,20 +9,39 @@ const visualManifestData = await fetch('assets-visual/manifest.json')
   });
 
 const setGroup = (group, open) => {
-  const trigger = group.querySelector(':scope > .group-trigger, :scope > .nested-trigger, :scope > .previous-row > .group-trigger');
-  const panel = group.querySelector(':scope > div');
+  const trigger = group.querySelector(':scope > .group-trigger, :scope > .overview-project-heading > .group-trigger, :scope > .nested-trigger, :scope > .previous-row > .group-trigger');
+  const panel = group.querySelector(':scope > .overview-project-panel, :scope > .nested-panel, :scope > .group-panel');
   group.classList.toggle('is-open', open);
   trigger.setAttribute('aria-expanded', String(open));
   panel.inert = !open;
 };
+
+const overviewProfile = document.querySelector('.profile');
+const overviewProjects = [...document.querySelectorAll('.overview-project.group')];
+const syncOverviewHeight = () => {
+  if (!document.body.classList.contains('overview-expanded')) {
+    document.documentElement.style.removeProperty('--profile-document-height');
+    return;
+  }
+  const profileBottom = overviewProfile.offsetTop + overviewProfile.offsetHeight + 440;
+  document.documentElement.style.setProperty('--profile-document-height', `${profileBottom}px`);
+};
+
+const syncOverviewState = () => {
+  document.body.classList.toggle('overview-expanded', overviewProjects.some((group) => group.classList.contains('is-open')));
+  requestAnimationFrame(syncOverviewHeight);
+};
+
+new ResizeObserver(syncOverviewHeight).observe(overviewProfile);
 
 document.querySelectorAll('.load-line').forEach((line) => {
   line.addEventListener('animationend', () => line.classList.remove('load-line'), { once: true });
 });
 
 document.querySelectorAll('.group').forEach((group) => {
-  group.querySelector(':scope > .group-trigger, :scope > .previous-row > .group-trigger').addEventListener('click', () => {
+  group.querySelector(':scope > .group-trigger, :scope > .overview-project-heading > .group-trigger, :scope > .previous-row > .group-trigger').addEventListener('click', () => {
     setGroup(group, !group.classList.contains('is-open'));
+    syncOverviewState();
   });
 });
 
@@ -490,7 +509,7 @@ detailsTrigger.addEventListener('click', () => {
   window.clearTimeout(detailsCloseTimer);
   const open = !detailsGroup.classList.contains('is-open');
   detailsTrigger.setAttribute('aria-expanded', String(open));
-  detailsTrigger.setAttribute('aria-label', open ? 'Show less detail' : 'Show more detail');
+  detailsTrigger.setAttribute('aria-label', open ? 'Close timeline' : 'Open timeline');
 
   if (open) {
     clearTimelineActive();

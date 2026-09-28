@@ -3,6 +3,7 @@ import path from 'node:path';
 
 const root = path.resolve('dist/assets-visual');
 const folderPattern = /^(\d{1,2})-(\d{1,2})-(\d{4})-(.+)$/;
+const auxiliaryFolders = new Set(['PrimaryAndSecondaryProjectAssets']);
 
 const knownProjects = {
   'airops': { title: 'Principal Brand Designer at AirOps' },
@@ -98,7 +99,9 @@ const mediaForFolder = async (folder, title) => {
 };
 
 const entries = await readdir(root, { withFileTypes: true });
-const folders = entries.filter((entry) => entry.isDirectory()).map((entry) => parseFolder(entry.name));
+const folders = entries
+  .filter((entry) => entry.isDirectory() && !auxiliaryFolders.has(entry.name))
+  .map((entry) => parseFolder(entry.name));
 const groupedFolders = new Map();
 
 folders.forEach((folder) => {
