@@ -204,11 +204,27 @@ body.details-open .profile-anchor-marker {
   border-radius: 30px;
   background: #001308;
   color: #fff;
+  transform-origin: center top;
+  transition:
+    height .46s var(--ease),
+    padding .46s var(--ease),
+    border-radius .46s var(--ease),
+    transform .46s var(--ease);
 }
 
 .overview-project-heading .overview-project-pill { flex: 1 1 auto; width: auto; }
 .overview-project-pill-gloss { background: #17150e; }
 .overview-project-pill-webflow { background: #040519; }
+
+/* A short compression/release previews the otherwise unexpected scroll reveal. */
+.overview-project.is-reveal-priming > .overview-project-heading .overview-project-pill,
+.overview-project.is-reveal-priming > .overview-project-pill {
+  height: 29px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-radius: 22px;
+  transform: translateY(3px) scaleX(.997);
+}
 
 .accordion-icon {
   position: relative;
@@ -268,6 +284,30 @@ body.details-open .profile-anchor-marker {
   aspect-ratio: 16 / 9;
   object-fit: cover;
   background: transparent;
+  opacity: 0;
+  transform: translate3d(0, 18px, 0) scale(.994);
+  transform-origin: center top;
+  will-change: opacity, transform;
+  transition:
+    opacity .66s ease,
+    transform .82s var(--ease);
+}
+
+.group.is-open > .overview-project-panel .overview-project-media img.is-motion-ready {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.group.is-open > .overview-project-panel .overview-project-media img:nth-child(1) {
+  transition-delay: .12s, .08s;
+}
+
+.group.is-open > .overview-project-panel .overview-project-media img:nth-child(2) {
+  transition-delay: .24s, .17s;
+}
+
+.group:not(.is-open) > .overview-project-panel .overview-project-media img {
+  transition-delay: 0s;
 }
 
 .overview-project-summary {

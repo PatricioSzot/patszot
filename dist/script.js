@@ -18,6 +18,20 @@ const setGroup = (group, open) => {
 
 const overviewProfile = document.querySelector('.profile');
 const overviewProjects = [...document.querySelectorAll('.overview-project.group')];
+const overviewRevealTimers = new WeakMap();
+
+overviewProjects.forEach((group) => {
+  group.querySelectorAll('.overview-project-media img').forEach((image) => {
+    image.decoding = 'async';
+    const markReady = () => requestAnimationFrame(() => image.classList.add('is-motion-ready'));
+    if (image.complete) markReady();
+    else {
+      image.addEventListener('load', markReady, { once: true });
+      image.addEventListener('error', markReady, { once: true });
+    }
+  });
+});
+
 const choreographOverviewItems = (group) => {
   if (group.dataset.project !== 'airops' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   group.querySelectorAll('.overview-summary-item').forEach((item, index) => {
@@ -52,9 +66,29 @@ const syncOverviewState = () => {
 };
 
 const setOverviewProjectOpen = (group, open) => {
+  const pendingReveal = overviewRevealTimers.get(group);
+  if (pendingReveal) window.clearTimeout(pendingReveal);
+  overviewRevealTimers.delete(group);
+  group.classList.remove('is-reveal-priming');
   setGroup(group, open);
   if (open) choreographOverviewItems(group);
   syncOverviewState();
+};
+
+const revealOverviewProject = (group) => {
+  if (group.classList.contains('is-open') || overviewRevealTimers.has(group)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    setOverviewProjectOpen(group, true);
+    return;
+  }
+
+  group.classList.add('is-reveal-priming');
+  const timer = window.setTimeout(() => {
+    overviewRevealTimers.delete(group);
+    group.classList.remove('is-reveal-priming');
+    setOverviewProjectOpen(group, true);
+  }, 190);
+  overviewRevealTimers.set(group, timer);
 };
 
 new ResizeObserver(syncOverviewHeight).observe(overviewProfile);
@@ -65,7 +99,8 @@ document.querySelectorAll('.load-line').forEach((line) => {
 
 document.querySelectorAll('.group').forEach((group) => {
   group.querySelector(':scope > .group-trigger, :scope > .overview-project-heading > .group-trigger, :scope > .previous-row > .group-trigger').addEventListener('click', () => {
-    setOverviewProjectOpen(group, !group.classList.contains('is-open'));
+    if (group.classList.contains('is-open') || overviewRevealTimers.has(group)) setOverviewProjectOpen(group, false);
+    else revealOverviewProject(group);
   });
 });
 
@@ -360,7 +395,7 @@ const advanceScrollReveal = () => {
 
   const nextProject = overviewProjects.find((group) => !group.classList.contains('is-open'));
   if (nextProject) {
-    setOverviewProjectOpen(nextProject, true);
+    revealOverviewProject(nextProject);
   } else if (!detailsGroup.classList.contains('is-open')) {
     detailsTrigger.click();
   } else {
@@ -374,7 +409,7 @@ const advanceScrollReveal = () => {
     scrollRevealLocked = false;
     document.body.classList.remove('scroll-reveal-transitioning');
     driftTarget = window.scrollY;
-  }, reducedMotion.matches ? 80 : 900);
+  }, reducedMotion.matches ? 80 : 1120);
   return true;
 };
 
