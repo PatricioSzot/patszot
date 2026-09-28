@@ -162,6 +162,17 @@ body.details-open .profile-anchor-marker {
   cursor: pointer;
 }
 
+.group-trigger > span:first-child {
+  font-variation-settings: "wght" 400, "wdth" 100;
+  font-synthesis: none;
+  transition: font-variation-settings .48s var(--ease);
+}
+
+body.present-focus .group-trigger > span:first-child,
+.group-trigger:focus-visible > span:first-child {
+  font-variation-settings: "wght" 460, "wdth" 102;
+}
+
 .accordion-icon {
   position: relative;
   flex: 0 0 16px;
@@ -266,6 +277,19 @@ body.details-open .profile-anchor-marker {
   margin: 0;
   font-size: 16px;
   line-height: 1.4;
+}
+
+.previous-row .text-link {
+  border-bottom: 0;
+  text-decoration: none !important;
+  font-variation-settings: "wght" 400, "wdth" 100;
+  font-synthesis: none;
+  transition: color .2s ease, font-variation-settings .48s var(--ease);
+}
+
+.previous-row .text-link:hover,
+.previous-row .text-link:focus-visible {
+  font-variation-settings: "wght" 460, "wdth" 102;
 }
 
 .previous-row .icon-trigger {
@@ -686,14 +710,15 @@ button.timeline-marker {
   line-height: 1.18;
   letter-spacing: -.32px;
   text-align: left;
-  transition: opacity .34s ease, font-variation-settings .56s var(--ease);
+  font-synthesis: none;
+  transition: opacity .3s ease, font-variation-settings .48s var(--ease);
 }
 
 .timeline.has-active .timeline-entry:not(.is-active) h3 { opacity: .42; }
 .timeline-entry.is-active h3,
 .timeline-entry:focus-within h3 {
   opacity: 1;
-  font-variation-settings: "wght" 475, "wdth" 102;
+  font-variation-settings: "wght" 460, "wdth" 102;
 }
 
 .timeline-entry p {
@@ -731,9 +756,15 @@ button.timeline-marker {
   white-space: normal;
   font-variation-settings: inherit;
   text-align: left;
-  text-decoration: none;
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+  box-shadow: none;
   pointer-events: none;
 }
+
+.project-title-trigger:hover,
+.project-title-trigger:focus,
+.project-title-trigger:focus-visible { text-decoration: none !important; }
 
 .timeline-entry.is-active .project-title-trigger {
   pointer-events: auto;
@@ -854,92 +885,138 @@ body.details-open .footer-contact {
   object-fit: cover;
 }
 
-.project-focus-preview {
-  --preview-progress: 0;
+.project-content-well {
   position: fixed;
   z-index: 30;
   bottom: 40px;
   left: 40px;
-  width: min(36vw, 520px);
-  aspect-ratio: 1200 / 630;
+  width: min(44vw, 680px);
+  height: min(68svh, 760px);
   overflow: visible;
   padding: 0;
   border: 0;
   border-radius: 4px;
-  background: transparent;
+  background: #fff;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: translate3d(0, 10px, 0) scale(.988);
+  transform: translate3d(0, 8px, 0) scale(.992);
   transform-origin: left bottom;
-  transition: opacity .32s ease, transform .62s var(--ease), visibility 0s linear .62s;
+  transition: opacity .26s ease, transform .5s var(--ease), visibility 0s linear .5s;
 }
 
-.project-focus-preview.is-visible {
+.project-content-well.is-visible {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  cursor: pointer;
   transform: none;
-  transition-delay: .12s, .12s, 0s;
+  transition-delay: .06s, .06s, 0s;
 }
 
-.project-focus-preview-image {
+.content-well-scroll {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
   border: 0;
   border-radius: 4px;
   background: #fff;
+  scroll-behavior: auto;
+  scroll-snap-type: y proximity;
+  scrollbar-width: none;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+  contain: layout paint style;
 }
 
-.project-focus-preview:focus-visible {
+.content-well-scroll::-webkit-scrollbar { display: none; }
+
+.content-well-scroll:focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 4px;
 }
 
-.project-focus-preview-image {
-  position: relative;
-  z-index: 1;
+.content-well-item {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #fff;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+  opacity: .82;
+  transform: translate3d(0, 6px, 0);
+  transition: opacity .28s ease, transform .46s var(--ease);
+}
+
+.project-content-well.is-ready .content-well-item { transform: none; }
+.content-well-item.is-active { opacity: 1; }
+
+.content-well-item img,
+.content-well-item video,
+.content-well-item iframe {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  opacity: 1;
-  transform: none;
-  transition: none;
+  max-width: 100%;
+  max-height: 100%;
+  border: 0;
+  border-radius: 4px;
+  background: #fff;
+  object-fit: contain;
 }
 
-.project-focus-preview-image[hidden] { display: none; }
-
-.project-focus-preview-video { background: #fff; }
-
-.project-preview-progress {
+.content-well-progress {
   position: absolute;
   z-index: 4;
   top: 0;
   bottom: 0;
-  left: -14px;
-  width: 5px;
-  pointer-events: none;
+  left: -18px;
+  width: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
-.project-preview-progress::before {
+.content-well-progress button {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 2px;
+  padding: 0;
+  border: 0;
+  background: rgba(29, 27, 25, .16);
+  cursor: pointer;
+  transition: background-color .2s ease, transform .3s var(--ease);
+}
+
+.content-well-progress button::after {
   content: "";
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 2px;
-  width: 1px;
-  background: rgba(29, 27, 25, .16);
+  inset: -2px -4px;
 }
 
-.project-preview-progress-thumb {
-  position: absolute;
-  top: calc(var(--preview-progress) * (100% - 22px));
-  left: 1px;
-  width: 3px;
-  height: 22px;
-  border-radius: 2px;
+.content-well-progress button[aria-current="true"] {
   background: var(--ink);
-  transition: top .08s linear;
+  transform: scaleX(1.35);
+  transform-origin: right center;
+}
+
+.content-well-progress button:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+
+.content-well-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .profile .preview-shell:hover .preview-card,
@@ -1258,80 +1335,9 @@ body.details-open .footer-contact {
   100% { transform: translateX(390%); }
 }
 
-.project-scatter {
-  position: fixed;
-  z-index: 45;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  visibility: hidden;
-}
-
-.project-scatter.is-active,
-.project-scatter.is-closing { visibility: visible; }
-
 .logo,
 .timeline-year-heading,
 .timeline-marker { z-index: 48; }
-
-.project-scatter-trigger { position: relative; z-index: 48; }
-
-.scatter-group {
-  position: absolute;
-  inset: 0;
-}
-
-.scatter-item {
-  position: absolute;
-  top: var(--y);
-  left: var(--x);
-  width: var(--w);
-  max-height: 42svh;
-  margin: 0;
-  overflow: hidden;
-  border: 0;
-  border-radius: 4px;
-  background: transparent;
-  opacity: 0;
-  transform: translate3d(0, var(--scatter-in-y, -16px), 0) scale(.985);
-  transform-origin: center;
-  transition: opacity .38s ease var(--delay, 0ms), transform .72s var(--ease) var(--delay, 0ms);
-  will-change: opacity, transform;
-}
-
-.scatter-item.is-visible {
-  opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
-}
-
-.scatter-group.is-leaving .scatter-item {
-  opacity: 0;
-  transform: translate3d(0, var(--scatter-out-y, 18px), 0) scale(.992);
-  transition-delay: var(--exit-delay, 0ms);
-  transition-duration: .32s, .52s;
-}
-
-.scatter-item img,
-.scatter-item video,
-.scatter-item canvas,
-.scatter-item iframe {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 42svh;
-  border: 0;
-  border-radius: 4px;
-  object-fit: contain;
-}
-
-.scatter-item.has-embed { pointer-events: auto; }
-
-.scatter-item iframe {
-  height: min(352px, 42svh);
-  border: 0;
-  background: transparent;
-  pointer-events: auto;
-}
 
 .writing-reader {
   position: fixed;
@@ -1717,17 +1723,6 @@ body.details-open .footer-contact {
     font-size: 15px;
   }
 
-  .scatter-item {
-    max-height: 31svh;
-  }
-
-  .scatter-item img,
-  .scatter-item video,
-  .scatter-item canvas,
-  .scatter-item iframe { max-height: 31svh; }
-
-  .scatter-item iframe { height: min(352px, 31svh); }
-
   .writing-reader {
     top: auto;
     right: 20px;
@@ -1763,13 +1758,15 @@ body.details-open .footer-contact {
     width: auto;
   }
 
-  .project-focus-preview {
+  .project-content-well {
     right: 20px;
     bottom: 20px;
     left: 20px;
     width: auto;
-    max-height: 34svh;
+    height: min(52svh, 560px);
   }
+
+  .content-well-progress { left: -12px; width: 7px; gap: 2px; }
 
   .site-viewer.is-open {
     right: 20px;

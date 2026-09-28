@@ -353,8 +353,11 @@ const displayEntryTitle = (entry) => entry.kind === 'project' ? projectDisplayTi
 
 const entryMarkup = (entry, index) => {
   const displayTitle = displayEntryTitle(entry);
+  const assetCount = entry.kind === 'project' && (entry.assetKey || entry.cover)
+    ? '<span class="timeline-asset-count" hidden></span>'
+    : '';
   const linkedTitle = entry.kind === 'project' && entry.url
-    ? `<button class="text-link project-title-trigger" type="button" tabindex="-1" aria-label="Show ${displayTitle} images" aria-expanded="false">${displayTitle}</button>`
+    ? `<button class="text-link project-title-trigger" type="button" tabindex="-1" aria-label="Browse ${displayTitle} media" aria-controls="project-content-well">${displayTitle}</button>`
     : entry.url && entry.kind !== 'milestone'
       ? `<a class="text-link${entry.kind === 'writing' ? ' writing-popup-trigger' : ''}" href="${entry.url}" rel="noopener">${displayTitle}</a>`
       : displayTitle;
@@ -362,7 +365,7 @@ const entryMarkup = (entry, index) => {
     ? `<a class="timeline-external" href="${entry.url}" target="_blank" rel="noopener noreferrer"><span>View source</span><i class="ri-external-link-line" aria-hidden="true"></i></a>`
     : '';
   const marker = entry.kind === 'project' && entry.url
-    ? `<button class="timeline-marker project-expand-trigger" type="button" tabindex="-1" aria-label="Show ${entry.title} images" aria-expanded="false"><i class="ri-add-line" aria-hidden="true"></i></button>`
+    ? `<button class="timeline-marker project-expand-trigger" type="button" tabindex="-1" aria-label="Browse ${entry.title} media" aria-controls="project-content-well"><i class="ri-add-line" aria-hidden="true"></i></button>`
     : entry.kind === 'writing' && entry.url
       ? `<button class="timeline-marker writing-expand-trigger" type="button" tabindex="-1" aria-label="Read ${entry.title}" aria-expanded="false"><i class="ri-add-line" aria-hidden="true"></i></button>`
       : `<span class="timeline-marker${entry.kind === 'milestone' || (entry.kind === 'project' && !entry.url) ? ' is-muted' : ''}" aria-hidden="true"></span>`;
@@ -370,7 +373,7 @@ const entryMarkup = (entry, index) => {
     <article class="timeline-entry" data-kind="${entry.kind}" style="--reveal-delay: ${(index % 8) * 45}ms">
       ${marker}
       <div class="timeline-entry-copy">
-        <div class="timeline-meta"><time>${metadataTitleCase(entry.date)}</time><span>${metadataTitleCase(entry.kind)}</span></div>
+        <div class="timeline-meta"><time>${metadataTitleCase(entry.date)}</time><span>${metadataTitleCase(entry.kind)}</span>${assetCount}</div>
         <h3>${linkedTitle}</h3>
         ${entry.description ? `<p>${entry.description}</p>` : ''}
         ${externalAction}
@@ -399,7 +402,7 @@ const fixedPreviewSourceFor = (entry) => {
   return visualPreviewByKey[entry.assetKey] || entry.cover;
 };
 const previewTimelineEntries = timelineEntries.filter((entry) =>
-  fixedPreviewSourceFor(entry.entryData)
+  entry.entryData.assetKey || fixedPreviewSourceFor(entry.entryData)
 );
 timelineEntries.forEach((entry) => entry.classList.add('is-visible'));
 
@@ -412,7 +415,6 @@ detailsTrigger.addEventListener('click', () => {
   if (open) {
     clearTimelineActive();
     setProjectPreview();
-    setPreviewVisibility(true);
     document.body.classList.remove('details-closing');
     timeline.querySelectorAll('.is-exiting').forEach((element) => {
       element.classList.remove('is-exiting');
@@ -469,58 +471,20 @@ let previousScrollY = window.scrollY;
 let previousScrollTime = performance.now();
 let timelineScrollDirection = 0;
 let timelineScrollVelocity = 0;
-const projectPreview = document.querySelector('#project-focus-preview');
-const previewImage = projectPreview.querySelector('img.project-focus-preview-image');
-const previewVideo = projectPreview.querySelector('video.project-focus-preview-image');
-const airOpsFallback = visualPreviewByKey.airops;
-let lastResolvedPreview = airOpsFallback;
-previewImage.dataset.previewSrc = airOpsFallback;
-previewImage.addEventListener('load', () => { lastResolvedPreview = previewImage.currentSrc || previewImage.src; });
-previewImage.addEventListener('error', () => {
-  const fallback = lastResolvedPreview || airOpsFallback;
-  if (previewImage.src !== fallback) previewImage.src = fallback;
-});
-previewVideo.addEventListener('error', () => {
-  previewVideo.hidden = true;
-  previewVideo.pause();
-  previewImage.hidden = false;
-  previewImage.src = lastResolvedPreview || airOpsFallback;
-});
-
-const isVideoPreview = (src) => /\.(?:mp4|mov|webm)(?:$|\?)/i.test(src);
-
-const setProjectPreview = (entry) => {
-  const src = fixedPreviewSourceFor(entry) || airOpsFallback;
-  const title = entry?.title || 'AirOps';
-  if (isVideoPreview(src)) {
-    previewImage.hidden = true;
-    previewVideo.hidden = false;
-    if (previewVideo.dataset.previewSrc !== src) {
-      previewVideo.src = src;
-      previewVideo.dataset.previewSrc = src;
-    }
-    previewVideo.setAttribute('aria-label', `${title} project preview`);
-    previewVideo.play().catch(() => {});
-  } else {
-    previewVideo.pause();
-    previewVideo.hidden = true;
-    previewImage.hidden = false;
-    if (previewImage.dataset.previewSrc !== src) {
-      previewImage.src = src;
-      previewImage.dataset.previewSrc = src;
-    }
-    previewImage.alt = `${title} project preview`;
-  }
-  projectPreview.setAttribute('aria-label', `Show all ${title} images`);
-};
+const projectPreview = document.querySelector('#project-content-well');
+const contentWellScroll = projectPreview.querySelector('.content-well-scroll');
+const contentWellProgress = projectPreview.querySelector('.content-well-progress');
+const contentWellStatus = projectPreview.querySelector('.content-well-status');
+let renderContentWell = () => {};
+const setProjectPreview = (entry) => renderContentWell(entry || presentProjectData);
 
 const setPreviewVisibility = (visible) => {
   projectPreview.classList.toggle('is-visible', visible);
   projectPreview.setAttribute('aria-hidden', String(!visible));
+  if (!visible) contentWellScroll.querySelectorAll('video').forEach((video) => video.pause());
 };
 
 const clearTimelineActive = () => {
-  if (scatterLink) dismissScatter();
   activeTimelineEntry?.classList.remove('is-active');
   activeTimelineEntry?.querySelectorAll('.project-expand-trigger, .project-title-trigger, .writing-expand-trigger').forEach((control) => control.setAttribute('tabindex', '-1'));
   activeTimelineEntry = undefined;
@@ -609,7 +573,6 @@ const updateTimelineActive = () => {
     return;
   }
   if (closest !== activeTimelineEntry) {
-    if (scatterLink) dismissScatter();
     activeTimelineEntry?.classList.remove('is-active');
     activeTimelineEntry?.querySelectorAll('.project-expand-trigger, .project-title-trigger, .writing-expand-trigger').forEach((control) => control.setAttribute('tabindex', '-1'));
     activeTimelineEntry = closest;
@@ -938,94 +901,53 @@ detailsTrigger.addEventListener('click', () => {
   }
 });
 
-const scatter = document.querySelector('#project-scatter');
 const projectManifest = fetch('assets-visual/manifest.json').then((response) => response.json());
-const coarsePointer = window.matchMedia('(hover: none), (pointer: coarse)');
-let scatterLink;
-let scatterEntryData;
-let scatterControls = [];
-let scatterLocked = false;
-let scatterCycle;
-let scatterGeneration = 0;
-
 const hashText = (value) => [...value].reduce((hash, character) => Math.imul(hash ^ character.charCodeAt(0), 16777619), 2166136261) >>> 0;
-const seeded = (seed) => () => ((seed = Math.imul(seed, 1664525) + 1013904223 >>> 0) / 4294967296);
+const contentWellPositions = new Map();
+let contentWellEntry;
+let contentWellProjectKey;
+let contentWellGeneration = 0;
+let contentWellFrame;
 
-const stopScatterMedia = () => {
-  scatter.querySelectorAll('video').forEach((video) => video.pause());
-  scatter.querySelectorAll('canvas').forEach((canvas) => canvas.dispatchEvent(new Event('scatterdestroy')));
+const assetIdentity = (asset) => {
+  try { return new URL(asset.source || asset.src, document.baseURI).href; }
+  catch { return asset.source || asset.src; }
 };
 
-const dismissScatter = (immediate = false) => {
-  window.clearInterval(scatterCycle);
-  scatterCycle = undefined;
-  scatterGeneration += 1;
-  scatterLocked = false;
-  scatterControls.forEach((control) => setScatterExpanded(control, false));
-  scatterControls = [];
-  scatterLink = undefined;
-  scatterEntryData = undefined;
-  scatter.style.setProperty('--scatter-out-y', `${-(timelineScrollDirection || 1) * 18}px`);
-  scatter.querySelectorAll('.scatter-group').forEach((group) => group.classList.add('is-leaving'));
-  scatter.classList.add('is-closing');
-  scatter.classList.remove('is-active');
-  scatter.setAttribute('aria-hidden', 'true');
-  stopScatterMedia();
-  const itemCount = scatter.querySelectorAll('.scatter-item').length;
-  const delay = immediate || reducedMotion.matches ? 0 : 520 + Math.max(0, itemCount - 1) * 55;
-  window.setTimeout(() => {
-    scatter.replaceChildren();
-    scatter.classList.remove('is-closing');
-  }, delay);
+const inferredAssetType = (src) => {
+  if (/\.(?:mp4|mov|webm)(?:$|\?)/i.test(src)) return 'video';
+  if (/\.gif(?:$|\?)/i.test(src)) return 'gif';
+  return 'image';
 };
 
-const setScatterExpanded = (trigger, expanded) => {
-  if (!trigger) return;
-  trigger.setAttribute('aria-expanded', String(expanded));
-  const icon = trigger.querySelector('i');
-  if (!icon) return;
-  icon.classList.toggle('ri-add-line', !expanded);
-  icon.classList.toggle('ri-close-line', expanded);
+const assetsForEntry = (manifest, entry) => {
+  const project = manifest.projects[entry.assetKey || entry.assetsUrl || entry.url];
+  const previewSrc = project?.preview || fixedPreviewSourceFor(entry);
+  const candidates = project?.assets?.length
+    ? [...project.assets]
+    : previewSrc
+      ? [{ src: previewSrc, type: inferredAssetType(previewSrc), alt: `${entry.title} preview` }]
+      : [];
+  const unique = [];
+  const seen = new Set();
+  candidates.forEach((asset) => {
+    const identity = assetIdentity(asset);
+    if (!identity || seen.has(identity)) return;
+    seen.add(identity);
+    unique.push(asset);
+  });
+  if (!previewSrc) return unique;
+  const previewIdentity = assetIdentity({ src: previewSrc });
+  const previewIndex = unique.findIndex((asset) => assetIdentity(asset) === previewIdentity);
+  if (previewIndex > 0) unique.unshift(unique.splice(previewIndex, 1)[0]);
+  return unique;
 };
 
-const gifCanvas = async (asset, generation) => {
-  const canvas = document.createElement('canvas');
-  if (!('ImageDecoder' in window)) {
-    const image = new Image();
-    image.src = asset.src;
-    image.alt = asset.alt;
-    return image;
-  }
-  const response = await fetch(asset.src);
-  const decoder = new ImageDecoder({ data: await response.arrayBuffer(), type: response.headers.get('content-type') || 'image/gif' });
-  await decoder.tracks.ready;
-  const track = decoder.tracks.selectedTrack;
-  const context = canvas.getContext('2d');
-  let destroyed = false;
-  let markReady;
-  const ready = new Promise((resolve) => { markReady = resolve; });
-  canvas.addEventListener('scatterdestroy', () => { destroyed = true; decoder.close(); }, { once: true });
-  (async () => {
-    for (let frameIndex = 0; frameIndex < track.frameCount && !destroyed && generation === scatterGeneration; frameIndex += 1) {
-      const { image } = await decoder.decode({ frameIndex });
-      if (!canvas.width) { canvas.width = image.displayWidth; canvas.height = image.displayHeight; }
-      context.drawImage(image, 0, 0);
-      if (frameIndex === 0) markReady();
-      const duration = Math.max(20, image.duration / 1000 || 80);
-      image.close();
-      if (frameIndex < track.frameCount - 1) await new Promise((resolve) => window.setTimeout(resolve, duration));
-    }
-    markReady();
-  })().catch(markReady);
-  await ready;
-  return canvas;
-};
-
-const mediaNode = async (asset, generation) => {
+const createContentWellMedia = (asset, index) => {
   if (asset.type === 'spotify' || asset.type === 'youtube') {
     const frame = document.createElement('iframe');
     frame.src = asset.src;
-    frame.title = asset.alt;
+    frame.title = asset.alt || `Project media ${index + 1}`;
     frame.loading = 'lazy';
     frame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
     frame.setAttribute('allowfullscreen', '');
@@ -1036,146 +958,134 @@ const mediaNode = async (asset, generation) => {
     video.src = asset.src;
     video.muted = true;
     video.playsInline = true;
-    video.preload = 'metadata';
-    video.loop = false;
+    video.preload = index < 2 ? 'metadata' : 'none';
+    video.controls = true;
     return video;
   }
-  if (asset.type === 'gif') {
-    const image = new Image();
-    image.alt = asset.alt;
-    image.decoding = 'async';
-    image.src = asset.src;
-    await image.decode().catch(() => {});
-    return image;
-  }
   const image = new Image();
-  image.alt = asset.alt;
-  image.decoding = 'async';
   image.src = asset.src;
-  await image.decode().catch(() => {});
+  image.alt = asset.alt || `Project media ${index + 1}`;
+  image.decoding = 'async';
+  image.loading = index === 0 ? 'eager' : 'lazy';
+  if (index === 0) image.fetchPriority = 'high';
   return image;
 };
 
-const positionsFor = (url, count) => {
-  const mobile = window.innerWidth <= 700;
-  const random = seeded(hashText(url));
-  const desktop = [[3,15,22],[27,5,18],[56,7,22],[73,29,23],[5,59,24],[34,65,21],[68,67,25],[43,35,18]];
-  const phone = [[4,9,45],[50,16,44],[8,50,52],[46,63,48]];
-  const slots = (mobile ? phone : desktop).sort(() => random() - .5);
-  return slots.slice(0, count)
-    .sort((a, b) => b[0] - a[0])
-    .map(([x,y,w], index) => ({ x, y, w, delay: index * 125 }));
-};
-
-const renderScatterGroup = async (assets, project, generation) => {
-  if (generation !== scatterGeneration) return;
-  const count = Math.min(coarsePointer.matches ? 4 : 7, assets.length);
-  const positions = positionsFor(project.slug + assets[0]?.src, count);
-  const group = document.createElement('div');
-  group.className = 'scatter-group';
-  scatter.querySelector('.scatter-group')?.classList.add('is-leaving');
-  window.setTimeout(() => [...scatter.querySelectorAll('.scatter-group.is-leaving')].forEach((old) => old.remove()), reducedMotion.matches ? 0 : 900);
-  scatter.append(group);
-  for (let index = 0; index < count; index += 1) {
-    let media;
-    try {
-      media = await mediaNode(assets[index], generation);
-    } catch {
-      media = new Image();
-      media.alt = assets[index].alt || project.title;
-      media.src = assets[index].src;
+const updateContentWellActive = () => {
+  contentWellFrame = undefined;
+  const items = [...contentWellScroll.querySelectorAll('.content-well-item')];
+  if (!items.length) return;
+  const center = contentWellScroll.scrollTop + contentWellScroll.clientHeight / 2;
+  let activeIndex = 0;
+  let activeDistance = Infinity;
+  items.forEach((item, index) => {
+    const distance = Math.abs(item.offsetTop + item.offsetHeight / 2 - center);
+    if (distance < activeDistance) {
+      activeDistance = distance;
+      activeIndex = index;
     }
-    if (generation !== scatterGeneration) return;
-    const item = document.createElement('figure');
-    const position = positions[index];
-    item.className = 'scatter-item';
-    if (media instanceof HTMLIFrameElement) item.classList.add('has-embed');
-    item.style.cssText = `--x:${position.x}vw;--y:${position.y}svh;--w:${position.w}vw;--delay:${position.delay}ms;--exit-delay:${index * 55}ms`;
-    item.append(media);
-    group.append(item);
-    if (media instanceof HTMLVideoElement) media.play().catch(() => {});
-    requestAnimationFrame(() => item.classList.add('is-visible'));
-    if (!reducedMotion.matches) await new Promise((resolve) => window.setTimeout(resolve, 110));
-  }
+  });
+  items.forEach((item, index) => {
+    const active = index === activeIndex;
+    item.classList.toggle('is-active', active);
+    const video = item.querySelector('video');
+    if (video) {
+      if (active) video.play().catch(() => {});
+      else video.pause();
+    }
+  });
+  [...contentWellProgress.children].forEach((button, index) => {
+    if (index === activeIndex) button.setAttribute('aria-current', 'true');
+    else button.removeAttribute('aria-current');
+  });
+  contentWellStatus.textContent = `${activeIndex + 1} of ${items.length}`;
 };
 
-const showScatter = async (entry, trigger) => {
+const requestContentWellActive = () => {
+  if (!contentWellFrame) contentWellFrame = requestAnimationFrame(updateContentWellActive);
+};
+
+contentWellScroll.addEventListener('scroll', () => {
+  if (contentWellProjectKey) contentWellPositions.set(contentWellProjectKey, contentWellScroll.scrollTop);
+  requestContentWellActive();
+}, { passive: true });
+
+contentWellProgress.addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-index]');
+  if (!button) return;
+  const item = contentWellScroll.children[Number(button.dataset.index)];
+  if (!item) return;
+  contentWellScroll.scrollTo({ top: item.offsetTop, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+});
+
+renderContentWell = async (entry) => {
+  if (!entry) return;
+  const projectKey = entry.assetKey || entry.assetsUrl || entry.url || entry.title;
+  if (contentWellEntry === entry && contentWellScroll.children.length) return;
+  const generation = ++contentWellGeneration;
   const manifest = await projectManifest;
-  const project = manifest.projects[entry.assetKey || entry.assetsUrl || entry.url];
-  if (!project?.assets.length) return;
-  const seenAssets = new Set();
-  const projectAssets = project.assets.filter((asset) => {
-    const key = asset.source || asset.src;
-    if (!key || seenAssets.has(key)) return false;
-    seenAssets.add(key);
-    return true;
-  });
-  if (!projectAssets.length) return;
-  if (scatterLink && scatterLink !== trigger) dismissScatter(true);
-  scatterLink = trigger;
-  scatterEntryData = entry;
-  const timelineEntry = trigger.closest?.('.timeline-entry') || timelineEntries.find((element) => element.entryData === entry);
-  scatterControls = timelineEntry
-    ? [...timelineEntry.querySelectorAll('.project-expand-trigger, .project-title-trigger')]
-    : trigger === presentProjectTrigger || entry === presentProjectData
-      ? [presentProjectTrigger]
-      : [trigger];
-  scatterLocked = true;
-  scatter.style.setProperty('--scatter-in-y', `${(timelineScrollDirection || 1) * 16}px`);
-  scatterGeneration += 1;
-  const generation = scatterGeneration;
-  scatterControls.forEach((control) => setScatterExpanded(control, true));
-  scatter.setAttribute('aria-hidden', 'false');
-  scatter.classList.add('is-active');
-  let offset = 0;
-  const display = () => {
-    const count = coarsePointer.matches ? 4 : 7;
-    const nextAssets = projectAssets.slice(offset, offset + count);
-    renderScatterGroup(nextAssets, project, generation);
-    offset += nextAssets.length;
-    if (offset >= projectAssets.length) offset = 0;
-  };
-  display();
-  window.clearInterval(scatterCycle);
-  if (projectAssets.length > (coarsePointer.matches ? 4 : 7)) {
-    const cycleDuration = projectAssets.some((asset) => asset.type === 'spotify' || asset.type === 'youtube') ? 10000 : 5200;
-    scatterCycle = window.setInterval(display, cycleDuration);
+  if (generation !== contentWellGeneration) return;
+  const assets = assetsForEntry(manifest, entry);
+  if (!assets.length) {
+    setPreviewVisibility(false);
+    return;
   }
+  if (contentWellProjectKey) contentWellPositions.set(contentWellProjectKey, contentWellScroll.scrollTop);
+  contentWellEntry = entry;
+  contentWellProjectKey = projectKey;
+  projectPreview.classList.remove('is-ready');
+  const mediaFragment = document.createDocumentFragment();
+  const progressFragment = document.createDocumentFragment();
+  assets.forEach((asset, index) => {
+    const item = document.createElement('figure');
+    item.className = 'content-well-item';
+    item.dataset.index = String(index);
+    item.append(createContentWellMedia(asset, index));
+    mediaFragment.append(item);
+    const segment = document.createElement('button');
+    segment.type = 'button';
+    segment.dataset.index = String(index);
+    segment.setAttribute('aria-label', `View item ${index + 1} of ${assets.length}`);
+    progressFragment.append(segment);
+  });
+  contentWellScroll.querySelectorAll('video').forEach((video) => video.pause());
+  contentWellScroll.replaceChildren(mediaFragment);
+  contentWellProgress.replaceChildren(progressFragment);
+  const countLabel = `${assets.length} ${assets.length === 1 ? 'item' : 'items'}`;
+  projectPreview.setAttribute('aria-label', `${entry.title} project media, ${countLabel}`);
+  projectPreview.style.setProperty('--content-count', assets.length);
+  contentWellScroll.scrollTop = contentWellPositions.get(projectKey) || 0;
+  setPreviewVisibility(document.body.classList.contains('details-open'));
+  requestAnimationFrame(() => {
+    projectPreview.classList.add('is-ready');
+    updateContentWellActive();
+  });
 };
 
-timeline.querySelectorAll('.project-expand-trigger').forEach((trigger) => {
-  trigger.addEventListener('click', () => {
-    const entry = trigger.closest('.timeline-entry');
-    if (entry !== activeTimelineEntry) return;
-    if (scatterEntryData === entry.entryData) { dismissScatter(); return; }
-    showScatter(entry.entryData, trigger);
+projectManifest.then((manifest) => {
+  timelineEntries.forEach((element) => {
+    const count = assetsForEntry(manifest, element.entryData).length;
+    const label = element.querySelector('.timeline-asset-count');
+    if (!label || !count) return;
+    label.textContent = `${count} ${count === 1 ? 'asset' : 'assets'}`;
+    label.hidden = false;
   });
 });
 
-timeline.querySelectorAll('.project-title-trigger').forEach((trigger) => {
+const focusContentWell = async (entry) => {
+  await renderContentWell(entry);
+  contentWellScroll.focus({ preventScroll: true });
+};
+
+timeline.querySelectorAll('.project-expand-trigger, .project-title-trigger').forEach((trigger) => {
   trigger.addEventListener('click', () => {
-    const entry = trigger.closest('.timeline-entry');
-    if (entry !== activeTimelineEntry) return;
-    if (scatterEntryData === entry.entryData) { dismissScatter(); return; }
-    showScatter(entry.entryData, trigger);
+    const element = trigger.closest('.timeline-entry');
+    if (element !== activeTimelineEntry) return;
+    focusContentWell(element.entryData);
   });
 });
 
-presentProjectTrigger.addEventListener('click', () => {
-  if (scatterEntryData === presentProjectData) { dismissScatter(); return; }
-  showScatter(presentProjectData, presentProjectTrigger);
-});
-
-projectPreview.addEventListener('click', () => {
-  const entry = previewTimelineEntry || presentProjectData;
-  if (scatterEntryData === entry) { dismissScatter(); return; }
-  showScatter(entry, projectPreview);
-});
-
-document.addEventListener('click', (event) => {
-  if (scatterLocked && !event.target.closest('.project-expand-trigger, .project-title-trigger, .present-project-trigger, .project-focus-preview') && !event.target.closest('.scatter-item')) dismissScatter();
-});
-document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && scatterLink) dismissScatter(); });
+presentProjectTrigger.addEventListener('click', () => focusContentWell(presentProjectData));
 
 const writingReader = document.querySelector('#writing-reader');
 const writingTitle = writingReader.querySelector('#writing-reader-title');
@@ -1203,7 +1113,6 @@ const closeWriting = () => {
 };
 
 const openWriting = async (link) => {
-  dismissScatter(true);
   const manifest = await writingManifest;
   const item = manifest.writings[new URL(link.href).href];
   if (!item) return;
