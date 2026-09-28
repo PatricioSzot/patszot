@@ -749,22 +749,49 @@ button.timeline-marker {
 }
 
 .project-title-trigger {
+  appearance: none;
   display: block;
   width: fit-content;
   max-width: 100%;
-  border-bottom: 0;
+  margin: 0;
+  padding: 0;
+  border: 0 !important;
+  border-block-end: 0 !important;
+  border-bottom: 0 !important;
+  outline-offset: 3px;
+  background: none !important;
+  background-image: none !important;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
   white-space: normal;
   font-variation-settings: inherit;
   text-align: left;
   text-decoration: none !important;
   text-decoration-line: none !important;
-  box-shadow: none;
+  box-shadow: none !important;
+  cursor: pointer;
   pointer-events: none;
 }
 
 .project-title-trigger:hover,
 .project-title-trigger:focus,
-.project-title-trigger:focus-visible { text-decoration: none !important; }
+.project-title-trigger:focus-visible,
+.timeline-entry[data-kind="project"] h3,
+.timeline-entry[data-kind="project"] h3 * {
+  border-bottom: 0 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+}
+
+.project-title-trigger::before,
+.project-title-trigger::after {
+  content: none !important;
+  display: none !important;
+}
 
 .timeline-entry.is-active .project-title-trigger {
   pointer-events: auto;

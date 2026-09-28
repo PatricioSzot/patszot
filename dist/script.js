@@ -357,7 +357,7 @@ const entryMarkup = (entry, index) => {
     ? '<span class="timeline-asset-count" hidden></span>'
     : '';
   const linkedTitle = entry.kind === 'project' && entry.url
-    ? `<button class="text-link project-title-trigger" type="button" tabindex="-1" aria-label="Browse ${displayTitle} media" aria-controls="project-content-well">${displayTitle}</button>`
+    ? `<button class="project-title-trigger" type="button" tabindex="-1" aria-label="Browse ${displayTitle} media" aria-controls="project-content-well">${displayTitle}</button>`
     : entry.url && entry.kind !== 'milestone'
       ? `<a class="text-link${entry.kind === 'writing' ? ' writing-popup-trigger' : ''}" href="${entry.url}" rel="noopener">${displayTitle}</a>`
       : displayTitle;
