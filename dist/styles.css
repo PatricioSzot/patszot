@@ -686,15 +686,14 @@ button.timeline-marker {
   line-height: 1.18;
   letter-spacing: -.32px;
   text-align: left;
-  transition: opacity .34s ease, font-variation-settings .62s var(--ease), letter-spacing .62s var(--ease);
+  transition: opacity .34s ease, font-variation-settings .56s var(--ease);
 }
 
 .timeline.has-active .timeline-entry:not(.is-active) h3 { opacity: .42; }
 .timeline-entry.is-active h3,
 .timeline-entry:focus-within h3 {
   opacity: 1;
-  font-variation-settings: "wght" 540, "wdth" 104;
-  letter-spacing: -.38px;
+  font-variation-settings: "wght" 475, "wdth" 102;
 }
 
 .timeline-entry p {
@@ -728,8 +727,11 @@ button.timeline-marker {
   display: block;
   width: fit-content;
   max-width: 100%;
+  border-bottom: 0;
   white-space: normal;
+  font-variation-settings: inherit;
   text-align: left;
+  text-decoration: none;
   pointer-events: none;
 }
 
@@ -808,6 +810,10 @@ body.details-open .footer-contact {
   line-height: inherit;
   text-decoration: none;
   cursor: pointer;
+}
+
+.text-link.project-title-trigger {
+  border-bottom: 0;
 }
 
 .preview-shell {
@@ -1695,6 +1701,8 @@ body.details-open .footer-contact {
     right: 20px;
     bottom: 20px;
   }
+
+  .scene-reset { display: none; }
 
   .timeline-footer-anchor {
     display: grid;

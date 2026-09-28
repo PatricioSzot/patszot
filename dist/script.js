@@ -35,7 +35,7 @@ const timelineData = [
     entries: [
       { date: 'December 24', kind: 'writing', title: 'The Importance of Celebration and Rest for Creatives', url: 'https://medium.com/@patrick.m.szot/the-importance-of-celebration-and-rest-for-creatives-8cdd66602d74', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*GSVjAl3r5qXH0HcL9gFlSQ.png', description: 'On pausing to recognize the work before moving to the next thing.', intensity: 68 },
       { date: 'May 9', kind: 'writing', title: 'Config 2025: It’s The Same, Just Different This Time', url: 'https://medium.com/@patrick.m.szot/config-2025-its-the-same-just-different-this-time-19ab9ed00a52', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*ht0MLlsIZJJpyYASbWi-dw.png', description: 'Thoughts on beauty, efficient production, and working across aisles.', intensity: 72 },
-      { date: '2025', kind: 'project', title: 'GlossAI Rebrand', url: 'https://glossgenius.com/', cover: 'assets/glossgenius-og.webp', description: 'Brand identity and launch expression for GlossGenius.', intensity: 124 },
+      { date: '2025', kind: 'project', title: 'GlossAI Rebrand', url: 'https://glossgenius.com/', cover: 'assets-visual/Gloss AI/Preview 00. Thumbnail-Gloss-LogoCycle_1.mp4', description: 'Brand identity and launch expression for GlossGenius.', intensity: 124 },
       { date: '2025', kind: 'project', title: 'Lovable', description: 'Brand work for a fast-moving product company.', intensity: 92 }
     ]
   },
@@ -45,7 +45,7 @@ const timelineData = [
       { date: 'November 20', kind: 'writing', title: 'Celebrating My 30th And A Decade in Tech', url: 'https://medium.com/@patrick.m.szot/celebrating-my-30th-and-a-decade-in-tech-2014-2024-1347b3b3ef72', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*zmDBsxxtVsG_WIYBFak_Ug.png', description: 'A decade-in-review across work, practice, and recent flowers from the garden.', intensity: 74 },
       { date: 'July 29', kind: 'writing', title: 'I Was Separated From My Position at Webflow', url: 'https://patrickszot.webflow.io/journal/i-got-seperated-from-my-position-at-webflow', description: 'A candid reflection on the end of a chapter.', intensity: 80 },
       { date: 'June 10', kind: 'project', title: 'Album Art: Presage 2022', url: 'https://dribbble.com/shots/24328431-Album-Art-Presage-2022', cover: 'https://cdn.dribbble.com/userupload/15032821/file/original-fe6a0e24019319be3d899139d9a02b50.png?crop=237x133-2804x2059&format=webp&resize=800x600&vertical=center', intensity: 82 },
-      { date: '2022–24', kind: 'project', title: 'Webflow Rebrand', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', cover: 'assets/webflow-motion-guidelines.mp4', description: 'Visual foundations, motion guidelines, campaigns, customer stories, and event systems.', intensity: 176 }
+      { date: '2022–24', kind: 'project', title: 'Webflow Rebrand', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', cover: 'assets-visual/webflow-rebrand/Preview 04-f3183d6465.jpg', description: 'Visual foundations, motion guidelines, campaigns, customer stories, and event systems.', intensity: 176 }
     ]
   },
   {
@@ -66,7 +66,7 @@ const timelineData = [
       { date: 'January 17', kind: 'project', title: 'Webflow Conf 2022 – Grow with the ’Flow Room', url: 'https://dribbble.com/shots/20410030-Webflow-Conf-2022-Grow-with-the-Flow-room', cover: 'https://cdn.dribbble.com/userupload/4293440/file/original-d1e576e3b7230d2cc45147ed55ac5495.jpg?crop=0x0-1920x1440&format=webp&resize=800x600&vertical=center', intensity: 84 },
       { date: 'January 11', kind: 'project', title: 'Webflow Conf 2022 – Themes', url: 'https://dribbble.com/shots/20356384-Webflow-Conf-2022-Themes', cover: 'https://cdn.dribbble.com/userupload/4272644/file/original-848a983cbfe134a519a90f6802a8dff4.jpg?crop=3x0-1503x1125&format=webp&resize=800x600&vertical=center', intensity: 82 },
       { date: 'January 4', kind: 'writing', title: '2022 Retrospective: Leadership and Soft Skills', url: 'https://patrickszot.webflow.io/journal/2022-retrospective', description: 'Notes on leadership, collaboration, and creative practice.', intensity: 72 },
-      { date: '2023', kind: 'project', title: 'Webflow visual foundations', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', cover: 'assets/webflow-motion-guidelines.mp4', description: 'Illustration, sub-branding, color, lighting, motion, and more than 1,000 custom icons.', intensity: 148 }
+      { date: '2023', kind: 'project', title: 'Webflow visual foundations', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', cover: 'assets-visual/webflow-customerStories/Preview VisualFoundations-Example6.jpg', description: 'Illustration, sub-branding, color, lighting, motion, and more than 1,000 custom icons.', intensity: 148 }
     ]
   },
   {
@@ -106,7 +106,7 @@ const timelineData = [
       { date: 'April', kind: 'project', title: 'Takeda social campaign and COVID-19 microsite', description: 'Visual concepting, asset development, and UI design.', intensity: 96 },
       { date: 'April', kind: 'project', title: 'New Balance', description: 'UI production assets for a flagship web property.', intensity: 76 },
       { date: 'March', kind: 'milestone', title: 'Shifted to fully remote work', intensity: 82 },
-      { date: 'March', kind: 'project', title: 'CIA.gov site implementation', url: 'https://patrickszot.webflow.io/older-work/cia', cover: 'assets/cia-preview.webp', description: 'Co-led brand application, product development, and library design for a recruiting and marketing site.', intensity: 164 },
+      { date: 'March', kind: 'project', title: 'CIA.gov site implementation', url: 'https://patrickszot.webflow.io/older-work/cia', cover: 'assets-visual/BlackbriarDesignSystem/01-2df8be9eb7.gif', description: 'Co-led brand application, product development, and library design for a recruiting and marketing site.', intensity: 164 },
       { date: 'February 5', kind: 'writing', title: 'When People Say, “I’m Not Creative”', url: 'https://patrickszot.webflow.io/journal/scared-to-try', description: 'On fear, experimentation, and creative identity.', intensity: 66 },
       { date: 'January 14', kind: 'writing', title: 'Recurring Evidence that Everything is a Metaphor', url: 'https://patrickszot.webflow.io/journal/everything-is-a-metaphor', description: 'Notes on analogy as a design and thinking tool.', intensity: 64 }
     ]
@@ -153,7 +153,7 @@ const timelineData = [
     year: '2017',
     entries: [
       { date: 'October 21', kind: 'writing', title: 'Winning Gilman Scholarship Essay', url: 'https://patrickszot.webflow.io/journal/the-ticking-bomb-of-usability', description: 'The essay behind a Gilman Scholarship.', intensity: 76 },
-      { date: '2017', kind: 'project', title: 'CIA.gov / Blackbriar design system', url: 'https://patrickszot.webflow.io/older-work/cia', cover: 'assets/cia-preview.webp', description: 'A recruiting identity shaped by the tension between the Agency’s history and its future.', intensity: 142 }
+      { date: '2017', kind: 'project', title: 'CIA.gov / Blackbriar design system', url: 'https://patrickszot.webflow.io/older-work/cia', cover: 'assets-visual/BlackbriarDesignSystem/01-2df8be9eb7.gif', description: 'A recruiting identity shaped by the tension between the Agency’s history and its future.', intensity: 142 }
     ]
   },
   {
@@ -659,6 +659,7 @@ const cameraBillboards = [...document.querySelectorAll([
   '.timeline-footer-billboard'
 ].join(','))];
 const sceneInteractiveSelector = 'a, button, input, textarea, select, iframe, video, [contenteditable="true"]';
+const orbitControlsEnabled = window.matchMedia('(min-width: 701px)');
 const sceneLimits = { pitch: 82, yaw: 74 };
 const sceneAngles = { pitch: 0, yaw: 0 };
 let sceneGesture;
@@ -836,10 +837,21 @@ const resetTimelineScene = (animate = true) => {
   }
 };
 
+const syncOrbitControls = () => {
+  if (orbitControlsEnabled.matches) return;
+  sceneGesture = undefined;
+  timelinePanel.classList.remove('is-scene-dragging');
+  document.body.classList.remove('timeline-scene-dragging');
+  resetTimelineScene(false);
+};
+
+orbitControlsEnabled.addEventListener('change', syncOrbitControls);
+syncOrbitControls();
+
 sceneReset.addEventListener('click', () => resetTimelineScene());
 
 timelinePanel.addEventListener('pointerdown', (event) => {
-  if (!document.body.classList.contains('details-open') || event.button !== 0 || event.target.closest(sceneInteractiveSelector)) return;
+  if (!orbitControlsEnabled.matches || !document.body.classList.contains('details-open') || event.button !== 0 || event.target.closest(sceneInteractiveSelector)) return;
   stopSceneMotion();
   sceneGesture = {
     id: event.pointerId,
@@ -911,7 +923,7 @@ const finishSceneGesture = (event, cancelled = false) => {
 timelinePanel.addEventListener('pointerup', (event) => finishSceneGesture(event));
 timelinePanel.addEventListener('pointercancel', (event) => finishSceneGesture(event, true));
 timelinePanel.addEventListener('dblclick', (event) => {
-  if (!event.target.closest(sceneInteractiveSelector)) resetTimelineScene();
+  if (orbitControlsEnabled.matches && !event.target.closest(sceneInteractiveSelector)) resetTimelineScene();
 });
 
 window.addEventListener('scroll', requestSceneGeometry, { passive: true });
