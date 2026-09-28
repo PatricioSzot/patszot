@@ -26,7 +26,7 @@ const timelineData = [
   {
     year: '2026',
     entries: [
-      { date: 'Present', kind: 'project', title: 'Brand Engineer at AirOps', url: 'https://www.airops.com/', description: 'Brand strategy, market repositioning, web transformation, image systems, and marketing tooling.' },
+      { date: 'Present', kind: 'project', title: 'Principal Brand Designer at AirOps', url: 'https://www.airops.com/', description: 'Brand strategy, market repositioning, web transformation, image systems, and marketing tooling.' },
       { date: 'January 22', kind: 'writing', title: 'My Inner Circle is Made Up of Bad-ass Women', url: 'https://medium.com/@patrick.m.szot/my-inner-circle-is-made-up-of-bad-ass-women-5-powers-they-gave-me-that-id-like-to-share-with-you-0e9117e3693a', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*L6Mz9ArPrUDjh_GrxX7Yrg.png', description: 'Five lessons about power, care, and reflecting the world we actually live in.' }
     ]
   },
@@ -168,7 +168,7 @@ const timelineData = [
 ];
 
 const visualAssetKeyByTitle = new Map(Object.entries({
-  'Brand Engineer at AirOps': 'airops',
+  'Principal Brand Designer at AirOps': 'airops',
   'GlossAI Rebrand': 'gloss-ai',
   'Album Art: Presage 2022': 'album-art-presage',
   'Webflow Rebrand': 'webflow-rebrand',
@@ -235,6 +235,7 @@ const closeDuration = () => reducedMotion.matches ? 0 : 650;
 
 const backToTop = document.querySelector('#back-to-top');
 const sceneReset = document.querySelector('#scene-reset');
+const coarsePointer = window.matchMedia('(max-width: 700px), (pointer: coarse)');
 let driftTarget = window.scrollY;
 let driftFrame;
 let driftAnimating = false;
@@ -290,20 +291,43 @@ window.addEventListener('wheel', (event) => {
   const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
   event.preventDefault();
   const impulse = event.deltaY * unit;
-  driftVelocity += Math.max(-720, Math.min(720, impulse * 1.4));
-  driftTo(driftTarget + impulse * .56);
+  driftVelocity += Math.max(-420, Math.min(420, impulse * .72));
+  driftTo(driftTarget + impulse * .34);
 }, { passive: false });
+
+let touchScrollY;
+window.addEventListener('touchstart', (event) => {
+  cancelDrift();
+  if (!coarsePointer.matches || event.target.closest('.content-well-scroll') || event.touches.length !== 1) {
+    touchScrollY = undefined;
+    return;
+  }
+  touchScrollY = event.touches[0].clientY;
+}, { passive: true });
+
+window.addEventListener('touchmove', (event) => {
+  if (touchScrollY === undefined || event.touches.length !== 1) return;
+  const nextY = event.touches[0].clientY;
+  const delta = touchScrollY - nextY;
+  touchScrollY = nextY;
+  event.preventDefault();
+  driftVelocity += Math.max(-180, Math.min(180, delta * 2.1));
+  driftTo(driftTarget + delta * .38);
+}, { passive: false });
+
+window.addEventListener('touchend', () => { touchScrollY = undefined; }, { passive: true });
+window.addEventListener('touchcancel', () => { touchScrollY = undefined; }, { passive: true });
 
 document.addEventListener('keydown', (event) => {
   if (reducedMotion.matches || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
   if (event.target.closest('a, button, input, textarea, select, [contenteditable="true"], .content-well-scroll')) return;
 
   const keyboardDistances = {
-    ArrowDown: 72,
-    ArrowUp: -72,
-    PageDown: window.innerHeight * .72,
-    PageUp: window.innerHeight * -.72,
-    ' ': window.innerHeight * (event.shiftKey ? -.82 : .82)
+    ArrowDown: 52,
+    ArrowUp: -52,
+    PageDown: window.innerHeight * .52,
+    PageUp: window.innerHeight * -.52,
+    ' ': window.innerHeight * (event.shiftKey ? -.58 : .58)
   };
 
   if (event.key === 'Home') {
@@ -318,7 +342,6 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-window.addEventListener('touchstart', cancelDrift, { passive: true });
 window.addEventListener('resize', () => { driftTarget = clampScrollY(driftTarget); });
 window.addEventListener('scroll', () => {
   if (!driftAnimating) driftTarget = window.scrollY;
@@ -365,9 +388,9 @@ const entryMarkup = (entry) => {
     ? `<a class="timeline-external" href="${entry.url}" target="_blank" rel="noopener noreferrer"><span>View source</span><i class="ri-external-link-line" aria-hidden="true"></i></a>`
     : '';
   const marker = entry.kind === 'project' && entry.url
-    ? `<button class="timeline-marker project-expand-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Browse ${entry.title} media" aria-controls="content-well"><i class="ri-add-line" aria-hidden="true"></i></button>`
+    ? `<button class="timeline-marker project-expand-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Browse ${entry.title} media" aria-controls="content-well"></button>`
     : entry.kind === 'writing' && entry.url
-      ? `<button class="timeline-marker writing-expand-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Read ${entry.title}" aria-controls="content-well"><i class="ri-add-line" aria-hidden="true"></i></button>`
+      ? `<button class="timeline-marker writing-expand-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Read ${entry.title}" aria-controls="content-well"></button>`
       : `<span class="timeline-marker${entry.kind === 'milestone' || (entry.kind === 'project' && !entry.url) ? ' is-muted' : ''}" aria-hidden="true"></span>`;
   return `
     <article class="timeline-entry" data-kind="${entry.kind}">
