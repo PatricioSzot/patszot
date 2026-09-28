@@ -279,10 +279,21 @@ body.details-open .profile-anchor-marker {
   letter-spacing: -.16px;
 }
 
-.overview-project-summary > p {
+.overview-project-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.overview-summary-item {
+  padding-left: 1px;
   margin: 0;
   line-height: 1.08;
 }
+
+.overview-summary-item::marker { font-size: .72em; }
 
 .nested-panel {
   display: grid;

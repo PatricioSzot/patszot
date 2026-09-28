@@ -18,6 +18,25 @@ const setGroup = (group, open) => {
 
 const overviewProfile = document.querySelector('.profile');
 const overviewProjects = [...document.querySelectorAll('.overview-project.group')];
+const choreographOverviewItems = (group) => {
+  if (group.dataset.project !== 'airops' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  group.querySelectorAll('.overview-summary-item').forEach((item, index) => {
+    item.getAnimations().forEach((animation) => animation.cancel());
+    item.animate(
+      [
+        { opacity: 0, transform: 'translateY(8px)' },
+        { opacity: 1, transform: 'translateY(0)' }
+      ],
+      {
+        duration: 520,
+        delay: 180 + index * 72,
+        easing: 'cubic-bezier(.22, 1, .36, 1)',
+        fill: 'both'
+      }
+    );
+  });
+};
+
 const syncOverviewHeight = () => {
   if (!document.body.classList.contains('overview-expanded')) {
     document.documentElement.style.removeProperty('--profile-document-height');
@@ -40,7 +59,9 @@ document.querySelectorAll('.load-line').forEach((line) => {
 
 document.querySelectorAll('.group').forEach((group) => {
   group.querySelector(':scope > .group-trigger, :scope > .overview-project-heading > .group-trigger, :scope > .previous-row > .group-trigger').addEventListener('click', () => {
-    setGroup(group, !group.classList.contains('is-open'));
+    const open = !group.classList.contains('is-open');
+    setGroup(group, open);
+    if (open) choreographOverviewItems(group);
     syncOverviewState();
   });
 });
