@@ -2,10 +2,11 @@ import { readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const root = path.resolve('dist/assets-visual');
-const folderPattern = /^(\d{2})-(\d{2})-(\d{4})-(.+)$/;
+const folderPattern = /^(\d{1,2})-(\d{1,2})-(\d{4})-(.+)$/;
 
 const knownProjects = {
   'airops': { title: 'Principal Brand Designer at AirOps' },
+  'brand-guidelines': { title: 'Brand Guidelines' },
   'gloss-ai': { title: 'GlossAI rebrand' },
   'album-art-presage': { title: 'Album art: Presage 2022' },
   'webflow-rebrand': { title: 'Webflow rebrand' },
@@ -67,15 +68,16 @@ const humanizeSlug = (slug) => slug
 
 const parseFolder = (name) => {
   const match = name.match(folderPattern);
-  if (!match) throw new Error(`Visual asset folder must use MM-DD-YYYY-name: ${name}`);
+  if (!match) throw new Error(`Visual asset folder must use M-D-YYYY-name or MM-DD-YYYY-name: ${name}`);
   const [, month, day, year, rawSlug] = match;
-  const date = new Date(`${year}-${month}-${day}T00:00:00Z`);
+  const isoDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  const date = new Date(`${isoDate}T00:00:00Z`);
   if (Number.isNaN(date.valueOf()) || date.getUTCMonth() !== Number(month) - 1 || date.getUTCDate() !== Number(day)) {
     throw new Error(`Visual asset folder has an invalid date: ${name}`);
   }
   const folderSlug = rawSlug.toLowerCase();
   const slug = folderAliases[folderSlug] || folderSlug;
-  return { name, folderSlug, slug, date: `${year}-${month}-${day}` };
+  return { name, folderSlug, slug, date: isoDate };
 };
 
 const mediaForFolder = async (folder, title) => {
@@ -105,7 +107,7 @@ folders.forEach((folder) => {
   groupedFolders.set(folder.slug, group);
 });
 
-const output = { naming: 'MM-DD-YYYY-project-name', projects: {} };
+const output = { naming: 'M-D-YYYY-project-name or MM-DD-YYYY-project-name', projects: {} };
 const sortedGroups = [...groupedFolders.entries()].sort(([, a], [, b]) => b[0].date.localeCompare(a[0].date));
 
 for (const [slug, projectFolders] of sortedGroups) {

@@ -1,5 +1,5 @@
 {
-  "naming": "MM-DD-YYYY-project-name",
+  "naming": "M-D-YYYY-project-name or MM-DD-YYYY-project-name",
   "projects": {
     "airops": {
       "slug": "airops",
@@ -319,6 +319,92 @@
           "src": "assets-visual/09-27-2026-airops/Perplexity%20Ad%20Jam_4.gif",
           "type": "gif",
           "alt": "Principal Brand Designer at AirOps — Perplexity Ad Jam_4"
+        }
+      ]
+    },
+    "brand-guidelines": {
+      "slug": "brand-guidelines",
+      "title": "Brand Guidelines",
+      "date": "2026-09-27",
+      "folders": [
+        "9-27-2026-Brand-Guidelines"
+      ],
+      "preview": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines01.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines01.jpg",
+          "type": "image",
+          "alt": "Brand Guidelines — BrandGuidelines01"
+        },
+        {
+          "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines02.jpg",
+          "type": "image",
+          "alt": "Brand Guidelines — BrandGuidelines02"
+        },
+        {
+          "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines03.jpg",
+          "type": "image",
+          "alt": "Brand Guidelines — BrandGuidelines03"
+        },
+        {
+          "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines04.jpg",
+          "type": "image",
+          "alt": "Brand Guidelines — BrandGuidelines04"
+        },
+        {
+          "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines05.jpg",
+          "type": "image",
+          "alt": "Brand Guidelines — BrandGuidelines05"
+        },
+        {
+          "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines06.jpg",
+          "type": "image",
+          "alt": "Brand Guidelines — BrandGuidelines06"
+        },
+        {
+          "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines07.jpg",
+          "type": "image",
+          "alt": "Brand Guidelines — BrandGuidelines07"
+        },
+        {
+          "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines08.jpg",
+          "type": "image",
+          "alt": "Brand Guidelines — BrandGuidelines08"
+        },
+        {
+          "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines09.jpg",
+          "type": "image",
+          "alt": "Brand Guidelines — BrandGuidelines09"
+        },
+        {
+          "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines10.jpg",
+          "type": "image",
+          "alt": "Brand Guidelines — BrandGuidelines10"
+        },
+        {
+          "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines11.jpg",
+          "type": "image",
+          "alt": "Brand Guidelines — BrandGuidelines11"
+        },
+        {
+          "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines12.jpg",
+          "type": "image",
+          "alt": "Brand Guidelines — BrandGuidelines12"
+        },
+        {
+          "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines13.jpg",
+          "type": "image",
+          "alt": "Brand Guidelines — BrandGuidelines13"
+        },
+        {
+          "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines14.jpg",
+          "type": "image",
+          "alt": "Brand Guidelines — BrandGuidelines14"
+        },
+        {
+          "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines15.jpg",
+          "type": "image",
+          "alt": "Brand Guidelines — BrandGuidelines15"
         }
       ]
     },
@@ -1588,6 +1674,21 @@
           "src": "assets-visual/03-01-2020-blackbriar/09-bb52d4e07f.gif",
           "type": "gif",
           "alt": "CIA.gov site implementation — 09-bb52d4e07f"
+        }
+      ]
+    },
+    "lilly-pulitzer": {
+      "slug": "lilly-pulitzer",
+      "title": "Lilly Pulitzer virtual runway",
+      "date": "2019-12-01",
+      "folders": [
+        "12-01-2019-lilly-pulitzer"
+      ],
+      "assets": [
+        {
+          "src": "https://www.youtube.com/embed/r7ZTCFzELf8?rel=0&controls=0&autoplay=0&mute=0&start=0",
+          "type": "youtube",
+          "alt": "Lilly Pulitzer Virtual Runway Pitch"
         }
       ]
     },
