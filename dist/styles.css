@@ -1573,6 +1573,25 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
     padding: 6px 8px 6px 10px;
   }
 
+  .details-trigger {
+    height: 32px;
+    padding: 6px 8px 6px 10px;
+  }
+
+  .details-group.is-scroll-tension .details-trigger {
+    height: calc(32px + var(--reveal-grow, 0px));
+    padding-top: calc(6px + var(--reveal-padding-grow, 0px));
+    padding-bottom: calc(6px + var(--reveal-padding-grow, 0px));
+  }
+
+  .details-group.is-reveal-priming .details-trigger {
+    height: 38px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 20px;
+    transform: translateY(5px) scaleX(.992);
+  }
+
   .overview-project.is-scroll-tension > .overview-project-heading .overview-project-pill,
   .overview-project.is-scroll-tension > .overview-project-pill {
     height: calc(32px + var(--reveal-grow, 0px));
