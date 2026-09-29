@@ -408,6 +408,7 @@ body.details-open .profile-anchor-marker {
   flex-direction: column;
   gap: 8px;
   margin-top: 8px;
+  padding-left: 90px;
   color: rgba(29, 27, 25, .5);
   letter-spacing: 0;
 }
@@ -461,8 +462,8 @@ body.details-open .profile-anchor-marker {
   margin-left: 1px;
 }
 .nested-panel-inner p {
-  width: calc(100% - 88px);
-  margin: 8px 0 0 auto;
+  width: 100%;
+  margin: 8px 0 0;
   line-height: 1.5;
 }
 
@@ -1720,6 +1721,8 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
 }
 
 @media (max-width: 700px) {
+  .overview-project-summary { padding-left: 12px; }
+
   .overview-project-pill {
     height: 32px;
     padding: 6px 8px 6px 10px;
@@ -1833,10 +1836,7 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
   .profile-timeline-scene { position: relative; }
   .details-group { margin-left: auto; }
 
-  .nested-panel-inner p { width: calc(100% - 20px); }
-
   .groups { gap: 40px; }
-  .nested-panel-inner p { width: calc(100% - 16px); }
 
   .timeline-panel {
     width: 100vw;
