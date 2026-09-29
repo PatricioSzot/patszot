@@ -229,6 +229,7 @@ body.details-open .profile-anchor-marker {
   align-items: center;
   gap: 4px;
   width: 100%;
+  min-width: 0;
 }
 
 .overview-project-kicker {
@@ -240,12 +241,14 @@ body.details-open .profile-anchor-marker {
 .overview-project-pill {
   --project-active: #001308;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   height: 24px;
   gap: 8px;
   padding: 4px 4px 4px 8px;
   border: 1px solid #000;
   border-radius: 30px;
-  background: transparent;
+  background: #fff;
   color: var(--ink);
   transform-origin: center top;
   transition:
@@ -255,10 +258,13 @@ body.details-open .profile-anchor-marker {
     transform .72s var(--ease),
     color .42s var(--ease),
     border-color .42s var(--ease),
-    background-color .42s var(--ease);
+    background-color .56s var(--ease);
 }
 
-.overview-project-heading .overview-project-pill { flex: 1 1 auto; width: auto; }
+.overview-project-heading .overview-project-pill {
+  flex: 1 1 0;
+  width: 100%;
+}
 .overview-project-pill-gloss { --project-active: #17150e; }
 .overview-project-pill-webflow {
   --project-active: #040519;
@@ -279,7 +285,7 @@ body.details-open .profile-anchor-marker {
   padding-bottom: calc(4px + var(--reveal-padding-grow, 0px));
   border-radius: var(--reveal-radius, 30px);
   border-color: color-mix(in srgb, #000, var(--project-active) var(--reveal-color, 0%));
-  background: color-mix(in srgb, transparent, var(--project-active) var(--reveal-color, 0%));
+  background: color-mix(in srgb, #fff, var(--project-active) var(--reveal-color, 0%));
   color: color-mix(in srgb, var(--ink), #fff var(--reveal-color, 0%));
   transform: translateY(var(--reveal-shift, 0px)) scaleX(var(--reveal-squeeze, 1));
 }
