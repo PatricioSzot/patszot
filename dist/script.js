@@ -574,18 +574,47 @@ window.addEventListener('wheel', (event) => {
 }, { passive: false });
 
 let scrollRevealTouchStartY;
+let mobileScrollTouchY;
+let mobileScrollTouchTime;
+let mobileScrollVelocity = 0;
 window.addEventListener('touchstart', (event) => {
   cancelDrift();
   if (event.target.closest?.('.content-well')) {
     scrollRevealTouchStartY = undefined;
+    mobileScrollTouchY = undefined;
     return;
   }
   scrollRevealTouchStartY = event.touches.length === 1
     ? event.touches[0].clientY
     : undefined;
+  mobileScrollTouchY = coarsePointer.matches && event.touches.length === 1
+    ? event.touches[0].clientY
+    : undefined;
+  mobileScrollTouchTime = performance.now();
+  mobileScrollVelocity = 0;
 }, { passive: true });
 
+window.addEventListener('touchmove', (event) => {
+  if (mobileScrollTouchY === undefined || event.touches.length !== 1) return;
+  const now = performance.now();
+  const nextY = event.touches[0].clientY;
+  const delta = mobileScrollTouchY - nextY;
+  const elapsed = Math.max(8, now - mobileScrollTouchTime);
+  mobileScrollTouchY = nextY;
+  mobileScrollTouchTime = now;
+  if (Math.abs(delta) < .25) return;
+  event.preventDefault();
+  const softenedDelta = delta * .88;
+  window.scrollBy(0, softenedDelta);
+  mobileScrollVelocity = mobileScrollVelocity * .7 + softenedDelta / elapsed * .3;
+  driftTarget = window.scrollY;
+}, { passive: false });
+
 window.addEventListener('touchend', (event) => {
+  if (mobileScrollTouchY !== undefined && Math.abs(mobileScrollVelocity) > .035) {
+    driftTo(window.scrollY + mobileScrollVelocity * 180);
+  }
+  mobileScrollTouchY = undefined;
   if (scrollRevealTouchStartY === undefined || !event.changedTouches.length) return;
   const upwardTravel = scrollRevealTouchStartY - event.changedTouches[0].clientY;
   scrollRevealTouchStartY = undefined;
@@ -594,7 +623,11 @@ window.addEventListener('touchend', (event) => {
   }
 }, { passive: true });
 
-window.addEventListener('touchcancel', () => { scrollRevealTouchStartY = undefined; }, { passive: true });
+window.addEventListener('touchcancel', () => {
+  scrollRevealTouchStartY = undefined;
+  mobileScrollTouchY = undefined;
+  mobileScrollVelocity = 0;
+}, { passive: true });
 
 document.addEventListener('keydown', (event) => {
   if (reducedMotion.matches || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
@@ -1762,9 +1795,9 @@ contentWellScroll.addEventListener('touchmove', (event) => {
   if (Math.abs(delta) < .5) return;
   event.preventDefault();
   if (mobileWritingTouchRoute === 'article') {
-    contentWellScroll.scrollTop += delta;
+    contentWellScroll.scrollTop += delta * .88;
   } else {
-    window.scrollBy(0, delta);
+    window.scrollBy(0, delta * .88);
   }
 }, { passive: false });
 
