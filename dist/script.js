@@ -402,7 +402,12 @@ let driftLastTime = performance.now();
 
 const maxScrollY = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
 const clampScrollY = (value) => Math.min(maxScrollY(), Math.max(0, value));
-const isAtScrollEnd = () => maxScrollY() - window.scrollY <= Math.max(4, window.innerHeight * .012);
+const isAtScrollEnd = () => {
+  const tolerance = coarsePointer.matches
+    ? Math.max(48, window.innerHeight * .06)
+    : Math.max(4, window.innerHeight * .012);
+  return maxScrollY() - window.scrollY <= tolerance;
+};
 let scrollRevealLocked = false;
 let scrollRevealTimer;
 let scrollRevealPressure = 0;
@@ -485,20 +490,23 @@ const pressScrollReveal = (amount) => {
     scrollRevealPressureTarget = target;
   }
 
-  const threshold = coarsePointer.matches ? 124 : 190;
+  const isMobileReveal = coarsePointer.matches;
+  // Mobile delivers one discrete swipe. Keep a clear moment of resistance,
+  // while allowing a deliberate end-of-page gesture to complete the reveal.
+  const threshold = isMobileReveal ? 72 : 190;
   scrollRevealPressure = Math.min(threshold, scrollRevealPressure + Math.max(0, amount));
   const pressure = scrollRevealPressure / threshold;
   target.classList.add('is-scroll-tension');
-  target.style.setProperty('--reveal-grow', `${pressure * 10}px`);
-  target.style.setProperty('--reveal-width-grow', `${pressure * 20}px`);
-  target.style.setProperty('--reveal-padding-grow', `${pressure * 4}px`);
-  target.style.setProperty('--reveal-radius', `${30 - pressure * 12}px`);
-  target.style.setProperty('--reveal-shift', `${pressure * 7}px`);
-  target.style.setProperty('--reveal-squeeze', String(1 - pressure * .012));
+  target.style.setProperty('--reveal-grow', `${pressure * (isMobileReveal ? 6 : 10)}px`);
+  target.style.setProperty('--reveal-width-grow', `${pressure * (isMobileReveal ? 12 : 20)}px`);
+  target.style.setProperty('--reveal-padding-grow', `${pressure * (isMobileReveal ? 2 : 4)}px`);
+  target.style.setProperty('--reveal-radius', `${30 - pressure * (isMobileReveal ? 7 : 12)}px`);
+  target.style.setProperty('--reveal-shift', `${pressure * (isMobileReveal ? 4 : 7)}px`);
+  target.style.setProperty('--reveal-squeeze', String(1 - pressure * (isMobileReveal ? .006 : .012)));
   target.style.setProperty('--reveal-color', `${pressure * 100}%`);
 
   window.clearTimeout(scrollRevealPressureTimer);
-  scrollRevealPressureTimer = window.setTimeout(clearScrollRevealPressure, 720);
+  scrollRevealPressureTimer = window.setTimeout(clearScrollRevealPressure, isMobileReveal ? 1100 : 720);
   if (scrollRevealPressure < threshold) return true;
 
   clearScrollRevealPressure();
@@ -574,7 +582,9 @@ window.addEventListener('touchend', (event) => {
   if (scrollRevealTouchStartY === undefined || !event.changedTouches.length) return;
   const upwardTravel = scrollRevealTouchStartY - event.changedTouches[0].clientY;
   scrollRevealTouchStartY = undefined;
-  if (upwardTravel > 24 && isAtScrollEnd()) pressScrollReveal(Math.min(96, upwardTravel));
+  if (upwardTravel > 18 && isAtScrollEnd()) {
+    pressScrollReveal(Math.min(110, upwardTravel * 1.15));
+  }
 }, { passive: true });
 
 window.addEventListener('touchcancel', () => { scrollRevealTouchStartY = undefined; }, { passive: true });

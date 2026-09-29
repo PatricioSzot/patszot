@@ -1554,6 +1554,15 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
 }
 
 @media (max-width: 700px) {
+  .overview-project.is-reveal-priming > .overview-project-heading .overview-project-pill,
+  .overview-project.is-reveal-priming > .overview-project-pill {
+    height: 31px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 20px;
+    transform: translateY(5px) scaleX(.992);
+  }
+
   main {
     overflow: visible;
     touch-action: pan-y pinch-zoom;
