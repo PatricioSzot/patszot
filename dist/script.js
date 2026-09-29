@@ -822,6 +822,7 @@ const contentWellNext = contentWell.querySelector('.content-well-next');
 const contentWellAutoplay = contentWell.querySelector('.content-well-autoplay');
 const contentWellCount = contentWell.querySelector('.content-well-count');
 const contentWellStatus = contentWell.querySelector('.content-well-status');
+const viewportControls = document.querySelector('.viewport-controls');
 let renderContentWell = () => {};
 let contentWellFullscreenOpen = false;
 let contentWellDefaultWidth = 0;
@@ -837,6 +838,16 @@ let activeVisualAutoplayDuration = defaultVisualAutoplayDuration;
 const writingAutoplaySpeed = 14;
 const hoverPauseEnabled = window.matchMedia('(min-width: 701px) and (hover: hover) and (pointer: fine)');
 const animatedDurationCache = new Map();
+
+const syncMobileBackToTopHost = () => {
+  const dockInContentControls = coarsePointer.matches
+    && contentWell.classList.contains('is-visible')
+    && !contentWellControls.hidden;
+  const target = dockInContentControls ? contentWellControls : viewportControls;
+  if (backToTop.parentElement === target) return;
+  if (dockInContentControls) target.prepend(backToTop);
+  else target.append(backToTop);
+};
 
 const currentContentWellAspect = () => {
   const aspect = Number(contentWell.dataset.assetAspect);
@@ -902,6 +913,7 @@ const setPreviewVisibility = (visible) => {
   document.body.classList.toggle('content-well-visible', show);
   contentWell.setAttribute('aria-hidden', String(!show));
   contentWellAnchor.setAttribute('aria-hidden', String(!show));
+  syncMobileBackToTopHost();
   if (!show) document.documentElement.style.removeProperty('--mobile-content-well-height');
   if (!show && contentWellFullscreenOpen) setContentWellFullscreen(false);
   if (!show) {
@@ -1077,7 +1089,10 @@ const syncContentWellHost = () => {
 };
 
 syncContentWellHost();
-coarsePointer.addEventListener('change', syncContentWellHost);
+coarsePointer.addEventListener('change', () => {
+  syncContentWellHost();
+  syncMobileBackToTopHost();
+});
 
 const sceneInteractiveSelector = 'a, button, input, textarea, select, iframe, video, [contenteditable="true"]';
 const orbitControlsEnabled = window.matchMedia('(min-width: 701px)');
@@ -1643,6 +1658,7 @@ const updateContentWellControls = () => {
     contentWellNext.disabled = range <= 1 || contentWellScroll.scrollTop >= range - 1;
     contentWellAutoplay.disabled = range <= 1;
     contentWellCount.textContent = `${Math.round(progress * 100)}%`;
+    syncMobileBackToTopHost();
     return;
   }
   const total = contentWellAssets.length;
@@ -1657,6 +1673,7 @@ const updateContentWellControls = () => {
   contentWellPrevious.disabled = total < 2;
   contentWellNext.disabled = total < 2;
   contentWellCount.textContent = total ? `${String(contentWellAssetIndex + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}` : '';
+  syncMobileBackToTopHost();
 };
 
 const showContentWellAsset = async (requestedIndex, direction = 0) => {
