@@ -654,6 +654,11 @@ body.timeline-scene-dragging * {
   user-select: none !important;
 }
 
+.timeline-panel.is-over-content-control,
+.timeline-panel.is-over-content-control * {
+  cursor: pointer !important;
+}
+
 body.details-open .timeline-panel-inner {
   opacity: 1;
 }

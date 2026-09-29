@@ -1333,8 +1333,25 @@ syncOrbitControls();
 
 sceneReset.addEventListener('click', () => resetTimelineScene());
 
+const contentWellControlAtPoint = (clientX, clientY) => {
+  if (!contentWell.classList.contains('is-visible')) return null;
+  return [...contentWell.querySelectorAll('button:not([disabled])')].find((button) => {
+    if (!button.getClientRects().length || getComputedStyle(button).visibility === 'hidden') return false;
+    const rect = button.getBoundingClientRect();
+    return clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+  }) || null;
+};
+
 timelinePanel.addEventListener('pointerdown', (event) => {
-  if (!orbitControlsEnabled.matches || !document.body.classList.contains('details-open') || event.button !== 0 || event.target.closest(sceneInteractiveSelector)) return;
+  if (!orbitControlsEnabled.matches || !document.body.classList.contains('details-open') || event.button !== 0) return;
+  if (event.target.closest(sceneInteractiveSelector)) return;
+  const occludedControl = contentWellControlAtPoint(event.clientX, event.clientY);
+  if (occludedControl) {
+    event.preventDefault();
+    event.stopPropagation();
+    occludedControl.click();
+    return;
+  }
   stopSceneMotion();
   sceneGesture = {
     id: event.pointerId,
@@ -1353,6 +1370,9 @@ timelinePanel.addEventListener('pointerdown', (event) => {
 });
 
 timelinePanel.addEventListener('pointermove', (event) => {
+  const overContentControl = !sceneGesture && Boolean(contentWellControlAtPoint(event.clientX, event.clientY));
+  timelinePanel.classList.toggle('is-over-content-control', overContentControl);
+  if (overContentControl) return;
   if (!sceneGesture || event.pointerId !== sceneGesture.id) return;
   const dx = event.clientX - sceneGesture.startX;
   const dy = event.clientY - sceneGesture.startY;
@@ -1407,6 +1427,10 @@ timelinePanel.addEventListener('pointerup', (event) => finishSceneGesture(event)
 timelinePanel.addEventListener('pointercancel', (event) => finishSceneGesture(event, true));
 timelinePanel.addEventListener('dblclick', (event) => {
   if (orbitControlsEnabled.matches && !event.target.closest(sceneInteractiveSelector)) resetTimelineScene();
+});
+
+timelinePanel.addEventListener('pointerleave', () => {
+  timelinePanel.classList.remove('is-over-content-control');
 });
 
 window.addEventListener('scroll', requestSceneGeometry, { passive: true });
