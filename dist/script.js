@@ -1138,7 +1138,7 @@ const sceneInteractiveSelector = 'a, button, input, textarea, select, iframe, vi
 const orbitControlsEnabled = window.matchMedia('(min-width: 701px)');
 const sceneLimits = { pitch: 82, yaw: 74 };
 const sceneAngles = { pitch: 0, yaw: 0 };
-const sceneZoomLimits = { min: .94, max: 1.06 };
+const sceneZoomLimits = { min: .9, max: 1.1 };
 const sceneZoom = { value: 1, target: 1 };
 let sceneGesture;
 let sceneRenderFrame;
@@ -1755,6 +1755,7 @@ const updateContentWellControls = () => {
   if (contentWell.dataset.kind === 'writing') {
     contentWell.classList.remove('is-single-asset');
     const range = Math.max(0, contentWellScroll.scrollHeight - contentWellScroll.clientHeight);
+    contentWell.classList.toggle('has-no-scroll', range <= 1);
     const progress = range ? Math.max(0, Math.min(1, contentWellScroll.scrollTop / range)) : 1;
     contentWellControls.hidden = false;
     contentWellControls.setAttribute('aria-label', 'Writing navigation');
@@ -1769,6 +1770,7 @@ const updateContentWellControls = () => {
     syncMobileBackToTopHost();
     return;
   }
+  contentWell.classList.remove('has-no-scroll');
   const total = contentWellAssets.length;
   const isSingleAsset = total === 1;
   contentWell.classList.toggle('is-single-asset', isSingleAsset);
@@ -1856,6 +1858,9 @@ const updateContentWellActive = () => {
 const requestContentWellActive = () => {
   if (!contentWellFrame) contentWellFrame = requestAnimationFrame(updateContentWellActive);
 };
+
+const contentWellOverflowObserver = new ResizeObserver(requestContentWellActive);
+contentWellOverflowObserver.observe(contentWellScroll);
 
 contentWellScroll.addEventListener('scroll', () => {
   if (contentWellKey && contentWell.dataset.kind === 'writing') contentWellPositions.set(contentWellKey, contentWellScroll.scrollTop);
@@ -2025,6 +2030,8 @@ renderContentWell = async (entry) => {
   contentWellScroll.style.removeProperty('--content-aspect');
   disposeContentWellMedia();
   contentWellScroll.replaceChildren();
+  contentWellOverflowObserver.disconnect();
+  contentWellOverflowObserver.observe(contentWellScroll);
   contentWellControls.hidden = true;
   contentWellAssets = [];
   contentWellAssetIndex = 0;
@@ -2039,7 +2046,9 @@ renderContentWell = async (entry) => {
       const response = await fetch(`${record.file}?v=20260928-media-timed-content-well`);
       const article = await response.json();
       if (generation !== contentWellGeneration) return;
-      contentWellScroll.append(createWritingContent(article));
+      const writingContent = createWritingContent(article);
+      contentWellScroll.append(writingContent);
+      contentWellOverflowObserver.observe(writingContent);
       hasContent = true;
       label = `${entry.title}, writing`;
     }
