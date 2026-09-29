@@ -494,6 +494,8 @@ body.details-open .profile-anchor-marker {
   white-space: nowrap;
 }
 
+.overview-previous-label-spacer { min-height: 1px; }
+
 .overview-secondary-list {
   min-width: 0;
   display: flex;
@@ -1777,6 +1779,7 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
   }
 
   .overview-previous-label { width: 100%; }
+  .overview-previous-label-spacer { display: none; }
   .overview-secondary-list,
   .overview-project-secondary { width: 100%; }
 

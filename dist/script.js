@@ -53,7 +53,8 @@ const choreographOverviewItems = (group) => {
 
 const syncOverviewHeight = () => {
   const visibleProfileHeight = Math.ceil(overviewProfile.getBoundingClientRect().height);
-  const previousScene = overviewProfile.querySelector('.profile-previous-scene');
+  const previousScenes = overviewProfile.querySelectorAll('.profile-previous-scene');
+  const previousScene = previousScenes[previousScenes.length - 1];
   const scrimBottom = previousScene.offsetTop + previousScene.offsetHeight;
   const timelineHandoffGap = window.matchMedia('(max-width: 700px)').matches ? 28 : 72;
   const timelineTop = overviewProfile.offsetTop + visibleProfileHeight + timelineHandoffGap;
