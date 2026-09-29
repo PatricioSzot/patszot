@@ -496,7 +496,7 @@ body.details-open .profile-anchor-marker {
 }
 
 .overview-project-primary > .overview-project-summary > .overview-source-link {
-  margin-left: 90px;
+  margin-left: 109px;
 }
 
 .overview-source-link:hover { color: var(--ink); }
@@ -1837,7 +1837,7 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
   .profile-timeline-scene { position: relative; }
   .details-group { margin-left: auto; }
 
-  .overview-project-primary > .overview-project-summary > .overview-source-link { margin-left: 12px; }
+  .overview-project-primary > .overview-project-summary > .overview-source-link { margin-left: 37px; }
 
   .nested-panel-inner p { width: calc(100% - 20px); }
 
