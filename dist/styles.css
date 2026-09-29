@@ -879,12 +879,11 @@ button.timeline-marker {
   line-height: 1.08;
   letter-spacing: -.01em;
   text-align: left;
+  transition: color .38s ease;
 }
 
-.timeline-asset-count:not([hidden])::before {
-  content: "•";
-  margin-right: 8px;
-}
+.timeline-entry.is-deprioritized .project-info-meta { color: rgba(29, 27, 25, .1); }
+.timeline-entry.is-deprioritized h3 { color: #dcdcdc; }
 
 .project-info {
   position: relative;
@@ -1344,6 +1343,8 @@ body.content-well-fullscreen-open main {
   text-align: left;
 }
 
+.content-well[data-kind="writing"] .content-well-count { display: none; }
+
 .content-well-status {
   position: absolute;
   width: 1px;
@@ -1583,7 +1584,6 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
   border: 1px solid rgba(29, 27, 25, .14);
   border-radius: inherit;
   background: rgba(255, 255, 255, .96);
-  box-shadow: 0 24px 80px rgba(29, 27, 25, .18);
 }
 
 .nda-dialog h2 {
@@ -1951,8 +1951,6 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
     height: 44px;
     margin-right: auto;
   }
-  .content-well[data-kind="writing"] .content-well-count { display: none; }
-
   .content-well-anchor.is-fullscreen {
     top: auto !important;
     width: var(--fullscreen-width, calc(100vw - 40px));

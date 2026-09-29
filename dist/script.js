@@ -745,7 +745,7 @@ const entryMarkup = (entry) => {
     <article class="timeline-entry" data-kind="${entry.kind}">
       ${marker}
       <div class="project-info" aria-label="Project info">
-        <div class="project-info-meta"><time>${metadataTitleCase(entry.date)}</time><span aria-hidden="true">•</span><span>${metadataTitleCase(entry.kind)}</span>${assetCount}</div>
+        <div class="project-info-meta"><time>${metadataTitleCase(entry.date)}</time><span aria-hidden="true">•</span><span class="project-info-type">${metadataTitleCase(entry.kind)}${assetCount}</span></div>
         <h3 class="project-info-title">${linkedTitle}</h3>
         ${entry.description ? `<p class="project-info-body">${entry.description}</p>` : ''}
       </div>
@@ -1011,6 +1011,12 @@ const clearTimelineActive = () => {
   timeline.classList.remove('has-active');
 };
 
+const updateTimelineDistanceStates = (activeIndex) => {
+  timelineEntries.forEach((entry, index) => {
+    entry.classList.toggle('is-deprioritized', Math.abs(index - activeIndex) >= 2);
+  });
+};
+
 const untransformedDocumentCenter = (element) => {
   let x = element.offsetWidth / 2;
   let y = element.offsetHeight / 2;
@@ -1056,10 +1062,12 @@ const updateTimelineActive = () => {
   document.body.classList.toggle('present-focus', presentOwnsFocus);
   if (!closest) {
     clearTimelineActive();
+    updateTimelineDistanceStates(-1);
     positionContentWell();
     setPreviewVisibility(false);
     return;
   }
+  updateTimelineDistanceStates(timelineEntries.indexOf(closest));
   if (closest !== activeTimelineEntry) {
     activeTimelineEntry?.classList.remove('is-active');
     activeTimelineEntry?.querySelectorAll('.content-well-trigger').forEach((control) => control.setAttribute('tabindex', '-1'));
@@ -2031,7 +2039,7 @@ projectManifest.then((manifest) => {
     if (element.entryData.kind === 'project') element.classList.toggle('has-no-assets', count === 0);
     const label = element.querySelector('.timeline-asset-count');
     if (!label || !count) return;
-    label.textContent = `${count} ${count === 1 ? 'asset' : 'assets'}`;
+    label.textContent = `, ${count} ${count === 1 ? 'asset' : 'assets'}`;
     label.hidden = false;
   });
 });
