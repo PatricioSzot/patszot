@@ -396,7 +396,38 @@ const closeDuration = () => reducedMotion.matches ? 0 : 650;
 
 const backToTop = document.querySelector('#back-to-top');
 const sceneReset = document.querySelector('#scene-reset');
+const ndaDialog = document.querySelector('#nda-dialog');
+const ndaDialogCancel = ndaDialog.querySelector('.nda-dialog-cancel');
+const ndaDialogConfirm = ndaDialog.querySelector('.nda-dialog-confirm');
 const coarsePointer = window.matchMedia('(max-width: 700px), (pointer: coarse)');
+let pendingInternalToolUrl = '';
+
+document.querySelectorAll('[data-internal-tool]').forEach((link) => {
+  link.addEventListener('click', (event) => {
+    event.preventDefault();
+    pendingInternalToolUrl = link.href;
+    ndaDialog.showModal();
+  });
+});
+
+ndaDialogCancel.addEventListener('click', () => ndaDialog.close());
+ndaDialog.addEventListener('click', (event) => {
+  if (event.target === ndaDialog) ndaDialog.close();
+});
+ndaDialog.addEventListener('close', () => {
+  if (ndaDialog.returnValue !== 'confirmed') pendingInternalToolUrl = '';
+  ndaDialog.returnValue = '';
+});
+ndaDialogConfirm.addEventListener('click', () => {
+  const destination = pendingInternalToolUrl;
+  ndaDialog.returnValue = 'confirmed';
+  ndaDialog.close();
+  pendingInternalToolUrl = '';
+  if (!destination) return;
+  const opened = window.open(destination, '_blank', 'noopener,noreferrer');
+  if (!opened) window.location.assign(destination);
+});
+
 let driftTarget = window.scrollY;
 let driftFrame;
 let driftAnimating = false;
