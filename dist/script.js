@@ -404,7 +404,7 @@ const maxScrollY = () => Math.max(0, document.documentElement.scrollHeight - win
 const clampScrollY = (value) => Math.min(maxScrollY(), Math.max(0, value));
 const isAtScrollEnd = () => {
   const tolerance = coarsePointer.matches
-    ? Math.max(48, window.innerHeight * .06)
+    ? Math.max(120, window.innerHeight * .18)
     : Math.max(4, window.innerHeight * .012);
   return maxScrollY() - window.scrollY <= tolerance;
 };
