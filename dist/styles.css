@@ -883,7 +883,10 @@ button.timeline-marker {
 }
 
 .timeline-entry.is-deprioritized .project-info-meta { color: rgba(29, 27, 25, .1); }
-.timeline-entry.is-deprioritized h3 { color: #dcdcdc; }
+.timeline-entry.is-deprioritized h3 {
+  color: #dcdcdc;
+  font-variation-settings: "wght" 400, "wdth" 80;
+}
 
 .project-info {
   position: relative;
@@ -906,7 +909,7 @@ button.timeline-marker {
   color: #8e8d8c;
   font-size: 16px;
   font-weight: 400;
-  font-variation-settings: "wght" 400, "wdth" 100;
+  font-variation-settings: "wght" 400, "wdth" 90;
   line-height: 1.08;
   letter-spacing: -.02em;
   text-align: left;
@@ -923,7 +926,7 @@ button.timeline-marker {
   color: var(--ink);
   opacity: 1;
   letter-spacing: -.01em;
-  font-variation-settings: "wght" 600, "wdth" 108;
+  font-variation-settings: "wght" 600, "wdth" 100;
 }
 
 .project-info-body {

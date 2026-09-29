@@ -1138,8 +1138,11 @@ const sceneInteractiveSelector = 'a, button, input, textarea, select, iframe, vi
 const orbitControlsEnabled = window.matchMedia('(min-width: 701px)');
 const sceneLimits = { pitch: 82, yaw: 74 };
 const sceneAngles = { pitch: 0, yaw: 0 };
+const sceneZoomLimits = { min: .94, max: 1.06 };
+const sceneZoom = { value: 1, target: 1 };
 let sceneGesture;
 let sceneRenderFrame;
+let sceneZoomFrame;
 let sceneGeometryFrame;
 let sceneMotionGeneration = 0;
 let sceneMotionFrame;
@@ -1149,6 +1152,12 @@ let renderedScenePitch = Number.NaN;
 let renderedSceneYaw = Number.NaN;
 
 const clampScene = (value, limit) => Math.max(-limit, Math.min(limit, value));
+const sceneIsRotated = () => Math.abs(sceneAngles.pitch) + Math.abs(sceneAngles.yaw) > 2.25;
+const sceneCanPinchZoom = () => (
+  orbitControlsEnabled.matches
+  && document.body.classList.contains('details-open')
+  && sceneIsRotated()
+);
 
 const stopSceneMotion = () => {
   sceneMotionGeneration += 1;
@@ -1159,7 +1168,7 @@ const stopSceneMotion = () => {
 
 const renderScene = () => {
   sceneRenderFrame = undefined;
-  const forwardTransform = `translate3d(0, ${sceneScroll.y.toFixed(3)}px, ${sceneScroll.z.toFixed(3)}px) rotateY(${sceneAngles.yaw.toFixed(3)}deg) rotateX(${sceneAngles.pitch.toFixed(3)}deg)`;
+  const forwardTransform = `translate3d(0, ${sceneScroll.y.toFixed(3)}px, ${sceneScroll.z.toFixed(3)}px) rotateY(${sceneAngles.yaw.toFixed(3)}deg) rotateX(${sceneAngles.pitch.toFixed(3)}deg) scale(${sceneZoom.value.toFixed(4)})`;
   timelineScene.style.transform = forwardTransform;
   profileScenes.forEach((element) => { element.style.transform = forwardTransform; });
   footerContactScene.style.transform = forwardTransform;
@@ -1199,6 +1208,32 @@ const renderScene = () => {
 const requestSceneRender = () => {
   renderScene();
 };
+
+const setSceneZoomTarget = (target, immediate = false) => {
+  sceneZoom.target = Math.max(sceneZoomLimits.min, Math.min(sceneZoomLimits.max, target));
+  if (immediate || reducedMotion.matches) {
+    if (sceneZoomFrame) cancelAnimationFrame(sceneZoomFrame);
+    sceneZoomFrame = undefined;
+    sceneZoom.value = sceneZoom.target;
+    requestSceneRender();
+    return;
+  }
+  if (sceneZoomFrame) return;
+  const tick = () => {
+    sceneZoom.value += (sceneZoom.target - sceneZoom.value) * .16;
+    requestSceneRender();
+    if (Math.abs(sceneZoom.target - sceneZoom.value) < .0002) {
+      sceneZoom.value = sceneZoom.target;
+      sceneZoomFrame = undefined;
+      requestSceneRender();
+      return;
+    }
+    sceneZoomFrame = requestAnimationFrame(tick);
+  };
+  sceneZoomFrame = requestAnimationFrame(tick);
+};
+
+const resetSceneZoom = (animate = true) => setSceneZoomTarget(1, !animate);
 
 const refreshSceneGeometry = () => {
   sceneGeometryFrame = undefined;
@@ -1250,6 +1285,7 @@ const requestSceneGeometry = () => {
 const setSceneAngles = (pitch, yaw) => {
   sceneAngles.pitch = clampScene(pitch, sceneLimits.pitch);
   sceneAngles.yaw = clampScene(yaw, sceneLimits.yaw);
+  if (!sceneIsRotated() && sceneZoom.target !== 1) resetSceneZoom();
   requestSceneRender();
 };
 
@@ -1321,6 +1357,7 @@ const respondToSceneScroll = (delta) => {
 };
 
 const resetTimelineScene = (animate = true) => {
+  resetSceneZoom(animate);
   if (animate && (Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08)) springSceneTo(0, 0);
   else {
     stopSceneMotion();
@@ -1436,6 +1473,13 @@ timelinePanel.addEventListener('pointercancel', (event) => finishSceneGesture(ev
 timelinePanel.addEventListener('dblclick', (event) => {
   if (orbitControlsEnabled.matches && !event.target.closest(sceneInteractiveSelector)) resetTimelineScene();
 });
+
+timelinePanel.addEventListener('wheel', (event) => {
+  if (!event.ctrlKey || !sceneCanPinchZoom() || event.target.closest(sceneInteractiveSelector)) return;
+  event.preventDefault();
+  const zoomFactor = Math.exp(-event.deltaY * .006);
+  setSceneZoomTarget(sceneZoom.target * zoomFactor);
+}, { passive: false });
 
 timelinePanel.addEventListener('pointerleave', () => {
   timelinePanel.classList.remove('is-over-content-control');
