@@ -623,13 +623,20 @@ document.addEventListener('keydown', (event) => {
 });
 
 window.addEventListener('resize', () => { driftTarget = clampScrollY(driftTarget); });
+const updateBackToTopVisibility = () => {
+  const timelineActive = document.body.classList.contains('details-open')
+    && !document.body.classList.contains('details-opening')
+    && !document.body.classList.contains('details-closing');
+  backToTop.classList.toggle('is-visible', timelineActive && window.scrollY > window.innerHeight * .65);
+};
+
 window.addEventListener('scroll', () => {
   if (!driftAnimating) driftTarget = window.scrollY;
-  backToTop.classList.toggle('is-visible', window.scrollY > window.innerHeight * .65);
+  updateBackToTopVisibility();
 }, { passive: true });
 
 backToTop.addEventListener('click', () => driftTo(0));
-backToTop.classList.toggle('is-visible', window.scrollY > window.innerHeight * .65);
+updateBackToTopVisibility();
 
 const projectDisplayTitles = new Map(Object.entries({
   'GlossAI Rebrand': 'GlossAI rebrand',
@@ -728,6 +735,7 @@ detailsTrigger.addEventListener('click', () => {
     detailsCloseTimer = window.setTimeout(() => {
       document.body.classList.remove('details-opening');
       requestTimelineActiveUpdate();
+      updateBackToTopVisibility();
     }, openDuration());
     return;
   }
@@ -736,6 +744,7 @@ detailsTrigger.addEventListener('click', () => {
   document.body.classList.remove('details-opening');
   document.body.classList.remove('present-focus');
   document.body.classList.add('details-closing');
+  updateBackToTopVisibility();
   setPreviewVisibility(false);
   clearTimelineActive();
 
@@ -755,6 +764,7 @@ detailsTrigger.addEventListener('click', () => {
     timelinePanel.inert = true;
     timelinePanel.hidden = true;
     document.body.classList.remove('details-open', 'details-closing');
+    updateBackToTopVisibility();
     timeline.querySelectorAll('.is-exiting').forEach((element) => {
       element.classList.remove('is-exiting');
       element.style.removeProperty('--close-delay');
