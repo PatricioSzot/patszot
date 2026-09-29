@@ -600,6 +600,7 @@ detailsTrigger.addEventListener('click', () => {
 
   if (open) {
     clearTimelineActive();
+    positionContentWell();
     renderContentWell(presentProjectData);
     document.body.classList.remove('details-closing');
     timeline.querySelectorAll('.is-exiting').forEach((element) => {
@@ -657,15 +658,49 @@ let previousScrollTime = performance.now();
 let timelineScrollDirection = 0;
 let timelineScrollVelocity = 0;
 const contentWell = document.querySelector('#content-well');
+const contentWellAnchor = document.querySelector('#content-well-anchor');
+const contentWellBillboard = contentWellAnchor.querySelector('.content-well-billboard');
 const contentWellScroll = contentWell.querySelector('.content-well-scroll');
 const contentWellProgress = contentWell.querySelector('.content-well-progress');
+const contentWellControls = contentWell.querySelector('.content-well-controls');
+const contentWellPrevious = contentWell.querySelector('.content-well-previous');
+const contentWellNext = contentWell.querySelector('.content-well-next');
+const contentWellCount = contentWell.querySelector('.content-well-count');
 const contentWellStatus = contentWell.querySelector('.content-well-status');
 let renderContentWell = () => {};
 
 const setPreviewVisibility = (visible) => {
-  contentWell.classList.toggle('is-visible', visible);
-  contentWell.setAttribute('aria-hidden', String(!visible));
-  if (!visible) contentWellScroll.querySelectorAll('video').forEach((video) => video.pause());
+  const hasContent = contentWell.classList.contains('has-content');
+  const show = visible && hasContent;
+  contentWell.classList.toggle('is-visible', show);
+  contentWell.setAttribute('aria-hidden', String(!show));
+  contentWellAnchor.setAttribute('aria-hidden', String(!show));
+  if (!show) contentWellScroll.querySelectorAll('video').forEach((video) => video.pause());
+};
+
+const offsetTopWithin = (element, ancestor) => {
+  let top = 0;
+  let node = element;
+  while (node && node !== ancestor) {
+    top += node.offsetTop;
+    node = node.offsetParent;
+  }
+  return top;
+};
+
+const positionContentWell = (entryElement) => {
+  const firstEntry = timelineEntries[0];
+  let top;
+  if (entryElement) {
+    top = offsetTopWithin(entryElement, timelineScene);
+    if (coarsePointer.matches) top += entryElement.offsetHeight + 24;
+  } else {
+    const firstTop = firstEntry ? offsetTopWithin(firstEntry, timelineScene) : 400;
+    top = coarsePointer.matches
+      ? Math.max(180, firstTop + 24)
+      : Math.max(160, firstTop - 280);
+  }
+  contentWellAnchor.style.top = `${Math.round(top)}px`;
 };
 
 const clearTimelineActive = () => {
@@ -720,6 +755,7 @@ const updateTimelineActive = () => {
   document.body.classList.toggle('present-focus', presentOwnsFocus);
   if (!closest) {
     clearTimelineActive();
+    positionContentWell();
     renderContentWell(presentProjectData);
     return;
   }
@@ -730,6 +766,7 @@ const updateTimelineActive = () => {
     timeline.classList.add('has-active');
     activeTimelineEntry.classList.add('is-active');
     activeTimelineEntry.querySelectorAll('.content-well-trigger').forEach((control) => control.setAttribute('tabindex', '0'));
+    positionContentWell(activeTimelineEntry);
     renderContentWell(activeTimelineEntry.entryData);
   }
 };
@@ -767,8 +804,23 @@ const cameraBillboards = [...document.querySelectorAll([
   '.profile-anchor-marker',
   '.present-project-trigger',
   '.footer-contact-billboard',
-  '.timeline-footer-billboard'
+  '.timeline-footer-billboard',
+  '.content-well-billboard'
 ].join(','))];
+
+const syncContentWellHost = () => {
+  if (coarsePointer.matches) {
+    if (contentWellAnchor.parentElement !== document.body) document.body.append(contentWellAnchor);
+    contentWellAnchor.style.removeProperty('top');
+    return;
+  }
+  if (contentWellAnchor.parentElement !== timelineScene) timelineScene.prepend(contentWellAnchor);
+  positionContentWell(activeTimelineEntry);
+};
+
+syncContentWellHost();
+coarsePointer.addEventListener('change', syncContentWellHost);
+
 const sceneInteractiveSelector = 'a, button, input, textarea, select, iframe, video, [contenteditable="true"]';
 const orbitControlsEnabled = window.matchMedia('(min-width: 701px)');
 const sceneLimits = { pitch: 82, yaw: 74 };
@@ -1056,6 +1108,9 @@ let contentWellEntry;
 let contentWellKey;
 let contentWellGeneration = 0;
 let contentWellFrame;
+let contentWellMediaGeneration = 0;
+let contentWellAssets = [];
+let contentWellAssetIndex = 0;
 
 const contentKeyFor = (entry) => entry.assetKey || entry.assetsUrl || entry.url || `${entry.kind}:${entry.title}`;
 
@@ -1108,7 +1163,7 @@ const createContentWellMedia = (asset, index) => {
     video.src = asset.src;
     video.muted = true;
     video.playsInline = true;
-    video.preload = index < 2 ? 'metadata' : 'none';
+    video.preload = 'metadata';
     video.controls = true;
     return video;
   }
@@ -1116,8 +1171,8 @@ const createContentWellMedia = (asset, index) => {
   image.src = asset.src;
   image.alt = asset.alt || `Project media ${index + 1}`;
   image.decoding = 'async';
-  image.loading = index === 0 ? 'eager' : 'lazy';
-  if (index === 0) image.fetchPriority = 'high';
+  image.loading = 'eager';
+  image.fetchPriority = 'high';
   return image;
 };
 
@@ -1134,9 +1189,94 @@ const createWritingContent = (article) => {
   const body = document.createElement('div');
   body.className = 'content-well-writing-body';
   body.innerHTML = article.content;
+  body.querySelectorAll('img').forEach((image) => {
+    image.loading = 'lazy';
+    image.decoding = 'async';
+  });
+  body.querySelectorAll('iframe').forEach((frame) => { frame.loading = 'lazy'; });
   header.append(title, meta);
   documentNode.append(header, body);
   return documentNode;
+};
+
+const disposeContentWellMedia = () => {
+  contentWellScroll.querySelectorAll('video').forEach((video) => {
+    video.pause();
+    video.removeAttribute('src');
+    video.load();
+  });
+  contentWellScroll.querySelectorAll('iframe').forEach((frame) => frame.removeAttribute('src'));
+};
+
+const waitForContentWellMedia = async (media) => {
+  if (media instanceof HTMLImageElement) {
+    if (!media.complete) {
+      await new Promise((resolve) => {
+        media.addEventListener('load', resolve, { once: true });
+        media.addEventListener('error', resolve, { once: true });
+      });
+    }
+    if (media.naturalWidth && media.decode) await media.decode().catch(() => {});
+    return;
+  }
+  if (media instanceof HTMLVideoElement) {
+    if (media.readyState < 1) {
+      await new Promise((resolve) => {
+        media.addEventListener('loadedmetadata', resolve, { once: true });
+        media.addEventListener('error', resolve, { once: true });
+      });
+    }
+    return;
+  }
+  if (media instanceof HTMLIFrameElement) {
+    await Promise.race([
+      new Promise((resolve) => media.addEventListener('load', resolve, { once: true })),
+      new Promise((resolve) => window.setTimeout(resolve, 1600))
+    ]);
+  }
+};
+
+const updateContentWellControls = () => {
+  const total = contentWellAssets.length;
+  contentWellControls.hidden = !total || contentWell.dataset.kind !== 'project';
+  contentWellPrevious.disabled = contentWellAssetIndex <= 0;
+  contentWellNext.disabled = contentWellAssetIndex >= total - 1;
+  contentWellCount.textContent = total ? `${String(contentWellAssetIndex + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}` : '';
+};
+
+const showContentWellAsset = async (requestedIndex, direction = 0) => {
+  if (!contentWellAssets.length) return;
+  const index = Math.max(0, Math.min(contentWellAssets.length - 1, requestedIndex));
+  const generation = ++contentWellMediaGeneration;
+  const outgoing = contentWellScroll.querySelector('.content-well-item');
+  contentWell.classList.remove('is-ready');
+  contentWellAssetIndex = index;
+  updateContentWellControls();
+  contentWellStatus.textContent = `Asset ${index + 1} of ${contentWellAssets.length}`;
+
+  if (outgoing && direction && !reducedMotion.matches) {
+    await outgoing.animate(
+      [
+        { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' },
+        { opacity: 0, transform: `translate3d(${-direction * 10}px, -2px, 0) scale(.997)` }
+      ],
+      { duration: 150, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'forwards' }
+    ).finished.catch(() => {});
+  }
+  if (generation !== contentWellMediaGeneration) return;
+
+  disposeContentWellMedia();
+  const item = document.createElement('figure');
+  item.className = 'content-well-item';
+  item.dataset.index = String(index);
+  item.style.setProperty('--asset-enter-x', `${direction * 12}px`);
+  const media = createContentWellMedia(contentWellAssets[index], index);
+  item.append(media);
+  contentWellScroll.replaceChildren(item);
+  contentWellScroll.scrollTop = 0;
+  await waitForContentWellMedia(media);
+  if (generation !== contentWellMediaGeneration) return;
+  requestAnimationFrame(() => contentWell.classList.add('is-ready'));
 };
 
 const updateContentWellActive = () => {
@@ -1148,32 +1288,10 @@ const updateContentWellActive = () => {
     contentWellStatus.textContent = `${Math.round(progress * 100)}% read`;
     return;
   }
-  const items = [...contentWellScroll.querySelectorAll('.content-well-item')];
-  if (!items.length) {
-    contentWellStatus.textContent = '';
-    return;
-  }
-  const center = contentWellScroll.scrollTop + contentWellScroll.clientHeight / 2;
-  let activeIndex = 0;
-  let activeDistance = Infinity;
-  items.forEach((item, index) => {
-    const distance = Math.abs(item.offsetTop + item.offsetHeight / 2 - center);
-    if (distance < activeDistance) {
-      activeDistance = distance;
-      activeIndex = index;
-    }
-  });
-  items.forEach((item, index) => {
-    const video = item.querySelector('video');
-    if (!video) return;
-    if (index === activeIndex) video.play().catch(() => {});
-    else video.pause();
-  });
-  [...contentWellProgress.children].forEach((button, index) => {
-    if (index === activeIndex) button.setAttribute('aria-current', 'true');
-    else button.removeAttribute('aria-current');
-  });
-  contentWellStatus.textContent = `${activeIndex + 1} of ${items.length}`;
+  updateContentWellControls();
+  contentWellStatus.textContent = contentWellAssets.length
+    ? `Asset ${contentWellAssetIndex + 1} of ${contentWellAssets.length}`
+    : '';
 };
 
 const requestContentWellActive = () => {
@@ -1181,7 +1299,7 @@ const requestContentWellActive = () => {
 };
 
 contentWellScroll.addEventListener('scroll', () => {
-  if (contentWellKey) contentWellPositions.set(contentWellKey, contentWellScroll.scrollTop);
+  if (contentWellKey && contentWell.dataset.kind === 'writing') contentWellPositions.set(contentWellKey, contentWellScroll.scrollTop);
   requestContentWellActive();
 }, { passive: true });
 
@@ -1189,12 +1307,18 @@ contentWell.addEventListener('pointerenter', cancelDrift);
 contentWell.addEventListener('pointerdown', cancelDrift);
 contentWell.addEventListener('touchstart', cancelDrift, { passive: true });
 
-contentWellProgress.addEventListener('click', (event) => {
-  const button = event.target.closest('button[data-index]');
-  if (!button) return;
-  const item = contentWellScroll.querySelector(`[data-index="${button.dataset.index}"]`);
-  if (!item) return;
-  contentWellScroll.scrollTo({ top: item.offsetTop, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+contentWellPrevious.addEventListener('click', () => showContentWellAsset(contentWellAssetIndex - 1, -1));
+contentWellNext.addEventListener('click', () => showContentWellAsset(contentWellAssetIndex + 1, 1));
+
+contentWell.addEventListener('keydown', (event) => {
+  if (contentWell.dataset.kind !== 'project') return;
+  if (event.key === 'ArrowLeft' && !contentWellPrevious.disabled) {
+    event.preventDefault();
+    showContentWellAsset(contentWellAssetIndex - 1, -1);
+  } else if (event.key === 'ArrowRight' && !contentWellNext.disabled) {
+    event.preventDefault();
+    showContentWellAsset(contentWellAssetIndex + 1, 1);
+  }
 });
 
 renderContentWell = async (entry) => {
@@ -1204,17 +1328,23 @@ renderContentWell = async (entry) => {
     setPreviewVisibility(document.body.classList.contains('details-open'));
     return;
   }
-  if (contentWellKey) contentWellPositions.set(contentWellKey, contentWellScroll.scrollTop);
+  if (contentWellKey && contentWell.dataset.kind === 'writing') contentWellPositions.set(contentWellKey, contentWellScroll.scrollTop);
   const generation = ++contentWellGeneration;
+  ++contentWellMediaGeneration;
   contentWellEntry = entry;
   contentWellKey = key;
-  contentWell.classList.remove('is-ready');
+  contentWell.classList.remove('is-ready', 'has-content');
   contentWell.dataset.kind = entry.kind;
-  contentWellScroll.querySelectorAll('video').forEach((video) => video.pause());
+  disposeContentWellMedia();
+  contentWellScroll.replaceChildren();
+  contentWellProgress.replaceChildren();
+  contentWellProgress.classList.remove('is-document');
+  contentWellControls.hidden = true;
+  contentWellAssets = [];
+  contentWellAssetIndex = 0;
 
-  const contentFragment = document.createDocumentFragment();
-  const progressFragment = document.createDocumentFragment();
   let label = `${entry.title}, no preview content`;
+  let hasContent = false;
 
   if (entry.kind === 'writing' && entry.url) {
     const manifest = await writingManifest;
@@ -1223,43 +1353,41 @@ renderContentWell = async (entry) => {
       const response = await fetch(record.file);
       const article = await response.json();
       if (generation !== contentWellGeneration) return;
-      contentFragment.append(createWritingContent(article));
+      contentWellScroll.append(createWritingContent(article));
       contentWellProgress.classList.add('is-document');
+      hasContent = true;
       label = `${entry.title}, writing`;
     }
   } else if (entry.kind === 'project') {
     const manifest = await projectManifest;
     if (generation !== contentWellGeneration) return;
-    const assets = assetsForEntry(manifest, entry);
-    assets.forEach((asset, index) => {
-      const item = document.createElement('figure');
-      item.className = 'content-well-item';
-      item.dataset.index = String(index);
-      item.style.setProperty('--item-index', index);
-      item.append(createContentWellMedia(asset, index));
-      contentFragment.append(item);
-      const segment = document.createElement('button');
-      segment.type = 'button';
-      segment.dataset.index = String(index);
-      segment.setAttribute('aria-label', `View item ${index + 1} of ${assets.length}`);
-      progressFragment.append(segment);
-    });
-    label = assets.length
-      ? `${entry.title}, ${assets.length} ${assets.length === 1 ? 'item' : 'items'}`
+    contentWellAssets = assetsForEntry(manifest, entry);
+    hasContent = contentWellAssets.length > 0;
+    label = hasContent
+      ? `${entry.title}, ${contentWellAssets.length} ${contentWellAssets.length === 1 ? 'asset' : 'assets'}`
       : `${entry.title}, no preview content`;
   }
 
   if (generation !== contentWellGeneration) return;
-  contentWellProgress.classList.toggle('is-document', entry.kind === 'writing' && contentFragment.childNodes.length > 0);
-  contentWellScroll.replaceChildren(contentFragment);
-  contentWellProgress.replaceChildren(progressFragment);
+  contentWell.classList.toggle('has-content', hasContent);
   contentWell.setAttribute('aria-label', label);
-  contentWellScroll.scrollTop = contentWellPositions.get(key) || 0;
   setPreviewVisibility(document.body.classList.contains('details-open'));
-  requestAnimationFrame(() => {
-    contentWell.classList.add('is-ready');
-    updateContentWellActive();
-  });
+  if (!hasContent) {
+    contentWellStatus.textContent = '';
+    return;
+  }
+
+  if (entry.kind === 'writing') {
+    contentWellScroll.scrollTop = contentWellPositions.get(key) || 0;
+    requestAnimationFrame(() => {
+      contentWell.classList.add('is-ready');
+      updateContentWellActive();
+    });
+    return;
+  }
+
+  updateContentWellControls();
+  showContentWellAsset(0, 0);
 };
 
 projectManifest.then((manifest) => {
