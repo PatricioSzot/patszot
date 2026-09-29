@@ -1609,6 +1609,19 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
   .overview-project-media { gap: 4px; padding-top: 4px; }
 
   .profile-timeline-scene .profile-billboard { align-items: flex-end; }
+  .profile-timeline-scene { position: relative; }
+  .profile-timeline-scene::before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    top: -42px;
+    right: -20px;
+    left: -20px;
+    height: 82px;
+    background: linear-gradient(to bottom, #fff 0, #fff 34px, rgba(255, 255, 255, 0) 82px);
+    pointer-events: none;
+  }
+  .profile-timeline-scene .profile-billboard { position: relative; z-index: 1; }
   .details-group { margin-left: auto; }
 
   .nested-panel-inner p { width: calc(100% - 20px); }
@@ -1652,11 +1665,14 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
   body.overview-expanded .footer-contact { left: 20px; }
 
   .viewport-controls {
-    right: 20px;
+    right: auto;
     bottom: 20px;
+    left: 20px;
   }
 
-  body.content-well-visible .viewport-controls { bottom: 84px; }
+  body.content-well-visible .viewport-controls {
+    bottom: calc(32px + var(--mobile-content-well-height, 0px));
+  }
   body.content-well-fullscreen-open .viewport-controls {
     opacity: 0;
     pointer-events: none;
@@ -1715,7 +1731,7 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
     transform: translateX(-50%) translateY(var(--content-well-lift, 0px));
   }
 
-  .content-well-anchor:has(.content-well[data-kind="writing"].is-visible)::before {
+  .content-well-anchor:has(.content-well.is-visible)::before {
     content: '';
     position: absolute;
     z-index: -1;
@@ -1733,12 +1749,15 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
     height: auto;
   }
 
+  .content-well-fullscreen { display: none; }
+
   .content-well-controls {
     min-height: 44px;
     grid-template-columns: 1fr auto;
   }
 
   .content-well-controls button { width: 44px; height: 44px; }
+  .content-well[data-kind="writing"] .content-well-count { display: none; }
 
   .content-well-anchor.is-fullscreen {
     top: auto !important;

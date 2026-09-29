@@ -856,12 +856,14 @@ const setPreviewVisibility = (visible) => {
   document.body.classList.toggle('content-well-visible', show);
   contentWell.setAttribute('aria-hidden', String(!show));
   contentWellAnchor.setAttribute('aria-hidden', String(!show));
+  if (!show) document.documentElement.style.removeProperty('--mobile-content-well-height');
   if (!show && contentWellFullscreenOpen) setContentWellFullscreen(false);
   if (!show) {
     stopContentAutoplay();
     contentWellScroll.querySelectorAll('video').forEach((video) => video.pause());
   } else {
     startContentAutoplay(false);
+    requestAnimationFrame(constrainContentWellToViewport);
   }
 };
 
@@ -899,6 +901,11 @@ const constrainContentWellToViewport = () => {
   const naturalBottom = contentWell.getBoundingClientRect().bottom - currentLift;
   const lift = Math.min(0, window.innerHeight - bottomInset - naturalBottom);
   contentWellAnchor.style.setProperty('--content-well-lift', `${lift}px`);
+  if (coarsePointer.matches && contentWell.classList.contains('is-visible')) {
+    requestAnimationFrame(() => {
+      document.documentElement.style.setProperty('--mobile-content-well-height', `${contentWellAnchor.getBoundingClientRect().height}px`);
+    });
+  }
 };
 
 contentWellAnchor.addEventListener('transitionend', (event) => {
