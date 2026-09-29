@@ -573,6 +573,10 @@ window.addEventListener('wheel', (event) => {
 let scrollRevealTouchStartY;
 window.addEventListener('touchstart', (event) => {
   cancelDrift();
+  if (event.target.closest?.('.content-well')) {
+    scrollRevealTouchStartY = undefined;
+    return;
+  }
   scrollRevealTouchStartY = event.touches.length === 1
     ? event.touches[0].clientY
     : undefined;
@@ -849,6 +853,7 @@ const setPreviewVisibility = (visible) => {
   const hasContent = contentWell.classList.contains('has-content');
   const show = visible && hasContent;
   contentWell.classList.toggle('is-visible', show);
+  document.body.classList.toggle('content-well-visible', show);
   contentWell.setAttribute('aria-hidden', String(!show));
   contentWellAnchor.setAttribute('aria-hidden', String(!show));
   if (!show && contentWellFullscreenOpen) setContentWellFullscreen(false);
@@ -1715,6 +1720,41 @@ hoverPauseEnabled.addEventListener('change', ({ matches }) => {
 });
 contentWell.addEventListener('pointerdown', cancelDrift);
 contentWell.addEventListener('touchstart', cancelDrift, { passive: true });
+
+let mobileWritingTouchRoute;
+let mobileWritingTouchY;
+contentWellScroll.addEventListener('touchstart', (event) => {
+  if (!coarsePointer.matches || contentWell.dataset.kind !== 'writing' || event.touches.length !== 1) return;
+  const touch = event.touches[0];
+  const rect = contentWellScroll.getBoundingClientRect();
+  mobileWritingTouchRoute = touch.clientX - rect.left >= rect.width * .68 ? 'timeline' : 'article';
+  mobileWritingTouchY = touch.clientY;
+  if (mobileWritingTouchRoute === 'article') {
+    contentAutoplayHoldUntil = performance.now() + 1400;
+  }
+}, { passive: true });
+
+contentWellScroll.addEventListener('touchmove', (event) => {
+  if (!mobileWritingTouchRoute || mobileWritingTouchY === undefined || event.touches.length !== 1) return;
+  const nextY = event.touches[0].clientY;
+  const delta = mobileWritingTouchY - nextY;
+  mobileWritingTouchY = nextY;
+  if (Math.abs(delta) < .5) return;
+  event.preventDefault();
+  if (mobileWritingTouchRoute === 'article') {
+    contentWellScroll.scrollTop += delta;
+  } else {
+    window.scrollBy(0, delta);
+  }
+}, { passive: false });
+
+const clearMobileWritingTouch = () => {
+  mobileWritingTouchRoute = undefined;
+  mobileWritingTouchY = undefined;
+};
+contentWellScroll.addEventListener('touchend', clearMobileWritingTouch, { passive: true });
+contentWellScroll.addEventListener('touchcancel', clearMobileWritingTouch, { passive: true });
+
 contentWellFullscreen.addEventListener('click', () => setContentWellFullscreen(!contentWellFullscreenOpen));
 window.addEventListener('resize', updateContentWellFullscreenGeometry, { passive: true });
 contentWellAutoplay.addEventListener('click', () => {
