@@ -117,7 +117,7 @@ for (const url of writingUrls) {
   }
 
   body = sanitize(await localizeImages(body, slug));
-  const record = { title, meta: { author: 'Patrick Szot', published: date, description, source: url }, content: body };
+  const record = { title, meta: { author: 'Pat Szot', published: date, description, source: url }, content: body };
   const filename = `${slug}.json`;
   await writeFile(join(outRoot, filename), JSON.stringify(record, null, 2));
   manifest.writings[url] = { title, file: `assets-writing/${filename}` };

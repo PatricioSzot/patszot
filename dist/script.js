@@ -52,6 +52,13 @@ const choreographOverviewItems = (group) => {
 };
 
 const syncOverviewHeight = () => {
+  const visibleProfileHeight = Math.ceil(overviewProfile.getBoundingClientRect().height);
+  const timelineHandoffGap = window.matchMedia('(max-width: 700px)').matches ? 28 : 72;
+  const timelineTop = overviewProfile.offsetTop + visibleProfileHeight + timelineHandoffGap;
+
+  document.documentElement.style.setProperty('--profile-reserved-height', `${visibleProfileHeight}px`);
+  document.documentElement.style.setProperty('--timeline-header-space', `${timelineTop}px`);
+
   if (!document.body.classList.contains('overview-expanded')) {
     document.documentElement.style.removeProperty('--profile-document-height');
     return;
@@ -87,7 +94,7 @@ const revealOverviewProject = (group) => {
     overviewRevealTimers.delete(group);
     group.classList.remove('is-reveal-priming');
     setOverviewProjectOpen(group, true);
-  }, 190);
+  }, 420);
   overviewRevealTimers.set(group, timer);
 };
 
@@ -100,7 +107,7 @@ document.querySelectorAll('.load-line').forEach((line) => {
 document.querySelectorAll('.group').forEach((group) => {
   group.querySelector(':scope > .group-trigger, :scope > .overview-project-heading > .group-trigger, :scope > .previous-row > .group-trigger').addEventListener('click', () => {
     if (group.classList.contains('is-open') || overviewRevealTimers.has(group)) setOverviewProjectOpen(group, false);
-    else revealOverviewProject(group);
+    else setOverviewProjectOpen(group, true);
   });
 });
 
@@ -281,6 +288,10 @@ const visualAssetKeyByTitle = new Map(Object.entries({
   'Looking Glass EP': 'looking-glass'
 }));
 
+// These projects are represented by the primary/secondary overview accordions.
+// Keep their timeline records, but do not duplicate their media in the timeline viewer.
+const overviewOnlyAssetKeys = new Set(['airops', 'gloss-ai', 'webflow-rebrand']);
+
 const visualPreviewByKey = Object.freeze(Object.fromEntries(
   Object.entries(visualManifestData.projects).map(([key, project]) => [key, project.preview])
 ));
@@ -307,6 +318,11 @@ const placeVisualProjectsFromFolders = () => {
     section.entries = section.entries.filter((entry) => {
       entry.assetKey = visualAssetKeyByTitle.get(entry.title);
       if (!entry.assetKey) return true;
+      if (overviewOnlyAssetKeys.has(entry.assetKey)) {
+        placedKeys.add(entry.assetKey);
+        entry.assetKey = undefined;
+        return true;
+      }
       const project = visualManifestData.projects[entry.assetKey];
       if (!project) return false;
       if (placedKeys.has(entry.assetKey)) {
@@ -389,6 +405,49 @@ const clampScrollY = (value) => Math.min(maxScrollY(), Math.max(0, value));
 const isAtScrollEnd = () => maxScrollY() - window.scrollY <= Math.max(4, window.innerHeight * .012);
 let scrollRevealLocked = false;
 let scrollRevealTimer;
+let scrollRevealPressure = 0;
+let scrollRevealPressureTimer;
+let scrollRevealPressureTarget;
+let timelineRevealTimer;
+
+const nextScrollRevealTarget = () => (
+  overviewProjects.find((group) => !group.classList.contains('is-open'))
+  || (!detailsGroup.classList.contains('is-open') ? detailsGroup : null)
+);
+
+const clearScrollRevealPressure = () => {
+  window.clearTimeout(scrollRevealPressureTimer);
+  if (scrollRevealPressureTarget) {
+    scrollRevealPressureTarget.classList.remove('is-scroll-tension');
+    [
+      '--reveal-grow',
+      '--reveal-width-grow',
+      '--reveal-padding-grow',
+      '--reveal-radius',
+      '--reveal-shift',
+      '--reveal-squeeze',
+      '--reveal-color'
+    ].forEach((property) => scrollRevealPressureTarget.style.removeProperty(property));
+  }
+  scrollRevealPressure = 0;
+  scrollRevealPressureTarget = undefined;
+};
+
+const revealTimeline = () => {
+  if (detailsGroup.classList.contains('is-open') || timelineRevealTimer) return;
+  if (reducedMotion.matches) {
+    detailsTrigger.click();
+    return;
+  }
+  detailsGroup.classList.add('is-reveal-priming');
+  document.body.classList.add('timeline-reveal-priming');
+  timelineRevealTimer = window.setTimeout(() => {
+    timelineRevealTimer = undefined;
+    detailsGroup.classList.remove('is-reveal-priming');
+    document.body.classList.remove('timeline-reveal-priming');
+    detailsTrigger.click();
+  }, 680);
+};
 
 const advanceScrollReveal = () => {
   if (scrollRevealLocked) return false;
@@ -397,7 +456,7 @@ const advanceScrollReveal = () => {
   if (nextProject) {
     revealOverviewProject(nextProject);
   } else if (!detailsGroup.classList.contains('is-open')) {
-    detailsTrigger.click();
+    revealTimeline();
   } else {
     return false;
   }
@@ -409,8 +468,41 @@ const advanceScrollReveal = () => {
     scrollRevealLocked = false;
     document.body.classList.remove('scroll-reveal-transitioning');
     driftTarget = window.scrollY;
-  }, reducedMotion.matches ? 80 : 1120);
+  }, reducedMotion.matches ? 80 : 1480);
   return true;
+};
+
+const pressScrollReveal = (amount) => {
+  if (scrollRevealLocked) return true;
+  const target = nextScrollRevealTarget();
+  if (!target) {
+    clearScrollRevealPressure();
+    return false;
+  }
+
+  if (scrollRevealPressureTarget !== target) {
+    clearScrollRevealPressure();
+    scrollRevealPressureTarget = target;
+  }
+
+  const threshold = coarsePointer.matches ? 124 : 190;
+  scrollRevealPressure = Math.min(threshold, scrollRevealPressure + Math.max(0, amount));
+  const pressure = scrollRevealPressure / threshold;
+  target.classList.add('is-scroll-tension');
+  target.style.setProperty('--reveal-grow', `${pressure * 10}px`);
+  target.style.setProperty('--reveal-width-grow', `${pressure * 20}px`);
+  target.style.setProperty('--reveal-padding-grow', `${pressure * 4}px`);
+  target.style.setProperty('--reveal-radius', `${30 - pressure * 12}px`);
+  target.style.setProperty('--reveal-shift', `${pressure * 7}px`);
+  target.style.setProperty('--reveal-squeeze', String(1 - pressure * .012));
+  target.style.setProperty('--reveal-color', `${pressure * 100}%`);
+
+  window.clearTimeout(scrollRevealPressureTimer);
+  scrollRevealPressureTimer = window.setTimeout(clearScrollRevealPressure, 720);
+  if (scrollRevealPressure < threshold) return true;
+
+  clearScrollRevealPressure();
+  return advanceScrollReveal();
 };
 
 const cancelDrift = () => {
@@ -455,14 +547,15 @@ const driftTo = (position) => {
 };
 
 window.addEventListener('wheel', (event) => {
-  if (event.ctrlKey || event.target.closest('.content-well-scroll')) return;
+  if (event.ctrlKey) return;
   const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
   const impulse = event.deltaY * unit;
-  if (impulse > 0 && isAtScrollEnd() && advanceScrollReveal()) {
+  if (impulse > 0 && isAtScrollEnd() && pressScrollReveal(Math.min(72, impulse))) {
     event.preventDefault();
     cancelDrift();
     return;
   }
+  if (impulse < 0 || !isAtScrollEnd()) clearScrollRevealPressure();
   if (coarsePointer.matches || reducedMotion.matches) return;
   event.preventDefault();
   driftVelocity += Math.max(-420, Math.min(420, impulse * .72));
@@ -472,7 +565,7 @@ window.addEventListener('wheel', (event) => {
 let scrollRevealTouchStartY;
 window.addEventListener('touchstart', (event) => {
   cancelDrift();
-  scrollRevealTouchStartY = event.touches.length === 1 && !event.target.closest('.content-well-scroll')
+  scrollRevealTouchStartY = event.touches.length === 1
     ? event.touches[0].clientY
     : undefined;
 }, { passive: true });
@@ -481,7 +574,7 @@ window.addEventListener('touchend', (event) => {
   if (scrollRevealTouchStartY === undefined || !event.changedTouches.length) return;
   const upwardTravel = scrollRevealTouchStartY - event.changedTouches[0].clientY;
   scrollRevealTouchStartY = undefined;
-  if (upwardTravel > 28 && isAtScrollEnd()) advanceScrollReveal();
+  if (upwardTravel > 24 && isAtScrollEnd()) pressScrollReveal(Math.min(96, upwardTravel));
 }, { passive: true });
 
 window.addEventListener('touchcancel', () => { scrollRevealTouchStartY = undefined; }, { passive: true });
@@ -507,7 +600,7 @@ document.addEventListener('keydown', (event) => {
   } else if (keyboardDistances[event.key] !== undefined) {
     event.preventDefault();
     const distance = keyboardDistances[event.key];
-    if (distance > 0 && isAtScrollEnd() && advanceScrollReveal()) return;
+    if (distance > 0 && isAtScrollEnd() && pressScrollReveal(Math.min(96, distance))) return;
     driftTo(driftTarget + distance);
   }
 });
@@ -552,11 +645,8 @@ const entryMarkup = (entry) => {
   const linkedTitle = entry.kind === 'project' && entry.assetKey
     ? `<button class="project-title-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Browse ${displayTitle} media" aria-controls="content-well">${displayTitle}</button>`
     : entry.kind === 'writing' && entry.url
-      ? `<button class="text-link writing-title-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Read ${displayTitle}" aria-controls="content-well">${displayTitle}</button>`
+      ? `<button class="project-title-trigger writing-title-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Read ${displayTitle}" aria-controls="content-well">${displayTitle}</button>`
       : displayTitle;
-  const externalAction = entry.url && entry.kind !== 'milestone'
-    ? `<a class="timeline-external" href="${entry.url}" target="_blank" rel="noopener noreferrer"><span>View source</span><i class="ri-external-link-line" aria-hidden="true"></i></a>`
-    : '';
   const marker = entry.kind === 'project' && entry.assetKey
     ? `<button class="timeline-marker project-expand-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Browse ${entry.title} media" aria-controls="content-well"></button>`
     : entry.kind === 'writing' && entry.url
@@ -565,11 +655,10 @@ const entryMarkup = (entry) => {
   return `
     <article class="timeline-entry" data-kind="${entry.kind}">
       ${marker}
-      <div class="timeline-entry-copy">
-        <div class="timeline-meta"><time>${metadataTitleCase(entry.date)}</time><span>${metadataTitleCase(entry.kind)}</span>${assetCount}</div>
-        <h3>${linkedTitle}</h3>
-        ${entry.description ? `<p>${entry.description}</p>` : ''}
-        ${externalAction}
+      <div class="project-info" aria-label="Project info">
+        <div class="project-info-meta"><time>${metadataTitleCase(entry.date)}</time><span aria-hidden="true">•</span><span>${metadataTitleCase(entry.kind)}</span>${assetCount}</div>
+        <h3 class="project-info-title">${linkedTitle}</h3>
+        ${entry.description ? `<p class="project-info-body">${entry.description}</p>` : ''}
       </div>
     </article>`;
 };
@@ -594,6 +683,11 @@ const fixedPreviewSourceFor = (entry) => {
 };
 detailsTrigger.addEventListener('click', () => {
   window.clearTimeout(detailsCloseTimer);
+  window.clearTimeout(timelineRevealTimer);
+  timelineRevealTimer = undefined;
+  detailsGroup.classList.remove('is-scroll-tension', 'is-reveal-priming');
+  document.body.classList.remove('timeline-reveal-priming');
+  clearScrollRevealPressure();
   const open = !detailsGroup.classList.contains('is-open');
   detailsTrigger.setAttribute('aria-expanded', String(open));
   detailsTrigger.setAttribute('aria-label', open ? 'Close timeline' : 'Open timeline');
@@ -601,7 +695,7 @@ detailsTrigger.addEventListener('click', () => {
   if (open) {
     clearTimelineActive();
     positionContentWell();
-    renderContentWell(presentProjectData);
+    setPreviewVisibility(false);
     document.body.classList.remove('details-closing');
     timeline.querySelectorAll('.is-exiting').forEach((element) => {
       element.classList.remove('is-exiting');
@@ -661,13 +755,85 @@ const contentWell = document.querySelector('#content-well');
 const contentWellAnchor = document.querySelector('#content-well-anchor');
 const contentWellBillboard = contentWellAnchor.querySelector('.content-well-billboard');
 const contentWellScroll = contentWell.querySelector('.content-well-scroll');
-const contentWellProgress = contentWell.querySelector('.content-well-progress');
+const contentWellFullscreen = contentWell.querySelector('.content-well-fullscreen');
 const contentWellControls = contentWell.querySelector('.content-well-controls');
 const contentWellPrevious = contentWell.querySelector('.content-well-previous');
 const contentWellNext = contentWell.querySelector('.content-well-next');
+const contentWellAutoplay = contentWell.querySelector('.content-well-autoplay');
 const contentWellCount = contentWell.querySelector('.content-well-count');
 const contentWellStatus = contentWell.querySelector('.content-well-status');
 let renderContentWell = () => {};
+let contentWellFullscreenOpen = false;
+let contentWellDefaultWidth = 0;
+let writingScrollFrame;
+let contentAutoplayFrame;
+let contentAutoplayLastTime = 0;
+let contentAutoplayElapsed = 0;
+let contentAutoplayUserPaused = false;
+let contentAutoplayHoverPaused = false;
+let contentAutoplayHoldUntil = 0;
+const defaultVisualAutoplayDuration = 4000;
+let activeVisualAutoplayDuration = defaultVisualAutoplayDuration;
+const writingAutoplaySpeed = 14;
+const hoverPauseEnabled = window.matchMedia('(min-width: 701px) and (hover: hover) and (pointer: fine)');
+const animatedDurationCache = new Map();
+
+const currentContentWellAspect = () => {
+  const aspect = Number(contentWell.dataset.assetAspect);
+  return Number.isFinite(aspect) && aspect > 0 ? aspect : 16 / 9;
+};
+
+const updateContentWellFullscreenGeometry = () => {
+  if (!contentWellFullscreenOpen) return;
+  if (contentWell.dataset.kind === 'writing') {
+    const width = Math.min(contentWellDefaultWidth || 600, window.innerWidth - 40);
+    contentWellAnchor.style.setProperty('--fullscreen-width', `${Math.max(280, width)}px`);
+    return;
+  }
+  const aspect = currentContentWellAspect();
+  const maxWidth = window.innerWidth * .75;
+  const maxMediaHeight = Math.max(180, window.innerHeight - 120);
+  const width = Math.min(maxWidth, maxMediaHeight * aspect);
+  contentWellAnchor.style.setProperty('--fullscreen-width', `${Math.max(1, width)}px`);
+};
+
+const animateContentWellMode = (opening) => {
+  if (reducedMotion.matches) return;
+  contentWellBillboard.animate(
+    opening
+      ? [{ opacity: .12, transform: 'translate3d(0, 8px, 0) scale(.97)' }, { opacity: 1, transform: 'none' }]
+      : [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translate3d(0, 5px, 0) scale(.985)' }],
+    { duration: opening ? 560 : 280, easing: 'cubic-bezier(.22, 1, .36, 1)' }
+  );
+};
+
+const setContentWellFullscreen = (open) => {
+  if (open === contentWellFullscreenOpen) return;
+  if (open) {
+    const rect = contentWellAnchor.getBoundingClientRect();
+    contentWellDefaultWidth = rect.width;
+    contentWellAnchor.style.setProperty('--fullscreen-left', `${Math.max(16, rect.left)}px`);
+    contentWellAnchor.style.setProperty('--fullscreen-bottom', '24px');
+  }
+  contentWellFullscreenOpen = open;
+  if (open) {
+    contentWellAnchor.classList.add('is-fullscreen');
+    document.body.append(contentWellAnchor);
+    updateContentWellFullscreenGeometry();
+  } else {
+    animateContentWellMode(false);
+    contentWellAnchor.classList.remove('is-fullscreen');
+    contentWellAnchor.style.removeProperty('--fullscreen-width');
+    contentWellAnchor.style.removeProperty('--fullscreen-left');
+    contentWellAnchor.style.removeProperty('--fullscreen-bottom');
+    syncContentWellHost();
+  }
+  document.body.classList.toggle('content-well-fullscreen-open', open);
+  contentWellFullscreen.setAttribute('aria-pressed', String(open));
+  contentWellFullscreen.setAttribute('aria-label', open ? 'Close fullscreen preview' : 'Open preview fullscreen');
+  contentWellFullscreen.querySelector('i').className = open ? 'ri-collapse-diagonal-line' : 'ri-expand-diagonal-line';
+  if (open) requestAnimationFrame(() => animateContentWellMode(true));
+};
 
 const setPreviewVisibility = (visible) => {
   const hasContent = contentWell.classList.contains('has-content');
@@ -675,7 +841,13 @@ const setPreviewVisibility = (visible) => {
   contentWell.classList.toggle('is-visible', show);
   contentWell.setAttribute('aria-hidden', String(!show));
   contentWellAnchor.setAttribute('aria-hidden', String(!show));
-  if (!show) contentWellScroll.querySelectorAll('video').forEach((video) => video.pause());
+  if (!show && contentWellFullscreenOpen) setContentWellFullscreen(false);
+  if (!show) {
+    stopContentAutoplay();
+    contentWellScroll.querySelectorAll('video').forEach((video) => video.pause());
+  } else {
+    startContentAutoplay(false);
+  }
 };
 
 const offsetTopWithin = (element, ancestor) => {
@@ -700,8 +872,25 @@ const positionContentWell = (entryElement) => {
       ? Math.max(180, firstTop + 24)
       : Math.max(160, firstTop - 280);
   }
+  contentWellAnchor.style.setProperty('--content-well-lift', '0px');
   contentWellAnchor.style.top = `${Math.round(top)}px`;
+  requestAnimationFrame(constrainContentWellToViewport);
 };
+
+const constrainContentWellToViewport = () => {
+  if (contentWellFullscreenOpen || !contentWell.classList.contains('has-content')) return;
+  const bottomInset = coarsePointer.matches ? 20 : 16;
+  const currentLift = Number.parseFloat(contentWellAnchor.style.getPropertyValue('--content-well-lift')) || 0;
+  const naturalBottom = contentWell.getBoundingClientRect().bottom - currentLift;
+  const lift = Math.min(0, window.innerHeight - bottomInset - naturalBottom);
+  contentWellAnchor.style.setProperty('--content-well-lift', `${lift}px`);
+};
+
+contentWellAnchor.addEventListener('transitionend', (event) => {
+  if (event.target === contentWellAnchor && event.propertyName === 'top') {
+    constrainContentWellToViewport();
+  }
+});
 
 const clearTimelineActive = () => {
   activeTimelineEntry?.classList.remove('is-active');
@@ -756,7 +945,7 @@ const updateTimelineActive = () => {
   if (!closest) {
     clearTimelineActive();
     positionContentWell();
-    renderContentWell(presentProjectData);
+    setPreviewVisibility(false);
     return;
   }
   if (closest !== activeTimelineEntry) {
@@ -797,8 +986,7 @@ const profile = document.querySelector('.profile');
 const profileScenes = [...document.querySelectorAll('.profile-scene')];
 const footerContactScene = document.querySelector('.footer-contact-scene');
 const cameraBillboards = [...document.querySelectorAll([
-  '.timeline-year-heading',
-  '.timeline-entry-copy',
+  '.project-info',
   '.timeline-marker',
   '.profile-billboard',
   '.profile-anchor-marker',
@@ -807,8 +995,10 @@ const cameraBillboards = [...document.querySelectorAll([
   '.timeline-footer-billboard',
   '.content-well-billboard'
 ].join(','))];
+const timelineYearHeadings = [...timeline.querySelectorAll('.timeline-year-heading')];
 
 const syncContentWellHost = () => {
+  if (contentWellFullscreenOpen) return;
   if (coarsePointer.matches) {
     if (contentWellAnchor.parentElement !== document.body) document.body.append(contentWellAnchor);
     contentWellAnchor.style.removeProperty('top');
@@ -851,6 +1041,16 @@ const renderScene = () => {
   profileScenes.forEach((element) => { element.style.transform = forwardTransform; });
   footerContactScene.style.transform = forwardTransform;
 
+  const yearBillboardTransform = `rotateX(${(-sceneAngles.pitch).toFixed(3)}deg) rotateY(${(-sceneAngles.yaw).toFixed(3)}deg)`;
+  timelineYearHeadings.forEach((heading) => {
+    const stickyTop = Number.parseFloat(getComputedStyle(heading).top) || 0;
+    const isStuck = heading.getBoundingClientRect().top <= stickyTop + 1;
+    heading.classList.toggle('is-stuck', isStuck);
+    heading.style.transform = isStuck
+      ? `translate3d(0, ${(-sceneScroll.y).toFixed(3)}px, ${(-sceneScroll.z).toFixed(3)}px) ${yearBillboardTransform}`
+      : yearBillboardTransform;
+  });
+
   const anglesChanged = sceneAngles.pitch !== renderedScenePitch || sceneAngles.yaw !== renderedSceneYaw;
   if (anglesChanged) {
     const billboardTransform = `rotateX(${(-sceneAngles.pitch).toFixed(3)}deg) rotateY(${(-sceneAngles.yaw).toFixed(3)}deg)`;
@@ -870,6 +1070,7 @@ const renderScene = () => {
     renderedScenePitch = sceneAngles.pitch;
     renderedSceneYaw = sceneAngles.yaw;
   }
+  requestAnimationFrame(constrainContentWellToViewport);
 };
 
 const requestSceneRender = () => {
@@ -903,6 +1104,9 @@ const refreshSceneGeometry = () => {
   const profileCenter = untransformedDocumentCenter(profile);
   const profileLayoutLeft = profileCenter.x - profile.offsetWidth / 2;
   const profileLayoutTop = profileCenter.y - profile.offsetHeight / 2;
+  // Both profile points share the timeline's exact 50vw axis. The CSS uses
+  // this local coordinate for Current and Previous regardless of profile width.
+  profile.style.setProperty('--profile-axis-x', `${window.innerWidth / 2 - profileLayoutLeft}px`);
   profile.style.setProperty('--profile-perspective-origin-x', `${window.innerWidth / 2 - profileLayoutLeft}px`);
   profile.style.setProperty('--profile-perspective-origin-y', `${window.scrollY + window.innerHeight / 2 - profileLayoutTop}px`);
   [...profileScenes, footerContactScene].forEach((element) => {
@@ -913,6 +1117,7 @@ const refreshSceneGeometry = () => {
     element.style.setProperty('--scene-local-origin-y', `${window.scrollY + window.innerHeight / 2 - layoutTop}px`);
   });
   requestSceneRender();
+  requestAnimationFrame(constrainContentWellToViewport);
 };
 
 const requestSceneGeometry = () => {
@@ -1092,7 +1297,9 @@ timelinePanel.addEventListener('dblclick', (event) => {
 window.addEventListener('scroll', requestSceneGeometry, { passive: true });
 window.addEventListener('resize', requestSceneGeometry);
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && timelinePanel.classList.contains('is-scene-oriented')) resetTimelineScene();
+  if (event.key !== 'Escape') return;
+  if (contentWellFullscreenOpen) setContentWellFullscreen(false);
+  else if (timelinePanel.classList.contains('is-scene-oriented')) resetTimelineScene();
 });
 detailsTrigger.addEventListener('click', () => {
   if (detailsTrigger.getAttribute('aria-expanded') === 'false') resetTimelineScene(false);
@@ -1102,7 +1309,7 @@ detailsTrigger.addEventListener('click', () => {
 });
 
 const projectManifest = Promise.resolve(visualManifestData);
-const writingManifest = fetch('assets-writing/manifest.json').then((response) => response.json());
+const writingManifest = fetch('assets-writing/manifest.json?v=20260928-media-timed-content-well').then((response) => response.json());
 const contentWellPositions = new Map();
 let contentWellEntry;
 let contentWellKey;
@@ -1163,6 +1370,7 @@ const createContentWellMedia = (asset, index) => {
     video.src = asset.src;
     video.muted = true;
     video.playsInline = true;
+    video.autoplay = true;
     video.preload = 'metadata';
     video.controls = true;
     return video;
@@ -1236,31 +1444,177 @@ const waitForContentWellMedia = async (media) => {
   }
 };
 
+const animatedMediaDuration = async (media, asset) => {
+  if (media instanceof HTMLVideoElement && Number.isFinite(media.duration) && media.duration > 0) {
+    return media.duration * 1000;
+  }
+  if (asset?.type !== 'gif') return defaultVisualAutoplayDuration;
+  if (animatedDurationCache.has(asset.src)) return animatedDurationCache.get(asset.src);
+  try {
+    const response = await fetch(asset.src);
+    const bytes = new Uint8Array(await response.arrayBuffer());
+    let durationHundredths = 0;
+    for (let index = 0; index < bytes.length - 6; index += 1) {
+      if (bytes[index] === 0x21 && bytes[index + 1] === 0xf9 && bytes[index + 2] === 0x04) {
+        durationHundredths += bytes[index + 4] | (bytes[index + 5] << 8);
+      }
+    }
+    const durationMs = durationHundredths > 0 ? durationHundredths * 10 : defaultVisualAutoplayDuration;
+    animatedDurationCache.set(asset.src, durationMs);
+    return durationMs;
+  } catch {
+    return defaultVisualAutoplayDuration;
+  }
+};
+
+const syncContentWellMediaAspect = (media, preservedControlsBottom) => {
+  let width = 16;
+  let height = 9;
+  if (media instanceof HTMLImageElement && media.naturalWidth && media.naturalHeight) {
+    width = media.naturalWidth;
+    height = media.naturalHeight;
+  } else if (media instanceof HTMLVideoElement && media.videoWidth && media.videoHeight) {
+    width = media.videoWidth;
+    height = media.videoHeight;
+  }
+  const aspect = width / height;
+  contentWell.dataset.assetAspect = String(aspect);
+  contentWellScroll.style.setProperty('--content-aspect', `${width} / ${height}`);
+  updateContentWellFullscreenGeometry();
+  requestAnimationFrame(() => {
+    if (Number.isFinite(preservedControlsBottom)) {
+      const currentBottom = contentWellControls.getBoundingClientRect().bottom;
+      const currentLift = Number.parseFloat(contentWellAnchor.style.getPropertyValue('--content-well-lift')) || 0;
+      contentWellAnchor.style.setProperty('--content-well-lift', `${currentLift + preservedControlsBottom - currentBottom}px`);
+    } else {
+      constrainContentWellToViewport();
+    }
+  });
+};
+
+const setContentTimerProgress = (progress) => {
+  contentWell.style.setProperty('--content-timer-progress', String(Math.max(0, Math.min(1, progress))));
+};
+
+const updateContentAutoplayControl = () => {
+  const paused = contentAutoplayUserPaused;
+  contentWellAutoplay.setAttribute('aria-pressed', String(paused));
+  contentWellAutoplay.setAttribute('aria-label', paused ? 'Play automatic writing scroll' : 'Pause automatic writing scroll');
+  contentWellAutoplay.querySelector('i').className = paused ? 'ri-play-line' : 'ri-pause-line';
+};
+
+const stopContentAutoplay = () => {
+  if (contentAutoplayFrame) cancelAnimationFrame(contentAutoplayFrame);
+  contentAutoplayFrame = undefined;
+  contentAutoplayLastTime = 0;
+};
+
+const contentAutoplayTick = (now) => {
+  contentAutoplayFrame = requestAnimationFrame(contentAutoplayTick);
+  if (!contentWell.classList.contains('is-visible') || contentAutoplayUserPaused || contentAutoplayHoverPaused || now < contentAutoplayHoldUntil) {
+    contentAutoplayLastTime = now;
+    return;
+  }
+  const delta = contentAutoplayLastTime ? Math.min(50, now - contentAutoplayLastTime) : 0;
+  contentAutoplayLastTime = now;
+  if (contentWell.dataset.kind === 'project') {
+    if (contentWellAssets.length < 2 || !contentWell.classList.contains('is-ready')) return;
+    const video = contentWellScroll.querySelector('video');
+    if (video && Number.isFinite(video.duration) && video.duration > 0) {
+      setContentTimerProgress(video.currentTime / video.duration);
+      if (video.ended || video.currentTime >= video.duration - .04) {
+        showContentWellAsset(contentWellAssetIndex + 1, 1);
+      }
+      return;
+    }
+    contentAutoplayElapsed += delta;
+    setContentTimerProgress(contentAutoplayElapsed / activeVisualAutoplayDuration);
+    if (contentAutoplayElapsed >= activeVisualAutoplayDuration) {
+      contentAutoplayElapsed = 0;
+      setContentTimerProgress(0);
+      showContentWellAsset(contentWellAssetIndex + 1, 1);
+    }
+    return;
+  }
+  const range = Math.max(0, contentWellScroll.scrollHeight - contentWellScroll.clientHeight);
+  if (!range) {
+    setContentTimerProgress(1);
+    return;
+  }
+  contentWellScroll.scrollTop = Math.min(range, contentWellScroll.scrollTop + writingAutoplaySpeed * delta / 1000);
+  setContentTimerProgress(contentWellScroll.scrollTop / range);
+  if (contentWellScroll.scrollTop >= range - 1) {
+    contentAutoplayUserPaused = true;
+    updateContentAutoplayControl();
+  }
+};
+
+const startContentAutoplay = (reset = true) => {
+  if (reset) {
+    contentAutoplayElapsed = 0;
+    setContentTimerProgress(contentWell.dataset.kind === 'writing'
+      ? contentWellScroll.scrollTop / Math.max(1, contentWellScroll.scrollHeight - contentWellScroll.clientHeight)
+      : 0);
+  }
+  contentAutoplayLastTime = 0;
+  if (!contentAutoplayFrame && !reducedMotion.matches) contentAutoplayFrame = requestAnimationFrame(contentAutoplayTick);
+};
+
 const updateContentWellControls = () => {
+  if (contentWell.dataset.kind === 'writing') {
+    contentWell.classList.remove('is-single-asset');
+    const range = Math.max(0, contentWellScroll.scrollHeight - contentWellScroll.clientHeight);
+    const progress = range ? Math.max(0, Math.min(1, contentWellScroll.scrollTop / range)) : 1;
+    contentWellControls.hidden = false;
+    contentWellControls.setAttribute('aria-label', 'Writing navigation');
+    contentWellPrevious.setAttribute('aria-label', 'Scroll writing up');
+    contentWellNext.setAttribute('aria-label', 'Scroll writing down');
+    contentWellPrevious.querySelector('i').className = 'ri-arrow-up-line';
+    contentWellNext.querySelector('i').className = 'ri-arrow-down-line';
+    contentWellPrevious.disabled = contentWellScroll.scrollTop <= 1;
+    contentWellNext.disabled = range <= 1 || contentWellScroll.scrollTop >= range - 1;
+    contentWellAutoplay.disabled = range <= 1;
+    contentWellCount.textContent = `${Math.round(progress * 100)}%`;
+    return;
+  }
   const total = contentWellAssets.length;
-  contentWellControls.hidden = !total || contentWell.dataset.kind !== 'project';
-  contentWellPrevious.disabled = contentWellAssetIndex <= 0;
-  contentWellNext.disabled = contentWellAssetIndex >= total - 1;
+  const isSingleAsset = total === 1;
+  contentWell.classList.toggle('is-single-asset', isSingleAsset);
+  contentWellControls.hidden = total <= 1;
+  contentWellControls.setAttribute('aria-label', 'Project asset navigation');
+  contentWellPrevious.setAttribute('aria-label', 'Previous project asset');
+  contentWellNext.setAttribute('aria-label', 'Next project asset');
+  contentWellPrevious.querySelector('i').className = 'ri-arrow-left-line';
+  contentWellNext.querySelector('i').className = 'ri-arrow-right-line';
+  contentWellPrevious.disabled = total < 2;
+  contentWellNext.disabled = total < 2;
   contentWellCount.textContent = total ? `${String(contentWellAssetIndex + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}` : '';
 };
 
 const showContentWellAsset = async (requestedIndex, direction = 0) => {
   if (!contentWellAssets.length) return;
-  const index = Math.max(0, Math.min(contentWellAssets.length - 1, requestedIndex));
+  const index = (requestedIndex % contentWellAssets.length + contentWellAssets.length) % contentWellAssets.length;
   const generation = ++contentWellMediaGeneration;
   const outgoing = contentWellScroll.querySelector('.content-well-item');
+  const preservedControlsBottom = direction && outgoing
+    ? contentWellControls.getBoundingClientRect().bottom
+    : Number.NaN;
   contentWell.classList.remove('is-ready');
+  contentAutoplayElapsed = 0;
+  setContentTimerProgress(0);
   contentWellAssetIndex = index;
   updateContentWellControls();
   contentWellStatus.textContent = `Asset ${index + 1} of ${contentWellAssets.length}`;
 
   if (outgoing && direction && !reducedMotion.matches) {
+    // Isolated carousel transition: remove this animation block and the
+    // content-well-item clip-path declarations to restore the direct swap.
     await outgoing.animate(
       [
-        { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' },
-        { opacity: 0, transform: `translate3d(${-direction * 10}px, -2px, 0) scale(.997)` }
+        { opacity: 1, transform: 'scale(1)', clipPath: 'inset(0% round 4px)' },
+        { opacity: .08, transform: 'scale(.982)', clipPath: 'inset(2.2% round 9px)' }
       ],
-      { duration: 150, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'forwards' }
+      { duration: 260, easing: 'cubic-bezier(.4, 0, .2, 1)', fill: 'forwards' }
     ).finished.catch(() => {});
   }
   if (generation !== contentWellMediaGeneration) return;
@@ -1269,14 +1623,25 @@ const showContentWellAsset = async (requestedIndex, direction = 0) => {
   const item = document.createElement('figure');
   item.className = 'content-well-item';
   item.dataset.index = String(index);
-  item.style.setProperty('--asset-enter-x', `${direction * 12}px`);
+  item.style.setProperty('--asset-enter-scale', direction ? '1.018' : '1');
   const media = createContentWellMedia(contentWellAssets[index], index);
   item.append(media);
   contentWellScroll.replaceChildren(item);
   contentWellScroll.scrollTop = 0;
   await waitForContentWellMedia(media);
   if (generation !== contentWellMediaGeneration) return;
-  requestAnimationFrame(() => contentWell.classList.add('is-ready'));
+  activeVisualAutoplayDuration = Math.max(250, await animatedMediaDuration(media, contentWellAssets[index]));
+  if (generation !== contentWellMediaGeneration) return;
+  if (media instanceof HTMLVideoElement) {
+    media.loop = contentWellAssets.length === 1;
+    media.currentTime = 0;
+    media.play().catch(() => {});
+  }
+  syncContentWellMediaAspect(media, preservedControlsBottom);
+  requestAnimationFrame(() => {
+    contentWell.classList.add('is-ready');
+    startContentAutoplay(false);
+  });
 };
 
 const updateContentWellActive = () => {
@@ -1284,8 +1649,9 @@ const updateContentWellActive = () => {
   if (contentWell.dataset.kind === 'writing') {
     const range = Math.max(1, contentWellScroll.scrollHeight - contentWellScroll.clientHeight);
     const progress = Math.max(0, Math.min(1, contentWellScroll.scrollTop / range));
-    contentWellProgress.style.setProperty('--document-progress', progress.toFixed(4));
+    setContentTimerProgress(progress);
     contentWellStatus.textContent = `${Math.round(progress * 100)}% read`;
+    updateContentWellControls();
     return;
   }
   updateContentWellControls();
@@ -1303,16 +1669,102 @@ contentWellScroll.addEventListener('scroll', () => {
   requestContentWellActive();
 }, { passive: true });
 
+// A wheel over the writing preview continues the main timeline. Article
+// movement is intentionally delegated to the preview's navigation buttons.
+contentWellScroll.addEventListener('wheel', (event) => {
+  if (contentWell.dataset.kind === 'writing') event.preventDefault();
+}, { passive: false });
+
+const setActiveVisualPlayback = (playing) => {
+  if (contentWell.dataset.kind !== 'project') return;
+  const video = contentWellScroll.querySelector('video');
+  if (!video) return;
+  if (playing) video.play().catch(() => {});
+  else video.pause();
+};
+
 contentWell.addEventListener('pointerenter', cancelDrift);
+if (hoverPauseEnabled.matches) {
+  contentWellScroll.addEventListener('pointerenter', () => {
+    if (!hoverPauseEnabled.matches) return;
+    contentAutoplayHoverPaused = true;
+    setActiveVisualPlayback(false);
+  });
+  contentWellScroll.addEventListener('pointerleave', () => {
+    if (!hoverPauseEnabled.matches) return;
+    contentAutoplayHoverPaused = false;
+    contentAutoplayLastTime = 0;
+    if (!contentAutoplayUserPaused) setActiveVisualPlayback(true);
+  });
+}
+hoverPauseEnabled.addEventListener('change', ({ matches }) => {
+  if (matches) return;
+  contentAutoplayHoverPaused = false;
+  contentAutoplayLastTime = 0;
+  if (!contentAutoplayUserPaused) setActiveVisualPlayback(true);
+});
 contentWell.addEventListener('pointerdown', cancelDrift);
 contentWell.addEventListener('touchstart', cancelDrift, { passive: true });
+contentWellFullscreen.addEventListener('click', () => setContentWellFullscreen(!contentWellFullscreenOpen));
+window.addEventListener('resize', updateContentWellFullscreenGeometry, { passive: true });
+contentWellAutoplay.addEventListener('click', () => {
+  contentAutoplayUserPaused = !contentAutoplayUserPaused;
+  if (!contentAutoplayUserPaused && contentWell.dataset.kind === 'writing') {
+    const range = Math.max(0, contentWellScroll.scrollHeight - contentWellScroll.clientHeight);
+    if (range && contentWellScroll.scrollTop >= range - 1) contentWellScroll.scrollTop = 0;
+  }
+  contentAutoplayLastTime = 0;
+  updateContentAutoplayControl();
+  startContentAutoplay(false);
+});
 
-contentWellPrevious.addEventListener('click', () => showContentWellAsset(contentWellAssetIndex - 1, -1));
-contentWellNext.addEventListener('click', () => showContentWellAsset(contentWellAssetIndex + 1, 1));
+const scrollWriting = (direction) => {
+  const range = Math.max(0, contentWellScroll.scrollHeight - contentWellScroll.clientHeight);
+  const amount = Math.max(80, contentWellScroll.clientHeight * .42);
+  const start = contentWellScroll.scrollTop;
+  const target = Math.max(0, Math.min(range, start + direction * amount));
+  if (writingScrollFrame) cancelAnimationFrame(writingScrollFrame);
+  if (reducedMotion.matches) {
+    contentWellScroll.scrollTop = target;
+    return;
+  }
+  const startedAt = performance.now();
+  const duration = 880;
+  const tick = (now) => {
+    const progress = Math.min(1, (now - startedAt) / duration);
+    const eased = .5 - Math.cos(Math.PI * progress) / 2;
+    contentWellScroll.scrollTop = start + (target - start) * eased;
+    if (progress < 1) writingScrollFrame = requestAnimationFrame(tick);
+    else writingScrollFrame = undefined;
+  };
+  writingScrollFrame = requestAnimationFrame(tick);
+};
+
+contentWellPrevious.addEventListener('click', () => {
+  if (contentWell.dataset.kind === 'writing') {
+    contentAutoplayHoldUntil = performance.now() + 1200;
+    scrollWriting(-1);
+  }
+  else showContentWellAsset(contentWellAssetIndex - 1, -1);
+});
+contentWellNext.addEventListener('click', () => {
+  if (contentWell.dataset.kind === 'writing') {
+    contentAutoplayHoldUntil = performance.now() + 1200;
+    scrollWriting(1);
+  }
+  else showContentWellAsset(contentWellAssetIndex + 1, 1);
+});
 
 contentWell.addEventListener('keydown', (event) => {
-  if (contentWell.dataset.kind !== 'project') return;
-  if (event.key === 'ArrowLeft' && !contentWellPrevious.disabled) {
+  if (contentWell.dataset.kind === 'writing') {
+    if ((event.key === 'ArrowUp' || event.key === 'PageUp') && !contentWellPrevious.disabled) {
+      event.preventDefault();
+      scrollWriting(-1);
+    } else if ((event.key === 'ArrowDown' || event.key === 'PageDown') && !contentWellNext.disabled) {
+      event.preventDefault();
+      scrollWriting(1);
+    }
+  } else if (event.key === 'ArrowLeft' && !contentWellPrevious.disabled) {
     event.preventDefault();
     showContentWellAsset(contentWellAssetIndex - 1, -1);
   } else if (event.key === 'ArrowRight' && !contentWellNext.disabled) {
@@ -1331,14 +1783,20 @@ renderContentWell = async (entry) => {
   if (contentWellKey && contentWell.dataset.kind === 'writing') contentWellPositions.set(contentWellKey, contentWellScroll.scrollTop);
   const generation = ++contentWellGeneration;
   ++contentWellMediaGeneration;
+  stopContentAutoplay();
+  contentAutoplayElapsed = 0;
+  contentAutoplayUserPaused = false;
+  contentAutoplayHoldUntil = 0;
+  updateContentAutoplayControl();
+  setContentTimerProgress(0);
   contentWellEntry = entry;
   contentWellKey = key;
   contentWell.classList.remove('is-ready', 'has-content');
   contentWell.dataset.kind = entry.kind;
+  delete contentWell.dataset.assetAspect;
+  contentWellScroll.style.removeProperty('--content-aspect');
   disposeContentWellMedia();
   contentWellScroll.replaceChildren();
-  contentWellProgress.replaceChildren();
-  contentWellProgress.classList.remove('is-document');
   contentWellControls.hidden = true;
   contentWellAssets = [];
   contentWellAssetIndex = 0;
@@ -1350,11 +1808,10 @@ renderContentWell = async (entry) => {
     const manifest = await writingManifest;
     const record = manifest.writings[new URL(entry.url, document.baseURI).href];
     if (record) {
-      const response = await fetch(record.file);
+      const response = await fetch(`${record.file}?v=20260928-media-timed-content-well`);
       const article = await response.json();
       if (generation !== contentWellGeneration) return;
       contentWellScroll.append(createWritingContent(article));
-      contentWellProgress.classList.add('is-document');
       hasContent = true;
       label = `${entry.title}, writing`;
     }
@@ -1382,6 +1839,8 @@ renderContentWell = async (entry) => {
     requestAnimationFrame(() => {
       contentWell.classList.add('is-ready');
       updateContentWellActive();
+      constrainContentWellToViewport();
+      startContentAutoplay(false);
     });
     return;
   }
@@ -1393,6 +1852,7 @@ renderContentWell = async (entry) => {
 projectManifest.then((manifest) => {
   timelineEntries.forEach((element) => {
     const count = assetsForEntry(manifest, element.entryData).length;
+    if (element.entryData.kind === 'project') element.classList.toggle('has-no-assets', count === 0);
     const label = element.querySelector('.timeline-asset-count');
     if (!label || !count) return;
     label.textContent = `${count} ${count === 1 ? 'asset' : 'assets'}`;
@@ -1412,5 +1872,3 @@ timeline.querySelectorAll('.content-well-trigger').forEach((trigger) => {
     focusContentWell(element.entryData);
   });
 });
-
-presentProjectTrigger.addEventListener('click', () => focusContentWell(presentProjectData));

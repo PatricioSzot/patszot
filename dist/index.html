@@ -5,29 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#ffffff" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Patrick Szot" />
+    <meta property="og:title" content="Pat Szot" />
     <meta property="og:url" content="https://www.patszot.app/" />
     <meta property="og:image" content="https://www.patszot.app/assets/patrick-szot-og.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Patrick Szot" />
+    <meta property="og:image:alt" content="Pat Szot" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Patrick Szot" />
+    <meta name="twitter:title" content="Pat Szot" />
     <meta name="twitter:image" content="https://www.patszot.app/assets/patrick-szot-og.jpg" />
-    <meta name="twitter:image:alt" content="Patrick Szot" />
+    <meta name="twitter:image:alt" content="Pat Szot" />
     <link rel="canonical" href="https://www.patszot.app/" />
-    <title>Patrick Szot</title>
+    <title>Pat Szot</title>
     <link rel="icon" href="assets/favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:wdth,wght@75..125,100..900&amp;display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=20260928-timeline-content-well" />
+    <link rel="stylesheet" href="styles.css?v=20260929-project-info-full-width" />
   </head>
   <body>
     <main>
-      <img class="logo" src="assets/ps-logo.png" width="908" height="200" alt="Patrick Szot" />
+      <img class="logo" src="assets/ps-logo.png" width="908" height="200" alt="Pat Szot" />
       <section class="profile" aria-label="Profile">
         <div class="profile-scene profile-title-scene">
           <div class="profile-billboard">
@@ -36,7 +36,7 @@
         </div>
 
         <div class="profile-scene profile-current-scene">
-          <button class="present-project-trigger" id="present-project-trigger" type="button" aria-label="Browse Principal Brand Designer at AirOps media" aria-controls="content-well"></button>
+          <span class="present-project-trigger" id="present-project-trigger" aria-hidden="true"></span>
           <div class="profile-billboard">
             <article class="overview-project overview-project-primary group" data-project="airops">
               <div class="overview-project-heading load-line" style="--i: 1">
@@ -119,7 +119,7 @@
             <div class="details-group load-line" style="--i: 10">
               <button class="details-trigger" id="details-trigger" type="button" aria-expanded="false" aria-controls="timeline-panel" aria-label="Open timeline">
                 <span>Timeline</span>
-                <i class="ri-corner-down-left-line" aria-hidden="true"></i>
+                <i class="ri-corner-left-down-line" aria-hidden="true"></i>
               </button>
             </div>
           </div>
@@ -131,12 +131,16 @@
           <div class="content-well-anchor" id="content-well-anchor" aria-hidden="true">
             <div class="content-well-billboard">
               <section class="content-well" id="content-well" role="region" aria-label="Focused timeline content" aria-hidden="true">
-                <nav class="content-well-progress" aria-label="Reading progress"></nav>
+                <button class="content-well-fullscreen" type="button" aria-label="Open preview fullscreen" aria-pressed="false"><i class="ri-expand-diagonal-line" aria-hidden="true"></i></button>
                 <div class="content-well-scroll" tabindex="0"></div>
+                <div class="content-well-timer" aria-hidden="true"><span class="content-well-timer-active"></span></div>
                 <div class="content-well-controls" aria-label="Project asset navigation" hidden>
-                  <button class="content-well-previous" type="button" aria-label="Previous project asset"><i class="ri-arrow-left-line" aria-hidden="true"></i></button>
                   <span class="content-well-count" aria-hidden="true"></span>
-                  <button class="content-well-next" type="button" aria-label="Next project asset"><i class="ri-arrow-right-line" aria-hidden="true"></i></button>
+                  <div class="content-well-button-group">
+                    <button class="content-well-autoplay" type="button" aria-label="Pause automatic preview" aria-pressed="false"><i class="ri-pause-line" aria-hidden="true"></i></button>
+                    <button class="content-well-previous" type="button" aria-label="Previous project asset"><i class="ri-arrow-left-line" aria-hidden="true"></i></button>
+                    <button class="content-well-next" type="button" aria-label="Next project asset"><i class="ri-arrow-right-line" aria-hidden="true"></i></button>
+                  </div>
                 </div>
                 <p class="content-well-status" aria-live="polite"></p>
               </section>
@@ -156,6 +160,6 @@
       <button class="scene-reset" id="scene-reset" type="button" aria-label="Reset 3D rotation"><i class="ri-reset-right-fill" aria-hidden="true"></i></button>
       <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top"><span class="back-to-top-object" aria-hidden="true"><i class="ri-arrow-up-line"></i></span></button>
     </div>
-    <script type="module" src="script.js?v=20260928-timeline-content-well"></script>
+    <script type="module" src="script.js?v=20260929-project-info-type"></script>
   </body>
 </html>
