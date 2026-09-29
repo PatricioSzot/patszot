@@ -249,7 +249,8 @@ body.details-open .profile-anchor-marker {
   padding: 4px 4px 4px 8px;
   border: 1px solid #000;
   border-radius: 30px;
-  background: #fff;
+  background: rgba(255, 255, 255, .92);
+  backdrop-filter: blur(8px);
   color: var(--ink);
   transform-origin: center top;
   transition:
@@ -274,7 +275,7 @@ body.details-open .profile-anchor-marker {
 .overview-project.is-open > .overview-project-heading .overview-project-pill,
 .overview-project.is-open > .overview-project-pill {
   border-color: var(--project-active);
-  background: var(--project-active);
+  background: color-mix(in srgb, var(--project-active) 92%, transparent);
   color: #fff;
 }
 
@@ -447,9 +448,17 @@ body.details-open .profile-anchor-marker {
 .nested-trigger {
   width: fit-content;
   max-width: 100%;
-  gap: 4px;
+  display: block;
   background: transparent;
   color: inherit;
+}
+
+.nested-trigger-tail { white-space: nowrap; }
+
+.nested-trigger .accordion-icon {
+  display: inline-block;
+  vertical-align: -.18em;
+  margin-left: 1px;
 }
 .nested-panel-inner p {
   width: calc(100% - 88px);
@@ -625,7 +634,7 @@ body.details-open .profile-anchor-marker {
   z-index: 0;
   top: var(--timeline-axis-start);
   left: 50%;
-  width: 2px;
+  width: 1px;
   height: var(--timeline-axis-length);
   background: rgba(29, 27, 25, .16);
   pointer-events: none;
@@ -773,7 +782,12 @@ body.details-open:not(.details-closing) .timeline-year-heading > span {
   opacity: 1;
   transform-origin: left 24px;
   transform-style: preserve-3d;
-  transition: none;
+  transition: top .62s var(--ease), opacity .42s ease;
+}
+
+body.details-opening .timeline-entry {
+  animation: timeline-entry-in .68s var(--ease) both;
+  animation-delay: var(--entry-delay, 0ms);
 }
 
 .timeline-entry:last-child { margin-bottom: 0; }
@@ -1560,20 +1574,23 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
   inset: 0;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(29, 27, 25, .18);
+  border: 0;
   border-radius: 50%;
   background: rgba(255, 255, 255, .92);
+  box-shadow: inset 0 0 0 1px rgba(29, 27, 25, .18);
   color: var(--ink);
-  transform: translate3d(0, 8px, 0) scale(.94);
+  transform: none;
   transition: background-color .24s ease, color .24s ease;
 }
 
 .back-to-top i {
   font-size: 18px;
   line-height: 1;
-  transform: rotate(90deg) rotateY(var(--scene-ry)) rotateX(var(--scene-rx));
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
+  transform: rotate(90deg);
+  transform-style: flat;
+  backface-visibility: visible;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 }
 
 .back-to-top-label { display: none; }
@@ -1648,7 +1665,7 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
 }
 
 .back-to-top.is-visible .back-to-top-object {
-  transform: scale(1);
+  transform: none;
 }
 
 .back-to-top:hover .back-to-top-object {
@@ -1693,6 +1710,10 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
 .scene-reset:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
 @keyframes enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes timeline-entry-in {
+  from { top: 12px; opacity: 0; }
+  to { top: 0; opacity: 1; }
+}
 @keyframes text-in {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }

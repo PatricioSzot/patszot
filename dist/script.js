@@ -765,7 +765,10 @@ timeline.innerHTML = displayTimelineData.map((section, yearIndex) => `
 
 const timelineEntries = [...timeline.querySelectorAll('.timeline-entry')];
 const timelineRecords = displayTimelineData.flatMap((section) => section.entries);
-timelineEntries.forEach((element, index) => { element.entryData = timelineRecords[index]; });
+timelineEntries.forEach((element, index) => {
+  element.entryData = timelineRecords[index];
+  element.style.setProperty('--entry-delay', `${Math.min(index, 8) * 42}ms`);
+});
 const fixedPreviewSourceFor = (entry) => {
   if (!entry) return visualPreviewByKey.airops;
   return visualPreviewByKey[entry.assetKey] || entry.cover;
