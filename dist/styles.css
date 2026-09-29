@@ -787,7 +787,7 @@ body.details-open:not(.details-closing) .timeline-year-heading > span {
   height: 7px;
   border: 0;
   border-radius: 50%;
-  background: var(--ink);
+  background: rgba(29, 27, 25, .3);
   display: grid;
   place-items: center;
   padding: 0;
@@ -796,12 +796,18 @@ body.details-open:not(.details-closing) .timeline-year-heading > span {
   transform-origin: center;
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  transition: top .46s var(--ease), left .46s var(--ease), width .46s var(--ease), height .46s var(--ease), background-color .3s ease;
+  transition: top .46s var(--ease), left .46s var(--ease), width .46s var(--ease), height .46s var(--ease), background-color .42s var(--ease), box-shadow .42s var(--ease);
 }
 
 .timeline-marker.is-muted {
-  background: #dbdbda;
+  background: rgba(29, 27, 25, .3);
   box-shadow: 0 0 0 2px #fff;
+}
+
+.timeline-entry.is-active .timeline-marker,
+.timeline-entry:focus-within .timeline-marker {
+  background: var(--ink);
+  box-shadow: none;
 }
 
 .present-project-trigger {
@@ -898,6 +904,7 @@ button.timeline-marker {
 
 .timeline-entry h3 {
   margin: 0;
+  color: #8e8d8c;
   font-size: 16px;
   font-weight: 400;
   font-variation-settings: "wght" 400, "wdth" 100;
@@ -906,6 +913,7 @@ button.timeline-marker {
   text-align: left;
   font-synthesis: none;
   transition:
+    color .38s ease,
     opacity .3s ease,
     letter-spacing .52s var(--ease),
     font-variation-settings .58s var(--ease);
@@ -913,6 +921,7 @@ button.timeline-marker {
 
 .timeline-entry.is-active h3,
 .timeline-entry:focus-within h3 {
+  color: var(--ink);
   opacity: 1;
   letter-spacing: -.01em;
   font-variation-settings: "wght" 600, "wdth" 108;
