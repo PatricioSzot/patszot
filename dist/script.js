@@ -858,6 +858,7 @@ const contentWellAutoplay = contentWell.querySelector('.content-well-autoplay');
 const contentWellCount = contentWell.querySelector('.content-well-count');
 const contentWellStatus = contentWell.querySelector('.content-well-status');
 const viewportControls = document.querySelector('.viewport-controls');
+const timelineFooterAnchor = document.querySelector('.timeline-footer-anchor');
 let renderContentWell = () => {};
 let contentWellFullscreenOpen = false;
 let contentWellDefaultWidth = 0;
@@ -920,26 +921,62 @@ const cancelAnimations = (animations) => {
   animations.length = 0;
 };
 
-const animateTimelineFocus = (entry, direction) => {
+const animateTimelineFocus = (entry, direction, previousEntry) => {
   cancelAnimations(timelineFocusAnimations);
-  const offset = (direction || 1) * 7;
+  timeline.querySelectorAll('.is-focus-exiting').forEach((item) => item.classList.remove('is-focus-exiting'));
+  const offset = (direction || 1) * 9;
+  const reduce = reducedMotion.matches;
+
+  if (previousEntry && previousEntry !== entry) {
+    previousEntry.classList.add('is-focus-exiting');
+    const outgoingTargets = [
+      previousEntry.querySelector('.project-info-meta'),
+      previousEntry.querySelector('h3'),
+      previousEntry.querySelector('.project-info-body')
+    ].filter(Boolean);
+    const outgoingAnimations = outgoingTargets.map((target, index) => {
+      const isBody = index === 2;
+      const keyframes = reduce
+        ? [{ opacity: 1 }, { opacity: isBody ? 0 : 1 }]
+        : isBody
+          ? [
+              { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+              { opacity: 0, transform: `translate3d(0, ${offset * -.55}px, 0)` }
+            ]
+          : [
+              { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+              { opacity: .72, transform: `translate3d(0, ${offset * -.32}px, 0)`, offset: .58 },
+              { opacity: 1, transform: 'translate3d(0, 0, 0)' }
+            ];
+      const animation = target.animate(keyframes, {
+        duration: reduce ? 120 : isBody ? 260 : 340,
+        delay: reduce ? 0 : index * 18,
+        easing: reduce ? 'ease-out' : 'cubic-bezier(.4, 0, .2, 1)'
+      });
+      timelineFocusAnimations.push(animation);
+      return animation;
+    });
+    Promise.allSettled(outgoingAnimations.map((animation) => animation.finished)).then(() => {
+      previousEntry.classList.remove('is-focus-exiting');
+    });
+  }
+
   const targets = [
     entry.querySelector('.project-info-meta'),
     entry.querySelector('h3'),
     entry.querySelector('.project-info-body')
   ].filter(Boolean);
-  const reduce = reducedMotion.matches;
 
   targets.forEach((target, index) => {
     const keyframes = reduce
-      ? [{ opacity: index === 2 ? 0 : .72 }, { opacity: 1 }]
+      ? [{ opacity: index === 2 ? 0 : .78 }, { opacity: 1 }]
       : [
-          { opacity: index === 2 ? 0 : .56, transform: `translate3d(0, ${offset}px, 0)` },
+          { opacity: index === 2 ? 0 : .48, transform: `translate3d(0, ${offset}px, 0)` },
           { opacity: 1, transform: 'translate3d(0, 0, 0)' }
         ];
     const animation = target.animate(keyframes, {
-      duration: reduce ? 140 : 500,
-      delay: reduce ? 0 : index * 38,
+      duration: reduce ? 140 : 620,
+      delay: reduce ? 0 : 54 + index * 46,
       easing: reduce ? 'ease-out' : 'cubic-bezier(.22, 1, .36, 1)'
     });
     timelineFocusAnimations.push(animation);
@@ -949,7 +986,7 @@ const animateTimelineFocus = (entry, direction) => {
 const animateContentWellFocus = (direction) => {
   if (!direction || !contentWell.classList.contains('has-content')) return;
   cancelAnimations(contentWellFocusAnimations);
-  const offset = direction * 7;
+  const offset = direction * 9;
   const reduce = reducedMotion.matches;
   const targets = [contentWellScroll, contentWellControls, contentWellFullscreen].filter((target) => target && !target.hidden);
 
@@ -957,12 +994,12 @@ const animateContentWellFocus = (direction) => {
     const keyframes = reduce
       ? [{ opacity: .35 }, { opacity: 1 }]
       : [
-          { opacity: index === 0 ? .18 : .5, transform: `translate3d(0, ${index === 0 ? offset : offset * .45}px, 0)` },
+          { opacity: index === 0 ? .4 : .62, transform: `translate3d(0, ${index === 0 ? offset : offset * .4}px, 0)` },
           { opacity: 1, transform: 'translate3d(0, 0, 0)' }
         ];
     const animation = target.animate(keyframes, {
-      duration: reduce ? 140 : 540,
-      delay: reduce ? 0 : index * 42,
+      duration: reduce ? 140 : 660,
+      delay: reduce ? 0 : 120 + index * 46,
       easing: reduce ? 'ease-out' : 'cubic-bezier(.22, 1, .36, 1)'
     });
     contentWellFocusAnimations.push(animation);
@@ -1116,9 +1153,14 @@ const updateTimelineActive = () => {
   const firstTimelineEntry = timelineEntries[0];
   const firstEntryCenter = firstTimelineEntry ? untransformedDocumentCenter(firstTimelineEntry).y : 0;
   const presentOwnsFocus = Boolean(firstTimelineEntry && firstEntryCenter - window.scrollY > window.innerHeight / 2);
-  const closest = presentOwnsFocus ? undefined : timelineEntryForViewport(timelineEntries);
+  const footerStart = timelineFooterAnchor
+    ? untransformedDocumentCenter(timelineFooterAnchor).y - timelineFooterAnchor.offsetHeight / 2
+    : Number.POSITIVE_INFINITY;
+  const footerOwnsFocus = window.scrollY + window.innerHeight * .5 >= footerStart;
+  const closest = presentOwnsFocus || footerOwnsFocus ? undefined : timelineEntryForViewport(timelineEntries);
 
   document.body.classList.toggle('present-focus', presentOwnsFocus);
+  document.body.classList.toggle('timeline-footer-focus', footerOwnsFocus);
   if (!closest) {
     clearTimelineActive();
     updateTimelineDistanceStates(-1);
@@ -1128,7 +1170,8 @@ const updateTimelineActive = () => {
   }
   updateTimelineDistanceStates(timelineEntries.indexOf(closest));
   if (closest !== activeTimelineEntry) {
-    const previousIndex = activeTimelineEntry ? timelineEntries.indexOf(activeTimelineEntry) : -1;
+    const previousEntry = activeTimelineEntry;
+    const previousIndex = previousEntry ? timelineEntries.indexOf(previousEntry) : -1;
     const nextIndex = timelineEntries.indexOf(closest);
     const focusDirection = timelineScrollDirection || (previousIndex >= 0 ? Math.sign(nextIndex - previousIndex) : 1);
     activeTimelineEntry?.classList.remove('is-active');
@@ -1136,7 +1179,7 @@ const updateTimelineActive = () => {
     activeTimelineEntry = closest;
     timeline.classList.add('has-active');
     activeTimelineEntry.classList.add('is-active');
-    animateTimelineFocus(activeTimelineEntry, focusDirection);
+    animateTimelineFocus(activeTimelineEntry, focusDirection, previousEntry);
     activeTimelineEntry.querySelectorAll('.content-well-trigger').forEach((control) => control.setAttribute('tabindex', '0'));
     positionContentWell(activeTimelineEntry);
     renderContentWell(activeTimelineEntry.entryData, focusDirection);
@@ -1155,7 +1198,6 @@ window.addEventListener('scroll', () => {
   if (Math.abs(delta) > .5) {
     timelineScrollDirection = Math.sign(delta);
     timelineScrollVelocity = Math.min(3, Math.abs(delta) / Math.max(1, window.innerHeight) * 1000 / elapsed);
-    respondToSceneScroll(delta);
   }
   previousScrollY = window.scrollY;
   previousScrollTime = now;

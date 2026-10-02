@@ -112,6 +112,7 @@ body.details-closing main::before {
   object-position: left center;
   opacity: 0;
   animation: enter .8s var(--ease) .48s forwards;
+  transition: filter .45s var(--ease);
 }
 
 .profile {
@@ -980,11 +981,16 @@ button.timeline-marker {
 }
 
 .timeline-entry.is-active .project-info-body,
-.timeline-entry:focus-within .project-info-body {
+.timeline-entry:focus-within .project-info-body,
+.timeline-entry.is-focus-exiting .project-info-body {
   opacity: 1;
   visibility: visible;
   transform: translate3d(0, 0, 0);
   transition-delay: .08s, .04s, 0s;
+}
+
+.timeline-entry.is-focus-exiting .project-info {
+  pointer-events: none;
 }
 
 .project-title-trigger {
@@ -1525,8 +1531,8 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
   z-index: 2;
   display: grid;
   grid-template-columns: 50% 50%;
-  min-height: clamp(360px, 54vh, 620px);
-  padding-top: 112px;
+  min-height: 100svh;
+  padding-top: clamp(112px, 18svh, 180px);
   overflow: visible;
   transform-style: preserve-3d;
 }
@@ -1546,7 +1552,25 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
   backface-visibility: hidden;
 }
 
-.timeline-footer-billboard > span { display: block; }
+.timeline-footer-billboard > span {
+  display: block;
+  opacity: .18;
+  transform: translate3d(0, 8px, 0);
+  transition: opacity .6s ease, transform .78s var(--ease);
+}
+.timeline-footer-billboard > span + span { transition-delay: .07s; }
+body.details-open.timeline-footer-focus .timeline-footer-billboard > span {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+body.details-open.timeline-footer-focus .logo {
+  filter: opacity(0);
+  pointer-events: none;
+}
+body.details-open.timeline-footer-focus .viewport-controls {
+  opacity: 0;
+  pointer-events: none;
+}
 .timeline-footer-billboard > span:first-child { color: var(--muted); }
 
 .viewport-controls {
@@ -1923,8 +1947,8 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
   .timeline-footer-anchor {
     display: grid;
     grid-template-columns: 40px 1fr;
-    min-height: 44svh;
-    padding-top: 72px;
+    min-height: 100svh;
+    padding-top: max(88px, 16svh);
   }
 
   .timeline-footer-billboard {
