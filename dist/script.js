@@ -1104,6 +1104,8 @@ contentWellAnchor.addEventListener('transitionend', (event) => {
 });
 
 const clearTimelineActive = () => {
+  cancelAnimations(timelineFocusAnimations);
+  timeline.querySelectorAll('.is-focus-exiting').forEach((entry) => entry.classList.remove('is-focus-exiting'));
   activeTimelineEntry?.classList.remove('is-active');
   activeTimelineEntry?.querySelectorAll('.content-well-trigger').forEach((control) => control.setAttribute('tabindex', '-1'));
   activeTimelineEntry = undefined;
