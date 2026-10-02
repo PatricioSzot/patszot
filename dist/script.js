@@ -1228,7 +1228,6 @@ const cameraBillboards = [...document.querySelectorAll([
   '.profile-anchor-marker',
   '.present-project-trigger',
   '.footer-contact-billboard',
-  '.timeline-footer-billboard',
   '.content-well-billboard'
 ].join(','))];
 const timelineYearHeadings = [...timeline.querySelectorAll('.timeline-year-heading')];

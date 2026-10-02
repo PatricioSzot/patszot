@@ -1539,27 +1539,23 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
 .timeline-footer-anchor {
   position: relative;
   z-index: 2;
-  display: grid;
-  grid-template-columns: 50% 50%;
+  display: block;
   min-height: 100svh;
-  padding-top: clamp(112px, 18svh, 180px);
+  padding: 0;
   overflow: visible;
-  transform-style: preserve-3d;
 }
 
 .timeline-footer-billboard {
-  grid-column: 2;
-  align-self: start;
-  margin: 0;
-  padding: 0 6vw 0 40px;
+  position: sticky;
+  top: 50svh;
+  width: max-content;
+  margin: 0 auto;
+  padding: 0;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
   white-space: nowrap;
-  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
-  transform-origin: left top;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
+  transform: translateY(-50%);
 }
 
 .timeline-footer-billboard > span {
@@ -1955,15 +1951,12 @@ body.details-open.timeline-footer-focus .viewport-controls {
   .nda-dialog-actions button { width: 100%; }
 
   .timeline-footer-anchor {
-    display: grid;
-    grid-template-columns: 40px 1fr;
     min-height: 100svh;
-    padding-top: max(88px, 16svh);
+    padding: 0;
   }
 
   .timeline-footer-billboard {
-    grid-column: 2;
-    padding: 0 18px 0 20px;
+    padding: 0;
     font-size: 15px;
   }
 
@@ -2073,4 +2066,5 @@ body.details-open.timeline-footer-focus .viewport-controls {
   .footer-contact-billboard,
   .timeline-footer-billboard,
   .content-well-billboard { transform: none !important; filter: none !important; }
+  .timeline-footer-billboard { transform: translateY(-50%) !important; }
 }
