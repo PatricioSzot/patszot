@@ -246,7 +246,7 @@ body.details-open .profile-anchor-marker {
 }
 
 .overview-project-pill {
-  --project-active: #001308;
+  --project-active: #000000;
   --accordion-fill: 0%;
   width: 100%;
   max-width: 100%;
@@ -260,7 +260,7 @@ body.details-open .profile-anchor-marker {
   background:
     linear-gradient(
       to top,
-      color-mix(in srgb, var(--project-active) 92%, transparent) 0 var(--accordion-fill),
+      var(--project-active) 0 var(--accordion-fill),
       rgba(255, 255, 255, .94) var(--accordion-fill) 100%
     );
   backdrop-filter: blur(8px);
@@ -277,10 +277,8 @@ body.details-open .profile-anchor-marker {
   flex: 1 1 0;
   width: 100%;
 }
-.overview-project-pill-gloss { --project-active: #17150e; }
-.overview-project-pill-webflow {
-  --project-active: #040519;
-}
+.overview-project-pill-gloss,
+.overview-project-pill-webflow { --project-active: #000000; }
 
 .overview-project.is-open > .overview-project-heading .overview-project-pill,
 .overview-project.is-open > .overview-project-pill {
