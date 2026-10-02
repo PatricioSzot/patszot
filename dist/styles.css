@@ -38,6 +38,7 @@ main {
 }
 
 body.details-open main { overflow-y: visible; }
+body.details-open { overscroll-behavior-y: none; }
 
 main::before {
   content: "";
@@ -652,6 +653,7 @@ body.details-open .profile-anchor-marker {
   transform-origin: center;
   transform-style: preserve-3d;
   backface-visibility: visible;
+  transition: opacity .45s ease;
 }
 
 .timeline-panel.is-scene-dragging .timeline-panel-inner,
@@ -697,7 +699,15 @@ body.details-open main::before { opacity: 0; }
   width: 100%;
   padding: 0 0 24px;
   overflow: visible;
+  opacity: 1;
   transform-style: preserve-3d;
+  transition: opacity .45s ease;
+}
+
+body.details-open.timeline-footer-focus .timeline,
+body.details-open.timeline-footer-focus .timeline-panel-inner::before {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .timeline-year {

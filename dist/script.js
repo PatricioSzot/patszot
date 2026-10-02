@@ -1191,7 +1191,18 @@ const requestTimelineActiveUpdate = () => {
   activeTimelineFrame = requestAnimationFrame(updateTimelineActive);
 };
 
+const clampTimelineScrollEnd = () => {
+  if (!document.body.classList.contains('details-open') || !timelineFooterAnchor) return false;
+  const footerCenter = untransformedDocumentCenter(timelineFooterAnchor).y;
+  const layoutEnd = footerCenter + timelineFooterAnchor.offsetHeight / 2;
+  const maximumScrollTop = Math.max(0, layoutEnd - window.innerHeight);
+  if (window.scrollY <= maximumScrollTop + 1) return false;
+  window.scrollTo({ top: maximumScrollTop, left: window.scrollX, behavior: 'auto' });
+  return true;
+};
+
 window.addEventListener('scroll', () => {
+  if (clampTimelineScrollEnd()) return;
   const now = performance.now();
   const delta = window.scrollY - previousScrollY;
   const elapsed = Math.max(16, now - previousScrollTime);
