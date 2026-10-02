@@ -7,6 +7,12 @@
   --ease: cubic-bezier(.22, 1, .36, 1);
 }
 
+@property --accordion-fill {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
 * { box-sizing: border-box; }
 
 html, body { min-height: 100%; }
@@ -241,26 +247,30 @@ body.details-open .profile-anchor-marker {
 
 .overview-project-pill {
   --project-active: #001308;
+  --accordion-fill: 0%;
   width: 100%;
   max-width: 100%;
   min-width: 0;
   height: 24px;
   gap: 8px;
-  padding: 4px 4px 4px 8px;
-  border: 1px solid #000;
-  border-radius: 30px;
-  background: rgba(255, 255, 255, .92);
+  padding: 8px;
+  border: 0;
+  border-bottom: 1px solid #000;
+  border-radius: 0;
+  background:
+    linear-gradient(
+      to top,
+      color-mix(in srgb, var(--project-active) 92%, transparent) 0 var(--accordion-fill),
+      rgba(255, 255, 255, .94) var(--accordion-fill) 100%
+    );
   backdrop-filter: blur(8px);
   color: var(--ink);
-  transform-origin: center top;
+  transform-origin: center bottom;
   transition:
-    height .72s var(--ease),
-    padding .72s var(--ease),
-    border-radius .72s var(--ease),
-    transform .72s var(--ease),
-    color .42s var(--ease),
-    border-color .42s var(--ease),
-    background-color .56s var(--ease);
+    --accordion-fill .62s var(--ease),
+    height .62s var(--ease),
+    color .38s var(--ease),
+    border-color .38s var(--ease);
 }
 
 .overview-project-heading .overview-project-pill {
@@ -274,34 +284,30 @@ body.details-open .profile-anchor-marker {
 
 .overview-project.is-open > .overview-project-heading .overview-project-pill,
 .overview-project.is-open > .overview-project-pill {
+  --accordion-fill: 100%;
+  height: 32px;
+  padding: 8px;
   border-color: var(--project-active);
-  background: color-mix(in srgb, var(--project-active) 92%, transparent);
   color: #fff;
 }
 
 /* End-of-scroll pressure gives the unexpected reveal a visible, elastic prelude. */
 .overview-project.is-scroll-tension > .overview-project-heading .overview-project-pill,
 .overview-project.is-scroll-tension > .overview-project-pill {
-  height: calc(24px + var(--reveal-grow, 0px));
-  padding-top: calc(4px + var(--reveal-padding-grow, 0px));
-  padding-bottom: calc(4px + var(--reveal-padding-grow, 0px));
-  border-radius: var(--reveal-radius, 30px);
+  --accordion-fill: var(--reveal-color, 0%);
+  height: calc(24px + min(8px, var(--reveal-grow, 0px)));
+  padding: 8px;
   border-color: color-mix(in srgb, #000, var(--project-active) var(--reveal-color, 0%));
-  background: color-mix(in srgb, #fff, var(--project-active) var(--reveal-color, 0%));
   color: color-mix(in srgb, var(--ink), #fff var(--reveal-color, 0%));
-  transform: translateY(var(--reveal-shift, 0px)) scaleX(var(--reveal-squeeze, 1));
 }
 
 .overview-project.is-reveal-priming > .overview-project-heading .overview-project-pill,
 .overview-project.is-reveal-priming > .overview-project-pill {
-  height: 36px;
-  padding-top: 9px;
-  padding-bottom: 9px;
-  border-radius: 16px;
+  --accordion-fill: 100%;
+  height: 32px;
+  padding: 8px;
   border-color: var(--project-active);
-  background: var(--project-active);
   color: #fff;
-  transform: translateY(8px) scaleX(.985);
 }
 
 .overview-project.is-scroll-tension .accordion-icon,
@@ -537,16 +543,23 @@ body.details-open .profile-anchor-marker {
 
 .details-trigger {
   --timeline-active: var(--ink);
+  --accordion-fill: 0%;
   width: 122px;
   height: 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 3px 6px 3px 8px;
-  border: 1px solid currentColor;
-  border-radius: 30px;
-  background: transparent;
+  padding: 8px;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  background:
+    linear-gradient(
+      to top,
+      var(--timeline-active) 0 var(--accordion-fill),
+      rgba(255, 255, 255, .94) var(--accordion-fill) 100%
+    );
   color: var(--ink);
   font: inherit;
   font-size: 16px;
@@ -554,14 +567,12 @@ body.details-open .profile-anchor-marker {
   letter-spacing: -.01em;
   text-align: left;
   cursor: pointer;
-  transform-origin: right center;
+  transform-origin: right bottom;
   transition:
-    width .72s var(--ease),
-    height .72s var(--ease),
-    padding .72s var(--ease),
-    border-radius .72s var(--ease),
-    transform .72s var(--ease),
-    background-color .42s var(--ease);
+    --accordion-fill .62s var(--ease),
+    height .62s var(--ease),
+    color .38s var(--ease),
+    border-color .38s var(--ease);
 }
 
 .details-trigger > i {
@@ -574,32 +585,28 @@ body.details-open .profile-anchor-marker {
 }
 
 .details-group.is-scroll-tension .details-trigger {
-  width: calc(122px + var(--reveal-width-grow, 0px));
-  height: calc(24px + var(--reveal-grow, 0px));
-  padding-top: calc(3px + var(--reveal-padding-grow, 0px));
-  padding-bottom: calc(3px + var(--reveal-padding-grow, 0px));
-  border-radius: var(--reveal-radius, 30px);
+  --accordion-fill: var(--reveal-color, 0%);
+  width: 122px;
+  height: calc(24px + min(8px, var(--reveal-grow, 0px)));
+  padding: 8px;
   border-color: color-mix(in srgb, var(--ink), var(--timeline-active) var(--reveal-color, 0%));
-  background: color-mix(in srgb, transparent, var(--timeline-active) var(--reveal-color, 0%));
   color: color-mix(in srgb, var(--ink), #fff var(--reveal-color, 0%));
-  transform: translateY(var(--reveal-shift, 0px)) scaleX(var(--reveal-squeeze, 1));
 }
 
 .details-group.is-reveal-priming .details-trigger {
-  width: 142px;
-  height: 36px;
-  padding-top: 9px;
-  padding-bottom: 9px;
+  --accordion-fill: 100%;
+  width: 122px;
+  height: 32px;
+  padding: 8px;
   border-color: var(--timeline-active);
-  border-radius: 16px;
-  background: var(--timeline-active);
   color: #fff;
-  transform: translateY(8px) scaleX(.985);
 }
 
 .details-group.is-open .details-trigger {
+  --accordion-fill: 100%;
+  height: 32px;
+  padding: 8px;
   border-color: var(--timeline-active);
-  background: var(--timeline-active);
   color: #fff;
 }
 
@@ -1725,43 +1732,36 @@ body.overview-expanded .footer-contact { left: calc(50% - 61px); }
 
 @media (max-width: 700px) {
   .overview-project-pill {
-    height: 32px;
-    padding: 6px 8px 6px 10px;
+    height: 24px;
+    padding: 8px;
   }
 
   .details-trigger {
-    height: 32px;
-    padding: 6px 8px 6px 10px;
+    height: 24px;
+    padding: 8px;
   }
 
   .details-group.is-scroll-tension .details-trigger {
-    height: calc(32px + var(--reveal-grow, 0px));
-    padding-top: calc(6px + var(--reveal-padding-grow, 0px));
-    padding-bottom: calc(6px + var(--reveal-padding-grow, 0px));
+    height: calc(24px + min(8px, var(--reveal-grow, 0px)));
+    padding: 8px;
   }
 
   .details-group.is-reveal-priming .details-trigger {
-    height: 38px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    border-radius: 20px;
-    transform: translateY(5px) scaleX(.992);
+    height: 32px;
+    padding: 8px;
   }
 
   .overview-project.is-scroll-tension > .overview-project-heading .overview-project-pill,
   .overview-project.is-scroll-tension > .overview-project-pill {
-    height: calc(32px + var(--reveal-grow, 0px));
-    padding-top: calc(6px + var(--reveal-padding-grow, 0px));
-    padding-bottom: calc(6px + var(--reveal-padding-grow, 0px));
+    height: calc(24px + min(8px, var(--reveal-grow, 0px)));
+    padding: 8px;
   }
 
   .overview-project.is-reveal-priming > .overview-project-heading .overview-project-pill,
   .overview-project.is-reveal-priming > .overview-project-pill {
-    height: 38px;
+    height: 32px;
     padding-top: 8px;
     padding-bottom: 8px;
-    border-radius: 20px;
-    transform: translateY(5px) scaleX(.992);
   }
 
   main {
