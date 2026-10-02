@@ -879,7 +879,6 @@ let contentAutoplayHoverPaused = false;
 let contentAutoplayHoldUntil = 0;
 let timelineFocusAnimations = [];
 let contentWellFocusAnimations = [];
-let finaleTimelineAnimations = [];
 const defaultVisualAutoplayDuration = 4000;
 let activeVisualAutoplayDuration = defaultVisualAutoplayDuration;
 const writingAutoplaySpeed = 14;
@@ -1174,35 +1173,6 @@ const clearTimelineActive = () => {
   timeline.classList.remove('has-active');
 };
 
-const animateTimelineFinaleHandoff = (leavingTimeline) => {
-  const years = [...timeline.querySelectorAll('.timeline-year')];
-  const currentOpacity = new Map(years.map((year) => [year, Number.parseFloat(getComputedStyle(year).opacity) || 0]));
-  finaleTimelineAnimations.forEach((animation) => animation.cancel());
-  finaleTimelineAnimations = [];
-
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    years.forEach((year) => { year.style.opacity = leavingTimeline ? '0' : '1'; });
-    return;
-  }
-
-  const orderedYears = leavingTimeline ? [...years].reverse() : years;
-  orderedYears.forEach((year, index) => {
-    const animation = year.animate(
-      [
-        { opacity: currentOpacity.get(year) },
-        { opacity: leavingTimeline ? 0 : 1 }
-      ],
-      {
-        duration: 380,
-        delay: index * 52,
-        easing: 'cubic-bezier(.22, 1, .36, 1)',
-        fill: 'both'
-      }
-    );
-    finaleTimelineAnimations.push(animation);
-  });
-};
-
 const updateTimelineDistanceStates = (activeIndex) => {
   timelineEntries.forEach((entry, index) => {
     entry.classList.toggle('is-deprioritized', Math.abs(index - activeIndex) >= 2);
@@ -1256,9 +1226,7 @@ const updateTimelineActive = () => {
   const closest = presentOwnsFocus || footerOwnsFocus ? undefined : timelineEntryForViewport(timelineEntries);
 
   document.body.classList.toggle('present-focus', presentOwnsFocus);
-  const footerWasFocused = document.body.classList.contains('timeline-footer-focus');
   document.body.classList.toggle('timeline-footer-focus', footerOwnsFocus);
-  if (footerWasFocused !== footerOwnsFocus) animateTimelineFinaleHandoff(footerOwnsFocus);
   if (!closest) {
     clearTimelineActive();
     updateTimelineDistanceStates(-1);
