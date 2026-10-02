@@ -609,6 +609,9 @@ let scrollRevealTouchStartY;
 let mobileScrollTouchY;
 let mobileScrollTouchTime;
 let mobileScrollVelocity = 0;
+const mobilePageScrollResponse = .96;
+const mobileArticleScrollResponse = .94;
+const mobileMomentumDistance = 205;
 window.addEventListener('touchstart', (event) => {
   cancelDrift();
   if (event.target.closest?.('.content-well')) {
@@ -636,7 +639,7 @@ window.addEventListener('touchmove', (event) => {
   mobileScrollTouchTime = now;
   if (Math.abs(delta) < .25) return;
   event.preventDefault();
-  const softenedDelta = delta * .88;
+  const softenedDelta = delta * mobilePageScrollResponse;
   window.scrollBy(0, softenedDelta);
   mobileScrollVelocity = mobileScrollVelocity * .7 + softenedDelta / elapsed * .3;
   driftTarget = window.scrollY;
@@ -644,7 +647,7 @@ window.addEventListener('touchmove', (event) => {
 
 window.addEventListener('touchend', (event) => {
   if (mobileScrollTouchY !== undefined && Math.abs(mobileScrollVelocity) > .035) {
-    driftTo(window.scrollY + mobileScrollVelocity * 180);
+    driftTo(window.scrollY + mobileScrollVelocity * mobileMomentumDistance);
   }
   mobileScrollTouchY = undefined;
   if (scrollRevealTouchStartY === undefined || !event.changedTouches.length) return;
@@ -2041,9 +2044,9 @@ contentWellScroll.addEventListener('touchmove', (event) => {
   if (Math.abs(delta) < .5) return;
   event.preventDefault();
   if (mobileWritingTouchRoute === 'article') {
-    contentWellScroll.scrollTop += delta * .88;
+    contentWellScroll.scrollTop += delta * mobileArticleScrollResponse;
   } else {
-    window.scrollBy(0, delta * .88);
+    window.scrollBy(0, delta * mobilePageScrollResponse);
   }
 }, { passive: false });
 
