@@ -862,7 +862,6 @@ const contentWellCount = contentWell.querySelector('.content-well-count');
 const contentWellStatus = contentWell.querySelector('.content-well-status');
 const viewportControls = document.querySelector('.viewport-controls');
 const timelineFooterAnchor = document.querySelector('.timeline-footer-anchor');
-const timelineFooterLockup = document.querySelector('.timeline-footer-lockup');
 const profileTitleSource = document.querySelector('[data-profile-title]');
 const profileTitleMirrors = document.querySelectorAll('[data-profile-title-mirror]');
 const timelineEmailCopy = document.querySelector('.timeline-email-copy');
@@ -898,17 +897,6 @@ if (profileTitleSource) {
     subtree: true
   });
 }
-
-const syncTimelineFooterLockupHeight = () => {
-  if (!timelineFooterLockup) return;
-  document.documentElement.style.setProperty(
-    '--timeline-footer-lockup-height',
-    `${Math.ceil(timelineFooterLockup.getBoundingClientRect().height)}px`
-  );
-};
-
-syncTimelineFooterLockupHeight();
-if (timelineFooterLockup) new ResizeObserver(syncTimelineFooterLockupHeight).observe(timelineFooterLockup);
 
 const writeClipboardText = async (value) => {
   try {
