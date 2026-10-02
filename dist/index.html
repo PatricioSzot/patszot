@@ -27,7 +27,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:wdth,wght@75..125,100..900&amp;display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=20261002-timeline-align" />
+    <link rel="stylesheet" href="styles.css?v=20261002-footer-profile" />
   </head>
   <body>
     <main>
@@ -35,7 +35,7 @@
       <section class="profile" aria-label="Profile">
         <div class="profile-scene profile-title-scene">
           <div class="profile-billboard">
-            <p class="bio"><span class="load-line" style="--i: 0">Principal Brand Designer</span></p>
+            <p class="bio"><span class="load-line" style="--i: 0" data-profile-title>Principal Brand Designer</span></p>
           </div>
         </div>
 
@@ -167,18 +167,20 @@
         </div>
         <div class="timeline-footer-anchor">
           <div class="timeline-footer-lockup">
-            <img class="timeline-footer-logo" src="assets/ps-logo.png" width="908" height="200" alt="" aria-hidden="true" />
+            <img class="timeline-footer-logo timeline-footer-item" style="--footer-i: 0" src="assets/ps-logo.png" width="908" height="200" alt="" aria-hidden="true" />
             <p class="timeline-footer-billboard">
-              <span>Fulbright and Gilman Scholar</span>
-              <span>
+              <output class="timeline-footer-role timeline-footer-item" style="--footer-i: 1" data-profile-title-mirror></output>
+              <span class="timeline-footer-scholar timeline-footer-item" style="--footer-i: 2">Fulbright and Gilman Scholar</span>
+              <span class="timeline-footer-pronunciation timeline-footer-item" style="--footer-i: 3">Pronounced Schut, <em>Polish :)</em></span>
+              <span class="timeline-footer-item" style="--footer-i: 4">
                 <button
                   class="timeline-email-copy"
                   type="button"
                   data-email="patrick.m.szot@gmail.com"
                   aria-label="Copy patrick.m.szot@gmail.com to clipboard"
                 >
-                  <i class="ri-file-copy-line" aria-hidden="true"></i>
                   <span>patrick.m.szot@gmail.com</span>
+                  <i class="ri-file-copy-line" aria-hidden="true"></i>
                 </button>
               </span>
             </p>
@@ -205,6 +207,6 @@
       <button class="scene-reset" id="scene-reset" type="button" aria-label="Reset 3D rotation"><i class="ri-reset-right-fill" aria-hidden="true"></i></button>
       <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top"><span class="back-to-top-object" aria-hidden="true"><i class="ri-contract-left-line back-to-top-icon"></i><span class="back-to-top-label">Top</span></span></button>
     </div>
-    <script type="module" src="script.js?v=20261002-timeline-align"></script>
+    <script type="module" src="script.js?v=20261002-footer-profile"></script>
   </body>
 </html>

@@ -862,6 +862,9 @@ const contentWellCount = contentWell.querySelector('.content-well-count');
 const contentWellStatus = contentWell.querySelector('.content-well-status');
 const viewportControls = document.querySelector('.viewport-controls');
 const timelineFooterAnchor = document.querySelector('.timeline-footer-anchor');
+const timelineFooterLockup = document.querySelector('.timeline-footer-lockup');
+const profileTitleSource = document.querySelector('[data-profile-title]');
+const profileTitleMirrors = document.querySelectorAll('[data-profile-title-mirror]');
 const timelineEmailCopy = document.querySelector('.timeline-email-copy');
 const timelineEmailCopyStatus = document.querySelector('.timeline-email-copy-status');
 let timelineEmailCopyTimer;
@@ -881,6 +884,31 @@ const defaultVisualAutoplayDuration = 4000;
 let activeVisualAutoplayDuration = defaultVisualAutoplayDuration;
 const writingAutoplaySpeed = 14;
 const hoverPauseEnabled = window.matchMedia('(min-width: 701px) and (hover: hover) and (pointer: fine)');
+
+const syncProfileTitle = () => {
+  const title = profileTitleSource?.textContent.trim() || '';
+  profileTitleMirrors.forEach((mirror) => { mirror.textContent = title; });
+};
+
+syncProfileTitle();
+if (profileTitleSource) {
+  new MutationObserver(syncProfileTitle).observe(profileTitleSource, {
+    childList: true,
+    characterData: true,
+    subtree: true
+  });
+}
+
+const syncTimelineFooterLockupHeight = () => {
+  if (!timelineFooterLockup) return;
+  document.documentElement.style.setProperty(
+    '--timeline-footer-lockup-height',
+    `${Math.ceil(timelineFooterLockup.getBoundingClientRect().height)}px`
+  );
+};
+
+syncTimelineFooterLockupHeight();
+if (timelineFooterLockup) new ResizeObserver(syncTimelineFooterLockupHeight).observe(timelineFooterLockup);
 
 const writeClipboardText = async (value) => {
   try {
