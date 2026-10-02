@@ -539,6 +539,7 @@ body.details-open .profile-anchor-marker {
   width: 122px;
   display: flex;
   justify-content: flex-end;
+  margin-left: auto;
 }
 
 .details-trigger {
