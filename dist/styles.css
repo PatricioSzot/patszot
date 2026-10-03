@@ -1638,7 +1638,8 @@ body.details-open.timeline-footer-focus .timeline-footer-item {
   align-items: center;
   justify-content: flex-start;
   gap: 7px;
-  width: 100%;
+  width: max-content;
+  max-width: 100%;
   margin: 2px 0 0;
   padding: 8px 0;
   border: 0;
