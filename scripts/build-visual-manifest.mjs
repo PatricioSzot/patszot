@@ -7,7 +7,7 @@ const auxiliaryFolders = new Set(['PrimaryAndSecondaryProjectAssets']);
 
 const knownProjects = {
   'airops': { title: 'Principal Brand Designer at AirOps' },
-  'brand-guidelines': { title: 'Brand Guidelines' },
+  'brand-guidelines': { title: 'AirOps Brand Guidelines' },
   'tildeath-garden-of-flowers': { title: 'Garden of Flowers', description: 'TILDEATH · Alternative · 3 tracks · Everything and Nothing Music', url: 'https://music.apple.com/us/album/garden-of-flowers-single/1825456137', playerOnly: true },
   'tildeath-auto-saved': { title: '(Auto-saved)', description: 'TILDEATH · Pop · 4 tracks · Everything and Nothing Music', url: 'https://music.apple.com/us/album/auto-saved-ep/1786424302', playerOnly: true },
   'tildeath-god-forsaken-love': { title: 'For the (God-forsaken) Love of Heartbreak and Favor!', description: 'TILDEATH · Hardcore · 5 tracks · Everything and Nothing Music', url: 'https://music.apple.com/us/album/for-the-god-forsaken-love-of-heartbreak-and-favor-ep/1758614716', playerOnly: true },
@@ -122,6 +122,15 @@ const mediaType = (filename) => {
   return undefined;
 };
 
+const normalizedYouTubeEmbed = (source) => {
+  const url = new URL(source);
+  url.searchParams.set('rel', '0');
+  url.searchParams.set('cc_load_policy', '0');
+  url.searchParams.set('fs', '0');
+  url.searchParams.set('playsinline', '1');
+  return url.toString();
+};
+
 const publicAssetPath = (...segments) => ['assets-visual', ...segments]
   .map((segment) => encodeURIComponent(segment))
   .join('/');
@@ -185,7 +194,10 @@ for (const [slug, projectFolders] of sortedGroups) {
   const orderedFolders = [canonicalFolder, ...projectFolders.filter((folder) => folder !== canonicalFolder)];
   const folderAssets = (await Promise.all(orderedFolders.map((folder) => mediaForFolder(folder, title)))).flat();
   const seen = new Set();
-  const assetCandidates = projectConfig.playerOnly ? (embeds[slug] || []) : [...folderAssets, ...(embeds[slug] || [])];
+  const rawAssetCandidates = projectConfig.playerOnly ? (embeds[slug] || []) : [...folderAssets, ...(embeds[slug] || [])];
+  const assetCandidates = rawAssetCandidates.map((asset) => asset.type === 'youtube'
+    ? { ...asset, src: normalizedYouTubeEmbed(asset.src) }
+    : asset);
   const assets = assetCandidates.filter((asset) => {
     if (seen.has(asset.src)) return false;
     seen.add(asset.src);

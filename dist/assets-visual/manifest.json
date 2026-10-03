@@ -324,7 +324,7 @@
     },
     "brand-guidelines": {
       "slug": "brand-guidelines",
-      "title": "Brand Guidelines",
+      "title": "AirOps Brand Guidelines",
       "date": "2026-09-27",
       "folders": [
         "9-27-2026-Brand-Guidelines"
@@ -334,77 +334,77 @@
         {
           "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines01.jpg",
           "type": "image",
-          "alt": "Brand Guidelines — BrandGuidelines01"
+          "alt": "AirOps Brand Guidelines — BrandGuidelines01"
         },
         {
           "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines02.jpg",
           "type": "image",
-          "alt": "Brand Guidelines — BrandGuidelines02"
+          "alt": "AirOps Brand Guidelines — BrandGuidelines02"
         },
         {
           "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines03.jpg",
           "type": "image",
-          "alt": "Brand Guidelines — BrandGuidelines03"
+          "alt": "AirOps Brand Guidelines — BrandGuidelines03"
         },
         {
           "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines04.jpg",
           "type": "image",
-          "alt": "Brand Guidelines — BrandGuidelines04"
+          "alt": "AirOps Brand Guidelines — BrandGuidelines04"
         },
         {
           "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines05.jpg",
           "type": "image",
-          "alt": "Brand Guidelines — BrandGuidelines05"
+          "alt": "AirOps Brand Guidelines — BrandGuidelines05"
         },
         {
           "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines06.jpg",
           "type": "image",
-          "alt": "Brand Guidelines — BrandGuidelines06"
+          "alt": "AirOps Brand Guidelines — BrandGuidelines06"
         },
         {
           "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines07.jpg",
           "type": "image",
-          "alt": "Brand Guidelines — BrandGuidelines07"
+          "alt": "AirOps Brand Guidelines — BrandGuidelines07"
         },
         {
           "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines08.jpg",
           "type": "image",
-          "alt": "Brand Guidelines — BrandGuidelines08"
+          "alt": "AirOps Brand Guidelines — BrandGuidelines08"
         },
         {
           "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines09.jpg",
           "type": "image",
-          "alt": "Brand Guidelines — BrandGuidelines09"
+          "alt": "AirOps Brand Guidelines — BrandGuidelines09"
         },
         {
           "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines10.jpg",
           "type": "image",
-          "alt": "Brand Guidelines — BrandGuidelines10"
+          "alt": "AirOps Brand Guidelines — BrandGuidelines10"
         },
         {
           "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines11.jpg",
           "type": "image",
-          "alt": "Brand Guidelines — BrandGuidelines11"
+          "alt": "AirOps Brand Guidelines — BrandGuidelines11"
         },
         {
           "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines12.jpg",
           "type": "image",
-          "alt": "Brand Guidelines — BrandGuidelines12"
+          "alt": "AirOps Brand Guidelines — BrandGuidelines12"
         },
         {
           "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines13.jpg",
           "type": "image",
-          "alt": "Brand Guidelines — BrandGuidelines13"
+          "alt": "AirOps Brand Guidelines — BrandGuidelines13"
         },
         {
           "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines14.jpg",
           "type": "image",
-          "alt": "Brand Guidelines — BrandGuidelines14"
+          "alt": "AirOps Brand Guidelines — BrandGuidelines14"
         },
         {
           "src": "assets-visual/9-27-2026-Brand-Guidelines/BrandGuidelines15.jpg",
           "type": "image",
-          "alt": "Brand Guidelines — BrandGuidelines15"
+          "alt": "AirOps Brand Guidelines — BrandGuidelines15"
         }
       ]
     },
@@ -813,7 +813,7 @@
       "url": "https://www.youtube.com/watch?v=C4IZiu8wVeA",
       "assets": [
         {
-          "src": "https://www.youtube-nocookie.com/embed/C4IZiu8wVeA?rel=0",
+          "src": "https://www.youtube-nocookie.com/embed/C4IZiu8wVeA?rel=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "Ode To Joy lyric video",
           "width": 16,
@@ -855,7 +855,7 @@
       "url": "https://www.youtube.com/watch?v=NFg5XFu6SvU",
       "assets": [
         {
-          "src": "https://www.youtube-nocookie.com/embed/NFg5XFu6SvU?rel=0",
+          "src": "https://www.youtube-nocookie.com/embed/NFg5XFu6SvU?rel=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "Blankstare lyric video",
           "width": 16,
@@ -965,7 +965,7 @@
       "url": "https://www.youtube.com/@TildeathMusic",
       "assets": [
         {
-          "src": "https://www.youtube-nocookie.com/embed/fnCa2zAGlwM?rel=0",
+          "src": "https://www.youtube-nocookie.com/embed/fnCa2zAGlwM?rel=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "My Father’s Eyes and Burned Out Stars visualizer",
           "width": 16,
@@ -973,7 +973,7 @@
           "poster": "assets-visual/02-20-2024-tildeath-my-fathers-eyes-burned-out-stars/thumbnail.jpg"
         },
         {
-          "src": "https://www.youtube-nocookie.com/embed/ZjXskPWHI1I?rel=0",
+          "src": "https://www.youtube-nocookie.com/embed/ZjXskPWHI1I?rel=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "Snakeskin visualizer",
           "width": 16,
@@ -1789,7 +1789,7 @@
       "url": "https://www.youtube.com/watch?v=vEDD_QvuSzw",
       "assets": [
         {
-          "src": "https://www.youtube-nocookie.com/embed/vEDD_QvuSzw?rel=0",
+          "src": "https://www.youtube-nocookie.com/embed/vEDD_QvuSzw?rel=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "Rat Highlight Reel",
           "width": 16,
@@ -1966,7 +1966,7 @@
       ],
       "assets": [
         {
-          "src": "https://www.youtube.com/embed/r7ZTCFzELf8?rel=0&controls=0&autoplay=0&mute=0&start=0",
+          "src": "https://www.youtube.com/embed/r7ZTCFzELf8?rel=0&controls=0&autoplay=0&mute=0&start=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "Lilly Pulitzer Virtual Runway Pitch"
         }
@@ -1984,7 +1984,7 @@
       "url": "https://www.youtube.com/watch?v=7xrzNP4pTfQ",
       "assets": [
         {
-          "src": "https://www.youtube-nocookie.com/embed/7xrzNP4pTfQ?rel=0",
+          "src": "https://www.youtube-nocookie.com/embed/7xrzNP4pTfQ?rel=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "Snakeskin (Affection)",
           "width": 16,
@@ -2005,7 +2005,7 @@
       "url": "https://www.youtube.com/watch?v=nYY1iqU5L5w",
       "assets": [
         {
-          "src": "https://www.youtube-nocookie.com/embed/nYY1iqU5L5w?rel=0",
+          "src": "https://www.youtube-nocookie.com/embed/nYY1iqU5L5w?rel=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "Riverwater (Wires)",
           "width": 16,
@@ -2026,7 +2026,7 @@
       "url": "https://www.youtube.com/watch?v=E_xrUKIr7KM",
       "assets": [
         {
-          "src": "https://www.youtube-nocookie.com/embed/E_xrUKIr7KM?rel=0",
+          "src": "https://www.youtube-nocookie.com/embed/E_xrUKIr7KM?rel=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "Lovely (Cesspool)",
           "width": 16,
@@ -2047,7 +2047,7 @@
       "url": "https://www.youtube.com/watch?v=MFwYARfWoJk",
       "assets": [
         {
-          "src": "https://www.youtube-nocookie.com/embed/MFwYARfWoJk?rel=0",
+          "src": "https://www.youtube-nocookie.com/embed/MFwYARfWoJk?rel=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "Jawtype (Shine) acoustic performance",
           "width": 16,
@@ -2068,7 +2068,7 @@
       "url": "https://www.youtube.com/watch?v=gts7360l2_c",
       "assets": [
         {
-          "src": "https://www.youtube-nocookie.com/embed/gts7360l2_c?rel=0",
+          "src": "https://www.youtube-nocookie.com/embed/gts7360l2_c?rel=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "Hello Adele French cover",
           "width": 16,
@@ -2089,7 +2089,7 @@
       "url": "https://www.youtube.com/watch?v=yUxns_dseOk",
       "assets": [
         {
-          "src": "https://www.youtube-nocookie.com/embed/yUxns_dseOk?rel=0",
+          "src": "https://www.youtube-nocookie.com/embed/yUxns_dseOk?rel=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "Cascadia (Esteem)",
           "width": 16,
@@ -2110,7 +2110,7 @@
       "url": "https://www.youtube.com/watch?v=7qO9MA80AP0",
       "assets": [
         {
-          "src": "https://www.youtube-nocookie.com/embed/7qO9MA80AP0?rel=0",
+          "src": "https://www.youtube-nocookie.com/embed/7qO9MA80AP0?rel=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "La Vie TV Show Package",
           "width": 16,
@@ -2131,7 +2131,7 @@
       "url": "https://www.youtube.com/watch?v=rQ5guGr3xHY",
       "assets": [
         {
-          "src": "https://www.youtube-nocookie.com/embed/rQ5guGr3xHY?rel=0",
+          "src": "https://www.youtube-nocookie.com/embed/rQ5guGr3xHY?rel=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "Bones (High Hopes)",
           "width": 16,
@@ -2152,7 +2152,7 @@
       "url": "https://www.youtube.com/watch?v=8i2KSDVaGTA",
       "assets": [
         {
-          "src": "https://www.youtube-nocookie.com/embed/8i2KSDVaGTA?rel=0",
+          "src": "https://www.youtube-nocookie.com/embed/8i2KSDVaGTA?rel=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "Steady (Exalt)",
           "width": 16,
@@ -2210,7 +2210,7 @@
       "url": "https://www.youtube.com/watch?v=vJDUwuL9eS0",
       "assets": [
         {
-          "src": "https://www.youtube-nocookie.com/embed/vJDUwuL9eS0?rel=0",
+          "src": "https://www.youtube-nocookie.com/embed/vJDUwuL9eS0?rel=0&cc_load_policy=0&fs=0&playsinline=1",
           "type": "youtube",
           "alt": "Hostage (Until Death)",
           "width": 16,

@@ -1,4 +1,4 @@
-const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-visualizer-carousel')
+const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-youtube-player-policy')
   .then((response) => {
     if (!response.ok) throw new Error(`Visual manifest failed: ${response.status}`);
     return response.json();
@@ -676,28 +676,25 @@ const updateBackToTopVisibility = () => {
 backToTop.addEventListener('click', () => driftTo(0));
 updateBackToTopVisibility();
 
-const projectDisplayTitles = new Map(Object.entries({
-  'GlossAI Rebrand': 'GlossAI rebrand',
-  'Album Art: Presage 2022': 'Album art: Presage 2022',
-  'Webflow Rebrand': 'Webflow rebrand',
-  'Webflow “User Guide”': 'Webflow “User guide”',
-  'Webflow Conf 2022 – Process and Guidelines': 'Webflow Conf 2022 – Process and guidelines',
-  '3D Scene': '3D scene',
-  'Studio Project Trophy Decks': 'Studio project trophy decks',
-  'UI Design – Deloitte Digital Internal Directory': 'UI design – Deloitte Digital internal directory',
-  'Brand Package – Atelier Saady': 'Brand package – Atelier Saady',
-  'Stylized Logo': 'Stylized logo',
-  'Webflow Conf 2022 – Grow with the ’Flow Room': 'Webflow Conf 2022 – Grow with the ’Flow room',
-  'Webflow Conf 2022 – Themes': 'Webflow Conf 2022 – themes',
-  'WNBA Pursuit': 'WNBA pursuit',
-  'Deloitte Digital National Brand Launch': 'Deloitte Digital national brand launch',
-  'Lilly Pulitzer Virtual Runway': 'Lilly Pulitzer virtual runway',
-  'Deloitte Digital DC brand lead IC': 'Deloitte Digital DC brand lead IC',
-  'Deloitte Digital DC Culture Site': 'Deloitte Digital DC culture site'
-}));
-
 const metadataTitleCase = (value) => value.replace(/\b([a-z])([a-z]*)/g, (_, first, rest) => `${first.toUpperCase()}${rest.toLowerCase()}`);
-const displayEntryTitle = (entry) => entry.kind === 'project' ? projectDisplayTitles.get(entry.title) || entry.title : entry.title;
+const historyMinorWords = new Set(['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'from', 'in', 'into', 'nor', 'of', 'on', 'or', 'over', 'per', 'the', 'to', 'up', 'via', 'vs', 'with']);
+const historyTitleCase = (value) => {
+  const words = value.trim().split(/\s+/);
+  return words.map((word, index) => {
+    const match = word.match(/[A-Za-z0-9][A-Za-z0-9.'’/–—-]*/);
+    if (!match) return word;
+    const token = match[0];
+    const isBrandOrAcronym = /[a-z][A-Z]/.test(token) || /^[A-Z0-9][A-Z0-9./–—-]*$/.test(token) || token.includes('.');
+    if (isBrandOrAcronym) return word;
+    const lower = token.toLowerCase();
+    const followsDivider = index > 0 && /[:–—]$/.test(words[index - 1]);
+    const cased = historyMinorWords.has(lower) && index > 0 && index < words.length - 1 && !followsDivider
+      ? lower
+      : lower.replace(/(^|[-–—/])([a-z])/g, (_, divider, letter) => `${divider}${letter.toUpperCase()}`);
+    return `${word.slice(0, match.index)}${cased}${word.slice(match.index + token.length)}`;
+  }).join(' ');
+};
+const displayEntryTitle = (entry) => historyTitleCase(entry.title);
 
 const entryMarkup = (entry) => {
   const displayTitle = displayEntryTitle(entry);
@@ -1812,8 +1809,10 @@ const createContentWellMedia = (asset, index) => {
     }
     frame.title = asset.alt || `Project media ${index + 1}`;
     frame.loading = 'eager';
-    frame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
-    frame.setAttribute('allowfullscreen', '');
+    frame.allow = asset.type === 'youtube'
+      ? 'autoplay; encrypted-media; picture-in-picture'
+      : 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+    if (asset.type !== 'youtube') frame.setAttribute('allowfullscreen', '');
     return frame;
   }
   if (asset.type === 'video') {

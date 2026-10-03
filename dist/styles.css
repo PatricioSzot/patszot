@@ -1396,6 +1396,20 @@ body.content-well-fullscreen-open main {
 
 .content-well-item.has-embed-poster.is-embed-loaded iframe { opacity: 1; }
 
+.content-well-item.has-embed-poster.is-youtube-idle { background-size: cover; }
+
+.content-well-item .content-well-youtube-frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 108%;
+  height: 108%;
+  min-height: 0;
+  max-width: none;
+  border-radius: 0;
+  transform: translate(-50%, -50%);
+}
+
 .content-well-youtube-play {
   position: absolute;
   z-index: 3;
