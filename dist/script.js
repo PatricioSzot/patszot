@@ -785,7 +785,7 @@ detailsTrigger.addEventListener('click', () => {
   clearScrollRevealPressure();
   const open = !detailsGroup.classList.contains('is-open');
   detailsTrigger.setAttribute('aria-expanded', String(open));
-  detailsTrigger.setAttribute('aria-label', open ? 'Close timeline' : 'Open timeline');
+  detailsTrigger.setAttribute('aria-label', open ? 'Close history' : 'Open history');
 
   if (open) {
     clearTimelineActive();
