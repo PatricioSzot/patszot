@@ -802,7 +802,6 @@ body.details-open:not(.details-closing) .timeline-year-heading > span {
 .timeline-entry {
   position: relative;
   z-index: 2;
-  top: 0;
   width: 100%;
   min-height: 112px;
   margin: 0 0 72px;
@@ -811,7 +810,7 @@ body.details-open:not(.details-closing) .timeline-year-heading > span {
   opacity: 1;
   transform-origin: left 24px;
   transform-style: preserve-3d;
-  transition: top .62s var(--ease), opacity .42s ease;
+  transition: opacity .32s ease;
 }
 
 body.details-opening .timeline-entry {
@@ -822,9 +821,9 @@ body.details-opening .timeline-entry {
 .timeline-entry:last-child { margin-bottom: 0; }
 
 .timeline-entry.is-exiting {
-  top: -6px;
   opacity: 0;
-  transition-duration: .3s, .44s;
+  transform: translate3d(0, -6px, 0);
+  transition-duration: .3s;
   transition-delay: var(--close-delay, 0ms);
 }
 
@@ -842,12 +841,12 @@ body.details-opening .timeline-entry {
   place-items: center;
   padding: 0;
   color: #fff;
-  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
+  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry)) scale(var(--marker-focus-scale, 1));
   transform-origin: center;
   transform-style: preserve-3d;
   backface-visibility: hidden;
   box-shadow: none;
-  transition: top .46s var(--ease), left .46s var(--ease), width .46s var(--ease), height .46s var(--ease), background-color .42s var(--ease), box-shadow .42s var(--ease);
+  transition: transform .42s var(--ease), background-color .32s ease;
 }
 
 .timeline-marker.is-muted {
@@ -857,6 +856,7 @@ body.details-opening .timeline-entry {
 
 .timeline-entry.is-active .timeline-marker,
 .timeline-entry:focus-within .timeline-marker {
+  --marker-focus-scale: 1.55;
   background: var(--ink);
   box-shadow: none;
 }
@@ -906,10 +906,6 @@ button.timeline-marker {
 
 .timeline-entry.is-active .project-expand-trigger,
 .timeline-entry.is-active .writing-expand-trigger {
-  top: 22px;
-  left: -5.5px;
-  width: 11px;
-  height: 11px;
   pointer-events: auto;
   cursor: pointer;
 }
@@ -967,7 +963,6 @@ button.timeline-marker {
   font-synthesis: none;
   transition:
     color .38s ease,
-    opacity .3s ease,
     letter-spacing .52s var(--ease),
     font-variation-settings .58s var(--ease);
 }
@@ -992,11 +987,8 @@ button.timeline-marker {
   orphans: 2;
   opacity: 0;
   visibility: hidden;
-  transform: translate3d(0, 4px, 0);
-  transition:
-    opacity .38s ease,
-    transform .58s var(--ease),
-    visibility 0s linear .58s;
+  transform: none;
+  transition: visibility 0s linear .38s;
 }
 
 .timeline-entry.is-active .project-info-body,
@@ -1004,8 +996,7 @@ button.timeline-marker {
 .timeline-entry.is-focus-exiting .project-info-body {
   opacity: 1;
   visibility: visible;
-  transform: translate3d(0, 0, 0);
-  transition-delay: .08s, .04s, 0s;
+  transition-delay: 0s;
 }
 
 .timeline-entry.is-focus-exiting .project-info {
@@ -1114,9 +1105,10 @@ body.details-open .footer-contact {
   left: 4vw;
   width: min(36vw, 600px);
   pointer-events: none;
+  overflow-anchor: none;
   transform: translateY(var(--content-well-lift, 0px));
   transform-style: preserve-3d;
-  transition: top .58s var(--ease);
+  transition: none;
 }
 
 .content-well-billboard {
@@ -1217,6 +1209,7 @@ body.content-well-fullscreen-open main {
 }
 
 .content-well-scroll {
+  position: relative;
   width: 100%;
   height: auto;
   aspect-ratio: var(--content-aspect, 16 / 9);
@@ -1229,6 +1222,7 @@ body.content-well-fullscreen-open main {
   scrollbar-width: none;
   touch-action: pan-y;
   overscroll-behavior: auto;
+  overflow-anchor: none;
   -webkit-overflow-scrolling: touch;
   contain: layout paint style;
 }
@@ -1327,6 +1321,15 @@ body.content-well-fullscreen-open main {
   clip-path: inset(2.2% round 9px);
   transform: scale(var(--asset-enter-scale, 1.018));
   transition: opacity .38s ease, transform .62s var(--ease), clip-path .62s var(--ease);
+}
+
+.content-well[data-kind="project"] .content-well-item {
+  position: absolute;
+  inset: 0;
+}
+
+.content-well-item.is-transitioning {
+  will-change: opacity, transform, clip-path;
 }
 
 .content-well.is-ready .content-well-item {
@@ -1932,8 +1935,8 @@ body.details-open:not(.timeline-footer-focus) .viewport-controls-hint {
 
 @keyframes enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes timeline-entry-in {
-  from { top: 12px; opacity: 0; }
-  to { top: 0; opacity: 1; }
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 @keyframes mobile-timeline-entry-in {
   from { opacity: 0; transform: translate3d(0, 8px, 0); }
