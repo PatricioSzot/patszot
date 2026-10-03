@@ -398,6 +398,7 @@ const closeDuration = () => reducedMotion.matches ? 0 : 650;
 
 const backToTop = document.querySelector('#back-to-top');
 const sceneReset = document.querySelector('#scene-reset');
+const viewportControlsHint = document.querySelector('.viewport-controls-hint');
 const ndaDialog = document.querySelector('#nda-dialog');
 const ndaDialogCancel = ndaDialog.querySelector('.nda-dialog-cancel');
 const ndaDialogConfirm = ndaDialog.querySelector('.nda-dialog-confirm');
@@ -974,7 +975,7 @@ const animateTimelineFocus = (entry, direction, previousEntry) => {
   const generation = ++timelineFocusGeneration;
   cancelAnimations(timelineFocusAnimations);
   timeline.querySelectorAll('.is-focus-exiting').forEach((item) => item.classList.remove('is-focus-exiting'));
-  const offset = (direction || 1) * 10;
+  const offset = (direction || 1) * 7;
   const reduce = reducedMotion.matches;
 
   if (previousEntry && previousEntry !== entry) {
@@ -1003,8 +1004,8 @@ const animateTimelineFocus = (entry, direction, previousEntry) => {
   }
 
   const targets = [
-    { target: entry.querySelector('.project-info-meta'), opacity: .62, moves: false },
-    { target: entry.querySelector('h3'), opacity: .48, moves: false },
+    { target: entry.querySelector('.project-info-meta'), opacity: .72, moves: false },
+    { target: entry.querySelector('h3'), opacity: .56, moves: false },
     { target: entry.querySelector('.project-info-body'), opacity: 0, moves: true }
   ].filter(({ target }) => target);
 
@@ -1018,8 +1019,8 @@ const animateTimelineFocus = (entry, direction, previousEntry) => {
           ]
         : [{ opacity }, { opacity: 1 }];
     const animation = target.animate(keyframes, {
-      duration: reduce ? 120 : 520,
-      delay: reduce ? 0 : 36 + index * 38,
+      duration: reduce ? 140 : 500,
+      delay: reduce ? 0 : index * 38,
       easing: reduce ? 'ease-out' : 'cubic-bezier(.22, 1, .36, 1)'
     });
     timelineFocusAnimations.push(animation);
@@ -1236,7 +1237,7 @@ const updateTimelineActive = () => {
 
   if (!timelineGeometry.valid) rebuildTimelineGeometry();
   const presentOwnsFocus = timelineGeometry.firstCenter - window.scrollY > window.innerHeight / 2;
-  const footerOwnsFocus = window.scrollY + window.innerHeight * .5 >= timelineGeometry.footerStart;
+  const footerOwnsFocus = window.scrollY >= timelineFooterFocusStart();
   const nextIndex = presentOwnsFocus || footerOwnsFocus ? -1 : timelineEntryIndexForViewport();
   const closest = nextIndex >= 0 ? timelineEntries[nextIndex] : undefined;
 
@@ -1345,11 +1346,14 @@ let renderedSceneYaw = Number.NaN;
 
 const clampScene = (value, limit) => Math.max(-limit, Math.min(limit, value));
 const sceneIsRotated = () => Math.abs(sceneAngles.pitch) + Math.abs(sceneAngles.yaw) > 2.25;
+const timelineFooterFocusStart = () => (
+  timelineGeometry.footerStart + Math.min(180, window.innerHeight * .16)
+);
 const sceneFooterHandoffIsActive = () => (
   timelineFooterFocusActive
   || (
     timelineGeometry.valid
-    && window.scrollY + window.innerHeight * .5 >= timelineGeometry.footerStart
+    && window.scrollY >= timelineFooterFocusStart()
   )
 );
 const sceneCanPinchZoom = () => (
@@ -1413,6 +1417,7 @@ const renderScene = () => {
     const oriented = Math.abs(sceneAngles.pitch) > .08 || Math.abs(sceneAngles.yaw) > .08;
     timelinePanel.classList.toggle('is-scene-oriented', oriented);
     sceneReset.classList.toggle('is-visible', document.body.classList.contains('details-open') && oriented);
+    viewportControlsHint.textContent = oriented ? 'Rotate back to normal' : 'Click and drag to get a better view';
     renderedScenePitch = sceneAngles.pitch;
     renderedSceneYaw = sceneAngles.yaw;
   }
