@@ -1606,6 +1606,7 @@ const renderScene = () => {
     timelinePanel.classList.toggle('is-scene-oriented', oriented);
     sceneReset.classList.toggle('is-visible', document.body.classList.contains('details-open') && oriented);
     viewportControlsHint.classList.toggle('is-hidden', oriented);
+    viewportControlsHint.textContent = oriented ? '' : 'Click and drag to get a better view';
     viewportControlsHint.setAttribute('aria-hidden', String(oriented));
     renderedScenePitch = sceneAngles.pitch;
     renderedSceneYaw = sceneAngles.yaw;
