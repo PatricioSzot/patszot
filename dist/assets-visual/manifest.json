@@ -1770,12 +1770,17 @@
       "folders": [
         "02-01-2021-torei"
       ],
-      "preview": "assets-visual/02-01-2021-torei/01-67be545afc.gif",
+      "preview": "assets-visual/02-01-2021-torei/Preview%2002-fc1d3b7683.webp",
       "assets": [
         {
           "src": "assets-visual/02-01-2021-torei/01-67be545afc.gif",
           "type": "gif",
           "alt": "TOREI — 01-67be545afc"
+        },
+        {
+          "src": "assets-visual/02-01-2021-torei/Preview%2002-fc1d3b7683.webp",
+          "type": "image",
+          "alt": "TOREI — Preview 02-fc1d3b7683"
         },
         {
           "src": "https://open.spotify.com/embed/album/3Zl7gvVauCFpHZK9oZ1h9w?utm_source=generator",
@@ -1966,21 +1971,6 @@
           "src": "assets-visual/01-29-2020-stylized-logo/01-1c7f4b21ad.gif",
           "type": "gif",
           "alt": "Stylized logo — 01-1c7f4b21ad"
-        }
-      ]
-    },
-    "lilly-pulitzer": {
-      "slug": "lilly-pulitzer",
-      "title": "Lilly Pulitzer virtual runway",
-      "date": "2019-12-01",
-      "folders": [
-        "12-01-2019-lilly-pulitzer"
-      ],
-      "assets": [
-        {
-          "src": "https://www.youtube.com/embed/r7ZTCFzELf8?rel=0&controls=0&autoplay=0&mute=0&start=0",
-          "type": "youtube",
-          "alt": "Lilly Pulitzer Virtual Runway Pitch"
         }
       ]
     },
