@@ -2054,6 +2054,12 @@ body.details-open:not(.timeline-footer-focus) .viewport-controls-hint {
   transform: translate3d(0, 0, 0);
 }
 
+body.details-open:not(.timeline-footer-focus) .viewport-controls-hint.is-hidden {
+  max-width: 0;
+  opacity: 0;
+  transform: translate3d(8px, 0, 0);
+}
+
 .back-to-top {
   order: 2;
   --scene-rx: 0deg;
