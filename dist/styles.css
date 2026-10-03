@@ -1896,6 +1896,7 @@ body.details-open.timeline-footer-focus .viewport-controls {
 }
 
 .viewport-controls-hint {
+  order: 0;
   max-width: 0;
   overflow: hidden;
   color: rgba(29, 27, 25, .5);
@@ -1910,6 +1911,7 @@ body.details-open.timeline-footer-focus .viewport-controls {
 }
 
 .history-filter {
+  order: 3;
   position: relative;
   flex: 0 0 0;
   width: 40px;
@@ -2053,6 +2055,7 @@ body.details-open:not(.timeline-footer-focus) .viewport-controls-hint {
 }
 
 .back-to-top {
+  order: 2;
   --scene-rx: 0deg;
   --scene-ry: 0deg;
   --scene-counter-rx: 0deg;
@@ -2180,6 +2183,7 @@ body.details-open:not(.timeline-footer-focus) .viewport-controls-hint {
 }
 
 .scene-reset {
+  order: 1;
   position: relative;
   display: grid;
   place-items: center;
