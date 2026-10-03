@@ -1,4 +1,4 @@
-const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-interactive-media')
+const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-apple-player-only')
   .then((response) => {
     if (!response.ok) throw new Error(`Visual manifest failed: ${response.status}`);
     return response.json();
@@ -1791,6 +1791,9 @@ const assetsForEntry = (manifest, entry) => {
     seen.add(identity);
     unique.push(asset);
   });
+  if (unique.some((asset) => asset.type === 'apple')) {
+    return unique.filter((asset) => asset.type === 'apple');
+  }
   if (!previewSrc) return unique;
   const previewIdentity = assetIdentity({ src: previewSrc });
   const previewIndex = unique.findIndex((asset) => assetIdentity(asset) === previewIdentity);
@@ -2184,6 +2187,7 @@ const showContentWellAsset = async (requestedIndex, direction = 0, focusDirectio
   item.dataset.index = String(index);
   const media = createContentWellMedia(activeAsset, index);
   item.append(media);
+  if (activeAsset.type === 'apple') item.style.backgroundImage = 'none';
   if (media instanceof HTMLIFrameElement) {
     const posterSrc = activeAsset.poster || contentWellAssets.find((asset) => ['image', 'gif'].includes(asset.type))?.src;
     if (posterSrc) {

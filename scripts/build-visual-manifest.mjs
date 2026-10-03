@@ -212,13 +212,16 @@ for (const [slug, projectFolders] of sortedGroups) {
   const preview = folderAssets.find((asset) => /preview/i.test(decodeURIComponent(path.basename(asset.src))))
     || folderAssets.find((asset) => /thumbnail/i.test(decodeURIComponent(path.basename(asset.src))))
     || folderAssets[0];
+  const applePlayerOnly = projectConfig.playerOnly
+    && assets.length > 0
+    && assets.every((asset) => asset.type === 'apple');
 
   output.projects[slug] = {
     slug,
     title,
     date: canonicalFolder.date,
     folders: orderedFolders.map((folder) => folder.name),
-    preview: preview?.src,
+    preview: applePlayerOnly ? undefined : preview?.src,
     ...(projectConfig.description ? { description: projectConfig.description } : {}),
     ...(projectConfig.url ? { url: projectConfig.url } : {}),
     assets
