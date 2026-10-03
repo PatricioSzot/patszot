@@ -1317,6 +1317,7 @@ const requestTimelineActiveUpdate = () => {
 
 let activeHistoryFilter = 'all';
 let historyFilterCloseTimer;
+let historyFilterTransitionTimer;
 
 const setHistoryFilterMenuOpen = (open, returnFocus = false) => {
   window.clearTimeout(historyFilterCloseTimer);
@@ -1344,7 +1345,7 @@ const syncHistoryFilterControls = () => {
   });
 };
 
-const applyHistoryFilter = async (filter) => {
+const applyHistoryFilter = (filter) => {
   if (filter === activeHistoryFilter) {
     setHistoryFilterMenuOpen(false, true);
     return;
@@ -1353,12 +1354,6 @@ const applyHistoryFilter = async (filter) => {
   const previousIndex = Math.max(0, timelineEntries.indexOf(previousEntry));
   timelinePanel.classList.add('is-filter-transitioning');
   setHistoryFilterMenuOpen(false);
-
-  const exitAnimation = timeline.animate(
-    [{ opacity: 1 }, { opacity: reducedMotion.matches ? 1 : .38 }],
-    { duration: reducedMotion.matches ? 0 : 130, easing: 'ease-out', fill: 'both' }
-  );
-  await exitAnimation.finished.catch(() => {});
 
   activeHistoryFilter = filter;
   timelineEntries.forEach((entry) => {
@@ -1392,16 +1387,21 @@ const applyHistoryFilter = async (filter) => {
     driftTarget = targetTop;
   }
 
-  exitAnimation.cancel();
-  const enterAnimation = timeline.animate(
-    reducedMotion.matches
-      ? [{ opacity: 1 }, { opacity: 1 }]
-      : [{ opacity: .38, transform: 'translate3d(0, 5px, 0)' }, { opacity: 1, transform: 'translate3d(0, 0, 0)' }],
-    { duration: reducedMotion.matches ? 0 : 320, easing: 'cubic-bezier(.22, 1, .36, 1)' }
-  );
-  await enterAnimation.finished.catch(() => {});
-  timelinePanel.classList.remove('is-filter-transitioning');
-  requestTimelineActiveUpdate();
+  window.clearTimeout(historyFilterTransitionTimer);
+  timelinePanel.classList.remove('is-filter-settling');
+  // Restart only the surface-level entrance choreography. Animating the
+  // parent timeline would flatten its preserve-3d billboard hierarchy.
+  void timelinePanel.offsetWidth;
+  timelinePanel.classList.add('is-filter-settling');
+  requestSceneGeometry();
+  requestAnimationFrame(() => {
+    timelinePanel.classList.remove('is-filter-transitioning');
+    requestTimelineActiveUpdate();
+    requestSceneGeometry();
+  });
+  historyFilterTransitionTimer = window.setTimeout(() => {
+    timelinePanel.classList.remove('is-filter-settling');
+  }, reducedMotion.matches ? 0 : 360);
 };
 
 historyFilterTrigger.addEventListener('click', () => {
@@ -1621,7 +1621,8 @@ const refreshSceneGeometry = () => {
   const panelRect = timelinePanel.getBoundingClientRect();
   const originY = Math.max(0, Math.min(timelineScene.offsetHeight, window.innerHeight / 2 - panelRect.top));
   timelinePanel.style.setProperty('--scene-origin-y', `${originY}px`);
-  const axisMarkers = [...timelineScene.querySelectorAll('.timeline-marker')];
+  const axisMarkers = [...timelineScene.querySelectorAll('.timeline-marker')]
+    .filter((marker) => !marker.closest('.timeline-entry')?.hidden);
   const markerCenterY = (marker) => {
     let y = marker.offsetHeight / 2;
     let node = marker;

@@ -2031,6 +2031,17 @@ body.details-open:not(.details-opening):not(.details-closing):not(.timeline-foot
   pointer-events: none;
 }
 
+.timeline-panel.is-filter-settling .timeline-year-heading,
+.timeline-panel.is-filter-settling .project-info,
+.timeline-panel.is-filter-settling .timeline-marker {
+  animation: history-filter-content-in .34s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@keyframes history-filter-content-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .timeline-entry[hidden],
 .timeline-year[hidden] { display: none !important; }
 
