@@ -953,15 +953,28 @@ emailCopyButtons.forEach((button) => {
 });
 const animatedDurationCache = new Map();
 
+const syncViewportControlOrder = () => {
+  const desiredOrder = [viewportControlsHint, sceneReset, backToTop, historyFilter]
+    .filter((control) => control.parentElement === viewportControls);
+  const currentOrder = [...viewportControls.children]
+    .filter((control) => desiredOrder.includes(control));
+  if (desiredOrder.every((control, index) => control === currentOrder[index])) return;
+  desiredOrder.forEach((control) => viewportControls.append(control));
+};
+
 const syncMobileBackToTopHost = () => {
   const dockInContentControls = coarsePointer.matches
     && contentWell.classList.contains('is-visible')
     && !contentWellControls.hidden;
   const target = dockInContentControls ? contentWellControls : viewportControls;
-  if (backToTop.parentElement === target) return;
-  if (dockInContentControls) target.prepend(backToTop);
-  else target.append(backToTop);
+  if (backToTop.parentElement !== target) {
+    if (dockInContentControls) target.prepend(backToTop);
+    else viewportControls.insertBefore(backToTop, historyFilter);
+  }
+  syncViewportControlOrder();
 };
+
+syncViewportControlOrder();
 
 const currentContentWellAspect = () => {
   const aspect = Number(contentWell.dataset.assetAspect);
