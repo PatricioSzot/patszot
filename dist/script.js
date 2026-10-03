@@ -1,4 +1,4 @@
-const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-consolidated-media')
+const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-interactive-media')
   .then((response) => {
     if (!response.ok) throw new Error(`Visual manifest failed: ${response.status}`);
     return response.json();
@@ -1799,6 +1799,81 @@ const assetsForEntry = (manifest, entry) => {
 };
 
 const embeddedMediaTypes = new Set(['apple', 'spotify', 'youtube']);
+const youtubePlayerState = new WeakMap();
+
+const sendYouTubeCommand = (frame, func, args = []) => {
+  frame.contentWindow?.postMessage(JSON.stringify({ event: 'command', func, args }), '*');
+};
+
+const syncYouTubeMinimalControls = (frame, info = {}) => {
+  const state = youtubePlayerState.get(frame);
+  if (!state) return;
+  if (Number.isFinite(info.duration) && info.duration > 0) state.duration = info.duration;
+  if (Number.isFinite(info.currentTime)) state.currentTime = info.currentTime;
+  if (Number.isFinite(info.playerState)) state.playing = info.playerState === 1;
+  state.toggle.setAttribute('aria-label', state.playing ? 'Pause video' : 'Play video');
+  state.toggle.querySelector('i').className = state.playing ? 'ri-pause-fill' : 'ri-play-fill';
+  if (!state.scrubbing && state.duration > 0) {
+    state.scrubber.value = String(Math.round((state.currentTime / state.duration) * 1000));
+    state.scrubber.setAttribute('aria-valuetext', `${Math.round(state.currentTime)} of ${Math.round(state.duration)} seconds`);
+  }
+};
+
+const attachYouTubeMinimalControls = (item, frame) => {
+  if (item.querySelector('.content-well-youtube-controls')) return;
+  const controls = document.createElement('div');
+  controls.className = 'content-well-youtube-controls';
+  const toggle = document.createElement('button');
+  toggle.className = 'content-well-youtube-toggle';
+  toggle.type = 'button';
+  toggle.setAttribute('aria-label', 'Pause video');
+  toggle.innerHTML = '<i class="ri-pause-fill" aria-hidden="true"></i>';
+  const scrubber = document.createElement('input');
+  scrubber.className = 'content-well-youtube-scrubber';
+  scrubber.type = 'range';
+  scrubber.min = '0';
+  scrubber.max = '1000';
+  scrubber.step = '1';
+  scrubber.value = '0';
+  scrubber.setAttribute('aria-label', 'Video timeline');
+  const state = { controls, toggle, scrubber, playing: true, scrubbing: false, currentTime: 0, duration: 0 };
+  youtubePlayerState.set(frame, state);
+  toggle.addEventListener('click', () => sendYouTubeCommand(frame, state.playing ? 'pauseVideo' : 'playVideo'));
+  scrubber.addEventListener('pointerdown', () => { state.scrubbing = true; });
+  scrubber.addEventListener('input', () => {
+    if (!state.duration) return;
+    sendYouTubeCommand(frame, 'seekTo', [state.duration * Number(scrubber.value) / 1000, true]);
+  });
+  const finishScrubbing = () => { state.scrubbing = false; };
+  scrubber.addEventListener('change', finishScrubbing);
+  scrubber.addEventListener('pointerup', finishScrubbing);
+  scrubber.addEventListener('pointercancel', finishScrubbing);
+  controls.append(toggle, scrubber);
+  item.append(controls);
+  frame.contentWindow?.postMessage(JSON.stringify({ event: 'listening', id: `content-well-youtube-${Date.now()}` }), '*');
+  sendYouTubeCommand(frame, 'getDuration');
+  sendYouTubeCommand(frame, 'getCurrentTime');
+};
+
+window.addEventListener('message', (event) => {
+  const frame = [...document.querySelectorAll('.content-well-youtube-frame')]
+    .find((candidate) => candidate.contentWindow === event.source);
+  if (!frame) return;
+  let payload = event.data;
+  if (typeof payload === 'string') {
+    try { payload = JSON.parse(payload); } catch { return; }
+  }
+  if (!payload || typeof payload !== 'object') return;
+  if (payload.event === 'onReady') {
+    frame.contentWindow?.postMessage(JSON.stringify({ event: 'listening', id: 'content-well-youtube' }), '*');
+    return;
+  }
+  if (payload.event === 'onStateChange') {
+    syncYouTubeMinimalControls(frame, { playerState: Number(payload.info) });
+    return;
+  }
+  if (payload.event === 'infoDelivery') syncYouTubeMinimalControls(frame, payload.info || {});
+});
 
 const createContentWellMedia = (asset, index) => {
   if (embeddedMediaTypes.has(asset.type)) {
@@ -2129,11 +2204,15 @@ const showContentWellAsset = async (requestedIndex, direction = 0, focusDirectio
         media.addEventListener('load', () => {
           item.classList.add('is-embed-loaded');
           item.classList.remove('is-youtube-loading');
-          play.remove();
+          media.contentWindow?.postMessage(JSON.stringify({ event: 'listening', id: 'content-well-youtube' }), '*');
+          sendYouTubeCommand(media, 'getDuration');
+          sendYouTubeCommand(media, 'getCurrentTime');
         }, { once: true });
         item.classList.remove('is-youtube-idle');
         item.classList.add('is-youtube-loading');
         media.src = `${source}${source.includes('?') ? '&' : '?'}autoplay=1`;
+        play.remove();
+        attachYouTubeMinimalControls(item, media);
       });
       item.append(play);
     } else {

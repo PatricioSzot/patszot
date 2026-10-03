@@ -126,8 +126,14 @@ const normalizedYouTubeEmbed = (source) => {
   const url = new URL(source);
   url.searchParams.set('rel', '0');
   url.searchParams.set('cc_load_policy', '0');
+  url.searchParams.set('controls', '0');
+  url.searchParams.set('disablekb', '1');
+  url.searchParams.set('enablejsapi', '1');
   url.searchParams.set('fs', '0');
+  url.searchParams.set('iv_load_policy', '3');
+  url.searchParams.set('modestbranding', '1');
   url.searchParams.set('playsinline', '1');
+  url.searchParams.set('showinfo', '0');
   return url.toString();
 };
 
