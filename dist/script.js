@@ -1139,10 +1139,13 @@ const positionContentWell = (entryElement, entryIndex = activeTimelineIndex) => 
 
 const constrainContentWellToViewport = () => {
   if (contentWellFullscreenOpen || !contentWell.classList.contains('has-content')) return;
-  const bottomInset = coarsePointer.matches ? 20 : 16;
+  const bottomInset = coarsePointer.matches ? 20 : 24;
   const currentLift = Number.parseFloat(contentWellAnchor.style.getPropertyValue('--content-well-lift')) || 0;
   const naturalBottom = contentWell.getBoundingClientRect().bottom - currentLift;
-  const lift = Math.min(0, window.innerHeight - bottomInset - naturalBottom);
+  // All preview formats share one lower viewport baseline. Resolving the
+  // offset in both directions keeps short embeds from floating upward while
+  // allowing taller writing and visual assets to grow toward the top.
+  const lift = window.innerHeight - bottomInset - naturalBottom;
   contentWellAnchor.style.setProperty('--content-well-lift', `${lift}px`);
   if (coarsePointer.matches && contentWell.classList.contains('is-visible')) {
     requestAnimationFrame(() => {
