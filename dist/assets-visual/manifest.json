@@ -1171,59 +1171,6 @@
         }
       ]
     },
-    "design-directory": {
-      "slug": "design-directory",
-      "title": "UI design – Deloitte Digital internal directory",
-      "date": "2023-01-29",
-      "folders": [
-        "01-29-2023-design-directory"
-      ],
-      "preview": "assets-visual/01-29-2023-design-directory/Preview%2001-c2b0485fb4.gif",
-      "assets": [
-        {
-          "src": "assets-visual/01-29-2023-design-directory/02-c963ac19ae.gif",
-          "type": "gif",
-          "alt": "UI design – Deloitte Digital internal directory — 02-c963ac19ae"
-        },
-        {
-          "src": "assets-visual/01-29-2023-design-directory/Preview%2001-c2b0485fb4.gif",
-          "type": "gif",
-          "alt": "UI design – Deloitte Digital internal directory — Preview 01-c2b0485fb4"
-        }
-      ]
-    },
-    "studio-trophy-decks": {
-      "slug": "studio-trophy-decks",
-      "title": "Studio project trophy decks",
-      "date": "2023-01-29",
-      "folders": [
-        "01-29-2023-studio-trophy-decks"
-      ],
-      "preview": "assets-visual/01-29-2023-studio-trophy-decks/01-3b08cc0842.gif",
-      "assets": [
-        {
-          "src": "assets-visual/01-29-2023-studio-trophy-decks/01-3b08cc0842.gif",
-          "type": "gif",
-          "alt": "Studio project trophy decks — 01-3b08cc0842"
-        }
-      ]
-    },
-    "stylized-logo": {
-      "slug": "stylized-logo",
-      "title": "Stylized logo",
-      "date": "2023-01-29",
-      "folders": [
-        "01-29-2023-stylized-logo"
-      ],
-      "preview": "assets-visual/01-29-2023-stylized-logo/01-1c7f4b21ad.gif",
-      "assets": [
-        {
-          "src": "assets-visual/01-29-2023-stylized-logo/01-1c7f4b21ad.gif",
-          "type": "gif",
-          "alt": "Stylized logo — 01-1c7f4b21ad"
-        }
-      ]
-    },
     "webflow-conf-grow-room": {
       "slug": "webflow-conf-grow-room",
       "title": "Webflow Conf 2022 – Grow with the ’Flow room",
@@ -1410,91 +1357,127 @@
     "webflow-conf": {
       "slug": "webflow-conf",
       "title": "Webflow Conf 2022",
-      "date": "2022-01-01",
+      "date": "2022-03-01",
       "folders": [
-        "01-01-2022-webflow-conf"
+        "03-01-2022-webflow-conf"
       ],
-      "preview": "assets-visual/01-01-2022-webflow-conf/Preview%2001-cab6fa3076.jpg",
+      "preview": "assets-visual/03-01-2022-webflow-conf/Preview%2001-cab6fa3076.jpg",
       "assets": [
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/14-e2477835c4.webp",
+          "src": "assets-visual/03-01-2022-webflow-conf/14-e2477835c4.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 — 14-e2477835c4"
         },
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/15-ff851c4591.gif",
+          "src": "assets-visual/03-01-2022-webflow-conf/15-ff851c4591.gif",
           "type": "gif",
           "alt": "Webflow Conf 2022 — 15-ff851c4591"
         },
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/16-15aefaea33.jpg",
+          "src": "assets-visual/03-01-2022-webflow-conf/16-15aefaea33.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 16-15aefaea33"
         },
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/17-dc3ec8da3b.jpg",
+          "src": "assets-visual/03-01-2022-webflow-conf/17-dc3ec8da3b.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 17-dc3ec8da3b"
         },
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/18-64e125a22e.jpg",
+          "src": "assets-visual/03-01-2022-webflow-conf/18-64e125a22e.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 18-64e125a22e"
         },
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/19-fc742c3a61.jpg",
+          "src": "assets-visual/03-01-2022-webflow-conf/19-fc742c3a61.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 19-fc742c3a61"
         },
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/20-a05fa87eb1.jpg",
+          "src": "assets-visual/03-01-2022-webflow-conf/20-a05fa87eb1.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 20-a05fa87eb1"
         },
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/21-7c4a9a0ce7.jpg",
+          "src": "assets-visual/03-01-2022-webflow-conf/21-7c4a9a0ce7.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 21-7c4a9a0ce7"
         },
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/22-65d7bde82c.jpg",
+          "src": "assets-visual/03-01-2022-webflow-conf/22-65d7bde82c.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 22-65d7bde82c"
         },
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/23-c5083d6410.jpg",
+          "src": "assets-visual/03-01-2022-webflow-conf/23-c5083d6410.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 23-c5083d6410"
         },
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/24-ca69654ea2.webp",
+          "src": "assets-visual/03-01-2022-webflow-conf/24-ca69654ea2.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 — 24-ca69654ea2"
         },
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/25-a9ae79088a.jpg",
+          "src": "assets-visual/03-01-2022-webflow-conf/25-a9ae79088a.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — 25-a9ae79088a"
         },
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/26-0140679326.webp",
+          "src": "assets-visual/03-01-2022-webflow-conf/26-0140679326.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 — 26-0140679326"
         },
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/27-5eaa05d7fe.webp",
+          "src": "assets-visual/03-01-2022-webflow-conf/27-5eaa05d7fe.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 — 27-5eaa05d7fe"
         },
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/IMG_1085.webp",
+          "src": "assets-visual/03-01-2022-webflow-conf/IMG_1085.webp",
           "type": "image",
           "alt": "Webflow Conf 2022 — IMG_1085"
         },
         {
-          "src": "assets-visual/01-01-2022-webflow-conf/Preview%2001-cab6fa3076.jpg",
+          "src": "assets-visual/03-01-2022-webflow-conf/Preview%2001-cab6fa3076.jpg",
           "type": "image",
           "alt": "Webflow Conf 2022 — Preview 01-cab6fa3076"
+        }
+      ]
+    },
+    "looking-glass": {
+      "slug": "looking-glass",
+      "title": "Looking Glass EP",
+      "date": "2022-01-01",
+      "folders": [
+        "01-01-2022-looking-glass"
+      ],
+      "preview": "assets-visual/01-01-2022-looking-glass/Preview%2001-3fb54b4b4a.webp",
+      "assets": [
+        {
+          "src": "assets-visual/01-01-2022-looking-glass/02-f33a609a30.jpg",
+          "type": "image",
+          "alt": "Looking Glass EP — 02-f33a609a30"
+        },
+        {
+          "src": "assets-visual/01-01-2022-looking-glass/03-1c4f8d030c.webp",
+          "type": "image",
+          "alt": "Looking Glass EP — 03-1c4f8d030c"
+        },
+        {
+          "src": "assets-visual/01-01-2022-looking-glass/04-27395612df.webp",
+          "type": "image",
+          "alt": "Looking Glass EP — 04-27395612df"
+        },
+        {
+          "src": "assets-visual/01-01-2022-looking-glass/Preview%2001-3fb54b4b4a.webp",
+          "type": "image",
+          "alt": "Looking Glass EP — Preview 01-3fb54b4b4a"
+        },
+        {
+          "src": "https://open.spotify.com/embed/album/0nDCFjPyMy93zOOAhb1Eb8?utm_source=generator&theme=0",
+          "type": "spotify",
+          "alt": "Looking Glass EP on Spotify"
         }
       ]
     },
@@ -1531,6 +1514,37 @@
           "src": "assets-visual/08-01-2021-thrivent/Preview%2001-20b16a1177.gif",
           "type": "gif",
           "alt": "Thrivent Financial app and web — Preview 01-20b16a1177"
+        }
+      ]
+    },
+    "torei": {
+      "slug": "torei",
+      "title": "TOREI",
+      "date": "2021-02-01",
+      "folders": [
+        "02-01-2021-torei"
+      ],
+      "preview": "assets-visual/02-01-2021-torei/Preview%2002-fc1d3b7683.webp",
+      "assets": [
+        {
+          "src": "assets-visual/02-01-2021-torei/01-67be545afc.gif",
+          "type": "gif",
+          "alt": "TOREI — 01-67be545afc"
+        },
+        {
+          "src": "assets-visual/02-01-2021-torei/Preview%2002-fc1d3b7683.webp",
+          "type": "image",
+          "alt": "TOREI — Preview 02-fc1d3b7683"
+        },
+        {
+          "src": "https://open.spotify.com/embed/album/3Zl7gvVauCFpHZK9oZ1h9w?utm_source=generator",
+          "type": "spotify",
+          "alt": "TOREI album on Spotify"
+        },
+        {
+          "src": "https://open.spotify.com/embed/album/0UrEig2McwlaCnbfzoW4DH?utm_source=generator",
+          "type": "spotify",
+          "alt": "TOREI album on Spotify"
         }
       ]
     },
@@ -1677,6 +1691,37 @@
         }
       ]
     },
+    "stylized-logo": {
+      "slug": "stylized-logo",
+      "title": "Stylized logo",
+      "date": "2020-01-29",
+      "folders": [
+        "01-29-2020-stylized-logo"
+      ],
+      "preview": "assets-visual/01-29-2020-stylized-logo/01-1c7f4b21ad.gif",
+      "assets": [
+        {
+          "src": "assets-visual/01-29-2020-stylized-logo/01-1c7f4b21ad.gif",
+          "type": "gif",
+          "alt": "Stylized logo — 01-1c7f4b21ad"
+        }
+      ]
+    },
+    "lilly-pulitzer": {
+      "slug": "lilly-pulitzer",
+      "title": "Lilly Pulitzer virtual runway",
+      "date": "2019-12-01",
+      "folders": [
+        "12-01-2019-lilly-pulitzer"
+      ],
+      "assets": [
+        {
+          "src": "https://www.youtube.com/embed/r7ZTCFzELf8?rel=0&controls=0&autoplay=0&mute=0&start=0",
+          "type": "youtube",
+          "alt": "Lilly Pulitzer Virtual Runway Pitch"
+        }
+      ]
+    },
     "rite-of-spring": {
       "slug": "rite-of-spring",
       "title": "Rite of Spring",
@@ -1713,70 +1758,40 @@
         }
       ]
     },
-    "torei": {
-      "slug": "torei",
-      "title": "TOREI",
-      "date": "2016-02-01",
+    "design-directory": {
+      "slug": "design-directory",
+      "title": "UI design – Deloitte Digital internal directory",
+      "date": "2016-01-29",
       "folders": [
-        "02-01-2016-torei"
+        "01-29-2016-design-directory"
       ],
-      "preview": "assets-visual/02-01-2016-torei/Preview%2002-fc1d3b7683.webp",
+      "preview": "assets-visual/01-29-2016-design-directory/Preview%2001-c2b0485fb4.gif",
       "assets": [
         {
-          "src": "assets-visual/02-01-2016-torei/01-67be545afc.gif",
+          "src": "assets-visual/01-29-2016-design-directory/02-c963ac19ae.gif",
           "type": "gif",
-          "alt": "TOREI — 01-67be545afc"
+          "alt": "UI design – Deloitte Digital internal directory — 02-c963ac19ae"
         },
         {
-          "src": "assets-visual/02-01-2016-torei/Preview%2002-fc1d3b7683.webp",
-          "type": "image",
-          "alt": "TOREI — Preview 02-fc1d3b7683"
-        },
-        {
-          "src": "https://open.spotify.com/embed/album/3Zl7gvVauCFpHZK9oZ1h9w?utm_source=generator",
-          "type": "spotify",
-          "alt": "TOREI album on Spotify"
-        },
-        {
-          "src": "https://open.spotify.com/embed/album/0UrEig2McwlaCnbfzoW4DH?utm_source=generator",
-          "type": "spotify",
-          "alt": "TOREI album on Spotify"
+          "src": "assets-visual/01-29-2016-design-directory/Preview%2001-c2b0485fb4.gif",
+          "type": "gif",
+          "alt": "UI design – Deloitte Digital internal directory — Preview 01-c2b0485fb4"
         }
       ]
     },
-    "looking-glass": {
-      "slug": "looking-glass",
-      "title": "Looking Glass EP",
-      "date": "2016-01-01",
+    "studio-trophy-decks": {
+      "slug": "studio-trophy-decks",
+      "title": "Studio project trophy decks",
+      "date": "2016-01-29",
       "folders": [
-        "01-01-2016-looking-glass"
+        "01-29-2016-studio-trophy-decks"
       ],
-      "preview": "assets-visual/01-01-2016-looking-glass/Preview%2001-3fb54b4b4a.webp",
+      "preview": "assets-visual/01-29-2016-studio-trophy-decks/01-3b08cc0842.gif",
       "assets": [
         {
-          "src": "assets-visual/01-01-2016-looking-glass/02-f33a609a30.jpg",
-          "type": "image",
-          "alt": "Looking Glass EP — 02-f33a609a30"
-        },
-        {
-          "src": "assets-visual/01-01-2016-looking-glass/03-1c4f8d030c.webp",
-          "type": "image",
-          "alt": "Looking Glass EP — 03-1c4f8d030c"
-        },
-        {
-          "src": "assets-visual/01-01-2016-looking-glass/04-27395612df.webp",
-          "type": "image",
-          "alt": "Looking Glass EP — 04-27395612df"
-        },
-        {
-          "src": "assets-visual/01-01-2016-looking-glass/Preview%2001-3fb54b4b4a.webp",
-          "type": "image",
-          "alt": "Looking Glass EP — Preview 01-3fb54b4b4a"
-        },
-        {
-          "src": "https://open.spotify.com/embed/album/0nDCFjPyMy93zOOAhb1Eb8?utm_source=generator&theme=0",
-          "type": "spotify",
-          "alt": "Looking Glass EP on Spotify"
+          "src": "assets-visual/01-29-2016-studio-trophy-decks/01-3b08cc0842.gif",
+          "type": "gif",
+          "alt": "Studio project trophy decks — 01-3b08cc0842"
         }
       ]
     }
