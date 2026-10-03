@@ -1704,9 +1704,30 @@ body.details-open.timeline-footer-focus .viewport-controls {
   right: 40px;
   bottom: 40px;
   display: flex;
-  gap: 8px;
+  justify-content: flex-end;
+  gap: 0;
   align-items: center;
   transition: bottom .42s var(--ease), opacity .24s ease;
+}
+
+.viewport-controls-hint {
+  max-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: .01em;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate3d(8px, 0, 0);
+  transition: max-width .52s var(--ease), opacity .32s ease, transform .52s var(--ease);
+}
+
+body.details-open:not(.timeline-footer-focus) .viewport-controls-hint {
+  max-width: 190px;
+  opacity: .48;
+  transform: translate3d(0, 0, 0);
 }
 
 .back-to-top {
@@ -1866,6 +1887,49 @@ body.details-open.timeline-footer-focus .viewport-controls {
 
 .scene-reset:hover { background: var(--ink); color: #fff; }
 .scene-reset:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+@media (min-width: 701px) {
+  .viewport-controls > .back-to-top,
+  .viewport-controls > .scene-reset {
+    flex: 0 0 0;
+    width: 0;
+    margin-left: 0;
+    overflow: hidden;
+  }
+
+  .viewport-controls > .back-to-top {
+    transition:
+      width .42s var(--ease),
+      flex-basis .42s var(--ease),
+      margin-left .42s var(--ease),
+      opacity .24s ease,
+      visibility 0s linear .52s;
+  }
+
+  .viewport-controls > .scene-reset {
+    border-width: 0;
+    transition:
+      width .42s var(--ease),
+      flex-basis .42s var(--ease),
+      margin-left .42s var(--ease),
+      opacity .24s ease,
+      visibility 0s linear .32s,
+      transform .42s var(--ease),
+      background-color .24s ease,
+      color .24s ease;
+  }
+
+  .viewport-controls > .back-to-top.is-visible,
+  .viewport-controls > .scene-reset.is-visible {
+    flex-basis: 40px;
+    width: 40px;
+    margin-left: 8px;
+    overflow: visible;
+    transition-delay: 0s;
+  }
+
+  .viewport-controls > .scene-reset.is-visible { border-width: 1px; }
+}
 
 @keyframes enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes timeline-entry-in {
@@ -2031,6 +2095,8 @@ body.details-open.timeline-footer-focus .viewport-controls {
     bottom: 20px;
     left: 20px;
   }
+
+  .viewport-controls-hint { display: none; }
 
   body.content-well-visible .viewport-controls {
     bottom: 20px;
