@@ -660,7 +660,9 @@ body.details-open .profile-anchor-marker {
 .timeline-panel.is-scene-settling .timeline-panel-inner,
 .timeline-panel.is-scene-oriented .timeline-panel-inner,
 body.timeline-footer-focus .timeline-panel-inner {
-  will-change: transform, opacity;
+  /* `will-change: opacity` forces this preserve-3d scene into a flattened
+     compositing group, so its counter-rotated children stop billboarding. */
+  will-change: transform;
 }
 
 .timeline-panel.is-scene-dragging .timeline-year-heading,
