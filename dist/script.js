@@ -711,13 +711,11 @@ const entryMarkup = (entry) => {
       : `<span class="timeline-marker${entry.kind === 'milestone' || (entry.kind === 'project' && !entry.url) ? ' is-muted' : ''}" aria-hidden="true"></span>`;
   return `
     <article class="timeline-entry" data-kind="${entry.kind}">
-      <div class="timeline-entry-billboard">
-        ${marker}
-        <div class="project-info" aria-label="Project info">
-          <div class="project-info-meta"><time>${metadataTitleCase(entry.date)}</time><span aria-hidden="true">•</span><span class="project-info-type">${metadataTitleCase(entry.kind)}${assetCount}</span></div>
-          <h3 class="project-info-title">${linkedTitle}</h3>
-          ${entry.description ? `<p class="project-info-body">${entry.description}</p>` : ''}
-        </div>
+      ${marker}
+      <div class="project-info" aria-label="Project info">
+        <div class="project-info-meta"><time>${metadataTitleCase(entry.date)}</time><span aria-hidden="true">•</span><span class="project-info-type">${metadataTitleCase(entry.kind)}${assetCount}</span></div>
+        <h3 class="project-info-title">${linkedTitle}</h3>
+        ${entry.description ? `<p class="project-info-body">${entry.description}</p>` : ''}
       </div>
     </article>`;
 };
@@ -1302,7 +1300,8 @@ const profile = document.querySelector('.profile');
 const profileScenes = [...document.querySelectorAll('.profile-scene')];
 const footerContactScene = document.querySelector('.footer-contact-scene');
 const cameraBillboards = [...document.querySelectorAll([
-  '.timeline-entry-billboard',
+  '.project-info',
+  '.timeline-marker',
   '.profile-billboard',
   '.profile-anchor-marker',
   '.present-project-trigger',
@@ -1310,17 +1309,6 @@ const cameraBillboards = [...document.querySelectorAll([
   '.content-well-billboard'
 ].join(','))];
 const timelineYearHeadings = [...timeline.querySelectorAll('.timeline-year-heading')];
-const timelineYearStickyTops = new Map();
-let timelineYearStickyStateDirty = true;
-
-const cacheTimelineYearStickyTops = () => {
-  timelineYearHeadings.forEach((heading) => {
-    timelineYearStickyTops.set(heading, Number.parseFloat(getComputedStyle(heading).top) || 0);
-  });
-  timelineYearStickyStateDirty = true;
-};
-
-cacheTimelineYearStickyTops();
 
 const syncContentWellHost = () => {
   if (contentWellFullscreenOpen) return;
@@ -1404,15 +1392,11 @@ const renderScene = () => {
   footerContactScene.style.transform = forwardTransform;
 
   const yearBillboardTransform = `rotateX(${(-sceneAngles.pitch).toFixed(3)}deg) rotateY(${(-sceneAngles.yaw).toFixed(3)}deg)`;
-  if (timelineYearStickyStateDirty) {
-    timelineYearHeadings.forEach((heading) => {
-      const stickyTop = timelineYearStickyTops.get(heading) || 0;
-      heading.classList.toggle('is-stuck', heading.getBoundingClientRect().top <= stickyTop + 1);
-    });
-    timelineYearStickyStateDirty = false;
-  }
   timelineYearHeadings.forEach((heading) => {
-    heading.style.transform = heading.classList.contains('is-stuck')
+    const stickyTop = Number.parseFloat(getComputedStyle(heading).top) || 0;
+    const isStuck = heading.getBoundingClientRect().top <= stickyTop + 1;
+    heading.classList.toggle('is-stuck', isStuck);
+    heading.style.transform = isStuck
       ? `translate3d(0, ${(-sceneScroll.y).toFixed(3)}px, ${(-sceneScroll.z).toFixed(3)}px) ${yearBillboardTransform}`
       : yearBillboardTransform;
   });
@@ -1441,8 +1425,7 @@ const renderScene = () => {
 };
 
 const requestSceneRender = () => {
-  if (sceneRenderFrame) return;
-  sceneRenderFrame = requestAnimationFrame(renderScene);
+  renderScene();
 };
 
 const setSceneZoomTarget = (target, immediate = false) => {
@@ -1474,7 +1457,6 @@ const resetSceneZoom = (animate = true) => setSceneZoomTarget(1, !animate);
 const refreshSceneGeometry = () => {
   sceneGeometryFrame = undefined;
   if (timelinePanel.hidden) return;
-  cacheTimelineYearStickyTops();
   // Once the end-material handoff begins, preserve the tilted scene's last
   // projection. Recomputing its viewport-relative transform origin while the
   // scene fades creates a visible pivot jump.
@@ -1740,7 +1722,6 @@ window.addEventListener('scroll', () => {
   }
   previousScrollY = window.scrollY;
   previousScrollTime = now;
-  timelineYearStickyStateDirty = true;
   requestTimelineActiveUpdate();
   if (orbitControlsEnabled.matches) requestSceneGeometry();
 }, { passive: true });
