@@ -698,9 +698,16 @@ const historyTitleCase = (value) => {
   }).join(' ');
 };
 const displayEntryTitle = (entry) => historyTitleCase(entry.title);
+const funEmbedTypes = new Set(['apple', 'spotify', 'youtube']);
+const timelineTagFor = (entry) => {
+  if (entry.kind !== 'project' || !entry.assetKey) return entry.kind;
+  const assets = visualManifestData.projects[entry.assetKey]?.assets || [];
+  return assets.some((asset) => funEmbedTypes.has(asset.type)) ? 'fun' : entry.kind;
+};
 
 const entryMarkup = (entry) => {
   const displayTitle = displayEntryTitle(entry);
+  const timelineTag = timelineTagFor(entry);
   const supportingCopy = entry.supportingLink
     ? `<a href="${entry.supportingLink.url}" target="_blank" rel="noopener noreferrer">${entry.supportingLink.label} <i class="ri-external-link-fill" aria-hidden="true"></i></a>`
     : entry.description || '';
@@ -718,10 +725,10 @@ const entryMarkup = (entry) => {
       ? `<button class="timeline-marker writing-expand-trigger content-well-trigger" type="button" tabindex="-1" aria-label="Read ${entry.title}" aria-controls="content-well"></button>`
       : `<span class="timeline-marker${entry.kind === 'milestone' || (entry.kind === 'project' && !entry.url) ? ' is-muted' : ''}" aria-hidden="true"></span>`;
   return `
-    <article class="timeline-entry" data-kind="${entry.kind}">
+    <article class="timeline-entry" data-kind="${entry.kind}" data-filter-tag="${timelineTag}">
       ${marker}
       <div class="project-info" aria-label="Project info">
-        <div class="project-info-meta"><time>${metadataTitleCase(entry.date)}</time><span aria-hidden="true">•</span><span class="project-info-type">${metadataTitleCase(entry.kind)}${assetCount}</span></div>
+        <div class="project-info-meta"><time>${metadataTitleCase(entry.date)}</time><span aria-hidden="true">•</span><span class="project-info-type">${metadataTitleCase(timelineTag)}${assetCount}</span></div>
         <h3 class="project-info-title">${linkedTitle}</h3>
         ${supportingCopy ? `<p class="project-info-body">${supportingCopy}</p>` : ''}
       </div>
@@ -745,9 +752,12 @@ timelineEntries.forEach((element, index) => {
   element.entryData = timelineRecords[index];
   element.style.setProperty('--entry-delay', `${Math.min(index, 8) * 42}ms`);
 });
-const historyFilterOrder = ['project', 'writing', 'milestone', 'work'];
+const historyFilterOrder = ['project', 'writing', 'fun', 'milestone', 'work'];
 const historyFilterCounts = new Map();
-timelineRecords.forEach((entry) => historyFilterCounts.set(entry.kind, (historyFilterCounts.get(entry.kind) || 0) + 1));
+timelineRecords.forEach((entry) => {
+  const tag = timelineTagFor(entry);
+  historyFilterCounts.set(tag, (historyFilterCounts.get(tag) || 0) + 1);
+});
 const historyFilterTags = historyFilterOrder.filter((tag) => historyFilterCounts.has(tag));
 historyFilterMenu.innerHTML = [
   { tag: 'all', label: 'All', count: timelineRecords.length },
@@ -1380,7 +1390,7 @@ const applyHistoryFilter = (filter) => {
 
   activeHistoryFilter = filter;
   timelineEntries.forEach((entry) => {
-    entry.hidden = filter !== 'all' && entry.dataset.kind !== filter;
+    entry.hidden = filter !== 'all' && entry.dataset.filterTag !== filter;
   });
   timeline.querySelectorAll('.timeline-year').forEach((year) => {
     year.hidden = !year.querySelector('.timeline-entry:not([hidden])');
