@@ -827,6 +827,7 @@ let previousScrollY = window.scrollY;
 let previousScrollTime = performance.now();
 let timelineScrollDirection = 0;
 let timelineScrollVelocity = 0;
+let timelineFooterFocusActive = false;
 const contentWell = document.querySelector('#content-well');
 const contentWellAnchor = document.querySelector('#content-well-anchor');
 const contentWellBillboard = contentWellAnchor.querySelector('.content-well-billboard');
@@ -1239,6 +1240,10 @@ const updateTimelineActive = () => {
 
   document.body.classList.toggle('present-focus', presentOwnsFocus);
   document.body.classList.toggle('timeline-footer-focus', footerOwnsFocus);
+  if (footerOwnsFocus !== timelineFooterFocusActive) {
+    timelineFooterFocusActive = footerOwnsFocus;
+    if (footerOwnsFocus) freezeSceneForFooterHandoff();
+  }
   if (!closest) {
     clearTimelineActive();
     updateTimelineDistanceStates(-1);
@@ -1338,6 +1343,13 @@ let renderedSceneYaw = Number.NaN;
 
 const clampScene = (value, limit) => Math.max(-limit, Math.min(limit, value));
 const sceneIsRotated = () => Math.abs(sceneAngles.pitch) + Math.abs(sceneAngles.yaw) > 2.25;
+const sceneFooterHandoffIsActive = () => (
+  timelineFooterFocusActive
+  || (
+    timelineGeometry.valid
+    && window.scrollY + window.innerHeight * .5 >= timelineGeometry.footerStart
+  )
+);
 const sceneCanPinchZoom = () => (
   orbitControlsEnabled.matches
   && document.body.classList.contains('details-open')
@@ -1349,6 +1361,21 @@ const stopSceneMotion = () => {
   if (sceneMotionFrame) cancelAnimationFrame(sceneMotionFrame);
   sceneMotionFrame = undefined;
   timelinePanel.classList.remove('is-scene-settling');
+};
+
+const freezeSceneForFooterHandoff = () => {
+  if (!sceneIsRotated()) return;
+  stopSceneMotion();
+  if (sceneZoomFrame) cancelAnimationFrame(sceneZoomFrame);
+  sceneZoomFrame = undefined;
+  sceneZoom.target = sceneZoom.value;
+  if (sceneScrollFrame) cancelAnimationFrame(sceneScrollFrame);
+  sceneScrollFrame = undefined;
+  sceneScroll.targetY = sceneScroll.y;
+  sceneScroll.targetZ = sceneScroll.z;
+  sceneScroll.velocityY = 0;
+  sceneScroll.velocityZ = 0;
+  requestSceneRender();
 };
 
 const renderScene = () => {
@@ -1423,6 +1450,10 @@ const resetSceneZoom = (animate = true) => setSceneZoomTarget(1, !animate);
 const refreshSceneGeometry = () => {
   sceneGeometryFrame = undefined;
   if (timelinePanel.hidden) return;
+  // Once the end-material handoff begins, preserve the tilted scene's last
+  // projection. Recomputing its viewport-relative transform origin while the
+  // scene fades creates a visible pivot jump.
+  if (sceneFooterHandoffIsActive() && sceneIsRotated()) return;
   const panelRect = timelinePanel.getBoundingClientRect();
   const originY = Math.max(0, Math.min(timelineScene.offsetHeight, window.innerHeight / 2 - panelRect.top));
   timelinePanel.style.setProperty('--scene-origin-y', `${originY}px`);
@@ -1673,7 +1704,6 @@ timelinePanel.addEventListener('pointerleave', () => {
 window.addEventListener('scroll', () => {
   if (!driftAnimating) driftTarget = window.scrollY;
   updateBackToTopVisibility();
-  if (orbitControlsEnabled.matches) requestSceneGeometry();
   if (clampTimelineScrollEnd()) return;
 
   const now = performance.now();
@@ -1686,6 +1716,7 @@ window.addEventListener('scroll', () => {
   previousScrollY = window.scrollY;
   previousScrollTime = now;
   requestTimelineActiveUpdate();
+  if (orbitControlsEnabled.matches) requestSceneGeometry();
 }, { passive: true });
 window.addEventListener('resize', requestSceneGeometry);
 document.addEventListener('keydown', (event) => {
