@@ -408,6 +408,22 @@
         }
       ]
     },
+    "tildeath-garden-of-flowers": {
+      "slug": "tildeath-garden-of-flowers",
+      "title": "Tildeath Garden Of Flowers",
+      "date": "2025-07-21",
+      "folders": [
+        "07-21-2025-tildeath-garden-of-flowers"
+      ],
+      "preview": "assets-visual/07-21-2025-tildeath-garden-of-flowers/cover.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/07-21-2025-tildeath-garden-of-flowers/cover.jpg",
+          "type": "image",
+          "alt": "Tildeath Garden Of Flowers — cover"
+        }
+      ]
+    },
     "gloss-ai": {
       "slug": "gloss-ai",
       "title": "GlossAI rebrand",
@@ -759,6 +775,70 @@
         }
       ]
     },
+    "tildeath-auto-saved": {
+      "slug": "tildeath-auto-saved",
+      "title": "Tildeath Auto Saved",
+      "date": "2025-01-01",
+      "folders": [
+        "01-01-2025-tildeath-auto-saved"
+      ],
+      "preview": "assets-visual/01-01-2025-tildeath-auto-saved/cover.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/01-01-2025-tildeath-auto-saved/cover.jpg",
+          "type": "image",
+          "alt": "Tildeath Auto Saved — cover"
+        }
+      ]
+    },
+    "tildeath-ode-to-joy-video": {
+      "slug": "tildeath-ode-to-joy-video",
+      "title": "Tildeath Ode To Joy Video",
+      "date": "2024-12-01",
+      "folders": [
+        "12-01-2024-tildeath-ode-to-joy-video"
+      ],
+      "preview": "assets-visual/12-01-2024-tildeath-ode-to-joy-video/thumbnail.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/12-01-2024-tildeath-ode-to-joy-video/thumbnail.jpg",
+          "type": "image",
+          "alt": "Tildeath Ode To Joy Video — thumbnail"
+        }
+      ]
+    },
+    "tildeath-god-forsaken-love": {
+      "slug": "tildeath-god-forsaken-love",
+      "title": "Tildeath God Forsaken Love",
+      "date": "2024-08-01",
+      "folders": [
+        "08-01-2024-tildeath-god-forsaken-love"
+      ],
+      "preview": "assets-visual/08-01-2024-tildeath-god-forsaken-love/cover.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/08-01-2024-tildeath-god-forsaken-love/cover.jpg",
+          "type": "image",
+          "alt": "Tildeath God Forsaken Love — cover"
+        }
+      ]
+    },
+    "tildeath-blankstare-video": {
+      "slug": "tildeath-blankstare-video",
+      "title": "Tildeath Blankstare Video",
+      "date": "2024-07-20",
+      "folders": [
+        "07-20-2024-tildeath-blankstare-video"
+      ],
+      "preview": "assets-visual/07-20-2024-tildeath-blankstare-video/thumbnail.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/07-20-2024-tildeath-blankstare-video/thumbnail.jpg",
+          "type": "image",
+          "alt": "Tildeath Blankstare Video — thumbnail"
+        }
+      ]
+    },
     "album-art-presage": {
       "slug": "album-art-presage",
       "title": "Album art: Presage 2022",
@@ -802,6 +882,86 @@
           "src": "assets-visual/06-10-2024-album-art-presage/Thumbnail%2001-6d6cc9cdd4.jpg",
           "type": "image",
           "alt": "Album art: Presage 2022 — Thumbnail 01-6d6cc9cdd4"
+        }
+      ]
+    },
+    "tildeath-mercy-like-misery-remixes": {
+      "slug": "tildeath-mercy-like-misery-remixes",
+      "title": "Tildeath Mercy Like Misery Remixes",
+      "date": "2024-05-31",
+      "folders": [
+        "05-31-2024-tildeath-mercy-like-misery-remixes"
+      ],
+      "preview": "assets-visual/05-31-2024-tildeath-mercy-like-misery-remixes/cover.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/05-31-2024-tildeath-mercy-like-misery-remixes/cover.jpg",
+          "type": "image",
+          "alt": "Tildeath Mercy Like Misery Remixes — cover"
+        }
+      ]
+    },
+    "tildeath-cool": {
+      "slug": "tildeath-cool",
+      "title": "Tildeath Cool",
+      "date": "2024-04-17",
+      "folders": [
+        "04-17-2024-tildeath-cool"
+      ],
+      "preview": "assets-visual/04-17-2024-tildeath-cool/cover.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/04-17-2024-tildeath-cool/cover.jpg",
+          "type": "image",
+          "alt": "Tildeath Cool — cover"
+        }
+      ]
+    },
+    "tildeath-my-fathers-eyes-burned-out-stars": {
+      "slug": "tildeath-my-fathers-eyes-burned-out-stars",
+      "title": "Tildeath My Fathers Eyes Burned Out Stars",
+      "date": "2024-02-20",
+      "folders": [
+        "02-20-2024-tildeath-my-fathers-eyes-burned-out-stars"
+      ],
+      "preview": "assets-visual/02-20-2024-tildeath-my-fathers-eyes-burned-out-stars/thumbnail.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/02-20-2024-tildeath-my-fathers-eyes-burned-out-stars/thumbnail.jpg",
+          "type": "image",
+          "alt": "Tildeath My Fathers Eyes Burned Out Stars — thumbnail"
+        }
+      ]
+    },
+    "tildeath-snakeskin-visualizer": {
+      "slug": "tildeath-snakeskin-visualizer",
+      "title": "Tildeath Snakeskin Visualizer",
+      "date": "2024-02-20",
+      "folders": [
+        "02-20-2024-tildeath-snakeskin-visualizer"
+      ],
+      "preview": "assets-visual/02-20-2024-tildeath-snakeskin-visualizer/thumbnail.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/02-20-2024-tildeath-snakeskin-visualizer/thumbnail.jpg",
+          "type": "image",
+          "alt": "Tildeath Snakeskin Visualizer — thumbnail"
+        }
+      ]
+    },
+    "tildeath-loser-like-you": {
+      "slug": "tildeath-loser-like-you",
+      "title": "Tildeath Loser Like You",
+      "date": "2024-02-08",
+      "folders": [
+        "02-08-2024-tildeath-loser-like-you"
+      ],
+      "preview": "assets-visual/02-08-2024-tildeath-loser-like-you/cover.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/02-08-2024-tildeath-loser-like-you/cover.jpg",
+          "type": "image",
+          "alt": "Tildeath Loser Like You — cover"
         }
       ]
     },
@@ -964,6 +1124,22 @@
           "src": "assets-visual/01-01-2024-webflow-oohsf-campaign/Preview%20AdCampagin-66b0b8472eb040dadd2413f7_Blog_M1-OOH_2400x1260.webp",
           "type": "image",
           "alt": "Webflow rebrand — Preview AdCampagin-66b0b8472eb040dadd2413f7_Blog_M1-OOH_2400x1260"
+        }
+      ]
+    },
+    "tildeath-forty-day-trial": {
+      "slug": "tildeath-forty-day-trial",
+      "title": "Tildeath Forty Day Trial",
+      "date": "2023-12-01",
+      "folders": [
+        "12-01-2023-tildeath-forty-day-trial"
+      ],
+      "preview": "assets-visual/12-01-2023-tildeath-forty-day-trial/cover.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/12-01-2023-tildeath-forty-day-trial/cover.jpg",
+          "type": "image",
+          "alt": "Tildeath Forty Day Trial — cover"
         }
       ]
     },
@@ -1553,6 +1729,22 @@
         }
       ]
     },
+    "rat-highlight-reel": {
+      "slug": "rat-highlight-reel",
+      "title": "Rat Highlight Reel",
+      "date": "2020-10-10",
+      "folders": [
+        "10-10-2020-rat-highlight-reel"
+      ],
+      "preview": "assets-visual/10-10-2020-rat-highlight-reel/thumbnail.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/10-10-2020-rat-highlight-reel/thumbnail.jpg",
+          "type": "image",
+          "alt": "Rat Highlight Reel — thumbnail"
+        }
+      ]
+    },
     "smart-factory": {
       "slug": "smart-factory",
       "title": "The Smart Factory",
@@ -1712,6 +1904,166 @@
         }
       ]
     },
+    "snakeskin-affection": {
+      "slug": "snakeskin-affection",
+      "title": "Snakeskin Affection",
+      "date": "2019-08-05",
+      "folders": [
+        "08-05-2019-snakeskin-affection"
+      ],
+      "preview": "assets-visual/08-05-2019-snakeskin-affection/thumbnail.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/08-05-2019-snakeskin-affection/thumbnail.jpg",
+          "type": "image",
+          "alt": "Snakeskin Affection — thumbnail"
+        }
+      ]
+    },
+    "riverwater-wires": {
+      "slug": "riverwater-wires",
+      "title": "Riverwater Wires",
+      "date": "2019-04-07",
+      "folders": [
+        "04-07-2019-riverwater-wires"
+      ],
+      "preview": "assets-visual/04-07-2019-riverwater-wires/thumbnail.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/04-07-2019-riverwater-wires/thumbnail.jpg",
+          "type": "image",
+          "alt": "Riverwater Wires — thumbnail"
+        }
+      ]
+    },
+    "lovely-cesspool": {
+      "slug": "lovely-cesspool",
+      "title": "Lovely Cesspool",
+      "date": "2019-03-31",
+      "folders": [
+        "03-31-2019-lovely-cesspool"
+      ],
+      "preview": "assets-visual/03-31-2019-lovely-cesspool/thumbnail.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/03-31-2019-lovely-cesspool/thumbnail.jpg",
+          "type": "image",
+          "alt": "Lovely Cesspool — thumbnail"
+        }
+      ]
+    },
+    "jawtype-shine-acoustic": {
+      "slug": "jawtype-shine-acoustic",
+      "title": "Jawtype Shine Acoustic",
+      "date": "2017-12-17",
+      "folders": [
+        "12-17-2017-jawtype-shine-acoustic"
+      ],
+      "preview": "assets-visual/12-17-2017-jawtype-shine-acoustic/thumbnail.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/12-17-2017-jawtype-shine-acoustic/thumbnail.jpg",
+          "type": "image",
+          "alt": "Jawtype Shine Acoustic — thumbnail"
+        }
+      ]
+    },
+    "hello-adele-french-cover": {
+      "slug": "hello-adele-french-cover",
+      "title": "Hello Adele French Cover",
+      "date": "2017-12-04",
+      "folders": [
+        "12-04-2017-hello-adele-french-cover"
+      ],
+      "preview": "assets-visual/12-04-2017-hello-adele-french-cover/thumbnail.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/12-04-2017-hello-adele-french-cover/thumbnail.jpg",
+          "type": "image",
+          "alt": "Hello Adele French Cover — thumbnail"
+        }
+      ]
+    },
+    "cascadia-esteem": {
+      "slug": "cascadia-esteem",
+      "title": "Cascadia Esteem",
+      "date": "2017-05-11",
+      "folders": [
+        "05-11-2017-cascadia-esteem"
+      ],
+      "preview": "assets-visual/05-11-2017-cascadia-esteem/thumbnail.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/05-11-2017-cascadia-esteem/thumbnail.jpg",
+          "type": "image",
+          "alt": "Cascadia Esteem — thumbnail"
+        }
+      ]
+    },
+    "la-vie-tv-show-package": {
+      "slug": "la-vie-tv-show-package",
+      "title": "La Vie Tv Show Package",
+      "date": "2017-04-05",
+      "folders": [
+        "04-05-2017-la-vie-tv-show-package"
+      ],
+      "preview": "assets-visual/04-05-2017-la-vie-tv-show-package/thumbnail.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/04-05-2017-la-vie-tv-show-package/thumbnail.jpg",
+          "type": "image",
+          "alt": "La Vie Tv Show Package — thumbnail"
+        }
+      ]
+    },
+    "bones-high-hopes": {
+      "slug": "bones-high-hopes",
+      "title": "Bones High Hopes",
+      "date": "2017-03-22",
+      "folders": [
+        "03-22-2017-bones-high-hopes"
+      ],
+      "preview": "assets-visual/03-22-2017-bones-high-hopes/thumbnail.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/03-22-2017-bones-high-hopes/thumbnail.jpg",
+          "type": "image",
+          "alt": "Bones High Hopes — thumbnail"
+        }
+      ]
+    },
+    "steady-exalt": {
+      "slug": "steady-exalt",
+      "title": "Steady Exalt",
+      "date": "2017-03-19",
+      "folders": [
+        "03-19-2017-steady-exalt"
+      ],
+      "preview": "assets-visual/03-19-2017-steady-exalt/thumbnail.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/03-19-2017-steady-exalt/thumbnail.jpg",
+          "type": "image",
+          "alt": "Steady Exalt — thumbnail"
+        }
+      ]
+    },
+    "hostage-until-death": {
+      "slug": "hostage-until-death",
+      "title": "Hostage Until Death",
+      "date": "2016-08-18",
+      "folders": [
+        "08-18-2016-hostage-until-death"
+      ],
+      "preview": "assets-visual/08-18-2016-hostage-until-death/thumbnail.jpg",
+      "assets": [
+        {
+          "src": "assets-visual/08-18-2016-hostage-until-death/thumbnail.jpg",
+          "type": "image",
+          "alt": "Hostage Until Death — thumbnail"
+        }
+      ]
+    },
     "rite-of-spring": {
       "slug": "rite-of-spring",
       "title": "Rite of Spring",
@@ -1784,157 +2136,6 @@
           "alt": "Studio project trophy decks — 01-3b08cc0842"
         }
       ]
-    },
-    "tildeath-garden-of-flowers": {
-      "slug": "tildeath-garden-of-flowers",
-      "title": "Garden of Flowers",
-      "description": "TILDEATH · Alternative · 3 tracks · Everything and Nothing Music",
-      "url": "https://music.apple.com/us/album/garden-of-flowers-single/1825456137",
-      "date": "2025-07-21",
-      "folders": ["07-21-2025-tildeath-garden-of-flowers"],
-      "preview": "assets-visual/07-21-2025-tildeath-garden-of-flowers/cover.jpg",
-      "assets": [
-        { "src": "assets-visual/07-21-2025-tildeath-garden-of-flowers/cover.jpg", "type": "image", "alt": "Garden of Flowers album art" },
-        { "src": "https://embed.music.apple.com/us/album/garden-of-flowers-single/1825456137", "type": "apple", "alt": "Garden of Flowers on Apple Music", "width": 600, "height": 450 }
-      ]
-    },
-    "tildeath-auto-saved": {
-      "slug": "tildeath-auto-saved",
-      "title": "(Auto-saved)",
-      "description": "TILDEATH · Pop · 4 tracks · Everything and Nothing Music",
-      "url": "https://music.apple.com/us/album/auto-saved-ep/1786424302",
-      "date": "2025-01-01",
-      "folders": ["01-01-2025-tildeath-auto-saved"],
-      "preview": "assets-visual/01-01-2025-tildeath-auto-saved/cover.jpg",
-      "assets": [
-        { "src": "assets-visual/01-01-2025-tildeath-auto-saved/cover.jpg", "type": "image", "alt": "(Auto-saved) album art" },
-        { "src": "https://embed.music.apple.com/us/album/auto-saved-ep/1786424302", "type": "apple", "alt": "(Auto-saved) on Apple Music", "width": 600, "height": 450 }
-      ]
-    },
-    "tildeath-god-forsaken-love": {
-      "slug": "tildeath-god-forsaken-love",
-      "title": "For the (God-forsaken) Love of Heartbreak and Favor!",
-      "description": "TILDEATH · Hardcore · 5 tracks · Everything and Nothing Music",
-      "url": "https://music.apple.com/us/album/for-the-god-forsaken-love-of-heartbreak-and-favor-ep/1758614716",
-      "date": "2024-08-01",
-      "folders": ["08-01-2024-tildeath-god-forsaken-love"],
-      "preview": "assets-visual/08-01-2024-tildeath-god-forsaken-love/cover.jpg",
-      "assets": [
-        { "src": "assets-visual/08-01-2024-tildeath-god-forsaken-love/cover.jpg", "type": "image", "alt": "For the (God-forsaken) Love of Heartbreak and Favor! album art" },
-        { "src": "https://embed.music.apple.com/us/album/for-the-god-forsaken-love-of-heartbreak-and-favor-ep/1758614716", "type": "apple", "alt": "For the (God-forsaken) Love of Heartbreak and Favor! on Apple Music", "width": 600, "height": 450 }
-      ]
-    },
-    "tildeath-mercy-like-misery-remixes": {
-      "slug": "tildeath-mercy-like-misery-remixes",
-      "title": "Mercy Like Misery (REMIXES)",
-      "description": "TILDEATH · Techno · 4 tracks · Everything and Nothing Music",
-      "url": "https://music.apple.com/us/album/mercy-like-misery-remixes-ep/1744194099",
-      "date": "2024-05-31",
-      "folders": ["05-31-2024-tildeath-mercy-like-misery-remixes"],
-      "preview": "assets-visual/05-31-2024-tildeath-mercy-like-misery-remixes/cover.jpg",
-      "assets": [
-        { "src": "assets-visual/05-31-2024-tildeath-mercy-like-misery-remixes/cover.jpg", "type": "image", "alt": "Mercy Like Misery (REMIXES) album art" },
-        { "src": "https://embed.music.apple.com/us/album/mercy-like-misery-remixes-ep/1744194099", "type": "apple", "alt": "Mercy Like Misery (REMIXES) on Apple Music", "width": 600, "height": 450 }
-      ]
-    },
-    "tildeath-cool": {
-      "slug": "tildeath-cool",
-      "title": "Cool",
-      "description": "TILDEATH · Pop · 1 track · Everything and Nothing Music",
-      "url": "https://music.apple.com/us/album/cool-single/1739300146",
-      "date": "2024-04-17",
-      "folders": ["04-17-2024-tildeath-cool"],
-      "preview": "assets-visual/04-17-2024-tildeath-cool/cover.jpg",
-      "assets": [
-        { "src": "assets-visual/04-17-2024-tildeath-cool/cover.jpg", "type": "image", "alt": "Cool single artwork" },
-        { "src": "https://embed.music.apple.com/us/album/cool-single/1739300146", "type": "apple", "alt": "Cool on Apple Music", "width": 600, "height": 450 }
-      ]
-    },
-    "tildeath-loser-like-you": {
-      "slug": "tildeath-loser-like-you",
-      "title": "Loser Like You",
-      "description": "TILDEATH · Pop · 1 track · Everything and Nothing Music",
-      "url": "https://music.apple.com/us/album/loser-like-you-single/1733410622",
-      "date": "2024-02-08",
-      "folders": ["02-08-2024-tildeath-loser-like-you"],
-      "preview": "assets-visual/02-08-2024-tildeath-loser-like-you/cover.jpg",
-      "assets": [
-        { "src": "assets-visual/02-08-2024-tildeath-loser-like-you/cover.jpg", "type": "image", "alt": "Loser Like You single artwork" },
-        { "src": "https://embed.music.apple.com/us/album/loser-like-you-single/1733410622", "type": "apple", "alt": "Loser Like You on Apple Music", "width": 600, "height": 450 }
-      ]
-    },
-    "tildeath-forty-day-trial": {
-      "slug": "tildeath-forty-day-trial",
-      "title": "Forty Day Trial",
-      "description": "TILDEATH · Electronica · 5 tracks · Everything and Nothing Music",
-      "url": "https://music.apple.com/us/album/forty-day-trial-ep/1714095563",
-      "date": "2023-12-01",
-      "folders": ["12-01-2023-tildeath-forty-day-trial"],
-      "preview": "assets-visual/12-01-2023-tildeath-forty-day-trial/cover.jpg",
-      "assets": [
-        { "src": "assets-visual/12-01-2023-tildeath-forty-day-trial/cover.jpg", "type": "image", "alt": "Forty Day Trial album art" },
-        { "src": "https://embed.music.apple.com/us/album/forty-day-trial-ep/1714095563", "type": "apple", "alt": "Forty Day Trial on Apple Music", "width": 600, "height": 450 }
-      ]
-    },
-    "tildeath-ode-to-joy-video": {
-      "slug": "tildeath-ode-to-joy-video", "title": "Ode To Joy · Lyric Video", "description": "Video · TILDEATH · YouTube", "url": "https://www.youtube.com/watch?v=C4IZiu8wVeA", "date": "2024-12-01", "folders": ["12-01-2024-tildeath-ode-to-joy-video"], "preview": "assets-visual/12-01-2024-tildeath-ode-to-joy-video/thumbnail.jpg",
-      "assets": [{ "src": "assets-visual/12-01-2024-tildeath-ode-to-joy-video/thumbnail.jpg", "type": "image", "alt": "Ode To Joy lyric video thumbnail" }, { "src": "https://www.youtube-nocookie.com/embed/C4IZiu8wVeA?rel=0", "type": "youtube", "alt": "Ode To Joy lyric video", "width": 16, "height": 9 }]
-    },
-    "tildeath-blankstare-video": {
-      "slug": "tildeath-blankstare-video", "title": "Blankstare · Lyric Video", "description": "Video · TILDEATH · YouTube", "url": "https://www.youtube.com/watch?v=NFg5XFu6SvU", "date": "2024-07-20", "folders": ["07-20-2024-tildeath-blankstare-video"], "preview": "assets-visual/07-20-2024-tildeath-blankstare-video/thumbnail.jpg",
-      "assets": [{ "src": "assets-visual/07-20-2024-tildeath-blankstare-video/thumbnail.jpg", "type": "image", "alt": "Blankstare lyric video thumbnail" }, { "src": "https://www.youtube-nocookie.com/embed/NFg5XFu6SvU?rel=0", "type": "youtube", "alt": "Blankstare lyric video", "width": 16, "height": 9 }]
-    },
-    "tildeath-snakeskin-visualizer": {
-      "slug": "tildeath-snakeskin-visualizer", "title": "Snakeskin · Forty Day Trial Visualizer", "description": "Visualizer · TILDEATH · YouTube", "url": "https://www.youtube.com/watch?v=ZjXskPWHI1I", "date": "2024-02-20", "folders": ["02-20-2024-tildeath-snakeskin-visualizer"], "preview": "assets-visual/02-20-2024-tildeath-snakeskin-visualizer/thumbnail.jpg",
-      "assets": [{ "src": "assets-visual/02-20-2024-tildeath-snakeskin-visualizer/thumbnail.jpg", "type": "image", "alt": "Snakeskin visualizer thumbnail" }, { "src": "https://www.youtube-nocookie.com/embed/ZjXskPWHI1I?rel=0", "type": "youtube", "alt": "Snakeskin visualizer", "width": 16, "height": 9 }]
-    },
-    "tildeath-my-fathers-eyes-burned-out-stars": {
-      "slug": "tildeath-my-fathers-eyes-burned-out-stars", "title": "My Father's Eyes & Burned Out Stars · Visualizer", "description": "Visualizer · TILDEATH · YouTube", "url": "https://www.youtube.com/watch?v=fnCa2zAGlwM", "date": "2024-02-20", "folders": ["02-20-2024-tildeath-my-fathers-eyes-burned-out-stars"], "preview": "assets-visual/02-20-2024-tildeath-my-fathers-eyes-burned-out-stars/thumbnail.jpg",
-      "assets": [{ "src": "assets-visual/02-20-2024-tildeath-my-fathers-eyes-burned-out-stars/thumbnail.jpg", "type": "image", "alt": "My Father's Eyes and Burned Out Stars visualizer thumbnail" }, { "src": "https://www.youtube-nocookie.com/embed/fnCa2zAGlwM?rel=0", "type": "youtube", "alt": "My Father's Eyes and Burned Out Stars visualizer", "width": 16, "height": 9 }]
-    },
-    "rat-highlight-reel": {
-      "slug": "rat-highlight-reel", "title": "Rat Highlight Reel · SSBU 2020", "description": "Video · TILDEATH · YouTube", "url": "https://www.youtube.com/watch?v=vEDD_QvuSzw", "date": "2020-10-10", "folders": ["10-10-2020-rat-highlight-reel"], "preview": "assets-visual/10-10-2020-rat-highlight-reel/thumbnail.jpg",
-      "assets": [{ "src": "assets-visual/10-10-2020-rat-highlight-reel/thumbnail.jpg", "type": "image", "alt": "Rat Highlight Reel thumbnail" }, { "src": "https://www.youtube-nocookie.com/embed/vEDD_QvuSzw?rel=0", "type": "youtube", "alt": "Rat Highlight Reel", "width": 16, "height": 9 }]
-    },
-    "snakeskin-affection": {
-      "slug": "snakeskin-affection", "title": "Snakeskin (Affection)", "description": "Music video · TILDEATH · YouTube", "url": "https://www.youtube.com/watch?v=7xrzNP4pTfQ", "date": "2019-08-05", "folders": ["08-05-2019-snakeskin-affection"], "preview": "assets-visual/08-05-2019-snakeskin-affection/thumbnail.jpg",
-      "assets": [{ "src": "assets-visual/08-05-2019-snakeskin-affection/thumbnail.jpg", "type": "image", "alt": "Snakeskin (Affection) thumbnail" }, { "src": "https://www.youtube-nocookie.com/embed/7xrzNP4pTfQ?rel=0", "type": "youtube", "alt": "Snakeskin (Affection)", "width": 16, "height": 9 }]
-    },
-    "riverwater-wires": {
-      "slug": "riverwater-wires", "title": "Riverwater (Wires)", "description": "Music video · TILDEATH · YouTube", "url": "https://www.youtube.com/watch?v=nYY1iqU5L5w", "date": "2019-04-07", "folders": ["04-07-2019-riverwater-wires"], "preview": "assets-visual/04-07-2019-riverwater-wires/thumbnail.jpg",
-      "assets": [{ "src": "assets-visual/04-07-2019-riverwater-wires/thumbnail.jpg", "type": "image", "alt": "Riverwater (Wires) thumbnail" }, { "src": "https://www.youtube-nocookie.com/embed/nYY1iqU5L5w?rel=0", "type": "youtube", "alt": "Riverwater (Wires)", "width": 16, "height": 9 }]
-    },
-    "lovely-cesspool": {
-      "slug": "lovely-cesspool", "title": "Lovely (Cesspool)", "description": "Music video · TILDEATH · YouTube", "url": "https://www.youtube.com/watch?v=E_xrUKIr7KM", "date": "2019-03-31", "folders": ["03-31-2019-lovely-cesspool"], "preview": "assets-visual/03-31-2019-lovely-cesspool/thumbnail.jpg",
-      "assets": [{ "src": "assets-visual/03-31-2019-lovely-cesspool/thumbnail.jpg", "type": "image", "alt": "Lovely (Cesspool) thumbnail" }, { "src": "https://www.youtube-nocookie.com/embed/E_xrUKIr7KM?rel=0", "type": "youtube", "alt": "Lovely (Cesspool)", "width": 16, "height": 9 }]
-    },
-    "jawtype-shine-acoustic": {
-      "slug": "jawtype-shine-acoustic", "title": "Jawtype (Shine) · Acoustic", "description": "Acoustic performance · TILDEATH · YouTube", "url": "https://www.youtube.com/watch?v=MFwYARfWoJk", "date": "2017-12-17", "folders": ["12-17-2017-jawtype-shine-acoustic"], "preview": "assets-visual/12-17-2017-jawtype-shine-acoustic/thumbnail.jpg",
-      "assets": [{ "src": "assets-visual/12-17-2017-jawtype-shine-acoustic/thumbnail.jpg", "type": "image", "alt": "Jawtype (Shine) acoustic thumbnail" }, { "src": "https://www.youtube-nocookie.com/embed/MFwYARfWoJk?rel=0", "type": "youtube", "alt": "Jawtype (Shine) acoustic performance", "width": 16, "height": 9 }]
-    },
-    "hello-adele-french-cover": {
-      "slug": "hello-adele-french-cover", "title": "“Hello” · Adele French Cover", "description": "Cover performance · TILDEATH · YouTube", "url": "https://www.youtube.com/watch?v=gts7360l2_c", "date": "2017-12-04", "folders": ["12-04-2017-hello-adele-french-cover"], "preview": "assets-visual/12-04-2017-hello-adele-french-cover/thumbnail.jpg",
-      "assets": [{ "src": "assets-visual/12-04-2017-hello-adele-french-cover/thumbnail.jpg", "type": "image", "alt": "Hello Adele French cover thumbnail" }, { "src": "https://www.youtube-nocookie.com/embed/gts7360l2_c?rel=0", "type": "youtube", "alt": "Hello Adele French cover", "width": 16, "height": 9 }]
-    },
-    "cascadia-esteem": {
-      "slug": "cascadia-esteem", "title": "Cascadia (Esteem)", "description": "Music video · TILDEATH · YouTube", "url": "https://www.youtube.com/watch?v=yUxns_dseOk", "date": "2017-05-11", "folders": ["05-11-2017-cascadia-esteem"], "preview": "assets-visual/05-11-2017-cascadia-esteem/thumbnail.jpg",
-      "assets": [{ "src": "assets-visual/05-11-2017-cascadia-esteem/thumbnail.jpg", "type": "image", "alt": "Cascadia (Esteem) thumbnail" }, { "src": "https://www.youtube-nocookie.com/embed/yUxns_dseOk?rel=0", "type": "youtube", "alt": "Cascadia (Esteem)", "width": 16, "height": 9 }]
-    },
-    "la-vie-tv-show-package": {
-      "slug": "la-vie-tv-show-package", "title": "La Vie TV Show Package", "description": "Motion design · TILDEATH · YouTube", "url": "https://www.youtube.com/watch?v=7qO9MA80AP0", "date": "2017-04-05", "folders": ["04-05-2017-la-vie-tv-show-package"], "preview": "assets-visual/04-05-2017-la-vie-tv-show-package/thumbnail.jpg",
-      "assets": [{ "src": "assets-visual/04-05-2017-la-vie-tv-show-package/thumbnail.jpg", "type": "image", "alt": "La Vie TV Show Package thumbnail" }, { "src": "https://www.youtube-nocookie.com/embed/7qO9MA80AP0?rel=0", "type": "youtube", "alt": "La Vie TV Show Package", "width": 16, "height": 9 }]
-    },
-    "bones-high-hopes": {
-      "slug": "bones-high-hopes", "title": "Bones (High Hopes)", "description": "Music video · TILDEATH · YouTube", "url": "https://www.youtube.com/watch?v=rQ5guGr3xHY", "date": "2017-03-22", "folders": ["03-22-2017-bones-high-hopes"], "preview": "assets-visual/03-22-2017-bones-high-hopes/thumbnail.jpg",
-      "assets": [{ "src": "assets-visual/03-22-2017-bones-high-hopes/thumbnail.jpg", "type": "image", "alt": "Bones (High Hopes) thumbnail" }, { "src": "https://www.youtube-nocookie.com/embed/rQ5guGr3xHY?rel=0", "type": "youtube", "alt": "Bones (High Hopes)", "width": 16, "height": 9 }]
-    },
-    "steady-exalt": {
-      "slug": "steady-exalt", "title": "Steady (Exalt)", "description": "Music video · TILDEATH · YouTube", "url": "https://www.youtube.com/watch?v=8i2KSDVaGTA", "date": "2017-03-19", "folders": ["03-19-2017-steady-exalt"], "preview": "assets-visual/03-19-2017-steady-exalt/thumbnail.jpg",
-      "assets": [{ "src": "assets-visual/03-19-2017-steady-exalt/thumbnail.jpg", "type": "image", "alt": "Steady (Exalt) thumbnail" }, { "src": "https://www.youtube-nocookie.com/embed/8i2KSDVaGTA?rel=0", "type": "youtube", "alt": "Steady (Exalt)", "width": 16, "height": 9 }]
-    },
-    "hostage-until-death": {
-      "slug": "hostage-until-death", "title": "Hostage (Until Death)", "description": "Music video · TILDEATH · YouTube", "url": "https://www.youtube.com/watch?v=vJDUwuL9eS0", "date": "2016-08-18", "folders": ["08-18-2016-hostage-until-death"], "preview": "assets-visual/08-18-2016-hostage-until-death/thumbnail.jpg",
-      "assets": [{ "src": "assets-visual/08-18-2016-hostage-until-death/thumbnail.jpg", "type": "image", "alt": "Hostage (Until Death) thumbnail" }, { "src": "https://www.youtube-nocookie.com/embed/vJDUwuL9eS0?rel=0", "type": "youtube", "alt": "Hostage (Until Death)", "width": 16, "height": 9 }]
     }
   }
 }
