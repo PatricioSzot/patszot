@@ -240,7 +240,7 @@ let timelineData = [
       { date: 'June', kind: 'project', title: 'ARC visual design', description: 'Developed brand, voice, and visual language' },
       { date: 'May', kind: 'project', title: 'LA geographic expansion', description: 'Led a data-visualization lane and developed a Tableau analytical dashboard' },
       { date: 'May', kind: 'project', title: 'USPS PA / Covalence', description: 'Led network data visualization and database development' },
-      { date: 'April', kind: 'milestone', title: 'Won Fulbright Fellowship', url: 'https://patrickszot.webflow.io/journal/fulbright-fellowship' },
+      { date: 'April', kind: 'milestone', title: 'Won Fulbright Fellowship', description: 'Aviation Academy of Poland English for UX and aviation interface', url: 'https://patrickszot.webflow.io/journal/fulbright-fellowship' },
       { date: 'March', kind: 'project', title: 'FDIC E.I.', description: 'Led UX research, executive interviews, and a product-visioning session' },
       { date: 'February', kind: 'project', title: 'Deloitte University', description: 'Led a team through technical simulation' },
       { date: 'February', kind: 'milestone', title: 'Accepted an offer at Deloitte Digital' },
@@ -1003,18 +1003,20 @@ const animateTimelineFocus = (entry, direction, previousEntry) => {
   }
 
   const targets = [
-    entry.querySelector('.project-info-meta'),
-    entry.querySelector('h3'),
-    entry.querySelector('.project-info-body')
-  ].filter(Boolean);
+    { target: entry.querySelector('.project-info-meta'), opacity: .62, moves: false },
+    { target: entry.querySelector('h3'), opacity: .48, moves: false },
+    { target: entry.querySelector('.project-info-body'), opacity: 0, moves: true }
+  ].filter(({ target }) => target);
 
-  targets.forEach((target, index) => {
+  targets.forEach(({ target, opacity, moves }, index) => {
     const keyframes = reduce
-      ? [{ opacity: index === 2 ? 0 : .78 }, { opacity: 1 }]
-      : [
-          { opacity: index === 2 ? 0 : .48, transform: `translate3d(0, ${offset}px, 0)` },
-          { opacity: 1, transform: 'translate3d(0, 0, 0)' }
-        ];
+      ? [{ opacity }, { opacity: 1 }]
+      : moves
+        ? [
+            { opacity, transform: `translate3d(0, ${offset}px, 0)` },
+            { opacity: 1, transform: 'translate3d(0, 0, 0)' }
+          ]
+        : [{ opacity }, { opacity: 1 }];
     const animation = target.animate(keyframes, {
       duration: reduce ? 120 : 520,
       delay: reduce ? 0 : 36 + index * 38,
