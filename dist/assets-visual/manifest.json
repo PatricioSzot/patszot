@@ -808,125 +808,130 @@
     "webflow-rebrand": {
       "slug": "webflow-rebrand",
       "title": "Webflow rebrand",
-      "date": "2024-01-01",
+      "date": "2023-08-01",
       "folders": [
-        "01-01-2024-webflow-rebrand",
+        "08-01-2023-webflow-rebrand",
         "01-01-2024-webflow-oohsf-campaign"
       ],
-      "preview": "assets-visual/01-01-2024-webflow-rebrand/Preview%2004-f3183d6465.webp",
+      "preview": "assets-visual/08-01-2023-webflow-rebrand/Preview%2004-f3183d6465.webp",
       "assets": [
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/02-733239dd34.gif",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/02-733239dd34.gif",
           "type": "gif",
           "alt": "Webflow rebrand — 02-733239dd34"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/03-11e19ea583.jpg",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/03-11e19ea583.jpg",
           "type": "image",
           "alt": "Webflow rebrand — 03-11e19ea583"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/05-3bd4efabc0.jpg",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/05-3bd4efabc0.jpg",
           "type": "image",
           "alt": "Webflow rebrand — 05-3bd4efabc0"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/06-c02b96823e.jpg",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/06-c02b96823e.jpg",
           "type": "image",
           "alt": "Webflow rebrand — 06-c02b96823e"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/07-5db5f17aed.jpg",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/07-5db5f17aed.jpg",
           "type": "image",
           "alt": "Webflow rebrand — 07-5db5f17aed"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/08-facf1d14ac.jpg",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/08-facf1d14ac.jpg",
           "type": "image",
           "alt": "Webflow rebrand — 08-facf1d14ac"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/09-88efa12d04.webp",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/09-88efa12d04.webp",
           "type": "image",
           "alt": "Webflow rebrand — 09-88efa12d04"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/11-932e228921.webp",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/11-932e228921.webp",
           "type": "image",
           "alt": "Webflow rebrand — 11-932e228921"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/12-0bf921d3a9.webp",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/12-0bf921d3a9.webp",
           "type": "image",
           "alt": "Webflow rebrand — 12-0bf921d3a9"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/13-ea01011108.jpg",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/13-ea01011108.jpg",
           "type": "image",
           "alt": "Webflow rebrand — 13-ea01011108"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/28-acbcf94fef.gif",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/14-IMG_8713.jpg",
+          "type": "image",
+          "alt": "Webflow rebrand — 14-IMG_8713"
+        },
+        {
+          "src": "assets-visual/08-01-2023-webflow-rebrand/28-acbcf94fef.gif",
           "type": "gif",
           "alt": "Webflow rebrand — 28-acbcf94fef"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/Cinematic%20Logo%20Reveal.mp4",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/Cinematic%20Logo%20Reveal.mp4",
           "type": "video",
           "alt": "Webflow rebrand — Cinematic Logo Reveal"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/Integrations-Tools_30s_16x9_30s_v08.mp4",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/Integrations-Tools_30s_16x9_30s_v08.mp4",
           "type": "video",
           "alt": "Webflow rebrand — Integrations-Tools_30s_16x9_30s_v08"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/LogoAnimation.mp4",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/LogoAnimation.mp4",
           "type": "video",
           "alt": "Webflow rebrand — LogoAnimation"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/Lower.webp",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/Lower.webp",
           "type": "image",
           "alt": "Webflow rebrand — Lower"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/Origins%20Logo%20Loop.mp4",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/Origins%20Logo%20Loop.mp4",
           "type": "video",
           "alt": "Webflow rebrand — Origins Logo Loop"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/Pointers.webp",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/Pointers.webp",
           "type": "image",
           "alt": "Webflow rebrand — Pointers"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/Preview%2004-f3183d6465.webp",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/Preview%2004-f3183d6465.webp",
           "type": "image",
           "alt": "Webflow rebrand — Preview 04-f3183d6465"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/UI%20and%20Site%20Promos.mov",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/UI%20and%20Site%20Promos.mov",
           "type": "video",
           "alt": "Webflow rebrand — UI and Site Promos"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/Venn3.webp",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/Venn3.webp",
           "type": "image",
           "alt": "Webflow rebrand — Venn3"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/W.webp",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/W.webp",
           "type": "image",
           "alt": "Webflow rebrand — W"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/Webflow_Animated-illustration-bank_A_60fps_v02.mp4",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/Webflow_Animated-illustration-bank_A_60fps_v02.mp4",
           "type": "video",
           "alt": "Webflow rebrand — Webflow_Animated-illustration-bank_A_60fps_v02"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-rebrand/Webflow_Animated-illustration-bank_C_v01%20-%2060fps%20-%20loop.mp4",
+          "src": "assets-visual/08-01-2023-webflow-rebrand/Webflow_Animated-illustration-bank_C_v01%20-%2060fps%20-%20loop.mp4",
           "type": "video",
           "alt": "Webflow rebrand — Webflow_Animated-illustration-bank_C_v01 - 60fps - loop"
         },
