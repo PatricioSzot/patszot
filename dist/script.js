@@ -700,6 +700,7 @@ const historyTitleCase = (value) => {
 const displayEntryTitle = (entry) => historyTitleCase(entry.title);
 const funEmbedTypes = new Set(['apple', 'spotify', 'youtube']);
 const timelineTagFor = (entry) => {
+  if (entry.kind === 'work') return 'project';
   if (entry.kind !== 'project' || !entry.assetKey) return entry.kind;
   const assets = visualManifestData.projects[entry.assetKey]?.assets || [];
   return assets.some((asset) => funEmbedTypes.has(asset.type)) ? 'fun' : entry.kind;
@@ -752,7 +753,7 @@ timelineEntries.forEach((element, index) => {
   element.entryData = timelineRecords[index];
   element.style.setProperty('--entry-delay', `${Math.min(index, 8) * 42}ms`);
 });
-const historyFilterOrder = ['project', 'writing', 'fun', 'milestone', 'work'];
+const historyFilterOrder = ['project', 'writing', 'fun', 'milestone'];
 const historyFilterCounts = new Map();
 timelineRecords.forEach((entry) => {
   const tag = timelineTagFor(entry);
