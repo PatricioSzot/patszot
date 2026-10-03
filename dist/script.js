@@ -843,6 +843,7 @@ const contentWellControls = contentWell.querySelector('.content-well-controls');
 const contentWellPrevious = contentWell.querySelector('.content-well-previous');
 const contentWellNext = contentWell.querySelector('.content-well-next');
 const contentWellAutoplay = contentWell.querySelector('.content-well-autoplay');
+const contentWellTimer = contentWell.querySelector('.content-well-timer');
 const contentWellCount = contentWell.querySelector('.content-well-count');
 const contentWellStatus = contentWell.querySelector('.content-well-status');
 const viewportControls = document.querySelector('.viewport-controls');
@@ -860,9 +861,11 @@ let writingScrollFrame;
 let contentAutoplayFrame;
 let contentAutoplayLastTime = 0;
 let contentAutoplayElapsed = 0;
+let writingAutoplayPosition = 0;
 let contentAutoplayUserPaused = false;
 let contentAutoplayHoverPaused = false;
 let contentAutoplayHoldUntil = 0;
+let writingProgressDragging = false;
 let timelineFocusAnimations = [];
 let contentWellFocusAnimations = [];
 let contentWellAssetAnimations = [];
@@ -1981,7 +1984,7 @@ const stopContentAutoplay = () => {
 
 const contentAutoplayTick = (now) => {
   contentAutoplayFrame = requestAnimationFrame(contentAutoplayTick);
-  if (!contentWell.classList.contains('is-visible') || contentAutoplayUserPaused || contentAutoplayHoverPaused || now < contentAutoplayHoldUntil) {
+  if (!contentWell.classList.contains('is-visible') || contentAutoplayUserPaused || contentAutoplayHoverPaused || writingProgressDragging || now < contentAutoplayHoldUntil) {
     contentAutoplayLastTime = now;
     return;
   }
@@ -2012,15 +2015,17 @@ const contentAutoplayTick = (now) => {
     setContentTimerProgress(1);
     return;
   }
-  contentWellScroll.scrollTop = Math.min(range, contentWellScroll.scrollTop + writingAutoplaySpeed * delta / 1000);
-  setContentTimerProgress(contentWellScroll.scrollTop / range);
-  if (contentWellScroll.scrollTop >= range - 1) {
+  writingAutoplayPosition = Math.min(range, writingAutoplayPosition + writingAutoplaySpeed * delta / 1000);
+  contentWellScroll.scrollTop = writingAutoplayPosition;
+  setContentTimerProgress(writingAutoplayPosition / range);
+  if (writingAutoplayPosition >= range - 1) {
     contentAutoplayUserPaused = true;
     updateContentAutoplayControl();
   }
 };
 
 const startContentAutoplay = (reset = true) => {
+  if (contentWell.dataset.kind === 'writing') writingAutoplayPosition = contentWellScroll.scrollTop;
   if (reset) {
     contentAutoplayElapsed = 0;
     setContentTimerProgress(contentWell.dataset.kind === 'writing'
@@ -2047,10 +2052,26 @@ const updateContentWellControls = () => {
     contentWellNext.disabled = range <= 1 || contentWellScroll.scrollTop >= range - 1;
     contentWellAutoplay.disabled = range <= 1;
     contentWellCount.textContent = `${Math.round(progress * 100)}%`;
+    contentWellTimer.setAttribute('aria-hidden', 'false');
+    contentWellTimer.setAttribute('role', 'scrollbar');
+    contentWellTimer.setAttribute('aria-label', 'Writing scroll position');
+    contentWellTimer.setAttribute('aria-orientation', 'vertical');
+    contentWellTimer.setAttribute('aria-valuemin', '0');
+    contentWellTimer.setAttribute('aria-valuemax', '100');
+    contentWellTimer.setAttribute('aria-valuenow', String(Math.round(progress * 100)));
+    contentWellTimer.tabIndex = range > 1 ? 0 : -1;
     syncMobileBackToTopHost();
     return;
   }
   contentWell.classList.remove('has-no-scroll');
+  contentWellTimer.setAttribute('aria-hidden', 'true');
+  contentWellTimer.removeAttribute('role');
+  contentWellTimer.removeAttribute('aria-label');
+  contentWellTimer.removeAttribute('aria-orientation');
+  contentWellTimer.removeAttribute('aria-valuemin');
+  contentWellTimer.removeAttribute('aria-valuemax');
+  contentWellTimer.removeAttribute('aria-valuenow');
+  contentWellTimer.tabIndex = -1;
   const total = contentWellAssets.length;
   const isSingleAsset = total === 1;
   contentWell.classList.toggle('is-single-asset', isSingleAsset);
@@ -2208,9 +2229,70 @@ const contentWellOverflowObserver = new ResizeObserver(requestContentWellActive)
 contentWellOverflowObserver.observe(contentWellScroll);
 
 contentWellScroll.addEventListener('scroll', () => {
-  if (contentWellKey && contentWell.dataset.kind === 'writing') contentWellPositions.set(contentWellKey, contentWellScroll.scrollTop);
+  if (contentWell.dataset.kind === 'writing') {
+    if (Math.abs(contentWellScroll.scrollTop - writingAutoplayPosition) > 1) writingAutoplayPosition = contentWellScroll.scrollTop;
+    if (contentWellKey) contentWellPositions.set(contentWellKey, contentWellScroll.scrollTop);
+  }
   requestContentWellActive();
 }, { passive: true });
+
+const seekWritingFromProgress = (clientY) => {
+  if (contentWell.dataset.kind !== 'writing') return;
+  const range = Math.max(0, contentWellScroll.scrollHeight - contentWellScroll.clientHeight);
+  if (!range) return;
+  const rect = contentWellTimer.getBoundingClientRect();
+  const progress = Math.max(0, Math.min(1, (clientY - rect.top) / Math.max(1, rect.height)));
+  writingAutoplayPosition = range * progress;
+  contentWellScroll.scrollTop = writingAutoplayPosition;
+  setContentTimerProgress(progress);
+  requestContentWellActive();
+};
+
+contentWellTimer.addEventListener('pointerdown', (event) => {
+  if (contentWell.dataset.kind !== 'writing' || contentWell.classList.contains('has-no-scroll')) return;
+  event.preventDefault();
+  if (writingScrollFrame) cancelAnimationFrame(writingScrollFrame);
+  writingScrollFrame = undefined;
+  writingProgressDragging = true;
+  contentAutoplayHoldUntil = Number.POSITIVE_INFINITY;
+  contentWellTimer.classList.add('is-dragging');
+  contentWellTimer.setPointerCapture(event.pointerId);
+  seekWritingFromProgress(event.clientY);
+});
+
+const moveWritingProgressDrag = (event) => {
+  if (!writingProgressDragging) return;
+  event.preventDefault();
+  seekWritingFromProgress(event.clientY);
+};
+
+const stopWritingProgressDrag = (event) => {
+  if (!writingProgressDragging) return;
+  writingProgressDragging = false;
+  contentAutoplayHoldUntil = performance.now() + 900;
+  contentAutoplayLastTime = 0;
+  contentWellTimer.classList.remove('is-dragging');
+  if (event?.pointerId !== undefined && contentWellTimer.hasPointerCapture(event.pointerId)) {
+    contentWellTimer.releasePointerCapture(event.pointerId);
+  }
+  startContentAutoplay(false);
+};
+
+window.addEventListener('pointermove', moveWritingProgressDrag, { passive: false });
+window.addEventListener('pointerup', stopWritingProgressDrag);
+window.addEventListener('pointercancel', stopWritingProgressDrag);
+contentWellTimer.addEventListener('lostpointercapture', stopWritingProgressDrag);
+contentWellTimer.addEventListener('keydown', (event) => {
+  if (contentWell.dataset.kind !== 'writing') return;
+  if (!['ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
+  event.preventDefault();
+  const range = Math.max(0, contentWellScroll.scrollHeight - contentWellScroll.clientHeight);
+  const increment = Math.max(40, contentWellScroll.clientHeight * .1);
+  if (event.key === 'Home') contentWellScroll.scrollTop = 0;
+  else if (event.key === 'End') contentWellScroll.scrollTop = range;
+  else contentWellScroll.scrollTop = Math.max(0, Math.min(range, contentWellScroll.scrollTop + (event.key === 'ArrowDown' ? increment : -increment)));
+  contentAutoplayHoldUntil = performance.now() + 900;
+});
 
 // A wheel over the writing preview continues the main timeline. Article
 // movement is intentionally delegated to the preview's navigation buttons.
@@ -2381,6 +2463,7 @@ renderContentWell = async (entry, focusDirection = 0) => {
   stopContentAutoplay();
   contentAutoplayElapsed = 0;
   contentAutoplayUserPaused = false;
+  contentAutoplayHoverPaused = false;
   contentAutoplayHoldUntil = 0;
   updateContentAutoplayControl();
   setContentTimerProgress(0);
