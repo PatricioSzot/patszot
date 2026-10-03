@@ -17,7 +17,7 @@ const knownProjects = {
   'tildeath-forty-day-trial': { title: 'Forty Day Trial', description: 'TILDEATH · Electronica · 5 tracks · Everything and Nothing Music', url: 'https://music.apple.com/us/album/forty-day-trial-ep/1714095563', playerOnly: true },
   'tildeath-ode-to-joy-video': { title: 'Ode To Joy · Lyric Video', description: 'Video · TILDEATH · YouTube', url: 'https://www.youtube.com/watch?v=C4IZiu8wVeA', playerOnly: true },
   'tildeath-blankstare-video': { title: 'Blankstare · Lyric Video', description: 'Video · TILDEATH · YouTube', url: 'https://www.youtube.com/watch?v=NFg5XFu6SvU', playerOnly: true },
-  'tildeath-forty-day-trial-visualizers': { title: 'Forty Day Trial Visualizers', description: '2 visualizers · TILDEATH · YouTube', url: 'https://www.youtube.com/@TildeathMusic', playerOnly: true },
+  'tildeath-forty-day-trial-visualizers': { title: 'Album Visualizers', description: '2 visualizers · TILDEATH · YouTube', url: 'https://www.youtube.com/@TildeathMusic', playerOnly: true },
   'rat-highlight-reel': { title: 'Rat Highlight Reel · SSBU 2020', description: 'Video · TILDEATH · YouTube', url: 'https://www.youtube.com/watch?v=vEDD_QvuSzw', playerOnly: true },
   'snakeskin-affection': { title: 'Snakeskin (Affection)', description: 'Music video · TILDEATH · YouTube', url: 'https://www.youtube.com/watch?v=7xrzNP4pTfQ', playerOnly: true },
   'riverwater-wires': { title: 'Riverwater (Wires)', description: 'Music video · TILDEATH · YouTube', url: 'https://www.youtube.com/watch?v=nYY1iqU5L5w', playerOnly: true },
@@ -61,25 +61,25 @@ const folderAliases = {
 
 const embeds = {
   'tildeath-garden-of-flowers': [
-    { src: 'https://embed.music.apple.com/us/album/garden-of-flowers-single/1825456137', type: 'apple', alt: 'Garden of Flowers on Apple Music', width: 600, height: 450, poster: 'assets-visual/07-21-2025-tildeath-garden-of-flowers/cover.jpg' }
+    { src: 'https://embed.music.apple.com/us/album/garden-of-flowers-single/1825456137', type: 'apple', alt: 'Garden of Flowers on Apple Music', width: 600, height: 450 }
   ],
   'tildeath-auto-saved': [
-    { src: 'https://embed.music.apple.com/us/album/auto-saved-ep/1786424302', type: 'apple', alt: '(Auto-saved) on Apple Music', width: 600, height: 450, poster: 'assets-visual/01-01-2025-tildeath-auto-saved/cover.jpg' }
+    { src: 'https://embed.music.apple.com/us/album/auto-saved-ep/1786424302', type: 'apple', alt: '(Auto-saved) on Apple Music', width: 600, height: 450 }
   ],
   'tildeath-god-forsaken-love': [
-    { src: 'https://embed.music.apple.com/us/album/for-the-god-forsaken-love-of-heartbreak-and-favor-ep/1758614716', type: 'apple', alt: 'For the (God-forsaken) Love of Heartbreak and Favor! on Apple Music', width: 600, height: 450, poster: 'assets-visual/08-01-2024-tildeath-god-forsaken-love/cover.jpg' }
+    { src: 'https://embed.music.apple.com/us/album/for-the-god-forsaken-love-of-heartbreak-and-favor-ep/1758614716', type: 'apple', alt: 'For the (God-forsaken) Love of Heartbreak and Favor! on Apple Music', width: 600, height: 450 }
   ],
   'tildeath-mercy-like-misery-remixes': [
-    { src: 'https://embed.music.apple.com/us/album/mercy-like-misery-remixes-ep/1744194099', type: 'apple', alt: 'Mercy Like Misery (REMIXES) on Apple Music', width: 600, height: 450, poster: 'assets-visual/05-31-2024-tildeath-mercy-like-misery-remixes/cover.jpg' }
+    { src: 'https://embed.music.apple.com/us/album/mercy-like-misery-remixes-ep/1744194099', type: 'apple', alt: 'Mercy Like Misery (REMIXES) on Apple Music', width: 600, height: 450 }
   ],
   'tildeath-cool': [
-    { src: 'https://embed.music.apple.com/us/album/cool-single/1739300146', type: 'apple', alt: 'Cool on Apple Music', width: 600, height: 450, poster: 'assets-visual/04-17-2024-tildeath-cool/cover.jpg' }
+    { src: 'https://embed.music.apple.com/us/album/cool-single/1739300146', type: 'apple', alt: 'Cool on Apple Music', width: 600, height: 450 }
   ],
   'tildeath-loser-like-you': [
-    { src: 'https://embed.music.apple.com/us/album/loser-like-you-single/1733410622', type: 'apple', alt: 'Loser Like You on Apple Music', width: 600, height: 450, poster: 'assets-visual/02-08-2024-tildeath-loser-like-you/cover.jpg' }
+    { src: 'https://embed.music.apple.com/us/album/loser-like-you-single/1733410622', type: 'apple', alt: 'Loser Like You on Apple Music', width: 600, height: 450 }
   ],
   'tildeath-forty-day-trial': [
-    { src: 'https://embed.music.apple.com/us/album/forty-day-trial-ep/1714095563', type: 'apple', alt: 'Forty Day Trial on Apple Music', width: 600, height: 450, poster: 'assets-visual/12-01-2023-tildeath-forty-day-trial/cover.jpg' }
+    { src: 'https://embed.music.apple.com/us/album/forty-day-trial-ep/1714095563', type: 'apple', alt: 'Forty Day Trial on Apple Music', width: 600, height: 450 }
   ],
   'tildeath-ode-to-joy-video': [
     { src: 'https://www.youtube-nocookie.com/embed/C4IZiu8wVeA?rel=0', type: 'youtube', alt: 'Ode To Joy lyric video', width: 16, height: 9, poster: 'assets-visual/12-01-2024-tildeath-ode-to-joy-video/thumbnail.jpg' }

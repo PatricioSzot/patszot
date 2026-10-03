@@ -424,8 +424,7 @@
           "type": "apple",
           "alt": "Garden of Flowers on Apple Music",
           "width": 600,
-          "height": 450,
-          "poster": "assets-visual/07-21-2025-tildeath-garden-of-flowers/cover.jpg"
+          "height": 450
         }
       ]
     },
@@ -796,8 +795,7 @@
           "type": "apple",
           "alt": "(Auto-saved) on Apple Music",
           "width": 600,
-          "height": 450,
-          "poster": "assets-visual/01-01-2025-tildeath-auto-saved/cover.jpg"
+          "height": 450
         }
       ]
     },
@@ -838,8 +836,7 @@
           "type": "apple",
           "alt": "For the (God-forsaken) Love of Heartbreak and Favor! on Apple Music",
           "width": 600,
-          "height": 450,
-          "poster": "assets-visual/08-01-2024-tildeath-god-forsaken-love/cover.jpg"
+          "height": 450
         }
       ]
     },
@@ -926,8 +923,7 @@
           "type": "apple",
           "alt": "Mercy Like Misery (REMIXES) on Apple Music",
           "width": 600,
-          "height": 450,
-          "poster": "assets-visual/05-31-2024-tildeath-mercy-like-misery-remixes/cover.jpg"
+          "height": 450
         }
       ]
     },
@@ -947,14 +943,13 @@
           "type": "apple",
           "alt": "Cool on Apple Music",
           "width": 600,
-          "height": 450,
-          "poster": "assets-visual/04-17-2024-tildeath-cool/cover.jpg"
+          "height": 450
         }
       ]
     },
     "tildeath-forty-day-trial-visualizers": {
       "slug": "tildeath-forty-day-trial-visualizers",
-      "title": "Forty Day Trial Visualizers",
+      "title": "Album Visualizers",
       "date": "2024-02-20",
       "folders": [
         "02-20-2024-tildeath-my-fathers-eyes-burned-out-stars",
@@ -998,8 +993,7 @@
           "type": "apple",
           "alt": "Loser Like You on Apple Music",
           "width": 600,
-          "height": 450,
-          "poster": "assets-visual/02-08-2024-tildeath-loser-like-you/cover.jpg"
+          "height": 450
         }
       ]
     },
@@ -1019,8 +1013,7 @@
           "type": "apple",
           "alt": "Forty Day Trial on Apple Music",
           "width": 600,
-          "height": 450,
-          "poster": "assets-visual/12-01-2023-tildeath-forty-day-trial/cover.jpg"
+          "height": 450
         }
       ]
     },

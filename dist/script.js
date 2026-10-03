@@ -1,4 +1,4 @@
-const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-youtube-player-policy')
+const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-consolidated-media')
   .then((response) => {
     if (!response.ok) throw new Error(`Visual manifest failed: ${response.status}`);
     return response.json();
