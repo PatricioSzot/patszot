@@ -1,4 +1,4 @@
-const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-timeline-content')
+const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-player-only')
   .then((response) => {
     if (!response.ok) throw new Error(`Visual manifest failed: ${response.status}`);
     return response.json();
@@ -2080,10 +2080,10 @@ const showContentWellAsset = async (requestedIndex, direction = 0, focusDirectio
   const media = createContentWellMedia(activeAsset, index);
   item.append(media);
   if (media instanceof HTMLIFrameElement) {
-    const poster = contentWellAssets.find((asset) => ['image', 'gif'].includes(asset.type));
-    if (poster?.src) {
+    const posterSrc = activeAsset.poster || contentWellAssets.find((asset) => ['image', 'gif'].includes(asset.type))?.src;
+    if (posterSrc) {
       item.classList.add('has-embed-poster');
-      item.style.backgroundImage = `url("${poster.src.replaceAll('"', '%22')}")`;
+      item.style.backgroundImage = `url("${posterSrc.replaceAll('"', '%22')}")`;
     }
     media.addEventListener('load', () => item.classList.add('is-embed-loaded'), { once: true });
     contentWellScroll.append(item);
