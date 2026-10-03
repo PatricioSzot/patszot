@@ -864,9 +864,10 @@ const viewportControls = document.querySelector('.viewport-controls');
 const timelineFooterAnchor = document.querySelector('.timeline-footer-anchor');
 const profileTitleSource = document.querySelector('[data-profile-title]');
 const profileTitleMirrors = document.querySelectorAll('[data-profile-title-mirror]');
-const timelineEmailCopy = document.querySelector('.timeline-email-copy');
-const timelineEmailCopyStatus = document.querySelector('.timeline-email-copy-status');
-let timelineEmailCopyTimer;
+const emailCopyButtons = [...document.querySelectorAll('[data-email-copy]')];
+const emailCopyStatus = document.querySelector('.timeline-email-copy-status');
+const emailCopyTimers = new WeakMap();
+let emailCopyStatusTimer;
 let renderContentWell = () => {};
 let contentWellFullscreenOpen = false;
 let contentWellDefaultWidth = 0;
@@ -916,28 +917,32 @@ const writeClipboardText = async (value) => {
   }
 };
 
-timelineEmailCopy?.addEventListener('click', async () => {
-  const email = timelineEmailCopy.dataset.email;
-  const icon = timelineEmailCopy.querySelector('i');
-  const copied = await writeClipboardText(email);
+emailCopyButtons.forEach((button) => {
+  button.addEventListener('click', async () => {
+    const email = button.dataset.email;
+    const icon = button.querySelector('i');
+    const copied = await writeClipboardText(email);
 
-  clearTimeout(timelineEmailCopyTimer);
-  if (!copied) {
-    timelineEmailCopyStatus.textContent = 'Unable to copy email.';
-    return;
-  }
+    clearTimeout(emailCopyTimers.get(button));
+    clearTimeout(emailCopyStatusTimer);
+    if (!copied) {
+      emailCopyStatus.textContent = 'Unable to copy email.';
+      return;
+    }
 
-  timelineEmailCopy.classList.add('is-copied');
-  timelineEmailCopy.setAttribute('aria-label', `${email} copied to clipboard`);
-  icon.className = 'ri-check-line';
-  timelineEmailCopyStatus.textContent = 'Email copied to clipboard.';
+    button.classList.add('is-copied');
+    button.setAttribute('aria-label', `${email} copied to clipboard`);
+    icon.className = 'ri-check-line';
+    emailCopyStatus.textContent = 'Email copied to clipboard.';
 
-  timelineEmailCopyTimer = window.setTimeout(() => {
-    timelineEmailCopy.classList.remove('is-copied');
-    timelineEmailCopy.setAttribute('aria-label', `Copy ${email} to clipboard`);
-    icon.className = 'ri-file-copy-line';
-    timelineEmailCopyStatus.textContent = '';
-  }, 1600);
+    const timer = window.setTimeout(() => {
+      button.classList.remove('is-copied');
+      button.setAttribute('aria-label', `Copy ${email} to clipboard`);
+      icon.className = 'ri-file-copy-line';
+    }, 1600);
+    emailCopyTimers.set(button, timer);
+    emailCopyStatusTimer = window.setTimeout(() => { emailCopyStatus.textContent = ''; }, 1600);
+  });
 });
 const animatedDurationCache = new Map();
 
