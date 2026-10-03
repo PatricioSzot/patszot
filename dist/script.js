@@ -1,4 +1,4 @@
-const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-apple-player-only')
+const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-embed-performance')
   .then((response) => {
     if (!response.ok) throw new Error(`Visual manifest failed: ${response.status}`);
     return response.json();
@@ -1890,6 +1890,8 @@ const createContentWellMedia = (asset, index) => {
     }
     frame.title = asset.alt || `Project media ${index + 1}`;
     frame.loading = 'eager';
+    frame.fetchPriority = 'high';
+    frame.referrerPolicy = 'strict-origin-when-cross-origin';
     frame.allow = asset.type === 'youtube'
       ? 'autoplay; encrypted-media; picture-in-picture'
       : 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
@@ -1984,11 +1986,9 @@ const waitForContentWellMedia = async (media) => {
     return;
   }
   if (media instanceof HTMLIFrameElement) {
-    if (media.dataset.embedSrc) return;
-    await Promise.race([
-      new Promise((resolve) => media.addEventListener('load', resolve, { once: true })),
-      new Promise((resolve) => window.setTimeout(resolve, 1600))
-    ]);
+    // Embeds have stable manifest dimensions. Do not delay the viewer's own
+    // transition while a third-party document finishes loading.
+    return;
   }
 };
 
@@ -2220,7 +2220,14 @@ const showContentWellAsset = async (requestedIndex, direction = 0, focusDirectio
       });
       item.append(play);
     } else {
-      media.addEventListener('load', () => item.classList.add('is-embed-loaded'), { once: true });
+      item.classList.add('is-embed-loading');
+      item.setAttribute('aria-busy', 'true');
+      media.addEventListener('load', () => {
+        if (generation !== contentWellMediaGeneration) return;
+        item.classList.add('is-embed-loaded');
+        item.classList.remove('is-embed-loading');
+        item.removeAttribute('aria-busy');
+      }, { once: true });
     }
     contentWellScroll.append(item);
   }
