@@ -1354,6 +1354,16 @@ const applyHistoryFilter = (filter) => {
   const previousIndex = Math.max(0, timelineEntries.indexOf(previousEntry));
   timelinePanel.classList.add('is-filter-transitioning');
   setHistoryFilterMenuOpen(false);
+  cancelDrift();
+  stopSceneMotion();
+  if (sceneScrollFrame) cancelAnimationFrame(sceneScrollFrame);
+  sceneScrollFrame = undefined;
+  sceneScroll.y = 0;
+  sceneScroll.z = 0;
+  sceneScroll.targetY = 0;
+  sceneScroll.targetZ = 0;
+  sceneScroll.velocityY = 0;
+  sceneScroll.velocityZ = 0;
 
   activeHistoryFilter = filter;
   timelineEntries.forEach((entry) => {
@@ -1385,6 +1395,10 @@ const applyHistoryFilter = (filter) => {
     );
     window.scrollTo({ top: targetTop, left: window.scrollX, behavior: 'auto' });
     driftTarget = targetTop;
+    previousScrollY = targetTop;
+    previousScrollTime = performance.now();
+    timelineScrollDirection = 0;
+    timelineScrollVelocity = 0;
   }
 
   window.clearTimeout(historyFilterTransitionTimer);
@@ -1393,10 +1407,14 @@ const applyHistoryFilter = (filter) => {
   // parent timeline would flatten its preserve-3d billboard hierarchy.
   void timelinePanel.offsetWidth;
   timelinePanel.classList.add('is-filter-settling');
-  requestSceneGeometry();
+  if (sceneGeometryFrame) cancelAnimationFrame(sceneGeometryFrame);
+  sceneGeometryFrame = undefined;
+  refreshSceneGeometry();
+  if (activeTimelineFrame) cancelAnimationFrame(activeTimelineFrame);
+  activeTimelineFrame = undefined;
+  updateTimelineActive();
   requestAnimationFrame(() => {
     timelinePanel.classList.remove('is-filter-transitioning');
-    requestTimelineActiveUpdate();
     requestSceneGeometry();
   });
   historyFilterTransitionTimer = window.setTimeout(() => {
