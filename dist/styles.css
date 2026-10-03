@@ -1308,6 +1308,7 @@ body.content-well-fullscreen-open main {
 
 .content-well[data-kind="project"] .content-well-autoplay { display: none; }
 .content-well.is-single-asset .content-well-timer { display: none; }
+.content-well.has-interactive-asset .content-well-timer { visibility: hidden; }
 
 .content-well-scroll::-webkit-scrollbar { display: none; }
 
@@ -1364,6 +1365,19 @@ body.content-well-fullscreen-open main {
   height: 100%;
   min-height: 152px;
 }
+
+.content-well-item.has-embed-poster {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.content-well-item.has-embed-poster iframe {
+  opacity: 0;
+  transition: opacity .36s ease;
+}
+
+.content-well-item.has-embed-poster.is-embed-loaded iframe { opacity: 1; }
 
 .content-well-controls {
   min-height: 36px;

@@ -1,4 +1,4 @@
-const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-webflow-rebrand-assets')
+const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-tildeath-media')
   .then((response) => {
     if (!response.ok) throw new Error(`Visual manifest failed: ${response.status}`);
     return response.json();
@@ -349,6 +349,8 @@ const placeVisualProjectsFromFolders = () => {
       timelineDate: project.date,
       kind: 'project',
       title: project.title,
+      description: project.description,
+      url: project.url,
       assetKey
     });
   });
@@ -1787,12 +1789,14 @@ const assetsForEntry = (manifest, entry) => {
   return unique;
 };
 
+const embeddedMediaTypes = new Set(['apple', 'spotify', 'youtube']);
+
 const createContentWellMedia = (asset, index) => {
-  if (asset.type === 'spotify' || asset.type === 'youtube') {
+  if (embeddedMediaTypes.has(asset.type)) {
     const frame = document.createElement('iframe');
     frame.src = asset.src;
     frame.title = asset.alt || `Project media ${index + 1}`;
-    frame.loading = 'lazy';
+    frame.loading = 'eager';
     frame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
     frame.setAttribute('allowfullscreen', '');
     return frame;
@@ -1915,7 +1919,7 @@ const animatedMediaDuration = async (media, asset) => {
   }
 };
 
-const syncContentWellMediaAspect = (media, preservedControlsBottom) => {
+const syncContentWellMediaAspect = (media, preservedControlsBottom, asset) => {
   let width = 16;
   let height = 9;
   if (media instanceof HTMLImageElement && media.naturalWidth && media.naturalHeight) {
@@ -1924,6 +1928,9 @@ const syncContentWellMediaAspect = (media, preservedControlsBottom) => {
   } else if (media instanceof HTMLVideoElement && media.videoWidth && media.videoHeight) {
     width = media.videoWidth;
     height = media.videoHeight;
+  } else if (media instanceof HTMLIFrameElement && asset?.width && asset?.height) {
+    width = asset.width;
+    height = asset.height;
   }
   const aspect = width / height;
   const previousHeight = contentWellScroll.offsetHeight;
@@ -1967,6 +1974,7 @@ const contentAutoplayTick = (now) => {
   contentAutoplayLastTime = now;
   if (contentWell.dataset.kind === 'project') {
     if (contentWellAssets.length < 2 || !contentWell.classList.contains('is-ready')) return;
+    if (embeddedMediaTypes.has(contentWellAssets[contentWellAssetIndex]?.type)) return;
     const video = contentWellScroll.querySelector('video');
     if (video && Number.isFinite(video.duration) && video.duration > 0) {
       setContentTimerProgress(video.currentTime / video.duration);
@@ -2055,20 +2063,31 @@ const showContentWellAsset = async (requestedIndex, direction = 0, focusDirectio
   contentAutoplayElapsed = 0;
   setContentTimerProgress(0);
   contentWellAssetIndex = index;
+  const activeAsset = contentWellAssets[index];
+  contentWell.classList.toggle('has-interactive-asset', embeddedMediaTypes.has(activeAsset.type));
   updateContentWellControls();
   contentWellStatus.textContent = `Asset ${index + 1} of ${contentWellAssets.length}`;
 
   const item = document.createElement('figure');
   item.className = 'content-well-item';
   item.dataset.index = String(index);
-  const media = createContentWellMedia(contentWellAssets[index], index);
+  const media = createContentWellMedia(activeAsset, index);
   item.append(media);
+  if (media instanceof HTMLIFrameElement) {
+    const poster = contentWellAssets.find((asset) => ['image', 'gif'].includes(asset.type));
+    if (poster?.src) {
+      item.classList.add('has-embed-poster');
+      item.style.backgroundImage = `url("${poster.src.replaceAll('"', '%22')}")`;
+    }
+    media.addEventListener('load', () => item.classList.add('is-embed-loaded'), { once: true });
+    contentWellScroll.append(item);
+  }
   await waitForContentWellMedia(media);
   if (generation !== contentWellMediaGeneration) {
     disposeContentWellMedia(item);
     return;
   }
-  activeVisualAutoplayDuration = Math.max(250, await animatedMediaDuration(media, contentWellAssets[index]));
+  activeVisualAutoplayDuration = Math.max(250, await animatedMediaDuration(media, activeAsset));
   if (generation !== contentWellMediaGeneration) {
     disposeContentWellMedia(item);
     return;
@@ -2078,9 +2097,9 @@ const showContentWellAsset = async (requestedIndex, direction = 0, focusDirectio
     media.currentTime = 0;
     media.play().catch(() => {});
   }
-  syncContentWellMediaAspect(media, preservedControlsBottom);
+  syncContentWellMediaAspect(media, preservedControlsBottom, activeAsset);
   item.classList.add('is-transitioning');
-  contentWellScroll.append(item);
+  if (!item.isConnected) contentWellScroll.append(item);
   contentWellScroll.scrollTop = 0;
 
   const visualDirection = direction || focusDirection || 1;
@@ -2329,7 +2348,7 @@ renderContentWell = async (entry, focusDirection = 0) => {
   setContentTimerProgress(0);
   contentWellEntry = entry;
   contentWellKey = key;
-  contentWell.classList.remove('is-ready', 'has-content');
+  contentWell.classList.remove('is-ready', 'has-content', 'has-interactive-asset');
   contentWell.dataset.kind = entry.kind;
   delete contentWell.dataset.assetAspect;
   contentWellScroll.style.removeProperty('--content-aspect');
