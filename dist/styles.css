@@ -665,10 +665,8 @@ body.timeline-footer-focus .timeline-panel-inner {
 
 .timeline-panel.is-scene-dragging .timeline-year-heading,
 .timeline-panel.is-scene-settling .timeline-year-heading,
-.timeline-panel.is-scene-dragging .project-info,
-.timeline-panel.is-scene-settling .project-info,
-.timeline-panel.is-scene-dragging .timeline-marker,
-.timeline-panel.is-scene-settling .timeline-marker {
+.timeline-panel.is-scene-dragging .timeline-entry-billboard,
+.timeline-panel.is-scene-settling .timeline-entry-billboard {
   will-change: transform;
 }
 
@@ -815,6 +813,17 @@ body.details-open:not(.details-closing) .timeline-year-heading > span {
   transition: opacity .32s ease;
 }
 
+.timeline-entry-billboard {
+  position: relative;
+  width: 100%;
+  min-height: inherit;
+  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
+  transform-origin: 0 27.5px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: auto;
+}
+
 body.details-opening .timeline-entry {
   animation: timeline-entry-in .68s var(--ease) both;
   animation-delay: var(--entry-delay, 0ms);
@@ -843,7 +852,7 @@ body.details-opening .timeline-entry {
   place-items: center;
   padding: 0;
   color: #fff;
-  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry)) scale(var(--marker-focus-scale, 1));
+  transform: scale(var(--marker-focus-scale, 1));
   transform-origin: center;
   transform-style: preserve-3d;
   backface-visibility: hidden;
@@ -947,10 +956,6 @@ button.timeline-marker {
   text-align: left;
   background: transparent;
   box-shadow: none;
-  transform: rotateX(var(--scene-counter-rx)) rotateY(var(--scene-counter-ry));
-  transform-origin: left 24px;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
 }
 
 .timeline-entry h3 {
@@ -2097,6 +2102,7 @@ body.details-open:not(.timeline-footer-focus) .viewport-controls-hint {
   .footer-contact-scene,
   .footer-contact-billboard,
   .timeline-year-heading,
+  .timeline-entry-billboard,
   .project-info,
   .timeline-marker,
   .content-well-billboard {
@@ -2295,6 +2301,7 @@ body.details-open:not(.timeline-footer-focus) .viewport-controls-hint {
   .timeline-panel-inner { transform: none !important; }
   .timeline-entry { top: 0; opacity: 1; transform: none; }
   .project-info,
+  .timeline-entry-billboard,
   .timeline-year-heading,
   .timeline-year-heading > span,
   .timeline-marker,
