@@ -11,7 +11,7 @@ const knownProjects = {
   'gloss-ai': { title: 'GlossAI rebrand' },
   'album-art-presage': { title: 'Album art: Presage 2022' },
   'webflow-rebrand': { title: 'Webflow rebrand' },
-  'webflow-customer-stories': { title: 'Webflow visual foundations' },
+  'webflow-customer-stories': { title: 'Webflow customer Stories' },
   'webflow-user-guide': { title: 'Webflow “User Guide”' },
   'webflow-conf-process-guidelines': { title: 'Webflow Conf 2022 – Process and guidelines' },
   '3d-scene': { title: '3D scene' },

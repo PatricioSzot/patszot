@@ -1305,7 +1305,7 @@
     },
     "webflow-customer-stories": {
       "slug": "webflow-customer-stories",
-      "title": "Webflow visual foundations",
+      "title": "Webflow customer Stories",
       "date": "2023-01-01",
       "folders": [
         "01-01-2023-webflow-customer-stories"
@@ -1315,42 +1315,42 @@
         {
           "src": "assets-visual/01-01-2023-webflow-customer-stories/01-310a065d28.jpg",
           "type": "image",
-          "alt": "Webflow visual foundations — 01-310a065d28"
+          "alt": "Webflow customer Stories — 01-310a065d28"
         },
         {
           "src": "assets-visual/01-01-2023-webflow-customer-stories/12-5d78e996a9.webp",
           "type": "image",
-          "alt": "Webflow visual foundations — 12-5d78e996a9"
+          "alt": "Webflow customer Stories — 12-5d78e996a9"
         },
         {
           "src": "assets-visual/01-01-2023-webflow-customer-stories/13-b1c99862be.webp",
           "type": "image",
-          "alt": "Webflow visual foundations — 13-b1c99862be"
+          "alt": "Webflow customer Stories — 13-b1c99862be"
         },
         {
           "src": "assets-visual/01-01-2023-webflow-customer-stories/IMG_7004.JPG",
           "type": "image",
-          "alt": "Webflow visual foundations — IMG_7004"
+          "alt": "Webflow customer Stories — IMG_7004"
         },
         {
           "src": "assets-visual/01-01-2023-webflow-customer-stories/IMG_7013.webp",
           "type": "image",
-          "alt": "Webflow visual foundations — IMG_7013"
+          "alt": "Webflow customer Stories — IMG_7013"
         },
         {
           "src": "assets-visual/01-01-2023-webflow-customer-stories/IMG_7014.webp",
           "type": "image",
-          "alt": "Webflow visual foundations — IMG_7014"
+          "alt": "Webflow customer Stories — IMG_7014"
         },
         {
           "src": "assets-visual/01-01-2023-webflow-customer-stories/Preview%20VisualFoundations-Example6.webp",
           "type": "image",
-          "alt": "Webflow visual foundations — Preview VisualFoundations-Example6"
+          "alt": "Webflow customer Stories — Preview VisualFoundations-Example6"
         },
         {
           "src": "assets-visual/01-01-2023-webflow-customer-stories/UI%20Camera%20Rig%202.mp4",
           "type": "video",
-          "alt": "Webflow visual foundations — UI Camera Rig 2"
+          "alt": "Webflow customer Stories — UI Camera Rig 2"
         }
       ]
     },

@@ -1,4 +1,4 @@
-const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-timeline-data')
+const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-customer-stories')
   .then((response) => {
     if (!response.ok) throw new Error(`Visual manifest failed: ${response.status}`);
     return response.json();
@@ -162,7 +162,7 @@ let timelineData = [
       { date: 'January 17', kind: 'project', title: 'Webflow Conf 2022 – Grow with the ’Flow Room', url: 'https://dribbble.com/shots/20410030-Webflow-Conf-2022-Grow-with-the-Flow-room', cover: 'https://cdn.dribbble.com/userupload/4293440/file/original-d1e576e3b7230d2cc45147ed55ac5495.jpg?crop=0x0-1920x1440&format=webp&resize=800x600&vertical=center' },
       { date: 'January 11', kind: 'project', title: 'Webflow Conf 2022 – Themes', url: 'https://dribbble.com/shots/20356384-Webflow-Conf-2022-Themes', cover: 'https://cdn.dribbble.com/userupload/4272644/file/original-848a983cbfe134a519a90f6802a8dff4.jpg?crop=3x0-1503x1125&format=webp&resize=800x600&vertical=center' },
       { date: 'January 4', kind: 'writing', title: '2022 Retrospective: Leadership and Soft Skills', url: 'https://patrickszot.webflow.io/journal/2022-retrospective', description: 'Notes on leadership, collaboration, and creative practice' },
-      { date: '2023', kind: 'project', title: 'Webflow visual foundations', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', description: 'Illustration, sub-branding, color, lighting, motion, and more than 1,000 custom icons' }
+      { date: '2023', kind: 'project', title: 'Webflow customer Stories', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', description: 'Illustration, sub-branding, color, lighting, motion, and more than 1,000 custom icons' }
     ]
   },
   {
@@ -272,7 +272,7 @@ const visualAssetKeyByTitle = new Map(Object.entries({
   'GlossAI Rebrand': 'gloss-ai',
   'Album Art: Presage 2022': 'album-art-presage',
   'Webflow Rebrand': 'webflow-rebrand',
-  'Webflow visual foundations': 'webflow-customer-stories',
+  'Webflow customer Stories': 'webflow-customer-stories',
   'Webflow “User Guide”': 'webflow-user-guide',
   'Webflow Conf 2022 – Process and Guidelines': 'webflow-conf-process-guidelines',
   '3D Scene': '3d-scene',
