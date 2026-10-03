@@ -1935,6 +1935,10 @@ body.details-open:not(.timeline-footer-focus) .viewport-controls-hint {
   from { top: 12px; opacity: 0; }
   to { top: 0; opacity: 1; }
 }
+@keyframes mobile-timeline-entry-in {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
 @keyframes text-in {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
@@ -1976,8 +1980,17 @@ body.details-open:not(.timeline-footer-focus) .viewport-controls-hint {
 
   main {
     overflow: visible;
-    touch-action: pan-x pinch-zoom;
+    touch-action: pan-y pinch-zoom;
   }
+
+  html,
+  body {
+    scroll-behavior: auto;
+    touch-action: pan-y pinch-zoom;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body.details-open { overscroll-behavior-y: auto; }
 
   .logo {
     position: sticky;
@@ -2057,6 +2070,34 @@ body.details-open:not(.timeline-footer-focus) .viewport-controls-hint {
   .timeline-panel {
     width: 100vw;
     padding-top: 24px;
+    perspective: none;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  .timeline-panel-inner,
+  .timeline-year,
+  .timeline-year-entries,
+  .timeline-entry {
+    transform-style: flat;
+  }
+
+  .timeline-panel-inner,
+  .profile-scene,
+  .profile-billboard,
+  .footer-contact-scene,
+  .footer-contact-billboard,
+  .timeline-year-heading,
+  .project-info,
+  .timeline-marker,
+  .content-well-billboard {
+    transform: none !important;
+    will-change: auto;
+    backface-visibility: visible;
+  }
+
+  body.details-opening .timeline-entry {
+    animation-name: mobile-timeline-entry-in;
+    animation-duration: .48s;
   }
 
   .timeline-year:first-child .timeline-year-entries { padding-top: 72px; }

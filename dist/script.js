@@ -606,50 +606,20 @@ window.addEventListener('wheel', (event) => {
 }, { passive: false });
 
 let scrollRevealTouchStartY;
-let mobileScrollTouchY;
-let mobileScrollTouchTime;
-let mobileScrollVelocity = 0;
-const mobilePageScrollResponse = .96;
+const mobilePageScrollResponse = 1;
 const mobileArticleScrollResponse = .94;
-const mobileMomentumDistance = 205;
 window.addEventListener('touchstart', (event) => {
   cancelDrift();
   if (event.target.closest?.('.content-well')) {
     scrollRevealTouchStartY = undefined;
-    mobileScrollTouchY = undefined;
     return;
   }
   scrollRevealTouchStartY = event.touches.length === 1
     ? event.touches[0].clientY
     : undefined;
-  mobileScrollTouchY = coarsePointer.matches && event.touches.length === 1
-    ? event.touches[0].clientY
-    : undefined;
-  mobileScrollTouchTime = performance.now();
-  mobileScrollVelocity = 0;
 }, { passive: true });
 
-window.addEventListener('touchmove', (event) => {
-  if (mobileScrollTouchY === undefined || event.touches.length !== 1) return;
-  const now = performance.now();
-  const nextY = event.touches[0].clientY;
-  const delta = mobileScrollTouchY - nextY;
-  const elapsed = Math.max(8, now - mobileScrollTouchTime);
-  mobileScrollTouchY = nextY;
-  mobileScrollTouchTime = now;
-  if (Math.abs(delta) < .25) return;
-  event.preventDefault();
-  const softenedDelta = delta * mobilePageScrollResponse;
-  window.scrollBy(0, softenedDelta);
-  mobileScrollVelocity = mobileScrollVelocity * .7 + softenedDelta / elapsed * .3;
-  driftTarget = window.scrollY;
-}, { passive: false });
-
 window.addEventListener('touchend', (event) => {
-  if (mobileScrollTouchY !== undefined && Math.abs(mobileScrollVelocity) > .035) {
-    driftTo(window.scrollY + mobileScrollVelocity * mobileMomentumDistance);
-  }
-  mobileScrollTouchY = undefined;
   if (scrollRevealTouchStartY === undefined || !event.changedTouches.length) return;
   const upwardTravel = scrollRevealTouchStartY - event.changedTouches[0].clientY;
   scrollRevealTouchStartY = undefined;
@@ -660,8 +630,6 @@ window.addEventListener('touchend', (event) => {
 
 window.addEventListener('touchcancel', () => {
   scrollRevealTouchStartY = undefined;
-  mobileScrollTouchY = undefined;
-  mobileScrollVelocity = 0;
 }, { passive: true });
 
 document.addEventListener('keydown', (event) => {
@@ -800,6 +768,7 @@ detailsTrigger.addEventListener('click', () => {
     document.body.classList.add('details-opening');
     timelinePanel.hidden = false;
     timelinePanel.inert = false;
+    timelineEntryCenterOffsets = [];
     requestAnimationFrame(() => {
       detailsGroup.classList.add('is-open');
     });
@@ -845,6 +814,8 @@ detailsTrigger.addEventListener('click', () => {
 
 let activeTimelineEntry;
 let activeTimelineFrame;
+let timelineEntryCenterOffsets = [];
+let timelineDistanceStateIndex = Number.NaN;
 let previousScrollY = window.scrollY;
 let previousScrollTime = performance.now();
 let timelineScrollDirection = 0;
@@ -1179,6 +1150,8 @@ const clearTimelineActive = () => {
 };
 
 const updateTimelineDistanceStates = (activeIndex) => {
+  if (timelineDistanceStateIndex === activeIndex) return;
+  timelineDistanceStateIndex = activeIndex;
   timelineEntries.forEach((entry, index) => {
     entry.classList.toggle('is-deprioritized', Math.abs(index - activeIndex) >= 2);
   });
@@ -1201,20 +1174,31 @@ const timelineEntryForViewport = (candidateEntries) => {
   if (window.scrollY <= 48) return candidateEntries[0];
 
   const focusY = window.scrollY + window.innerHeight / 2;
-  const entries = candidateEntries.map((entry) => {
-    return { entry, center: untransformedDocumentCenter(entry).y };
-  });
-  const upcomingIndex = entries.findIndex((item) => item.center >= focusY);
-  if (upcomingIndex === 0) return entries[0].entry;
-  if (upcomingIndex === -1) return entries.at(-1).entry;
+  if (timelineEntryCenterOffsets.length !== candidateEntries.length) {
+    timelineEntryCenterOffsets = candidateEntries.map((entry) => (
+      offsetTopWithin(entry, timelineScene) + entry.offsetHeight / 2
+    ));
+  }
+  const timelineSceneTop = untransformedDocumentCenter(timelineScene).y - timelineScene.offsetHeight / 2;
+  const focusOffset = focusY - timelineSceneTop;
+  let low = 0;
+  let high = timelineEntryCenterOffsets.length;
+  while (low < high) {
+    const middle = (low + high) >> 1;
+    if (timelineEntryCenterOffsets[middle] < focusOffset) low = middle + 1;
+    else high = middle;
+  }
+  const upcomingIndex = low;
+  if (upcomingIndex === 0) return candidateEntries[0];
+  if (upcomingIndex === candidateEntries.length) return candidateEntries.at(-1);
 
-  const previous = entries[upcomingIndex - 1];
-  const upcoming = entries[upcomingIndex];
-  const gap = upcoming.center - previous.center;
+  const previousCenter = timelineEntryCenterOffsets[upcomingIndex - 1];
+  const upcomingCenter = timelineEntryCenterOffsets[upcomingIndex];
+  const gap = upcomingCenter - previousCenter;
   const velocityBias = Math.min(.08, timelineScrollVelocity * .025);
   const directionalBias = timelineScrollDirection * gap * (.035 + velocityBias);
-  const handoffPoint = previous.center + gap / 2 - directionalBias;
-  return focusY < handoffPoint ? previous.entry : upcoming.entry;
+  const handoffPoint = previousCenter + gap / 2 - directionalBias;
+  return focusOffset < handoffPoint ? candidateEntries[upcomingIndex - 1] : candidateEntries[upcomingIndex];
 };
 
 const updateTimelineActive = () => {
@@ -1254,6 +1238,7 @@ const updateTimelineActive = () => {
     activeTimelineEntry.querySelectorAll('.content-well-trigger').forEach((control) => control.setAttribute('tabindex', '0'));
     positionContentWell(activeTimelineEntry);
     renderContentWell(activeTimelineEntry.entryData, focusDirection);
+    requestAnimationFrame(() => { timelineEntryCenterOffsets = []; });
   }
 };
 
@@ -1284,9 +1269,15 @@ window.addEventListener('scroll', () => {
   previousScrollY = window.scrollY;
   previousScrollTime = now;
   requestTimelineActiveUpdate();
-  requestSceneGeometry();
 }, { passive: true });
-window.addEventListener('resize', requestTimelineActiveUpdate);
+window.addEventListener('resize', () => {
+  timelineEntryCenterOffsets = [];
+  requestTimelineActiveUpdate();
+});
+document.fonts?.ready.then(() => {
+  timelineEntryCenterOffsets = [];
+  requestTimelineActiveUpdate();
+});
 
 const timelineScene = timelinePanel.querySelector('.timeline-panel-inner');
 const profile = document.querySelector('.profile');
@@ -1671,7 +1662,9 @@ timelinePanel.addEventListener('pointerleave', () => {
   timelinePanel.classList.remove('is-over-content-control');
 });
 
-window.addEventListener('scroll', requestSceneGeometry, { passive: true });
+window.addEventListener('scroll', () => {
+  if (orbitControlsEnabled.matches) requestSceneGeometry();
+}, { passive: true });
 window.addEventListener('resize', requestSceneGeometry);
 document.addEventListener('keydown', (event) => {
   if (event.key !== 'Escape') return;
@@ -2093,6 +2086,19 @@ contentWell.addEventListener('touchstart', cancelDrift, { passive: true });
 
 let mobileWritingTouchRoute;
 let mobileWritingTouchY;
+let mobileWritingScrollFrame;
+let mobileWritingPendingDelta = 0;
+const applyMobileWritingScroll = () => {
+  mobileWritingScrollFrame = undefined;
+  const delta = mobileWritingPendingDelta;
+  mobileWritingPendingDelta = 0;
+  if (!delta) return;
+  if (mobileWritingTouchRoute === 'article') {
+    contentWellScroll.scrollTop += delta * mobileArticleScrollResponse;
+  } else if (mobileWritingTouchRoute === 'timeline') {
+    window.scrollBy(0, delta * mobilePageScrollResponse);
+  }
+};
 contentWellScroll.addEventListener('touchstart', (event) => {
   if (!coarsePointer.matches || contentWell.dataset.kind !== 'writing' || event.touches.length !== 1) return;
   const touch = event.touches[0];
@@ -2111,14 +2117,13 @@ contentWellScroll.addEventListener('touchmove', (event) => {
   mobileWritingTouchY = nextY;
   if (Math.abs(delta) < .5) return;
   event.preventDefault();
-  if (mobileWritingTouchRoute === 'article') {
-    contentWellScroll.scrollTop += delta * mobileArticleScrollResponse;
-  } else {
-    window.scrollBy(0, delta * mobilePageScrollResponse);
-  }
+  mobileWritingPendingDelta += delta;
+  if (!mobileWritingScrollFrame) mobileWritingScrollFrame = requestAnimationFrame(applyMobileWritingScroll);
 }, { passive: false });
 
 const clearMobileWritingTouch = () => {
+  if (mobileWritingScrollFrame) cancelAnimationFrame(mobileWritingScrollFrame);
+  applyMobileWritingScroll();
   mobileWritingTouchRoute = undefined;
   mobileWritingTouchY = undefined;
 };
