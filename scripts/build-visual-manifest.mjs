@@ -11,6 +11,7 @@ const knownProjects = {
   'gloss-ai': { title: 'GlossAI rebrand' },
   'album-art-presage': { title: 'Album art: Presage 2022' },
   'webflow-rebrand': { title: 'Webflow rebrand' },
+  'webflow-ooh-sf-campaign': { title: 'Webflow OOH SF Campaign' },
   'webflow-customer-stories': { title: 'Webflow customer Stories' },
   'webflow-user-guide': { title: 'Webflow “User Guide”' },
   'webflow-conf-process-guidelines': { title: 'Webflow Conf 2022 – Process and guidelines' },
@@ -25,16 +26,14 @@ const knownProjects = {
   'thrivent': { title: 'Thrivent Financial app and web' },
   'smart-factory': { title: 'The Smart Factory' },
   'global-marketing-trends': { title: 'Global Marketing Trends 2021' },
-  'blackbriar': { title: 'CIA.gov site implementation' },
+  'blackbriar': { title: 'CIA.gov rebrand' },
   'lilly-pulitzer': { title: 'Lilly Pulitzer virtual runway' },
   'rite-of-spring': { title: 'Rite of Spring' },
   'torei': { title: 'TOREI' },
   'looking-glass': { title: 'Looking Glass EP' }
 };
 
-const folderAliases = {
-  'webflow-oohsf-campaign': 'webflow-rebrand'
-};
+const folderAliases = {};
 
 const embeds = {
   'torei': [

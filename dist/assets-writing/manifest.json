@@ -74,12 +74,8 @@
       "file": "assets-writing/everything-is-a-metaphor.json"
     },
     "https://patrickszot.webflow.io/journal/redux": {
-      "title": "Redux: Noble Goblin and The Courage to Leave",
-      "file": "assets-writing/redux.json"
-    },
-    "https://patrickszot.webflow.io/journal/the-ticking-bomb-of-usability": {
       "title": "Winning Gilman Scholarship Essay",
-      "file": "assets-writing/the-ticking-bomb-of-usability.json"
+      "file": "assets-writing/redux.json"
     }
   }
 }

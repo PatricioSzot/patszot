@@ -970,8 +970,7 @@
       "title": "Webflow rebrand",
       "date": "2023-08-01",
       "folders": [
-        "08-01-2023-webflow-rebrand",
-        "01-01-2024-webflow-oohsf-campaign"
+        "08-01-2023-webflow-rebrand"
       ],
       "preview": "assets-visual/08-01-2023-webflow-rebrand/Preview%2004-f3183d6465.webp",
       "assets": [
@@ -1094,36 +1093,47 @@
           "src": "assets-visual/08-01-2023-webflow-rebrand/Webflow_Animated-illustration-bank_C_v01%20-%2060fps%20-%20loop.mp4",
           "type": "video",
           "alt": "Webflow rebrand — Webflow_Animated-illustration-bank_C_v01 - 60fps - loop"
+        }
+      ]
+    },
+    "webflow-ooh-sf-campaign": {
+      "slug": "webflow-ooh-sf-campaign",
+      "title": "Webflow OOH SF Campaign",
+      "date": "2023-01-01",
+      "folders": [
+        "01-01-2023-webflow-ooh-sf-campaign"
+      ],
+      "preview": "assets-visual/01-01-2023-webflow-ooh-sf-campaign/Preview%20AdCampagin-66b0b8472eb040dadd2413f7_Blog_M1-OOH_2400x1260.webp",
+      "assets": [
+        {
+          "src": "assets-visual/01-01-2023-webflow-ooh-sf-campaign/AdCampaign2-66b0bac61e60dc539c35ee4d_66b0b8e58b0bf3cd15c1aa7b_3877322_Webflow_San%2520Francisco-Berkeley_Station%2520Domination_SFDOM01%2520W_2024-07-29%2520(2).jpeg",
+          "type": "image",
+          "alt": "Webflow OOH SF Campaign — Berkeley station domination"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-oohsf-campaign/AdCampaign2-66b0bac61e60dc539c35ee4d_66b0b8e58b0bf3cd15c1aa7b_3877322_Webflow_San%2520Francisco-Berkeley_Station%2520Domination_SFDOM01%2520W_2024-07-29%2520(2).jpeg",
+          "src": "assets-visual/01-01-2023-webflow-ooh-sf-campaign/AdCampaign3-66b0ba61fcbfa7ffc9ea73de_66b0b9c8672c4e7bb01a214b_3877322_Webflow_San%2520Francisco-Berkeley_Station%2520Domination_BTMONTG%25202_2024-07-30-8%2520(1).webp",
           "type": "image",
-          "alt": "Webflow rebrand — AdCampaign2-66b0bac61e60dc539c35ee4d_66b0b8e58b0bf3cd15c1aa7b_3877322_Webflow_San%20Francisco-Berkeley_Station%20Domination_SFDOM01%20W_2024-07-29%20(2)"
+          "alt": "Webflow OOH SF Campaign — Montgomery station installation"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-oohsf-campaign/AdCampaign3-66b0ba61fcbfa7ffc9ea73de_66b0b9c8672c4e7bb01a214b_3877322_Webflow_San%2520Francisco-Berkeley_Station%2520Domination_BTMONTG%25202_2024-07-30-8%2520(1).webp",
+          "src": "assets-visual/01-01-2023-webflow-ooh-sf-campaign/IMG_1003.JPG",
           "type": "image",
-          "alt": "Webflow rebrand — AdCampaign3-66b0ba61fcbfa7ffc9ea73de_66b0b9c8672c4e7bb01a214b_3877322_Webflow_San%20Francisco-Berkeley_Station%20Domination_BTMONTG%202_2024-07-30-8%20(1)"
+          "alt": "Webflow OOH SF Campaign — installation detail"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-oohsf-campaign/IMG_1003.JPG",
+          "src": "assets-visual/01-01-2023-webflow-ooh-sf-campaign/IMG_1010.JPG",
           "type": "image",
-          "alt": "Webflow rebrand — IMG_1003"
+          "alt": "Webflow OOH SF Campaign — station environment"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-oohsf-campaign/IMG_1010.JPG",
+          "src": "assets-visual/01-01-2023-webflow-ooh-sf-campaign/IMG_8030.JPG",
           "type": "image",
-          "alt": "Webflow rebrand — IMG_1010"
+          "alt": "Webflow OOH SF Campaign — campaign placement"
         },
         {
-          "src": "assets-visual/01-01-2024-webflow-oohsf-campaign/IMG_8030.JPG",
+          "src": "assets-visual/01-01-2023-webflow-ooh-sf-campaign/Preview%20AdCampagin-66b0b8472eb040dadd2413f7_Blog_M1-OOH_2400x1260.webp",
           "type": "image",
-          "alt": "Webflow rebrand — IMG_8030"
-        },
-        {
-          "src": "assets-visual/01-01-2024-webflow-oohsf-campaign/Preview%20AdCampagin-66b0b8472eb040dadd2413f7_Blog_M1-OOH_2400x1260.webp",
-          "type": "image",
-          "alt": "Webflow rebrand — Preview AdCampagin-66b0b8472eb040dadd2413f7_Blog_M1-OOH_2400x1260"
+          "alt": "Webflow OOH SF Campaign overview"
         }
       ]
     },
@@ -1834,7 +1844,7 @@
     },
     "blackbriar": {
       "slug": "blackbriar",
-      "title": "CIA.gov site implementation",
+      "title": "CIA.gov rebrand",
       "date": "2020-03-01",
       "folders": [
         "03-01-2020-blackbriar"
@@ -1844,47 +1854,47 @@
         {
           "src": "assets-visual/03-01-2020-blackbriar/01-2df8be9eb7.gif",
           "type": "gif",
-          "alt": "CIA.gov site implementation — 01-2df8be9eb7"
+          "alt": "CIA.gov rebrand — 01-2df8be9eb7"
         },
         {
           "src": "assets-visual/03-01-2020-blackbriar/02-00380b0130.webp",
           "type": "image",
-          "alt": "CIA.gov site implementation — 02-00380b0130"
+          "alt": "CIA.gov rebrand — 02-00380b0130"
         },
         {
           "src": "assets-visual/03-01-2020-blackbriar/03-4c133fcbd9.gif",
           "type": "gif",
-          "alt": "CIA.gov site implementation — 03-4c133fcbd9"
+          "alt": "CIA.gov rebrand — 03-4c133fcbd9"
         },
         {
           "src": "assets-visual/03-01-2020-blackbriar/04-7d3e1ebdfb.webp",
           "type": "image",
-          "alt": "CIA.gov site implementation — 04-7d3e1ebdfb"
+          "alt": "CIA.gov rebrand — 04-7d3e1ebdfb"
         },
         {
           "src": "assets-visual/03-01-2020-blackbriar/05-3116e83662.gif",
           "type": "gif",
-          "alt": "CIA.gov site implementation — 05-3116e83662"
+          "alt": "CIA.gov rebrand — 05-3116e83662"
         },
         {
           "src": "assets-visual/03-01-2020-blackbriar/06-1d05eadb9e.webp",
           "type": "image",
-          "alt": "CIA.gov site implementation — 06-1d05eadb9e"
+          "alt": "CIA.gov rebrand — 06-1d05eadb9e"
         },
         {
           "src": "assets-visual/03-01-2020-blackbriar/07-9675c34c37.gif",
           "type": "gif",
-          "alt": "CIA.gov site implementation — 07-9675c34c37"
+          "alt": "CIA.gov rebrand — 07-9675c34c37"
         },
         {
           "src": "assets-visual/03-01-2020-blackbriar/08-01dad72912.gif",
           "type": "gif",
-          "alt": "CIA.gov site implementation — 08-01dad72912"
+          "alt": "CIA.gov rebrand — 08-01dad72912"
         },
         {
           "src": "assets-visual/03-01-2020-blackbriar/09-bb52d4e07f.gif",
           "type": "gif",
-          "alt": "CIA.gov site implementation — 09-bb52d4e07f"
+          "alt": "CIA.gov rebrand — 09-bb52d4e07f"
         }
       ]
     },
@@ -2103,19 +2113,19 @@
     "design-directory": {
       "slug": "design-directory",
       "title": "UI design – Deloitte Digital internal directory",
-      "date": "2016-01-29",
+      "date": "2017-01-29",
       "folders": [
-        "01-29-2016-design-directory"
+        "01-29-2017-design-directory"
       ],
-      "preview": "assets-visual/01-29-2016-design-directory/Preview%2001-c2b0485fb4.gif",
+      "preview": "assets-visual/01-29-2017-design-directory/Preview%2001-c2b0485fb4.gif",
       "assets": [
         {
-          "src": "assets-visual/01-29-2016-design-directory/02-c963ac19ae.gif",
+          "src": "assets-visual/01-29-2017-design-directory/02-c963ac19ae.gif",
           "type": "gif",
           "alt": "UI design – Deloitte Digital internal directory — 02-c963ac19ae"
         },
         {
-          "src": "assets-visual/01-29-2016-design-directory/Preview%2001-c2b0485fb4.gif",
+          "src": "assets-visual/01-29-2017-design-directory/Preview%2001-c2b0485fb4.gif",
           "type": "gif",
           "alt": "UI design – Deloitte Digital internal directory — Preview 01-c2b0485fb4"
         }
@@ -2124,14 +2134,14 @@
     "studio-trophy-decks": {
       "slug": "studio-trophy-decks",
       "title": "Studio project trophy decks",
-      "date": "2016-01-29",
+      "date": "2017-01-29",
       "folders": [
-        "01-29-2016-studio-trophy-decks"
+        "01-29-2017-studio-trophy-decks"
       ],
-      "preview": "assets-visual/01-29-2016-studio-trophy-decks/01-3b08cc0842.gif",
+      "preview": "assets-visual/01-29-2017-studio-trophy-decks/01-3b08cc0842.gif",
       "assets": [
         {
-          "src": "assets-visual/01-29-2016-studio-trophy-decks/01-3b08cc0842.gif",
+          "src": "assets-visual/01-29-2017-studio-trophy-decks/01-3b08cc0842.gif",
           "type": "gif",
           "alt": "Studio project trophy decks — 01-3b08cc0842"
         }

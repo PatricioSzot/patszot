@@ -154,7 +154,7 @@ let timelineData = [
       { date: 'March 11', kind: 'writing', title: 'Personality and Clarity: The Changing Role of Brands in Society', url: 'https://medium.com/@patrick.m.szot/personality-and-clarity-the-changing-role-of-brands-in-society-8d2470076908', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*ChRfyyagLmVHGV__sQozPA.jpeg', description: 'How expressive systems change as brands begin to walk and talk' },
       { date: 'February 21', kind: 'writing', title: 'Webflow Conf 2022 Brand System', url: 'https://medium.com/@patrick.m.szot/webflow-conf-2022-brand-system-c9e6c3f13b82', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*OkRIwxUFBv_nq83677bAeQ.jpeg', description: 'The visual system behind Webflow’s 2022 community gathering' },
       { date: 'February 13', kind: 'writing', title: 'The Use of the Words “Creativity” and “Innovation”', url: 'https://medium.com/@patrick.m.szot/the-use-of-the-words-creativity-and-innovation-711b20634a15', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*EmXdGmb64afAerxTYXpeQA.png', description: 'On two related words that are often stretched until they lose meaning' },
-      { date: 'February 12', kind: 'project', title: 'Webflow “User Guide”', url: 'https://domesticatedhorses.webflow.io/', assetsUrl: 'https://dribbble.com/shots/20635546-Webflow-User-Guide', cover: 'https://cdn.dribbble.com/userupload/4614360/file/still-d9d256a232e6beae624e7aec726c1f2d.png?format=webp&resize=800x600&vertical=center' },
+      { date: 'February 12', kind: 'project', title: 'Webflow “User Guide”', url: 'https://domesticatedhorses.webflow.io/', supportingLink: { label: 'view live site', url: 'https://domesticatedhorses.webflow.io/' }, assetsUrl: 'https://dribbble.com/shots/20635546-Webflow-User-Guide', cover: 'https://cdn.dribbble.com/userupload/4614360/file/still-d9d256a232e6beae624e7aec726c1f2d.png?format=webp&resize=800x600&vertical=center' },
       { date: 'February 5', kind: 'writing', title: 'Winning Fulbright Fellowship Sample Essay', url: 'https://medium.com/@patrick.m.szot/winning-fulbright-fellowship-sample-essays-personal-statement-2018-62a9bebd6708', cover: 'https://miro.medium.com/v2/resize:fill:320:214/1*5aWNjUvEs6M-nkmPbqOdew.jpeg', description: 'The personal statement behind a 2018 Fulbright Fellowship' },
       { date: 'February 4', kind: 'project', title: 'Webflow Conf 2022 – Process and Guidelines', url: 'https://dribbble.com/shots/20567364-Webflow-Conf-2022-Process-and-Guidelines', cover: 'https://cdn.dribbble.com/userupload/4483551/file/original-4f2dbf8f04413c4c5d18c77e6f5a6b3e.jpg?format=webp&resize=800x600&vertical=center' },
       { date: 'January 29', kind: 'project', title: '3D Scene', url: 'https://dribbble.com/shots/20509333-3D-Scene', cover: 'https://cdn.dribbble.com/userupload/4444324/file/original-bd42fa6b5f12fe499425bf830b2d67d3.png?crop=0x204-1594x1399&format=webp&resize=800x600&vertical=center' },
@@ -162,6 +162,7 @@ let timelineData = [
       { date: 'January 17', kind: 'project', title: 'Webflow Conf 2022 – Grow with the ’Flow Room', url: 'https://dribbble.com/shots/20410030-Webflow-Conf-2022-Grow-with-the-Flow-room', cover: 'https://cdn.dribbble.com/userupload/4293440/file/original-d1e576e3b7230d2cc45147ed55ac5495.jpg?crop=0x0-1920x1440&format=webp&resize=800x600&vertical=center' },
       { date: 'January 11', kind: 'project', title: 'Webflow Conf 2022 – Themes', url: 'https://dribbble.com/shots/20356384-Webflow-Conf-2022-Themes', cover: 'https://cdn.dribbble.com/userupload/4272644/file/original-848a983cbfe134a519a90f6802a8dff4.jpg?crop=3x0-1503x1125&format=webp&resize=800x600&vertical=center' },
       { date: 'January 4', kind: 'writing', title: '2022 Retrospective: Leadership and Soft Skills', url: 'https://patrickszot.webflow.io/journal/2022-retrospective', description: 'Notes on leadership, collaboration, and creative practice' },
+      { date: 'January 1', kind: 'project', title: 'Webflow OOH SF Campaign', description: 'Out-of-home campaign across San Francisco and Berkeley' },
       { date: '2023', kind: 'project', title: 'Webflow customer Stories', url: 'https://patrickszot.webflow.io/recent-work/webflow-rebrand', description: 'Illustration, sub-branding, color, lighting, motion, and more than 1,000 custom icons' }
     ]
   },
@@ -178,7 +179,7 @@ let timelineData = [
   {
     year: '2021',
     entries: [
-      { date: 'November', kind: 'work', title: 'Recruiting Committee', description: 'Supported hiring for UI and brand design' },
+      { date: 'November', kind: 'work', title: 'NYC Studio Recruiting Committee', description: 'Supported hiring for UI and brand design' },
       { date: 'November', kind: 'project', title: 'WNBA Pursuit', description: 'Led UI tenets and a product vision for digital experiences and brand' },
       { date: 'September', kind: 'milestone', title: 'National Studios art commission', description: 'Commissioned print production for eight unique works delivered at a leadership summit' },
       { date: 'August', kind: 'project', title: 'Thrivent Financial app and web', url: 'https://patrickszot.webflow.io/older-work/thrivent', description: 'Led brand expansion and UI design across concepting, production, and web development' },
@@ -215,11 +216,10 @@ let timelineData = [
     entries: [
       { date: 'December', kind: 'project', title: 'Lilly Pulitzer Virtual Runway', url: 'https://patrickszot.webflow.io/older-work/lilly', description: 'A virtual activation pitch shaped with creative directors, designers, and production' },
       { date: 'December', kind: 'project', title: 'National Air and Space Museum hackathon', description: 'Led brand engagement and guided junior practitioners through strategy and production' },
-      { date: 'October', kind: 'project', title: 'G200.GOV rebrand', description: 'Moodboarding, logo and glyph ideation, visual language, presentation development, and product development' },
+      { date: 'October', kind: 'project', title: 'CIA.gov rebrand', url: 'https://patrickszot.webflow.io/older-work/cia', description: 'Moodboarding, logo and glyph ideation, visual language, presentation development, and product development' },
       { date: 'September', kind: 'milestone', title: 'Opened Austin Studio' },
-      { date: 'August', kind: 'project', title: 'Deloitte Digital DC Brand POV', description: 'Formalized and developed a national branding point of view and usage deck' },
+      { date: 'August', kind: 'project', title: 'Deloitte Digital DC brand lead IC', description: 'Formalized and developed a national branding point of view and usage deck' },
       { date: 'August', kind: 'project', title: 'Transcom', description: 'Visual identity and brand design for Moving Logistics Partnership' },
-      { date: 'July 29', kind: 'writing', title: 'Redux: Noble Goblin and The Courage to Leave', url: 'https://patrickszot.webflow.io/journal/redux', description: 'A reflection on change and choosing a new direction' },
       { date: 'June', kind: 'milestone', title: 'Started NYC transfer process' },
       { date: 'June', kind: 'project', title: 'Access Arkansas', description: 'Identity workshop, state-system brand design, and deliverable presentation' },
       { date: 'May', kind: 'project', title: 'Fenway agency-of-record pitch', description: 'Evolved, illustrated, and delivered the studio point of view on brand maps' },
@@ -251,8 +251,10 @@ let timelineData = [
   {
     year: '2017',
     entries: [
-      { date: 'October 21', kind: 'writing', title: 'Winning Gilman Scholarship Essay', url: 'https://patrickszot.webflow.io/journal/the-ticking-bomb-of-usability', description: 'The essay behind a Gilman Scholarship' },
-      { date: 'May', kind: 'milestone', title: 'B.S. Finance Degree, Design Minor', description: 'Graduated George Mason University, right outside Washington D.C. with dual degree' }
+      { date: 'October 21', kind: 'writing', title: 'Winning Gilman Scholarship Essay', url: 'https://patrickszot.webflow.io/journal/redux', description: 'The essay behind a Gilman Scholarship' },
+      { date: 'May', kind: 'milestone', title: 'B.S. Finance Degree, Design Minor', description: 'Graduated George Mason University, right outside Washington D.C. with dual degree' },
+      { date: 'January 29', kind: 'project', title: 'Studio Project Trophy Decks', url: 'https://dribbble.com/shots/20509321-Studio-Project-Trophy-Decks', cover: 'https://cdn.dribbble.com/userupload/4444309/file/still-5c624d0ba182a5c2b957d0687db23250.gif?format=webp&resize=800x600&vertical=center' },
+      { date: 'January 29', kind: 'project', title: 'UI Design – Deloitte Digital Internal Directory', url: 'https://dribbble.com/shots/20509299-UI-Design-Deloitte-Digital-Internal-Directory', cover: 'https://cdn.dribbble.com/userupload/4444285/file/still-f19a182a7cdf6c8b4eb6ae0ec29f7693.gif?format=webp&resize=800x600&vertical=center' }
     ]
   },
   {
@@ -260,8 +262,6 @@ let timelineData = [
     entries: [
       { date: 'Early practice', kind: 'milestone', title: 'Independent design work', url: 'https://patrickszot.webflow.io/about', description: 'Freelance and subcontracted work while completing degrees in finance and design' },
       { date: 'Independent', kind: 'project', title: 'Rite of Spring', url: 'https://patrickszot.webflow.io/older-work/rite-of-spring', description: 'A self-published novel and visual system spanning a bound book and website' },
-      { date: 'January 29', kind: 'project', title: 'Studio Project Trophy Decks', url: 'https://dribbble.com/shots/20509321-Studio-Project-Trophy-Decks', cover: 'https://cdn.dribbble.com/userupload/4444309/file/still-5c624d0ba182a5c2b957d0687db23250.gif?format=webp&resize=800x600&vertical=center' },
-      { date: 'January 29', kind: 'project', title: 'UI Design – Deloitte Digital Internal Directory', url: 'https://dribbble.com/shots/20509299-UI-Design-Deloitte-Digital-Internal-Directory', cover: 'https://cdn.dribbble.com/userupload/4444285/file/still-f19a182a7cdf6c8b4eb6ae0ec29f7693.gif?format=webp&resize=800x600&vertical=center' },
       { date: 'January', kind: 'milestone', title: 'Delta Sigma Pi Professional Fraternity', description: 'Marketing lead and professional mentor' }
     ]
   }
@@ -273,6 +273,7 @@ const visualAssetKeyByTitle = new Map(Object.entries({
   'Album Art: Presage 2022': 'album-art-presage',
   'Webflow Rebrand': 'webflow-rebrand',
   'Webflow customer Stories': 'webflow-customer-stories',
+  'Webflow OOH SF Campaign': 'webflow-ooh-sf-campaign',
   'Webflow “User Guide”': 'webflow-user-guide',
   'Webflow Conf 2022 – Process and Guidelines': 'webflow-conf-process-guidelines',
   '3D Scene': '3d-scene',
@@ -287,6 +288,7 @@ const visualAssetKeyByTitle = new Map(Object.entries({
   'The Smart Factory': 'smart-factory',
   'Global Marketing Trends 2021': 'global-marketing-trends',
   'CIA.gov site implementation': 'blackbriar',
+  'CIA.gov rebrand': 'blackbriar',
   'Lilly Pulitzer Virtual Runway': 'lilly-pulitzer',
   'Rite of Spring': 'rite-of-spring',
   'TOREI (トレイ)': 'torei',
@@ -331,7 +333,8 @@ const placeVisualProjectsFromFolders = () => {
       const project = visualManifestData.projects[entry.assetKey];
       if (!project) return false;
       if (placedKeys.has(entry.assetKey)) {
-        entry.assetKey = undefined;
+        // Explicit timeline records may intentionally share one curated asset set.
+        // Keep the later record in its authored year while preserving viewer access.
         return true;
       }
       placedKeys.add(entry.assetKey);
@@ -689,7 +692,7 @@ const projectDisplayTitles = new Map(Object.entries({
   'WNBA Pursuit': 'WNBA pursuit',
   'Deloitte Digital National Brand Launch': 'Deloitte Digital national brand launch',
   'Lilly Pulitzer Virtual Runway': 'Lilly Pulitzer virtual runway',
-  'Deloitte Digital DC Brand POV': 'Deloitte Digital DC brand POV',
+  'Deloitte Digital DC brand lead IC': 'Deloitte Digital DC brand lead IC',
   'Deloitte Digital DC Culture Site': 'Deloitte Digital DC culture site'
 }));
 
@@ -698,6 +701,9 @@ const displayEntryTitle = (entry) => entry.kind === 'project' ? projectDisplayTi
 
 const entryMarkup = (entry) => {
   const displayTitle = displayEntryTitle(entry);
+  const supportingCopy = entry.supportingLink
+    ? `<a href="${entry.supportingLink.url}" target="_blank" rel="noopener noreferrer">${entry.supportingLink.label} <i class="ri-external-link-fill" aria-hidden="true"></i></a>`
+    : entry.description || '';
   const assetCount = entry.kind === 'project' && entry.assetKey
     ? '<span class="timeline-asset-count" hidden></span>'
     : '';
@@ -717,7 +723,7 @@ const entryMarkup = (entry) => {
       <div class="project-info" aria-label="Project info">
         <div class="project-info-meta"><time>${metadataTitleCase(entry.date)}</time><span aria-hidden="true">•</span><span class="project-info-type">${metadataTitleCase(entry.kind)}${assetCount}</span></div>
         <h3 class="project-info-title">${linkedTitle}</h3>
-        ${entry.description ? `<p class="project-info-body">${entry.description}</p>` : ''}
+        ${supportingCopy ? `<p class="project-info-body">${supportingCopy}</p>` : ''}
       </div>
     </article>`;
 };

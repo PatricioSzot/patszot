@@ -999,6 +999,23 @@ button.timeline-marker {
     visibility 0s linear .58s;
 }
 
+.project-info-body a {
+  color: inherit;
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+.project-info-body a:hover,
+.project-info-body a:focus-visible {
+  color: #000;
+}
+
+.project-info-body a i {
+  display: inline-block;
+  font-size: .88em;
+  vertical-align: .02em;
+}
+
 .timeline-entry.is-active .project-info-body,
 .timeline-entry:focus-within .project-info-body,
 .timeline-entry.is-focus-exiting .project-info-body {
