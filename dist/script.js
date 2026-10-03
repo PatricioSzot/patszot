@@ -1,4 +1,4 @@
-const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-tildeath-media')
+const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-timeline-content')
   .then((response) => {
     if (!response.ok) throw new Error(`Visual manifest failed: ${response.status}`);
     return response.json();
