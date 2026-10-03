@@ -17,8 +17,7 @@ const knownProjects = {
   'tildeath-forty-day-trial': { title: 'Forty Day Trial', description: 'TILDEATH · Electronica · 5 tracks · Everything and Nothing Music', url: 'https://music.apple.com/us/album/forty-day-trial-ep/1714095563', playerOnly: true },
   'tildeath-ode-to-joy-video': { title: 'Ode To Joy · Lyric Video', description: 'Video · TILDEATH · YouTube', url: 'https://www.youtube.com/watch?v=C4IZiu8wVeA', playerOnly: true },
   'tildeath-blankstare-video': { title: 'Blankstare · Lyric Video', description: 'Video · TILDEATH · YouTube', url: 'https://www.youtube.com/watch?v=NFg5XFu6SvU', playerOnly: true },
-  'tildeath-snakeskin-visualizer': { title: 'Snakeskin · Forty Day Trial Visualizer', description: 'Visualizer · TILDEATH · YouTube', url: 'https://www.youtube.com/watch?v=ZjXskPWHI1I', playerOnly: true },
-  'tildeath-my-fathers-eyes-burned-out-stars': { title: 'My Father’s Eyes & Burned Out Stars · Visualizer', description: 'Visualizer · TILDEATH · YouTube', url: 'https://www.youtube.com/watch?v=fnCa2zAGlwM', playerOnly: true },
+  'tildeath-forty-day-trial-visualizers': { title: 'Forty Day Trial Visualizers', description: '2 visualizers · TILDEATH · YouTube', url: 'https://www.youtube.com/@TildeathMusic', playerOnly: true },
   'rat-highlight-reel': { title: 'Rat Highlight Reel · SSBU 2020', description: 'Video · TILDEATH · YouTube', url: 'https://www.youtube.com/watch?v=vEDD_QvuSzw', playerOnly: true },
   'snakeskin-affection': { title: 'Snakeskin (Affection)', description: 'Music video · TILDEATH · YouTube', url: 'https://www.youtube.com/watch?v=7xrzNP4pTfQ', playerOnly: true },
   'riverwater-wires': { title: 'Riverwater (Wires)', description: 'Music video · TILDEATH · YouTube', url: 'https://www.youtube.com/watch?v=nYY1iqU5L5w', playerOnly: true },
@@ -55,7 +54,10 @@ const knownProjects = {
   'looking-glass': { title: 'Looking Glass EP' }
 };
 
-const folderAliases = {};
+const folderAliases = {
+  'tildeath-snakeskin-visualizer': 'tildeath-forty-day-trial-visualizers',
+  'tildeath-my-fathers-eyes-burned-out-stars': 'tildeath-forty-day-trial-visualizers'
+};
 
 const embeds = {
   'tildeath-garden-of-flowers': [
@@ -85,11 +87,9 @@ const embeds = {
   'tildeath-blankstare-video': [
     { src: 'https://www.youtube-nocookie.com/embed/NFg5XFu6SvU?rel=0', type: 'youtube', alt: 'Blankstare lyric video', width: 16, height: 9, poster: 'assets-visual/07-20-2024-tildeath-blankstare-video/thumbnail.jpg' }
   ],
-  'tildeath-snakeskin-visualizer': [
+  'tildeath-forty-day-trial-visualizers': [
+    { src: 'https://www.youtube-nocookie.com/embed/fnCa2zAGlwM?rel=0', type: 'youtube', alt: 'My Father’s Eyes and Burned Out Stars visualizer', width: 16, height: 9, poster: 'assets-visual/02-20-2024-tildeath-my-fathers-eyes-burned-out-stars/thumbnail.jpg' },
     { src: 'https://www.youtube-nocookie.com/embed/ZjXskPWHI1I?rel=0', type: 'youtube', alt: 'Snakeskin visualizer', width: 16, height: 9, poster: 'assets-visual/02-20-2024-tildeath-snakeskin-visualizer/thumbnail.jpg' }
-  ],
-  'tildeath-my-fathers-eyes-burned-out-stars': [
-    { src: 'https://www.youtube-nocookie.com/embed/fnCa2zAGlwM?rel=0', type: 'youtube', alt: 'My Father’s Eyes and Burned Out Stars visualizer', width: 16, height: 9, poster: 'assets-visual/02-20-2024-tildeath-my-fathers-eyes-burned-out-stars/thumbnail.jpg' }
   ],
   'rat-highlight-reel': [{ src: 'https://www.youtube-nocookie.com/embed/vEDD_QvuSzw?rel=0', type: 'youtube', alt: 'Rat Highlight Reel', width: 16, height: 9, poster: 'assets-visual/10-10-2020-rat-highlight-reel/thumbnail.jpg' }],
   'snakeskin-affection': [{ src: 'https://www.youtube-nocookie.com/embed/7xrzNP4pTfQ?rel=0', type: 'youtube', alt: 'Snakeskin (Affection)', width: 16, height: 9, poster: 'assets-visual/08-05-2019-snakeskin-affection/thumbnail.jpg' }],

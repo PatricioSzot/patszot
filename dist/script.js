@@ -1,4 +1,4 @@
-const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-player-only')
+const visualManifestData = await fetch('assets-visual/manifest.json?v=20261003-visualizer-carousel')
   .then((response) => {
     if (!response.ok) throw new Error(`Visual manifest failed: ${response.status}`);
     return response.json();
@@ -1803,7 +1803,13 @@ const embeddedMediaTypes = new Set(['apple', 'spotify', 'youtube']);
 const createContentWellMedia = (asset, index) => {
   if (embeddedMediaTypes.has(asset.type)) {
     const frame = document.createElement('iframe');
-    frame.src = asset.src;
+    if (asset.type === 'youtube') {
+      frame.dataset.embedSrc = asset.src;
+      frame.className = 'content-well-youtube-frame';
+      frame.tabIndex = -1;
+    } else {
+      frame.src = asset.src;
+    }
     frame.title = asset.alt || `Project media ${index + 1}`;
     frame.loading = 'eager';
     frame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
@@ -1898,6 +1904,7 @@ const waitForContentWellMedia = async (media) => {
     return;
   }
   if (media instanceof HTMLIFrameElement) {
+    if (media.dataset.embedSrc) return;
     await Promise.race([
       new Promise((resolve) => media.addEventListener('load', resolve, { once: true })),
       new Promise((resolve) => window.setTimeout(resolve, 1600))
@@ -2088,7 +2095,30 @@ const showContentWellAsset = async (requestedIndex, direction = 0, focusDirectio
       item.classList.add('has-embed-poster');
       item.style.backgroundImage = `url("${posterSrc.replaceAll('"', '%22')}")`;
     }
-    media.addEventListener('load', () => item.classList.add('is-embed-loaded'), { once: true });
+    if (activeAsset.type === 'youtube') {
+      item.classList.add('is-youtube-idle');
+      const play = document.createElement('button');
+      play.className = 'content-well-youtube-play';
+      play.type = 'button';
+      play.setAttribute('aria-label', `Play ${activeAsset.alt || 'YouTube video'}`);
+      play.innerHTML = '<i class="ri-play-fill" aria-hidden="true"></i>';
+      play.addEventListener('click', () => {
+        if (!media.dataset.embedSrc) return;
+        const source = media.dataset.embedSrc;
+        delete media.dataset.embedSrc;
+        media.addEventListener('load', () => {
+          item.classList.add('is-embed-loaded');
+          item.classList.remove('is-youtube-loading');
+          play.remove();
+        }, { once: true });
+        item.classList.remove('is-youtube-idle');
+        item.classList.add('is-youtube-loading');
+        media.src = `${source}${source.includes('?') ? '&' : '?'}autoplay=1`;
+      });
+      item.append(play);
+    } else {
+      media.addEventListener('load', () => item.classList.add('is-embed-loaded'), { once: true });
+    }
     contentWellScroll.append(item);
   }
   await waitForContentWellMedia(media);
