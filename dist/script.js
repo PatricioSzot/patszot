@@ -404,6 +404,9 @@ const closeDuration = () => reducedMotion.matches ? 0 : 650;
 const backToTop = document.querySelector('#back-to-top');
 const sceneReset = document.querySelector('#scene-reset');
 const viewportControlsHint = document.querySelector('.viewport-controls-hint');
+const historyFilter = document.querySelector('#history-filter');
+const historyFilterTrigger = document.querySelector('#history-filter-trigger');
+const historyFilterMenu = document.querySelector('#history-filter-menu');
 const ndaDialog = document.querySelector('#nda-dialog');
 const ndaDialogCancel = ndaDialog.querySelector('.nda-dialog-cancel');
 const ndaDialogConfirm = ndaDialog.querySelector('.nda-dialog-confirm');
@@ -742,6 +745,19 @@ timelineEntries.forEach((element, index) => {
   element.entryData = timelineRecords[index];
   element.style.setProperty('--entry-delay', `${Math.min(index, 8) * 42}ms`);
 });
+const historyFilterOrder = ['project', 'writing', 'milestone', 'work'];
+const historyFilterCounts = new Map();
+timelineRecords.forEach((entry) => historyFilterCounts.set(entry.kind, (historyFilterCounts.get(entry.kind) || 0) + 1));
+const historyFilterTags = historyFilterOrder.filter((tag) => historyFilterCounts.has(tag));
+historyFilterMenu.innerHTML = [
+  { tag: 'all', label: 'All', count: timelineRecords.length },
+  ...historyFilterTags.map((tag) => ({ tag, label: metadataTitleCase(tag), count: historyFilterCounts.get(tag) }))
+].map(({ tag, label, count }) => `
+  <button class="history-filter-option" type="button" role="radio" aria-checked="${tag === 'all'}" data-history-filter="${tag}">
+    <i class="ri-check-line history-filter-option-check" aria-hidden="true"></i>
+    <span>${label}</span>
+    <span class="history-filter-option-count" aria-hidden="true">${count}</span>
+  </button>`).join('');
 const fixedPreviewSourceFor = (entry) => {
   if (!entry) return visualPreviewByKey.airops;
   return visualPreviewByKey[entry.assetKey] || entry.cover;
@@ -754,6 +770,7 @@ detailsTrigger.addEventListener('click', () => {
   document.body.classList.remove('timeline-reveal-priming');
   clearScrollRevealPressure();
   const open = !detailsGroup.classList.contains('is-open');
+  if (!open) setHistoryFilterMenuOpen(false);
   detailsTrigger.setAttribute('aria-expanded', String(open));
   detailsTrigger.setAttribute('aria-label', open ? 'Close history' : 'Open history');
 
@@ -827,7 +844,8 @@ let timelineGeometry = {
   maximumScrollTop: Number.POSITIVE_INFINITY,
   entryCenters: [],
   entryTops: [],
-  entryHeights: []
+  entryHeights: [],
+  entries: []
 };
 let previousScrollY = window.scrollY;
 let previousScrollTime = performance.now();
@@ -1119,8 +1137,12 @@ const offsetTopWithin = (element, ancestor) => {
   return top;
 };
 
+const visibleTimelineEntries = () => timelineEntries.filter((entry) => !entry.hidden);
+
 const positionContentWell = (entryElement, entryIndex = activeTimelineIndex) => {
-  const firstEntry = timelineEntries[0];
+  const firstEntry = timelineGeometry.valid
+    ? timelineGeometry.entries[0]
+    : visibleTimelineEntries()[0];
   let top;
   if (entryElement) {
     if (!timelineGeometry.valid) rebuildTimelineGeometry();
@@ -1174,8 +1196,11 @@ const clearTimelineActive = () => {
 const updateTimelineDistanceStates = (activeIndex) => {
   if (timelineDistanceStateIndex === activeIndex) return;
   timelineDistanceStateIndex = activeIndex;
-  timelineEntries.forEach((entry, index) => {
-    entry.classList.toggle('is-deprioritized', Math.abs(index - activeIndex) >= 2);
+  const visibleEntries = timelineGeometry.valid ? timelineGeometry.entries : visibleTimelineEntries();
+  const visibleIndexes = new Map(visibleEntries.map((entry, index) => [entry, index]));
+  timelineEntries.forEach((entry) => {
+    const index = visibleIndexes.get(entry);
+    entry.classList.toggle('is-deprioritized', index !== undefined && Math.abs(index - activeIndex) >= 2);
   });
 };
 
@@ -1194,10 +1219,11 @@ const untransformedDocumentCenter = (element) => {
 const invalidateTimelineGeometry = () => { timelineGeometry.valid = false; };
 
 const rebuildTimelineGeometry = () => {
-  if (!timelineScene || !timelineEntries.length) return;
+  const entries = visibleTimelineEntries();
+  if (!timelineScene || !entries.length) return;
   const sceneTop = untransformedDocumentCenter(timelineScene).y - timelineScene.offsetHeight / 2;
-  const entryTops = timelineEntries.map((entry) => offsetTopWithin(entry, timelineScene));
-  const entryHeights = timelineEntries.map((entry) => entry.offsetHeight);
+  const entryTops = entries.map((entry) => offsetTopWithin(entry, timelineScene));
+  const entryHeights = entries.map((entry) => entry.offsetHeight);
   const entryCenters = entryTops.map((top, index) => top + entryHeights[index] / 2);
   const footerOffset = timelineFooterAnchor ? offsetTopWithin(timelineFooterAnchor, timelineScene) : Number.POSITIVE_INFINITY;
   const footerHeight = timelineFooterAnchor?.offsetHeight || 0;
@@ -1211,13 +1237,14 @@ const rebuildTimelineGeometry = () => {
       : Number.POSITIVE_INFINITY,
     entryCenters,
     entryTops,
-    entryHeights
+    entryHeights,
+    entries
   };
 };
 
 const timelineEntryIndexForViewport = () => {
-  if (!timelineEntries.length) return -1;
   if (!timelineGeometry.valid) rebuildTimelineGeometry();
+  if (!timelineGeometry.entries.length) return -1;
   if (window.scrollY <= 48) return 0;
 
   const focusOffset = window.scrollY + window.innerHeight / 2 - timelineGeometry.sceneTop;
@@ -1231,7 +1258,7 @@ const timelineEntryIndexForViewport = () => {
   }
   const upcomingIndex = low;
   if (upcomingIndex === 0) return 0;
-  if (upcomingIndex === timelineEntries.length) return timelineEntries.length - 1;
+  if (upcomingIndex === timelineGeometry.entries.length) return timelineGeometry.entries.length - 1;
 
   const previousCenter = centers[upcomingIndex - 1];
   const upcomingCenter = centers[upcomingIndex];
@@ -1250,7 +1277,7 @@ const updateTimelineActive = () => {
   const presentOwnsFocus = timelineGeometry.firstCenter - window.scrollY > window.innerHeight / 2;
   const footerOwnsFocus = window.scrollY >= timelineFooterFocusStart();
   const nextIndex = presentOwnsFocus || footerOwnsFocus ? -1 : timelineEntryIndexForViewport();
-  const closest = nextIndex >= 0 ? timelineEntries[nextIndex] : undefined;
+  const closest = nextIndex >= 0 ? timelineGeometry.entries[nextIndex] : undefined;
 
   document.body.classList.toggle('present-focus', presentOwnsFocus);
   document.body.classList.toggle('timeline-footer-focus', footerOwnsFocus);
@@ -1287,6 +1314,125 @@ const requestTimelineActiveUpdate = () => {
   if (activeTimelineFrame) return;
   activeTimelineFrame = requestAnimationFrame(updateTimelineActive);
 };
+
+let activeHistoryFilter = 'all';
+let historyFilterCloseTimer;
+
+const setHistoryFilterMenuOpen = (open, returnFocus = false) => {
+  window.clearTimeout(historyFilterCloseTimer);
+  historyFilterTrigger.setAttribute('aria-expanded', String(open));
+  if (open) {
+    historyFilterMenu.hidden = false;
+    requestAnimationFrame(() => {
+      historyFilterMenu.classList.add('is-open');
+      historyFilterMenu.querySelector('[aria-checked="true"]')?.focus({ preventScroll: true });
+    });
+    return;
+  }
+  historyFilterMenu.classList.remove('is-open');
+  historyFilterCloseTimer = window.setTimeout(() => { historyFilterMenu.hidden = true; }, reducedMotion.matches ? 0 : 240);
+  if (returnFocus) historyFilterTrigger.focus({ preventScroll: true });
+};
+
+const syncHistoryFilterControls = () => {
+  const activeLabel = activeHistoryFilter === 'all' ? 'All' : metadataTitleCase(activeHistoryFilter);
+  historyFilter.classList.toggle('has-filter', activeHistoryFilter !== 'all');
+  historyFilterTrigger.setAttribute('aria-label', `Filter history, ${activeLabel} selected`);
+  historyFilterTrigger.querySelector('.history-filter-active-label').textContent = activeLabel;
+  historyFilterMenu.querySelectorAll('[data-history-filter]').forEach((option) => {
+    option.setAttribute('aria-checked', String(option.dataset.historyFilter === activeHistoryFilter));
+  });
+};
+
+const applyHistoryFilter = async (filter) => {
+  if (filter === activeHistoryFilter) {
+    setHistoryFilterMenuOpen(false, true);
+    return;
+  }
+  const previousEntry = activeTimelineEntry;
+  const previousIndex = Math.max(0, timelineEntries.indexOf(previousEntry));
+  timelinePanel.classList.add('is-filter-transitioning');
+  setHistoryFilterMenuOpen(false);
+
+  const exitAnimation = timeline.animate(
+    [{ opacity: 1 }, { opacity: reducedMotion.matches ? 1 : .38 }],
+    { duration: reducedMotion.matches ? 0 : 130, easing: 'ease-out', fill: 'both' }
+  );
+  await exitAnimation.finished.catch(() => {});
+
+  activeHistoryFilter = filter;
+  timelineEntries.forEach((entry) => {
+    entry.hidden = filter !== 'all' && entry.dataset.kind !== filter;
+  });
+  timeline.querySelectorAll('.timeline-year').forEach((year) => {
+    year.hidden = !year.querySelector('.timeline-entry:not([hidden])');
+  });
+  syncHistoryFilterControls();
+  clearTimelineActive();
+  setPreviewVisibility(false);
+  timelineDistanceStateIndex = Number.NaN;
+  invalidateTimelineGeometry();
+  rebuildTimelineGeometry();
+
+  const visibleEntries = timelineGeometry.entries;
+  const targetEntry = previousEntry && !previousEntry.hidden
+    ? previousEntry
+    : visibleEntries.reduce((nearest, entry) => {
+        if (!nearest) return entry;
+        return Math.abs(timelineEntries.indexOf(entry) - previousIndex) < Math.abs(timelineEntries.indexOf(nearest) - previousIndex)
+          ? entry
+          : nearest;
+      }, undefined);
+  if (targetEntry) {
+    const targetIndex = visibleEntries.indexOf(targetEntry);
+    const targetTop = clampScrollY(
+      timelineGeometry.sceneTop + timelineGeometry.entryCenters[targetIndex] - window.innerHeight / 2
+    );
+    window.scrollTo({ top: targetTop, left: window.scrollX, behavior: 'auto' });
+    driftTarget = targetTop;
+  }
+
+  exitAnimation.cancel();
+  const enterAnimation = timeline.animate(
+    reducedMotion.matches
+      ? [{ opacity: 1 }, { opacity: 1 }]
+      : [{ opacity: .38, transform: 'translate3d(0, 5px, 0)' }, { opacity: 1, transform: 'translate3d(0, 0, 0)' }],
+    { duration: reducedMotion.matches ? 0 : 320, easing: 'cubic-bezier(.22, 1, .36, 1)' }
+  );
+  await enterAnimation.finished.catch(() => {});
+  timelinePanel.classList.remove('is-filter-transitioning');
+  requestTimelineActiveUpdate();
+};
+
+historyFilterTrigger.addEventListener('click', () => {
+  setHistoryFilterMenuOpen(historyFilterTrigger.getAttribute('aria-expanded') !== 'true');
+});
+historyFilterMenu.addEventListener('click', (event) => {
+  const option = event.target.closest('[data-history-filter]');
+  if (option) applyHistoryFilter(option.dataset.historyFilter);
+});
+historyFilterMenu.addEventListener('keydown', (event) => {
+  if (!['ArrowUp', 'ArrowDown', 'Home', 'End', 'Escape'].includes(event.key)) return;
+  event.preventDefault();
+  if (event.key === 'Escape') {
+    setHistoryFilterMenuOpen(false, true);
+    return;
+  }
+  const options = [...historyFilterMenu.querySelectorAll('[data-history-filter]')];
+  const currentIndex = Math.max(0, options.indexOf(document.activeElement));
+  const nextIndex = event.key === 'Home'
+    ? 0
+    : event.key === 'End'
+      ? options.length - 1
+      : (currentIndex + (event.key === 'ArrowDown' ? 1 : -1) + options.length) % options.length;
+  options[nextIndex].focus({ preventScroll: true });
+});
+document.addEventListener('pointerdown', (event) => {
+  if (historyFilterTrigger.getAttribute('aria-expanded') === 'true' && !historyFilter.contains(event.target)) {
+    setHistoryFilterMenuOpen(false);
+  }
+});
+syncHistoryFilterControls();
 
 const clampTimelineScrollEnd = () => {
   if (!document.body.classList.contains('details-open') || !timelineFooterAnchor) return false;

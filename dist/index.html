@@ -29,7 +29,7 @@
     <link rel="preconnect" href="https://www.youtube-nocookie.com" />
     <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:wdth,wght@75..125,100..900&amp;display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=20261003-embed-performance" />
+    <link rel="stylesheet" href="styles.css?v=20261003-history-filter" />
   </head>
   <body>
     <main>
@@ -212,9 +212,16 @@
 
     <div class="viewport-controls">
       <span class="viewport-controls-hint" aria-hidden="true">Click and drag to get a better view</span>
+      <div class="history-filter" id="history-filter">
+        <div class="history-filter-menu" id="history-filter-menu" role="radiogroup" aria-label="Filter history by type" hidden></div>
+        <button class="history-filter-trigger" id="history-filter-trigger" type="button" aria-label="Filter history" aria-controls="history-filter-menu" aria-expanded="false">
+          <i class="ri-filter-3-line" aria-hidden="true"></i>
+          <span class="history-filter-active-label" aria-hidden="true">All</span>
+        </button>
+      </div>
       <button class="scene-reset" id="scene-reset" type="button" aria-label="Reset 3D rotation"><i class="ri-reset-right-fill" aria-hidden="true"></i></button>
       <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top"><span class="back-to-top-object" aria-hidden="true"><i class="ri-contract-left-line back-to-top-icon"></i><span class="back-to-top-label">Top</span></span></button>
     </div>
-    <script type="module" src="script.js?v=20261003-embed-performance"></script>
+    <script type="module" src="script.js?v=20261003-history-filter"></script>
   </body>
 </html>

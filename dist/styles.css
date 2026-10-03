@@ -1909,6 +1909,131 @@ body.details-open.timeline-footer-focus .viewport-controls {
   transition: max-width .52s var(--ease), opacity .32s ease, transform .52s var(--ease);
 }
 
+.history-filter {
+  position: relative;
+  flex: 0 0 0;
+  width: 40px;
+  max-width: 0;
+  margin-left: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(8px) scale(.94);
+  transition:
+    max-width .42s var(--ease),
+    flex-basis .42s var(--ease),
+    margin-left .42s var(--ease),
+    opacity .24s ease,
+    visibility 0s linear .32s,
+    transform .42s var(--ease);
+}
+
+body.details-open:not(.details-opening):not(.details-closing):not(.timeline-footer-focus) .history-filter {
+  flex-basis: 40px;
+  max-width: 40px;
+  margin-left: 8px;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.history-filter-trigger {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(29, 27, 25, .18);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .92);
+  color: var(--ink);
+  cursor: pointer;
+  transition: color .22s ease, background-color .22s ease, border-color .22s ease, transform .32s var(--ease);
+}
+
+.history-filter-trigger:hover,
+.history-filter-trigger[aria-expanded="true"],
+.history-filter.has-filter .history-filter-trigger {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #fff;
+}
+
+.history-filter-trigger:focus-visible,
+.history-filter-option:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.history-filter-trigger i { font-size: 17px; line-height: 1; }
+.history-filter-active-label { display: none; }
+
+.history-filter-menu {
+  position: absolute;
+  right: 0;
+  bottom: 48px;
+  width: max-content;
+  min-width: 174px;
+  display: grid;
+  gap: 2px;
+  padding: 6px;
+  border: 1px solid rgba(29, 27, 25, .14);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 12px 36px rgba(29, 27, 25, .08);
+  opacity: 0;
+  transform: translate3d(0, 8px, 0) scale(.97);
+  transform-origin: right bottom;
+  pointer-events: none;
+  transition: opacity .2s ease, transform .38s var(--ease);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.history-filter-menu[hidden] { display: none; }
+
+.history-filter-menu.is-open {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.history-filter-option {
+  min-height: 38px;
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+}
+
+.history-filter-option:hover { background: rgba(29, 27, 25, .06); }
+.history-filter-option[aria-checked="true"] { background: var(--ink); color: #fff; }
+.history-filter-option-check { opacity: 0; }
+.history-filter-option[aria-checked="true"] .history-filter-option-check { opacity: 1; }
+.history-filter-option-count { color: rgba(29, 27, 25, .46); font-variant-numeric: tabular-nums; }
+.history-filter-option[aria-checked="true"] .history-filter-option-count { color: rgba(255, 255, 255, .68); }
+
+.timeline-panel.is-filter-transitioning .timeline-scene {
+  pointer-events: none;
+}
+
+.timeline-entry[hidden],
+.timeline-year[hidden] { display: none !important; }
+
 body.details-open:not(.timeline-footer-focus) .viewport-controls-hint {
   max-width: 190px;
   opacity: .7;
@@ -2317,9 +2442,9 @@ body.details-open:not(.timeline-footer-focus) .viewport-controls-hint {
   body.overview-expanded .footer-contact { left: 20px; }
 
   .viewport-controls {
-    right: auto;
+    right: 20px;
     bottom: 20px;
-    left: 20px;
+    left: auto;
   }
 
   .viewport-controls-hint { display: none; }
@@ -2356,6 +2481,16 @@ body.details-open:not(.timeline-footer-focus) .viewport-controls-hint {
   }
 
   .scene-reset { display: none; }
+
+  .history-filter { width: 44px; }
+
+  body.details-open:not(.details-opening):not(.details-closing):not(.timeline-footer-focus) .history-filter {
+    flex-basis: 44px;
+    max-width: 44px;
+  }
+
+  .history-filter-trigger { width: 44px; height: 44px; }
+  .history-filter-menu { bottom: 52px; }
 
   .nda-dialog-panel { padding: 22px 20px 20px; }
   .nda-dialog-actions { flex-direction: column-reverse; }
