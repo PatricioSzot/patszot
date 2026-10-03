@@ -263,9 +263,8 @@ body.details-open .profile-anchor-marker {
     linear-gradient(
       to top,
       var(--project-active) 0 var(--accordion-fill),
-      rgba(255, 255, 255, .94) var(--accordion-fill) 100%
+      transparent var(--accordion-fill) 100%
     );
-  backdrop-filter: blur(8px);
   color: var(--ink);
   transform-origin: center bottom;
   transition:
@@ -1726,7 +1725,7 @@ body.details-open.timeline-footer-focus .viewport-controls {
 
 body.details-open:not(.timeline-footer-focus) .viewport-controls-hint {
   max-width: 190px;
-  opacity: .48;
+  opacity: .62;
   transform: translate3d(0, 0, 0);
 }
 
