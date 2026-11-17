@@ -900,6 +900,7 @@ let contentWellFocusAnimations = [];
 let contentWellAssetAnimations = [];
 const defaultVisualAutoplayDuration = 4000;
 let activeVisualAutoplayDuration = defaultVisualAutoplayDuration;
+const writingAutoscrollEnabled = false;
 const writingAutoplaySpeed = 14;
 const hoverPauseEnabled = window.matchMedia('(min-width: 701px) and (hover: hover) and (pointer: fine)');
 
@@ -2279,6 +2280,7 @@ const contentAutoplayTick = (now) => {
     }
     return;
   }
+  if (!writingAutoscrollEnabled) return;
   const range = Math.max(0, contentWellScroll.scrollHeight - contentWellScroll.clientHeight);
   if (!range) {
     setContentTimerProgress(1);
@@ -2302,7 +2304,10 @@ const startContentAutoplay = (reset = true) => {
       : 0);
   }
   contentAutoplayLastTime = 0;
-  if (!contentAutoplayFrame && !reducedMotion.matches) contentAutoplayFrame = requestAnimationFrame(contentAutoplayTick);
+  const shouldAutoplay = contentWell.dataset.kind === 'project' || writingAutoscrollEnabled;
+  if (shouldAutoplay && !contentAutoplayFrame && !reducedMotion.matches) {
+    contentAutoplayFrame = requestAnimationFrame(contentAutoplayTick);
+  }
 };
 
 const updateContentWellControls = () => {
@@ -2319,7 +2324,7 @@ const updateContentWellControls = () => {
     contentWellNext.querySelector('i').className = 'ri-arrow-down-line';
     contentWellPrevious.disabled = contentWellScroll.scrollTop <= 1;
     contentWellNext.disabled = range <= 1 || contentWellScroll.scrollTop >= range - 1;
-    contentWellAutoplay.disabled = range <= 1;
+    contentWellAutoplay.disabled = true;
     contentWellCount.textContent = `${Math.round(progress * 100)}%`;
     contentWellTimer.setAttribute('aria-hidden', 'false');
     contentWellTimer.setAttribute('role', 'scrollbar');
