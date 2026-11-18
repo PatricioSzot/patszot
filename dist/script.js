@@ -747,12 +747,98 @@ timeline.innerHTML = displayTimelineData.map((section, yearIndex) => `
     <div class="timeline-year-entries">${section.entries.map(entryMarkup).join('')}</div>
   </section>`).join('');
 
+document.body.classList.add('spiral-timeline');
+timeline.insertAdjacentHTML('afterbegin', '<div class="spiral-thread" aria-hidden="true"></div>');
+const spiralThread = timeline.querySelector('.spiral-thread');
+
 const timelineEntries = [...timeline.querySelectorAll('.timeline-entry')];
 const timelineRecords = displayTimelineData.flatMap((section) => section.entries);
 timelineEntries.forEach((element, index) => {
   element.entryData = timelineRecords[index];
   element.style.setProperty('--entry-delay', `${Math.min(index, 8) * 42}ms`);
 });
+const spiralTimelineEnabled = true;
+const spiralState = {
+  radius: 0,
+  turns: 0,
+  step: 0,
+  header: 0,
+  trackHeight: 0,
+  pitch: 0,
+  yaw: 0,
+  targetPitch: 0,
+  targetYaw: 0,
+  focus: 0,
+  frame: undefined,
+  points: []
+};
+
+const shortestAngleDelta = (from, to) => ((to - from + 540) % 360) - 180;
+const spiralPointAt = (progress, radius = spiralState.radius, turns = spiralState.turns) => {
+  const t = Math.max(0, Math.min(1, progress));
+  const latitude = (-.46 + .92 * t) * Math.PI;
+  const theta = Math.PI / 2 + turns * Math.PI * 2 * t;
+  const ringRadius = radius * Math.cos(latitude);
+  return {
+    x: ringRadius * Math.cos(theta),
+    y: radius * Math.sin(latitude),
+    z: ringRadius * Math.sin(theta),
+    latitude,
+    theta
+  };
+};
+
+const setSpiralElementPoint = (element, point) => {
+  element.style.setProperty('--spiral-x', `${point.x.toFixed(2)}px`);
+  element.style.setProperty('--spiral-y', `${point.y.toFixed(2)}px`);
+  element.style.setProperty('--spiral-z', `${point.z.toFixed(2)}px`);
+};
+
+const rebuildSpiralThread = () => {
+  if (!spiralThread || !spiralState.radius) return;
+  const sampleCount = coarsePointer.matches
+    ? Math.max(140, Math.min(240, Math.round(spiralState.turns * 16)))
+    : Math.max(180, Math.min(420, Math.round(spiralState.turns * 28)));
+  const fragment = document.createDocumentFragment();
+  for (let index = 0; index < sampleCount; index += 1) {
+    const point = spiralPointAt(index / Math.max(1, sampleCount - 1));
+    const node = document.createElement('i');
+    node.className = 'spiral-thread-point';
+    setSpiralElementPoint(node, point);
+    fragment.append(node);
+  }
+  spiralThread.replaceChildren(fragment);
+};
+
+const layoutSpiralTimeline = () => {
+  if (!spiralTimelineEnabled) return;
+  const entries = timelineEntries.filter((entry) => !entry.hidden);
+  const count = Math.max(1, entries.length);
+  spiralState.radius = Math.max(210, Math.min(430, window.innerWidth * .31, window.innerHeight * .4));
+  spiralState.turns = Math.max(3.25, count / (coarsePointer.matches ? 7.2 : 8.6));
+  spiralState.step = coarsePointer.matches ? 142 : 164;
+  spiralState.header = Math.max(window.innerHeight * .62, coarsePointer.matches ? 360 : 520);
+  spiralState.trackHeight = spiralState.header + Math.max(0, count - 1) * spiralState.step + window.innerHeight * 1.25;
+  timelinePanel.style.setProperty('--spiral-track-height', `${Math.round(spiralState.trackHeight)}px`);
+  timeline.style.setProperty('--spiral-radius', `${spiralState.radius}px`);
+
+  spiralState.points = entries.map((entry, index) => {
+    const point = spiralPointAt(count === 1 ? .5 : index / (count - 1));
+    setSpiralElementPoint(entry, point);
+    entry.style.setProperty('--spiral-index', String(index));
+    return point;
+  });
+
+  timeline.querySelectorAll('.timeline-year').forEach((year) => {
+    const heading = year.querySelector('.timeline-year-heading');
+    const firstVisible = year.querySelector('.timeline-entry:not([hidden])');
+    if (!heading || !firstVisible) return;
+    const index = entries.indexOf(firstVisible);
+    if (index < 0) return;
+    setSpiralElementPoint(heading, spiralState.points[index]);
+  });
+  rebuildSpiralThread();
+};
 const historyFilterOrder = ['project', 'writing', 'fun', 'milestone'];
 const historyFilterCounts = new Map();
 timelineRecords.forEach((entry) => {
@@ -1169,7 +1255,9 @@ const positionContentWell = (entryElement, entryIndex = activeTimelineIndex) => 
     ? timelineGeometry.entries[0]
     : visibleTimelineEntries()[0];
   let top;
-  if (entryElement) {
+  if (spiralTimelineEnabled && !coarsePointer.matches) {
+    top = window.innerHeight * .5;
+  } else if (entryElement) {
     if (!timelineGeometry.valid) rebuildTimelineGeometry();
     top = timelineGeometry.entryTops[entryIndex] ?? offsetTopWithin(entryElement, timelineScene);
     if (coarsePointer.matches) top += (timelineGeometry.entryHeights[entryIndex] ?? entryElement.offsetHeight) + 24;
@@ -1225,8 +1313,22 @@ const updateTimelineDistanceStates = (activeIndex) => {
   const visibleIndexes = new Map(visibleEntries.map((entry, index) => [entry, index]));
   timelineEntries.forEach((entry) => {
     const index = visibleIndexes.get(entry);
-    entry.classList.toggle('is-deprioritized', index !== undefined && Math.abs(index - activeIndex) >= 2);
+    const distance = index === undefined || activeIndex < 0 ? Number.POSITIVE_INFINITY : Math.abs(index - activeIndex);
+    entry.classList.toggle('is-deprioritized', index !== undefined && distance >= 2);
+    if (spiralTimelineEnabled) {
+      const opacity = distance === 0 ? 1 : distance === 1 ? .2 : distance === 2 ? .08 : distance <= 4 ? .035 : .018;
+      entry.style.setProperty('--spiral-entry-opacity', String(opacity));
+      entry.style.setProperty('--spiral-entry-scale', String(distance === 0 ? 1 : distance === 1 ? .92 : .86));
+    }
   });
+  if (spiralTimelineEnabled) {
+    const activeYear = activeIndex >= 0 ? visibleEntries[activeIndex]?.closest('.timeline-year') : undefined;
+    timeline.querySelectorAll('.timeline-year').forEach((year) => {
+      const heading = year.querySelector('.timeline-year-heading');
+      const opacity = year === activeYear ? .74 : .025;
+      heading?.style.setProperty('--spiral-year-opacity', String(opacity));
+    });
+  }
 };
 
 const untransformedDocumentCenter = (element) => {
@@ -1246,6 +1348,27 @@ const invalidateTimelineGeometry = () => { timelineGeometry.valid = false; };
 const rebuildTimelineGeometry = () => {
   const entries = visibleTimelineEntries();
   if (!timelineScene || !entries.length) return;
+  if (spiralTimelineEnabled) {
+    layoutSpiralTimeline();
+    const sceneTop = untransformedDocumentCenter(timelinePanel).y - timelinePanel.offsetHeight / 2;
+    const entryHeights = entries.map((entry) => entry.offsetHeight || 112);
+    const entryCenters = entries.map((entry, index) => spiralState.header + index * spiralState.step);
+    const entryTops = entryCenters.map((center, index) => center - entryHeights[index] / 2);
+    const footerHeight = timelineFooterAnchor?.offsetHeight || 0;
+    const footerStart = sceneTop + spiralState.trackHeight;
+    timelineGeometry = {
+      valid: true,
+      sceneTop,
+      firstCenter: sceneTop + entryCenters[0],
+      footerStart,
+      maximumScrollTop: Math.max(0, footerStart + footerHeight - window.innerHeight),
+      entryCenters,
+      entryTops,
+      entryHeights,
+      entries
+    };
+    return;
+  }
   const sceneTop = untransformedDocumentCenter(timelineScene).y - timelineScene.offsetHeight / 2;
   const entryTops = entries.map((entry) => offsetTopWithin(entry, timelineScene));
   const entryHeights = entries.map((entry) => entry.offsetHeight);
@@ -1299,6 +1422,7 @@ const updateTimelineActive = () => {
   if (!document.body.classList.contains('details-open') || document.body.classList.contains('details-opening') || document.body.classList.contains('details-closing') || timelinePanel.hidden) return;
 
   if (!timelineGeometry.valid) rebuildTimelineGeometry();
+  if (spiralTimelineEnabled) updateSpiralFocusFromScroll();
   const presentOwnsFocus = timelineGeometry.firstCenter - window.scrollY > window.innerHeight / 2;
   const footerOwnsFocus = window.scrollY >= timelineFooterFocusStart();
   const nextIndex = presentOwnsFocus || footerOwnsFocus ? -1 : timelineEntryIndexForViewport();
@@ -1500,8 +1624,6 @@ const profile = document.querySelector('.profile');
 const profileScenes = [...document.querySelectorAll('.profile-scene')];
 const footerContactScene = document.querySelector('.footer-contact-scene');
 const cameraBillboards = [...document.querySelectorAll([
-  '.project-info',
-  '.timeline-marker',
   '.profile-billboard',
   '.profile-anchor-marker',
   '.present-project-trigger',
@@ -1591,15 +1713,29 @@ const renderScene = () => {
   profileScenes.forEach((element) => { element.style.transform = forwardTransform; });
   footerContactScene.style.transform = forwardTransform;
 
-  const yearBillboardTransform = `rotateX(${(-sceneAngles.pitch).toFixed(3)}deg) rotateY(${(-sceneAngles.yaw).toFixed(3)}deg)`;
-  timelineYearHeadings.forEach((heading) => {
-    const stickyTop = Number.parseFloat(getComputedStyle(heading).top) || 0;
-    const isStuck = heading.getBoundingClientRect().top <= stickyTop + 1;
-    heading.classList.toggle('is-stuck', isStuck);
-    heading.style.transform = isStuck
-      ? `translate3d(0, ${(-sceneScroll.y).toFixed(3)}px, ${(-sceneScroll.z).toFixed(3)}px) ${yearBillboardTransform}`
-      : yearBillboardTransform;
-  });
+  if (spiralTimelineEnabled) {
+    timeline.style.setProperty('--spiral-focus-pitch', `${spiralState.pitch.toFixed(3)}deg`);
+    timeline.style.setProperty('--spiral-focus-yaw', `${spiralState.yaw.toFixed(3)}deg`);
+    // Invert the nested scene rotations in reverse parent order. Keeping this
+    // as explicit CSS rotations avoids matrix-order differences across WebKit.
+    const inverseBillboard = [
+      `rotateY(${(-spiralState.yaw).toFixed(3)}deg)`,
+      `rotateX(${(-spiralState.pitch).toFixed(3)}deg)`,
+      `rotateX(${(-sceneAngles.pitch).toFixed(3)}deg)`,
+      `rotateY(${(-sceneAngles.yaw).toFixed(3)}deg)`
+    ].join(' ');
+    timeline.style.setProperty('--spiral-billboard-transform', inverseBillboard);
+  } else {
+    const yearBillboardTransform = `rotateX(${(-sceneAngles.pitch).toFixed(3)}deg) rotateY(${(-sceneAngles.yaw).toFixed(3)}deg)`;
+    timelineYearHeadings.forEach((heading) => {
+      const stickyTop = Number.parseFloat(getComputedStyle(heading).top) || 0;
+      const isStuck = heading.getBoundingClientRect().top <= stickyTop + 1;
+      heading.classList.toggle('is-stuck', isStuck);
+      heading.style.transform = isStuck
+        ? `translate3d(0, ${(-sceneScroll.y).toFixed(3)}px, ${(-sceneScroll.z).toFixed(3)}px) ${yearBillboardTransform}`
+        : yearBillboardTransform;
+    });
+  }
 
   const anglesChanged = sceneAngles.pitch !== renderedScenePitch || sceneAngles.yaw !== renderedSceneYaw;
   if (anglesChanged) {
@@ -1623,8 +1759,44 @@ const renderScene = () => {
     renderedScenePitch = sceneAngles.pitch;
     renderedSceneYaw = sceneAngles.yaw;
   }
-  requestAnimationFrame(constrainContentWellToViewport);
+  if (!spiralTimelineEnabled) requestAnimationFrame(constrainContentWellToViewport);
 };
+
+function updateSpiralFocusFromScroll() {
+  if (!spiralTimelineEnabled || !timelineGeometry.valid || !timelineGeometry.entries.length) return;
+  const focusOffset = window.scrollY + window.innerHeight / 2 - timelineGeometry.sceneTop;
+  const rawIndex = (focusOffset - spiralState.header) / Math.max(1, spiralState.step);
+  const focus = Math.max(0, Math.min(timelineGeometry.entries.length - 1, rawIndex));
+  const progress = timelineGeometry.entries.length === 1 ? .5 : focus / (timelineGeometry.entries.length - 1);
+  const point = spiralPointAt(progress);
+  spiralState.focus = focus;
+  spiralState.targetYaw = -Math.atan2(point.x, point.z) * 180 / Math.PI;
+  spiralState.targetPitch = Math.atan2(point.y, Math.hypot(point.x, point.z)) * 180 / Math.PI;
+
+  if (reducedMotion.matches) {
+    spiralState.pitch = spiralState.targetPitch;
+    spiralState.yaw = spiralState.targetYaw;
+    requestSceneRender();
+    return;
+  }
+  if (spiralState.frame) return;
+  const tick = () => {
+    const pitchDelta = spiralState.targetPitch - spiralState.pitch;
+    const yawDelta = shortestAngleDelta(spiralState.yaw, spiralState.targetYaw);
+    spiralState.pitch += pitchDelta * .14;
+    spiralState.yaw += yawDelta * .14;
+    requestSceneRender();
+    if (Math.abs(pitchDelta) + Math.abs(yawDelta) < .025) {
+      spiralState.pitch = spiralState.targetPitch;
+      spiralState.yaw = spiralState.targetYaw;
+      spiralState.frame = undefined;
+      requestSceneRender();
+      return;
+    }
+    spiralState.frame = requestAnimationFrame(tick);
+  };
+  spiralState.frame = requestAnimationFrame(tick);
+}
 
 const requestSceneRender = () => {
   renderScene();

@@ -2641,3 +2641,244 @@ body.details-open:not(.timeline-footer-focus) .viewport-controls-hint.is-hidden 
   .content-well-billboard { transform: none !important; filter: none !important; }
   .timeline-footer-lockup { transform: translateX(-50%) !important; }
 }
+
+/* Experimental spherical-spiral chronology. The document keeps a vertical
+   scroll track, while the visible chronology is projected onto a 3D sphere. */
+body.spiral-timeline .timeline-panel {
+  --spiral-origin-x: 50%;
+  height: var(--spiral-track-height, 12000px);
+  padding-top: 0;
+  perspective: 1180px;
+  perspective-origin: 50% 50svh;
+  contain: layout style;
+}
+
+body.spiral-timeline .timeline-panel-inner {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100svh;
+  min-height: 600px;
+  overflow: visible;
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+}
+
+body.spiral-timeline .timeline-panel-inner::before { display: none; }
+
+body.spiral-timeline .timeline {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  transform:
+    rotateX(var(--spiral-focus-pitch, 0deg))
+    rotateY(var(--spiral-focus-yaw, 0deg));
+  transform-origin: var(--spiral-origin-x) 50%;
+  transform-style: preserve-3d;
+  transition: opacity .45s ease;
+}
+
+body.spiral-timeline .timeline-year,
+body.spiral-timeline .timeline-year-entries {
+  display: contents;
+}
+
+body.spiral-timeline .timeline-entry {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: var(--spiral-origin-x);
+  width: min(44vw, 640px);
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  opacity: var(--spiral-entry-opacity, .045);
+  pointer-events: none;
+  transform:
+    translate3d(var(--spiral-x, 0px), var(--spiral-y, 0px), var(--spiral-z, 0px))
+    scale(var(--spiral-entry-scale, .9));
+  transform-origin: 0 0;
+  transform-style: preserve-3d;
+  transition: opacity .42s ease, filter .42s ease;
+}
+
+body.spiral-timeline .timeline-entry.is-active {
+  z-index: 18;
+  pointer-events: auto;
+}
+
+body.spiral-timeline.details-opening .timeline-entry {
+  animation: spiral-entry-in .72s var(--ease) both;
+  animation-delay: var(--entry-delay, 0ms);
+}
+
+body.spiral-timeline .timeline-entry.is-exiting {
+  opacity: 0;
+  transform:
+    translate3d(var(--spiral-x, 0px), var(--spiral-y, 0px), var(--spiral-z, 0px))
+    scale(.96);
+}
+
+body.spiral-timeline .timeline-marker {
+  top: -3.5px;
+  left: -3.5px;
+  transform:
+    var(--spiral-billboard-transform, none)
+    scale(var(--marker-focus-scale, 1));
+}
+
+body.spiral-timeline .project-info {
+  width: min(42vw, 610px);
+  margin-left: 24px;
+  transform: var(--spiral-billboard-transform, none);
+  transform-origin: left top;
+}
+
+body.spiral-timeline .timeline-year-heading,
+body.spiral-timeline .timeline-year:first-child .timeline-year-heading {
+  position: absolute;
+  z-index: 5;
+  top: calc(50% + var(--spiral-y, 0px));
+  left: calc(var(--spiral-origin-x) + var(--spiral-x, 0px));
+  width: 180px;
+  margin: 0 0 0 -248px;
+  padding: 0 44px 0 0;
+  pointer-events: none;
+  font-size: clamp(30px, 3vw, 48px);
+  text-align: right;
+  opacity: var(--spiral-year-opacity, .035) !important;
+  transform:
+    translateZ(var(--spiral-z, 0px))
+    var(--spiral-billboard-transform, none);
+  transform-origin: right top;
+  transform-style: preserve-3d;
+}
+
+body.spiral-timeline .timeline-year-heading > span { transform: none; }
+
+.spiral-thread {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+.spiral-thread-point {
+  position: absolute;
+  top: 50%;
+  left: var(--spiral-origin-x);
+  width: 2px;
+  height: 2px;
+  margin: -1px 0 0 -1px;
+  border-radius: 50%;
+  background: rgba(29, 27, 25, .22);
+  transform: translate3d(var(--spiral-x), var(--spiral-y), var(--spiral-z));
+  transform-style: preserve-3d;
+}
+
+body.spiral-timeline .content-well-anchor:not(.is-fullscreen) {
+  position: absolute;
+  z-index: 30;
+  left: 4vw;
+  width: min(36vw, 600px);
+}
+
+@keyframes spiral-entry-in {
+  from { opacity: 0; filter: blur(2px); }
+  to { opacity: var(--spiral-entry-opacity, .045); filter: blur(0); }
+}
+
+@media (max-width: 700px) {
+  body.spiral-timeline .timeline-panel {
+    --spiral-origin-x: 24px;
+    padding-top: 0;
+    perspective: 820px;
+    perspective-origin: 24px 48svh;
+  }
+
+  body.spiral-timeline .timeline-panel-inner,
+  body.spiral-timeline .timeline,
+  body.spiral-timeline .timeline-year,
+  body.spiral-timeline .timeline-year-entries,
+  body.spiral-timeline .timeline-entry,
+  body.spiral-timeline .project-info,
+  body.spiral-timeline .timeline-marker,
+  body.spiral-timeline .timeline-year-heading {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+  }
+
+  body.spiral-timeline .timeline-panel-inner {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 520px;
+    transform: none !important;
+  }
+
+  body.spiral-timeline .timeline {
+    transform:
+      rotateX(var(--spiral-focus-pitch, 0deg))
+      rotateY(var(--spiral-focus-yaw, 0deg)) !important;
+  }
+
+  body.spiral-timeline .timeline-entry {
+    top: 50%;
+    left: var(--spiral-origin-x);
+    width: calc(100vw - 48px);
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    transform:
+      translate3d(var(--spiral-x, 0px), var(--spiral-y, 0px), var(--spiral-z, 0px))
+      scale(var(--spiral-entry-scale, .9)) !important;
+  }
+
+  body.spiral-timeline .project-info {
+    width: calc(100vw - 62px);
+    margin-left: 18px;
+    transform: var(--spiral-billboard-transform, none) !important;
+  }
+
+  body.spiral-timeline .timeline-marker {
+    transform:
+      var(--spiral-billboard-transform, none)
+      scale(var(--marker-focus-scale, 1)) !important;
+  }
+
+  body.spiral-timeline .timeline-year-heading,
+  body.spiral-timeline .timeline-year:first-child .timeline-year-heading {
+    top: calc(50% + var(--spiral-y, 0px));
+    left: calc(var(--spiral-origin-x) + var(--spiral-x, 0px));
+    width: 78px;
+    margin-left: -90px;
+    padding: 0 12px 0 0;
+    font-size: 22px;
+    transform:
+      translateZ(var(--spiral-z, 0px))
+      var(--spiral-billboard-transform, none) !important;
+  }
+
+  body.spiral-timeline .spiral-thread-point {
+    left: var(--spiral-origin-x);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.spiral-timeline .timeline {
+    transform:
+      rotateX(var(--spiral-focus-pitch, 0deg))
+      rotateY(var(--spiral-focus-yaw, 0deg)) !important;
+  }
+  body.spiral-timeline .timeline-entry {
+    transform:
+      translate3d(var(--spiral-x, 0px), var(--spiral-y, 0px), var(--spiral-z, 0px)) !important;
+  }
+  body.spiral-timeline .project-info,
+  body.spiral-timeline .timeline-marker {
+    transform: var(--spiral-billboard-transform, none) !important;
+  }
+}
